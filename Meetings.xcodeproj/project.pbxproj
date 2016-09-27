@@ -1,0 +1,514 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CD8DE1271D9B003300D90840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1261D9B003300D90840 /* AppDelegate.swift */; };
+		CD8DE1291D9B003300D90840 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1281D9B003300D90840 /* MasterViewController.swift */; };
+		CD8DE12B1D9B003300D90840 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE12A1D9B003300D90840 /* DetailViewController.swift */; };
+		CD8DE12E1D9B003300D90840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE12C1D9B003300D90840 /* Main.storyboard */; };
+		CD8DE1301D9B003300D90840 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE12F1D9B003300D90840 /* Assets.xcassets */; };
+		CD8DE1331D9B003300D90840 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE1311D9B003300D90840 /* LaunchScreen.storyboard */; };
+		CD8DE13E1D9B003300D90840 /* MeetingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE13D1D9B003300D90840 /* MeetingsTests.swift */; };
+		CD8DE1491D9B003300D90840 /* MeetingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1481D9B003300D90840 /* MeetingsUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CD8DE13A1D9B003300D90840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD8DE11B1D9B003300D90840 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD8DE1221D9B003300D90840;
+			remoteInfo = Meetings;
+		};
+		CD8DE1451D9B003300D90840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD8DE11B1D9B003300D90840 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD8DE1221D9B003300D90840;
+			remoteInfo = Meetings;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CD8DE1231D9B003300D90840 /* Meetings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meetings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD8DE1261D9B003300D90840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CD8DE1281D9B003300D90840 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		CD8DE12A1D9B003300D90840 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		CD8DE12D1D9B003300D90840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CD8DE12F1D9B003300D90840 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CD8DE1321D9B003300D90840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CD8DE1341D9B003300D90840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD8DE1391D9B003300D90840 /* MeetingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD8DE13D1D9B003300D90840 /* MeetingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsTests.swift; sourceTree = "<group>"; };
+		CD8DE13F1D9B003300D90840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD8DE1441D9B003300D90840 /* MeetingsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD8DE1481D9B003300D90840 /* MeetingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsUITests.swift; sourceTree = "<group>"; };
+		CD8DE14A1D9B003300D90840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CD8DE1201D9B003300D90840 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD8DE1361D9B003300D90840 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD8DE1411D9B003300D90840 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CD8DE11A1D9B003300D90840 = {
+			isa = PBXGroup;
+			children = (
+				CD8DE1251D9B003300D90840 /* Meetings */,
+				CD8DE13C1D9B003300D90840 /* MeetingsTests */,
+				CD8DE1471D9B003300D90840 /* MeetingsUITests */,
+				CD8DE1241D9B003300D90840 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CD8DE1241D9B003300D90840 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD8DE1231D9B003300D90840 /* Meetings.app */,
+				CD8DE1391D9B003300D90840 /* MeetingsTests.xctest */,
+				CD8DE1441D9B003300D90840 /* MeetingsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CD8DE1251D9B003300D90840 /* Meetings */ = {
+			isa = PBXGroup;
+			children = (
+				CD8DE1261D9B003300D90840 /* AppDelegate.swift */,
+				CD8DE1281D9B003300D90840 /* MasterViewController.swift */,
+				CD8DE12A1D9B003300D90840 /* DetailViewController.swift */,
+				CD8DE12C1D9B003300D90840 /* Main.storyboard */,
+				CD8DE12F1D9B003300D90840 /* Assets.xcassets */,
+				CD8DE1311D9B003300D90840 /* LaunchScreen.storyboard */,
+				CD8DE1341D9B003300D90840 /* Info.plist */,
+			);
+			path = Meetings;
+			sourceTree = "<group>";
+		};
+		CD8DE13C1D9B003300D90840 /* MeetingsTests */ = {
+			isa = PBXGroup;
+			children = (
+				CD8DE13D1D9B003300D90840 /* MeetingsTests.swift */,
+				CD8DE13F1D9B003300D90840 /* Info.plist */,
+			);
+			path = MeetingsTests;
+			sourceTree = "<group>";
+		};
+		CD8DE1471D9B003300D90840 /* MeetingsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CD8DE1481D9B003300D90840 /* MeetingsUITests.swift */,
+				CD8DE14A1D9B003300D90840 /* Info.plist */,
+			);
+			path = MeetingsUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CD8DE1221D9B003300D90840 /* Meetings */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD8DE14D1D9B003300D90840 /* Build configuration list for PBXNativeTarget "Meetings" */;
+			buildPhases = (
+				CD8DE11F1D9B003300D90840 /* Sources */,
+				CD8DE1201D9B003300D90840 /* Frameworks */,
+				CD8DE1211D9B003300D90840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Meetings;
+			productName = Meetings;
+			productReference = CD8DE1231D9B003300D90840 /* Meetings.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CD8DE1381D9B003300D90840 /* MeetingsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD8DE1501D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsTests" */;
+			buildPhases = (
+				CD8DE1351D9B003300D90840 /* Sources */,
+				CD8DE1361D9B003300D90840 /* Frameworks */,
+				CD8DE1371D9B003300D90840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CD8DE13B1D9B003300D90840 /* PBXTargetDependency */,
+			);
+			name = MeetingsTests;
+			productName = MeetingsTests;
+			productReference = CD8DE1391D9B003300D90840 /* MeetingsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CD8DE1431D9B003300D90840 /* MeetingsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD8DE1531D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsUITests" */;
+			buildPhases = (
+				CD8DE1401D9B003300D90840 /* Sources */,
+				CD8DE1411D9B003300D90840 /* Frameworks */,
+				CD8DE1421D9B003300D90840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CD8DE1461D9B003300D90840 /* PBXTargetDependency */,
+			);
+			name = MeetingsUITests;
+			productName = MeetingsUITests;
+			productReference = CD8DE1441D9B003300D90840 /* MeetingsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CD8DE11B1D9B003300D90840 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Deborah Newberry";
+				TargetAttributes = {
+					CD8DE1221D9B003300D90840 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = KP537WFKBH;
+					};
+					CD8DE1381D9B003300D90840 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = KP537WFKBH;
+						TestTargetID = CD8DE1221D9B003300D90840;
+					};
+					CD8DE1431D9B003300D90840 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = KP537WFKBH;
+						TestTargetID = CD8DE1221D9B003300D90840;
+					};
+				};
+			};
+			buildConfigurationList = CD8DE11E1D9B003300D90840 /* Build configuration list for PBXProject "Meetings" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CD8DE11A1D9B003300D90840;
+			productRefGroup = CD8DE1241D9B003300D90840 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CD8DE1221D9B003300D90840 /* Meetings */,
+				CD8DE1381D9B003300D90840 /* MeetingsTests */,
+				CD8DE1431D9B003300D90840 /* MeetingsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CD8DE1211D9B003300D90840 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD8DE1331D9B003300D90840 /* LaunchScreen.storyboard in Resources */,
+				CD8DE1301D9B003300D90840 /* Assets.xcassets in Resources */,
+				CD8DE12E1D9B003300D90840 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD8DE1371D9B003300D90840 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD8DE1421D9B003300D90840 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD8DE11F1D9B003300D90840 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD8DE12B1D9B003300D90840 /* DetailViewController.swift in Sources */,
+				CD8DE1291D9B003300D90840 /* MasterViewController.swift in Sources */,
+				CD8DE1271D9B003300D90840 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD8DE1351D9B003300D90840 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD8DE13E1D9B003300D90840 /* MeetingsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD8DE1401D9B003300D90840 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD8DE1491D9B003300D90840 /* MeetingsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CD8DE13B1D9B003300D90840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD8DE1221D9B003300D90840 /* Meetings */;
+			targetProxy = CD8DE13A1D9B003300D90840 /* PBXContainerItemProxy */;
+		};
+		CD8DE1461D9B003300D90840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD8DE1221D9B003300D90840 /* Meetings */;
+			targetProxy = CD8DE1451D9B003300D90840 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CD8DE12C1D9B003300D90840 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD8DE12D1D9B003300D90840 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CD8DE1311D9B003300D90840 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD8DE1321D9B003300D90840 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CD8DE14B1D9B003300D90840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CD8DE14C1D9B003300D90840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CD8DE14E1D9B003300D90840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Meetings/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.Meetings;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CD8DE14F1D9B003300D90840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Meetings/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.Meetings;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		CD8DE1511D9B003300D90840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MeetingsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.MeetingsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meetings.app/Meetings";
+			};
+			name = Debug;
+		};
+		CD8DE1521D9B003300D90840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MeetingsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.MeetingsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meetings.app/Meetings";
+			};
+			name = Release;
+		};
+		CD8DE1541D9B003300D90840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = MeetingsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.MeetingsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Meetings;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		CD8DE1551D9B003300D90840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = MeetingsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.MeetingsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Meetings;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CD8DE11E1D9B003300D90840 /* Build configuration list for PBXProject "Meetings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8DE14B1D9B003300D90840 /* Debug */,
+				CD8DE14C1D9B003300D90840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD8DE14D1D9B003300D90840 /* Build configuration list for PBXNativeTarget "Meetings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8DE14E1D9B003300D90840 /* Debug */,
+				CD8DE14F1D9B003300D90840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CD8DE1501D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8DE1511D9B003300D90840 /* Debug */,
+				CD8DE1521D9B003300D90840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CD8DE1531D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8DE1541D9B003300D90840 /* Debug */,
+				CD8DE1551D9B003300D90840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CD8DE11B1D9B003300D90840 /* Project object */;
+}
