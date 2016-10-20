@@ -1,0 +1,6 @@
+framework module Pods_MeetingsUITests {
+  umbrella header "Pods-MeetingsUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

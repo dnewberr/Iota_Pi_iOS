@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49F49A260180CF16FD9A739A /* Pods_Meetings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40B64B51F84D116B1AC7BC5 /* Pods_Meetings.framework */; };
+		4AFE3E8689F31AEEA4A767C7 /* Pods_MeetingsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA57592C2A3B1397DD8EBDA /* Pods_MeetingsUITests.framework */; };
+		8D1BF87465484379C6D00A34 /* Pods_MeetingsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3EF4888A8D89843F6024425 /* Pods_MeetingsTests.framework */; };
+		CD2380A31DB9732D006AB38E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2380A21DB9732D006AB38E /* Utilities.swift */; };
+		CD2380A51DB974DA006AB38E /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2380A41DB974DA006AB38E /* LogoutViewController.swift */; };
+		CD2380AD1DB97559006AB38E /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2380AC1DB97559006AB38E /* MoreViewController.swift */; };
+		CD598F511DB007DB00D98695 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD598F501DB007DB00D98695 /* GoogleService-Info.plist */; };
 		CD8DE1271D9B003300D90840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1261D9B003300D90840 /* AppDelegate.swift */; };
-		CD8DE1291D9B003300D90840 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1281D9B003300D90840 /* MasterViewController.swift */; };
-		CD8DE12B1D9B003300D90840 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE12A1D9B003300D90840 /* DetailViewController.swift */; };
 		CD8DE12E1D9B003300D90840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE12C1D9B003300D90840 /* Main.storyboard */; };
 		CD8DE1301D9B003300D90840 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE12F1D9B003300D90840 /* Assets.xcassets */; };
 		CD8DE1331D9B003300D90840 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE1311D9B003300D90840 /* LaunchScreen.storyboard */; };
 		CD8DE13E1D9B003300D90840 /* MeetingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE13D1D9B003300D90840 /* MeetingsTests.swift */; };
 		CD8DE1491D9B003300D90840 /* MeetingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1481D9B003300D90840 /* MeetingsUITests.swift */; };
+		CDEB52301DB5A22E002F302A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEB522F1DB5A22E002F302A /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +41,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6DA57592C2A3B1397DD8EBDA /* Pods_MeetingsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MeetingsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81EDA7141866BDEA4CE7397A /* Pods-MeetingsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetingsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MeetingsUITests/Pods-MeetingsUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		BB618111C8F922D6EC9F2A6A /* Pods-MeetingsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetingsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MeetingsUITests/Pods-MeetingsUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C79B8EC6CBCA5A6C3FEDC30E /* Pods-MeetingsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetingsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MeetingsTests/Pods-MeetingsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CD23809E1DB954D9006AB38E /* Meetings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Meetings.entitlements; sourceTree = "<group>"; };
+		CD2380A21DB9732D006AB38E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		CD2380A41DB974DA006AB38E /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		CD2380AC1DB97559006AB38E /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		CD598F501DB007DB00D98695 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD8DE1231D9B003300D90840 /* Meetings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meetings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8DE1261D9B003300D90840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CD8DE1281D9B003300D90840 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		CD8DE12A1D9B003300D90840 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CD8DE12D1D9B003300D90840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD8DE12F1D9B003300D90840 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD8DE1321D9B003300D90840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +62,12 @@
 		CD8DE1441D9B003300D90840 /* MeetingsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8DE1481D9B003300D90840 /* MeetingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsUITests.swift; sourceTree = "<group>"; };
 		CD8DE14A1D9B003300D90840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDD6DE1CFB7A4BD32859CD93 /* Pods-Meetings.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meetings.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meetings/Pods-Meetings.debug.xcconfig"; sourceTree = "<group>"; };
+		CDEB522F1DB5A22E002F302A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D130C1827EF1C5BDCD5D4163 /* Pods-Meetings.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meetings.release.xcconfig"; path = "Pods/Target Support Files/Pods-Meetings/Pods-Meetings.release.xcconfig"; sourceTree = "<group>"; };
+		DD7BAAE741BA9AD656AFE74B /* Pods-MeetingsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetingsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MeetingsTests/Pods-MeetingsTests.release.xcconfig"; sourceTree = "<group>"; };
+		E40B64B51F84D116B1AC7BC5 /* Pods_Meetings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meetings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3EF4888A8D89843F6024425 /* Pods_MeetingsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MeetingsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49F49A260180CF16FD9A739A /* Pods_Meetings.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D1BF87465484379C6D00A34 /* Pods_MeetingsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +91,78 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AFE3E8689F31AEEA4A767C7 /* Pods_MeetingsUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		226F39CCFD27AF4F1E042105 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E40B64B51F84D116B1AC7BC5 /* Pods_Meetings.framework */,
+				F3EF4888A8D89843F6024425 /* Pods_MeetingsTests.framework */,
+				6DA57592C2A3B1397DD8EBDA /* Pods_MeetingsUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD2380A11DB9731B006AB38E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CD8DE1261D9B003300D90840 /* AppDelegate.swift */,
+				CD23809E1DB954D9006AB38E /* Meetings.entitlements */,
+				CD2380A21DB9732D006AB38E /* Utilities.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		CD2380A61DB974F7006AB38E /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				CD8DE12C1D9B003300D90840 /* Main.storyboard */,
+				CD8DE1311D9B003300D90840 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		CD2380A71DB9750A006AB38E /* Announcements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Announcements;
+			sourceTree = "<group>";
+		};
+		CD2380A81DB97512006AB38E /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
+		CD2380A91DB97516006AB38E /* Voting */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Voting;
+			sourceTree = "<group>";
+		};
+		CD2380AA1DB9751D006AB38E /* Attendance */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Attendance;
+			sourceTree = "<group>";
+		};
+		CD2380AB1DB97522006AB38E /* More */ = {
+			isa = PBXGroup;
+			children = (
+				CD2380AC1DB97559006AB38E /* MoreViewController.swift */,
+			);
+			name = More;
+			sourceTree = "<group>";
+		};
 		CD8DE11A1D9B003300D90840 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +170,8 @@
 				CD8DE13C1D9B003300D90840 /* MeetingsTests */,
 				CD8DE1471D9B003300D90840 /* MeetingsUITests */,
 				CD8DE1241D9B003300D90840 /* Products */,
+				E35ABB4232C4EC3A2CC05527 /* Pods */,
+				226F39CCFD27AF4F1E042105 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,13 +188,17 @@
 		CD8DE1251D9B003300D90840 /* Meetings */ = {
 			isa = PBXGroup;
 			children = (
-				CD8DE1261D9B003300D90840 /* AppDelegate.swift */,
-				CD8DE1281D9B003300D90840 /* MasterViewController.swift */,
-				CD8DE12A1D9B003300D90840 /* DetailViewController.swift */,
-				CD8DE12C1D9B003300D90840 /* Main.storyboard */,
+				CD2380A71DB9750A006AB38E /* Announcements */,
+				CD2380AA1DB9751D006AB38E /* Attendance */,
+				CD2380A81DB97512006AB38E /* Calendar */,
+				CDEB52331DB5A244002F302A /* Login/Logout */,
+				CD2380AB1DB97522006AB38E /* More */,
+				CD2380A91DB97516006AB38E /* Voting */,
+				CD2380A61DB974F7006AB38E /* Storyboards */,
+				CD2380A11DB9731B006AB38E /* Utilities */,
 				CD8DE12F1D9B003300D90840 /* Assets.xcassets */,
-				CD8DE1311D9B003300D90840 /* LaunchScreen.storyboard */,
 				CD8DE1341D9B003300D90840 /* Info.plist */,
+				CD598F501DB007DB00D98695 /* GoogleService-Info.plist */,
 			);
 			path = Meetings;
 			sourceTree = "<group>";
@@ -128,6 +221,28 @@
 			path = MeetingsUITests;
 			sourceTree = "<group>";
 		};
+		CDEB52331DB5A244002F302A /* Login/Logout */ = {
+			isa = PBXGroup;
+			children = (
+				CDEB522F1DB5A22E002F302A /* LoginViewController.swift */,
+				CD2380A41DB974DA006AB38E /* LogoutViewController.swift */,
+			);
+			name = Login/Logout;
+			sourceTree = "<group>";
+		};
+		E35ABB4232C4EC3A2CC05527 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CDD6DE1CFB7A4BD32859CD93 /* Pods-Meetings.debug.xcconfig */,
+				D130C1827EF1C5BDCD5D4163 /* Pods-Meetings.release.xcconfig */,
+				C79B8EC6CBCA5A6C3FEDC30E /* Pods-MeetingsTests.debug.xcconfig */,
+				DD7BAAE741BA9AD656AFE74B /* Pods-MeetingsTests.release.xcconfig */,
+				81EDA7141866BDEA4CE7397A /* Pods-MeetingsUITests.debug.xcconfig */,
+				BB618111C8F922D6EC9F2A6A /* Pods-MeetingsUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +250,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD8DE14D1D9B003300D90840 /* Build configuration list for PBXNativeTarget "Meetings" */;
 			buildPhases = (
+				B871490488ACB5FAB9F424ED /* [CP] Check Pods Manifest.lock */,
 				CD8DE11F1D9B003300D90840 /* Sources */,
 				CD8DE1201D9B003300D90840 /* Frameworks */,
 				CD8DE1211D9B003300D90840 /* Resources */,
+				8938CCCFDBE07ABE8C76FDD4 /* [CP] Embed Pods Frameworks */,
+				E0C9623D69A8BA73CD1E1BF9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,9 +270,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD8DE1501D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsTests" */;
 			buildPhases = (
+				A6F2DEC1F91ABAD520A34567 /* [CP] Check Pods Manifest.lock */,
 				CD8DE1351D9B003300D90840 /* Sources */,
 				CD8DE1361D9B003300D90840 /* Frameworks */,
 				CD8DE1371D9B003300D90840 /* Resources */,
+				B06FFAA63A1021AE74257E8B /* [CP] Embed Pods Frameworks */,
+				231EDD4B8A0A8B4963151532 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,9 +291,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD8DE1531D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsUITests" */;
 			buildPhases = (
+				1473228D0CAC13B97A488A0D /* [CP] Check Pods Manifest.lock */,
 				CD8DE1401D9B003300D90840 /* Sources */,
 				CD8DE1411D9B003300D90840 /* Frameworks */,
 				CD8DE1421D9B003300D90840 /* Resources */,
+				F860A3B41BF7B6A87E6C74EF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,6 +320,11 @@
 					CD8DE1221D9B003300D90840 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = KP537WFKBH;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					CD8DE1381D9B003300D90840 = {
 						CreatedOnToolsVersion = 7.2;
@@ -236,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD8DE1331D9B003300D90840 /* LaunchScreen.storyboard in Resources */,
+				CD598F511DB007DB00D98695 /* GoogleService-Info.plist in Resources */,
 				CD8DE1301D9B003300D90840 /* Assets.xcassets in Resources */,
 				CD8DE12E1D9B003300D90840 /* Main.storyboard in Resources */,
 			);
@@ -257,13 +386,138 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1473228D0CAC13B97A488A0D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		231EDD4B8A0A8B4963151532 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MeetingsTests/Pods-MeetingsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8938CCCFDBE07ABE8C76FDD4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Meetings/Pods-Meetings-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A6F2DEC1F91ABAD520A34567 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B06FFAA63A1021AE74257E8B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MeetingsTests/Pods-MeetingsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B871490488ACB5FAB9F424ED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E0C9623D69A8BA73CD1E1BF9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Meetings/Pods-Meetings-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F860A3B41BF7B6A87E6C74EF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MeetingsUITests/Pods-MeetingsUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CD8DE11F1D9B003300D90840 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD8DE12B1D9B003300D90840 /* DetailViewController.swift in Sources */,
-				CD8DE1291D9B003300D90840 /* MasterViewController.swift in Sources */,
+				CD2380AD1DB97559006AB38E /* MoreViewController.swift in Sources */,
+				CDEB52301DB5A22E002F302A /* LoginViewController.swift in Sources */,
+				CD2380A31DB9732D006AB38E /* Utilities.swift in Sources */,
+				CD2380A51DB974DA006AB38E /* LogoutViewController.swift in Sources */,
 				CD8DE1271D9B003300D90840 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,28 +658,45 @@
 		};
 		CD8DE14E1D9B003300D90840 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDD6DE1CFB7A4BD32859CD93 /* Pods-Meetings.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Meetings/Meetings.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Meetings/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = iotapi.Meetings;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.Members;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		CD8DE14F1D9B003300D90840 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D130C1827EF1C5BDCD5D4163 /* Pods-Meetings.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Meetings/Meetings.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Meetings/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = iotapi.Meetings;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = iotapi.Members;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		CD8DE1511D9B003300D90840 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C79B8EC6CBCA5A6C3FEDC30E /* Pods-MeetingsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = MeetingsTests/Info.plist;
@@ -438,6 +709,7 @@
 		};
 		CD8DE1521D9B003300D90840 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD7BAAE741BA9AD656AFE74B /* Pods-MeetingsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = MeetingsTests/Info.plist;
@@ -450,9 +722,11 @@
 		};
 		CD8DE1541D9B003300D90840 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81EDA7141866BDEA4CE7397A /* Pods-MeetingsUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = MeetingsUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = iotapi.MeetingsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = Meetings;
@@ -462,9 +736,11 @@
 		};
 		CD8DE1551D9B003300D90840 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB618111C8F922D6EC9F2A6A /* Pods-MeetingsUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = MeetingsUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = iotapi.MeetingsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = Meetings;
@@ -491,6 +767,7 @@
 				CD8DE14F1D9B003300D90840 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD8DE1501D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsTests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +776,7 @@
 				CD8DE1521D9B003300D90840 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD8DE1531D9B003300D90840 /* Build configuration list for PBXNativeTarget "MeetingsUITests" */ = {
 			isa = XCConfigurationList;
@@ -507,6 +785,7 @@
 				CD8DE1551D9B003300D90840 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
