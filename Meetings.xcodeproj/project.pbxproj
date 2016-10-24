@@ -12,7 +12,7 @@
 		8D1BF87465484379C6D00A34 /* Pods_MeetingsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3EF4888A8D89843F6024425 /* Pods_MeetingsTests.framework */; };
 		CD2380A31DB9732D006AB38E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2380A21DB9732D006AB38E /* Utilities.swift */; };
 		CD2380A51DB974DA006AB38E /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2380A41DB974DA006AB38E /* LogoutViewController.swift */; };
-		CD2380AD1DB97559006AB38E /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2380AC1DB97559006AB38E /* MoreViewController.swift */; };
+		CD36C79A1DBEAD4600F1399C /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD36C7991DBEAD4600F1399C /* MoreTableViewController.swift */; };
 		CD598F511DB007DB00D98695 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD598F501DB007DB00D98695 /* GoogleService-Info.plist */; };
 		CD8DE1271D9B003300D90840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DE1261D9B003300D90840 /* AppDelegate.swift */; };
 		CD8DE12E1D9B003300D90840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD8DE12C1D9B003300D90840 /* Main.storyboard */; };
@@ -48,7 +48,7 @@
 		CD23809E1DB954D9006AB38E /* Meetings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Meetings.entitlements; sourceTree = "<group>"; };
 		CD2380A21DB9732D006AB38E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		CD2380A41DB974DA006AB38E /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
-		CD2380AC1DB97559006AB38E /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		CD36C7991DBEAD4600F1399C /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
 		CD598F501DB007DB00D98695 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD8DE1231D9B003300D90840 /* Meetings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meetings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8DE1261D9B003300D90840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		CD2380AB1DB97522006AB38E /* More */ = {
 			isa = PBXGroup;
 			children = (
-				CD2380AC1DB97559006AB38E /* MoreViewController.swift */,
+				CD36C7991DBEAD4600F1399C /* MoreTableViewController.swift */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -514,10 +514,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD2380AD1DB97559006AB38E /* MoreViewController.swift in Sources */,
 				CDEB52301DB5A22E002F302A /* LoginViewController.swift in Sources */,
 				CD2380A31DB9732D006AB38E /* Utilities.swift in Sources */,
 				CD2380A51DB974DA006AB38E /* LogoutViewController.swift in Sources */,
+				CD36C79A1DBEAD4600F1399C /* MoreTableViewController.swift in Sources */,
 				CD8DE1271D9B003300D90840 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
