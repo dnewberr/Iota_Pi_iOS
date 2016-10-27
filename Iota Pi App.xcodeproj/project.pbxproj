@@ -14,6 +14,8 @@
 		CD499F121DC2838D0037420B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F101DC2838D0037420B /* Main.storyboard */; };
 		CD499F141DC2838D0037420B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD499F131DC2838D0037420B /* Assets.xcassets */; };
 		CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F151DC2838D0037420B /* LaunchScreen.storyboard */; };
+		CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD871DC288BC00B3585E /* LoginViewController.swift */; };
+		CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		CD499F131DC2838D0037420B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD499F161DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD499F181DC2838D0037420B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDA8BD871DC288BC00B3585E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,15 +76,81 @@
 		CD499F091DC2838D0037420B /* Iota Pi App */ = {
 			isa = PBXGroup;
 			children = (
-				CD499F0A1DC2838D0037420B /* AppDelegate.swift */,
-				CD499F0C1DC2838D0037420B /* FirstViewController.swift */,
-				CD499F0E1DC2838D0037420B /* SecondViewController.swift */,
-				CD499F101DC2838D0037420B /* Main.storyboard */,
+				CDA8BD851DC2887D00B3585E /* 6 More */,
+				CDA8BD841DC2887700B3585E /* 5 Attendance */,
+				CDA8BD831DC2887200B3585E /* 4 Voting */,
+				CDA8BD821DC2886900B3585E /* 3 Calendar */,
+				CDA8BD811DC2885E00B3585E /* 2 Announcements */,
+				CDA8BD801DC2884E00B3585E /* 1 Login */,
+				CD499F1E1DC285330037420B /* 0 Storyboards */,
 				CD499F131DC2838D0037420B /* Assets.xcassets */,
-				CD499F151DC2838D0037420B /* LaunchScreen.storyboard */,
 				CD499F181DC2838D0037420B /* Info.plist */,
+				CDA8BD861DC2889200B3585E /* Utilities */,
 			);
 			path = "Iota Pi App";
+			sourceTree = "<group>";
+		};
+		CD499F1E1DC285330037420B /* 0 Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				CD499F101DC2838D0037420B /* Main.storyboard */,
+				CD499F151DC2838D0037420B /* LaunchScreen.storyboard */,
+			);
+			name = "0 Storyboards";
+			sourceTree = "<group>";
+		};
+		CDA8BD801DC2884E00B3585E /* 1 Login */ = {
+			isa = PBXGroup;
+			children = (
+				CDA8BD871DC288BC00B3585E /* LoginViewController.swift */,
+			);
+			name = "1 Login";
+			sourceTree = "<group>";
+		};
+		CDA8BD811DC2885E00B3585E /* 2 Announcements */ = {
+			isa = PBXGroup;
+			children = (
+				CD499F0C1DC2838D0037420B /* FirstViewController.swift */,
+			);
+			name = "2 Announcements";
+			sourceTree = "<group>";
+		};
+		CDA8BD821DC2886900B3585E /* 3 Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				CD499F0E1DC2838D0037420B /* SecondViewController.swift */,
+			);
+			name = "3 Calendar";
+			sourceTree = "<group>";
+		};
+		CDA8BD831DC2887200B3585E /* 4 Voting */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "4 Voting";
+			sourceTree = "<group>";
+		};
+		CDA8BD841DC2887700B3585E /* 5 Attendance */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "5 Attendance";
+			sourceTree = "<group>";
+		};
+		CDA8BD851DC2887D00B3585E /* 6 More */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "6 More";
+			sourceTree = "<group>";
+		};
+		CDA8BD861DC2889200B3585E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */,
+				CD499F0A1DC2838D0037420B /* AppDelegate.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		F8CD11E68853A67CBF36C9C1 /* Frameworks */ = {
@@ -157,6 +227,7 @@
 				CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */,
 				CD499F141DC2838D0037420B /* Assets.xcassets in Resources */,
 				CD499F121DC2838D0037420B /* Main.storyboard in Resources */,
+				CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */,
 				CD499F0F1DC2838D0037420B /* SecondViewController.swift in Sources */,
 				CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */,
 				CD499F0D1DC2838D0037420B /* FirstViewController.swift in Sources */,

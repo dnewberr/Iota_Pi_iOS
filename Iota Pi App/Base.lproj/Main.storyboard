@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="InH-Tz-i49">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--First-->
+        <!--Announcements-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -37,16 +39,16 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Announcements" image="announcements" id="acW-dT-cKf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="766" y="-1351"/>
         </scene>
-        <!--Second-->
+        <!--Calendar-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -75,11 +77,81 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="360"/>
+            <point key="canvasLocation" x="766" y="-679"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="AYE-bd-vXl">
+            <objects>
+                <viewController id="InH-Tz-i49" customClass="LoginViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="epQ-us-Sbs"/>
+                        <viewControllerLayoutGuide type="bottom" id="elJ-uY-JjJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F6j-8M-9Xr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="deborah.newberry@iotapi.com" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RJm-bZ-oAm">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="xxL-Bg-v1E"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="test123" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6LR-8k-DQ9">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="hpj-XN-zaO"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXm-GX-I9I">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="125" id="xHG-R7-pQh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <action selector="attemptLogin:" destination="InH-Tz-i49" eventType="touchUpInside" id="2I2-Ga-ddP"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QyN-et-jXF">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6LR-8k-DQ9" firstAttribute="centerX" secondItem="QyN-et-jXF" secondAttribute="centerX" id="FNB-iJ-WVt"/>
+                            <constraint firstItem="RJm-bZ-oAm" firstAttribute="leading" secondItem="6LR-8k-DQ9" secondAttribute="leading" id="GwD-NX-H9Q"/>
+                            <constraint firstItem="RJm-bZ-oAm" firstAttribute="leading" secondItem="F6j-8M-9Xr" secondAttribute="leadingMargin" id="Oh4-GY-4wd"/>
+                            <constraint firstItem="bXm-GX-I9I" firstAttribute="top" secondItem="QyN-et-jXF" secondAttribute="bottom" constant="2" id="ROj-dD-OFE"/>
+                            <constraint firstItem="RJm-bZ-oAm" firstAttribute="trailing" secondItem="F6j-8M-9Xr" secondAttribute="trailingMargin" id="YjL-kf-tph"/>
+                            <constraint firstItem="RJm-bZ-oAm" firstAttribute="trailing" secondItem="6LR-8k-DQ9" secondAttribute="trailing" id="awH-QM-Etk"/>
+                            <constraint firstItem="RJm-bZ-oAm" firstAttribute="top" secondItem="epQ-us-Sbs" secondAttribute="bottom" constant="270" id="dZh-rR-RKK"/>
+                            <constraint firstItem="QyN-et-jXF" firstAttribute="centerX" secondItem="bXm-GX-I9I" secondAttribute="centerX" id="ezj-95-4Jr"/>
+                            <constraint firstItem="6LR-8k-DQ9" firstAttribute="top" secondItem="RJm-bZ-oAm" secondAttribute="bottom" constant="27" id="id7-1P-g9O"/>
+                            <constraint firstItem="QyN-et-jXF" firstAttribute="top" secondItem="6LR-8k-DQ9" secondAttribute="bottom" constant="18" id="lD2-Pt-iOQ"/>
+                            <constraint firstItem="elJ-uY-JjJ" firstAttribute="top" secondItem="bXm-GX-I9I" secondAttribute="bottom" constant="186" id="vXZ-42-SOJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="RJm-bZ-oAm" id="2Aq-ym-RKc"/>
+                        <outlet property="errorMessageLabel" destination="QyN-et-jXF" id="Qn2-2q-k5j"/>
+                        <outlet property="passwordTextField" destination="6LR-8k-DQ9" id="dIa-h9-UaI"/>
+                        <segue destination="49e-Tb-3d3" kind="show" identifier="successfulLoginSegue" id="TAM-kV-pHt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ne7-9N-uE8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-836" y="-0.44977511244377816"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -94,15 +166,77 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="Ksx-2u-R6Y" kind="relationship" relationship="viewControllers" id="g3M-wI-i8O"/>
+                        <segue destination="asU-f9-jww" kind="relationship" relationship="viewControllers" id="rEr-yO-9tQ"/>
+                        <segue destination="lG6-Xf-OCH" kind="relationship" relationship="viewControllers" id="ZYr-bX-0u8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
+        <!--Voting-->
+        <scene sceneID="fF9-wx-mwJ">
+            <objects>
+                <viewController id="Ksx-2u-R6Y" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="A6X-is-wxo"/>
+                        <viewControllerLayoutGuide type="bottom" id="3L7-dx-Gfl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9hX-Hr-vEj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Voting" image="voting" id="YSV-6R-POh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fhh-ZM-zWC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="766" y="0.0"/>
+        </scene>
+        <!--Attendance-->
+        <scene sceneID="GVd-xU-RYk">
+            <objects>
+                <viewController id="asU-f9-jww" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lwd-9q-fMx"/>
+                        <viewControllerLayoutGuide type="bottom" id="ED1-Oc-LAs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wi6-Di-OtS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Attendance" image="attendance" id="Rkc-B6-ZwX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KxE-bb-sFL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="766" y="688"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="gah-Xa-0wt">
+            <objects>
+                <viewController id="lG6-Xf-OCH" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="prQ-17-gfl"/>
+                        <viewControllerLayoutGuide type="bottom" id="FCi-3k-xrt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yUl-Ef-1q3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" systemItem="more" id="SOR-UI-e8z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cxq-NF-izG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="766" y="1377"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="announcements" width="32" height="32"/>
+        <image name="attendance" width="32" height="32"/>
+        <image name="calendar" width="32" height="32"/>
+        <image name="voting" width="32" height="32"/>
     </resources>
 </document>
