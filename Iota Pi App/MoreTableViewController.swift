@@ -18,12 +18,14 @@ class MoreTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("now loading table view")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // if user is admin
+        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,26 +90,16 @@ class MoreTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! MoreTableViewCell
         
-        if (cell.optionLabel.text == "Logout") {
+        if (cell.optionLabel.text == optionLabelTexts[0]) {
             let alertController = UIAlertController(title: "Logout", message: "Are you sure you want to log out?", preferredStyle: .alert)
             let logoutAction = UIAlertAction(title: "Logout", style: .default, handler: {UIAlertAction in
                 print("Foo")
                 try! FIRAuth.auth()!.signOut()
                 if let storyboard = self.storyboard {
-                    let vc = storyboard.instantiateViewController(withIdentifier: "loginViewController")
+                    let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
                     self.present(vc, animated: false, completion: nil)
                 }})
             alertController.addAction(logoutAction)
