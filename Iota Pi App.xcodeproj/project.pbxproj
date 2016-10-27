@@ -16,6 +16,7 @@
 		CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F151DC2838D0037420B /* LaunchScreen.storyboard */; };
 		CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD871DC288BC00B3585E /* LoginViewController.swift */; };
 		CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */; };
+		CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		CD499F181DC2838D0037420B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDA8BD871DC288BC00B3585E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		CDA8BD851DC2887D00B3585E /* 6 More */ = {
 			isa = PBXGroup;
 			children = (
+				CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */,
 			);
 			name = "6 More";
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				CD499F0F1DC2838D0037420B /* SecondViewController.swift in Sources */,
 				CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */,
 				CD499F0D1DC2838D0037420B /* FirstViewController.swift in Sources */,
+				CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
