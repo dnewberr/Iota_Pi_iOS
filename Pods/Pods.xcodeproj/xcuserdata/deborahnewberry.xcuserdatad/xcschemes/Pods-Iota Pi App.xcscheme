@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DBADA3FC96F30770C5D1CEE43A332B59"
+               BlueprintIdentifier = "A57E1788C6610BBB6B9F78380745CDEC"
                BuildableName = "Pods_Iota_Pi_App.framework"
                BlueprintName = "Pods-Iota Pi App"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DBADA3FC96F30770C5D1CEE43A332B59"
+            BlueprintIdentifier = "A57E1788C6610BBB6B9F78380745CDEC"
             BuildableName = "Pods_Iota_Pi_App.framework"
             BlueprintName = "Pods-Iota Pi App"
             ReferencedContainer = "container:Pods.xcodeproj">
