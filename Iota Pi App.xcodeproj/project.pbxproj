@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		58934612A5EFC84B62B6E154 /* Pods_Iota_Pi_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8699AB11431215C22F348260 /* Pods_Iota_Pi_App.framework */; };
+		CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */; };
 		CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0A1DC2838D0037420B /* AppDelegate.swift */; };
-		CD499F0D1DC2838D0037420B /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0C1DC2838D0037420B /* FirstViewController.swift */; };
 		CD499F0F1DC2838D0037420B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0E1DC2838D0037420B /* CalendarViewController.swift */; };
 		CD499F121DC2838D0037420B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F101DC2838D0037420B /* Main.storyboard */; };
 		CD499F141DC2838D0037420B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD499F131DC2838D0037420B /* Assets.xcassets */; };
@@ -18,15 +18,17 @@
 		CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */; };
 		CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */; };
 		CDA8BD8E1DC2AAFC00B3585E /* CalendarCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD8D1DC2AAFC00B3585E /* CalendarCellView.xib */; };
+		CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */; };
+		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A521279ED2B15304A39D9A4 /* Pods-Iota Pi App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iota Pi App.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iota Pi App/Pods-Iota Pi App.release.xcconfig"; sourceTree = "<group>"; };
 		8699AB11431215C22F348260 /* Pods_Iota_Pi_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Iota_Pi_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16BEB1BE8E3C378DCFEBCC1 /* Pods-Iota Pi App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iota Pi App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iota Pi App/Pods-Iota Pi App.debug.xcconfig"; sourceTree = "<group>"; };
+		CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsTableViewController.swift; sourceTree = "<group>"; };
 		CD499F071DC2838D0037420B /* Iota Pi App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Iota Pi App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD499F0A1DC2838D0037420B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CD499F0C1DC2838D0037420B /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		CD499F0E1DC2838D0037420B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		CD499F111DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD499F131DC2838D0037420B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -36,6 +38,8 @@
 		CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
 		CDA8BD8D1DC2AAFC00B3585E /* CalendarCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarCellView.xib; sourceTree = "<group>"; };
+		CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
+		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +119,9 @@
 		CDA8BD811DC2885E00B3585E /* 2 Announcements */ = {
 			isa = PBXGroup;
 			children = (
-				CD499F0C1DC2838D0037420B /* FirstViewController.swift */,
+				CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */,
+				CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */,
+				CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */,
 			);
 			name = "2 Announcements";
 			sourceTree = "<group>";
@@ -293,10 +299,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */,
+				CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */,
 				CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */,
 				CD499F0F1DC2838D0037420B /* CalendarViewController.swift in Sources */,
 				CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */,
-				CD499F0D1DC2838D0037420B /* FirstViewController.swift in Sources */,
+				CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */,
 				CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +349,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -391,6 +400,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -420,6 +430,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A16BEB1BE8E3C378DCFEBCC1 /* Pods-Iota Pi App.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KP537WFKBH;
 				INFOPLIST_FILE = "Iota Pi App/Info.plist";
@@ -434,6 +445,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0A521279ED2B15304A39D9A4 /* Pods-Iota Pi App.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KP537WFKBH;
 				INFOPLIST_FILE = "Iota Pi App/Info.plist";

@@ -7,66 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--First View Controller-->
-        <scene sceneID="hNz-n2-bh7">
-            <objects>
-                <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
-                        <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="First View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by FirstViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5M-7J-77L">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" symbolic="YES" id="cfb-er-3JN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="e1l-AV-tCB"/>
-                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="mLf-hG-HTG"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1352.5" y="-1490.5"/>
-        </scene>
-        <!--Calendar View Controller-->
-        <scene sceneID="wg7-f3-ORb">
-            <objects>
-                <viewController id="8rJ-Kc-sve" customClass="CalendarViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
-                        <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="9GH-V5-4Wf"/>
-                    <connections>
-                        <outlet property="calendarView" destination="QS5-Rx-YEW" id="Rev-Re-Ibx"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1564" y="-756.97151424287858"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="AYE-bd-vXl">
             <objects>
@@ -181,7 +121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fhh-ZM-zWC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1352.5" y="-0.5"/>
+            <point key="canvasLocation" x="1564" y="-1"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="GVd-xU-RYk">
@@ -200,7 +140,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KxE-bb-sFL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1352.5" y="737.5"/>
+            <point key="canvasLocation" x="1564" y="737"/>
         </scene>
         <!--More Table View Controller-->
         <scene sceneID="2yE-pA-P6l">
@@ -320,12 +260,31 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="pAs-af-zq8"/>
+                        <segue destination="JLg-Wl-axR" kind="relationship" relationship="rootViewController" id="aYf-xy-BFa"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZsN-t3-tur" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="765.5" y="-756.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="CJw-iW-VKw">
+            <objects>
+                <viewController id="JLg-Wl-axR" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2nS-Hc-f3U"/>
+                        <viewControllerLayoutGuide type="bottom" id="msb-FY-UYI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ESg-13-D2O">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Xcu-MJ-21b"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N88-19-CHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1353" y="-757"/>
         </scene>
         <!--Announcements-->
         <scene sceneID="L7z-eS-xjW">
@@ -339,12 +298,127 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="YcJ-iu-aIV"/>
+                        <segue destination="ew8-xl-yNJ" kind="relationship" relationship="rootViewController" id="BwY-Zw-Ejq"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7t6-mG-XYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="765.5" y="-1490.5"/>
+        </scene>
+        <!--Announcements-->
+        <scene sceneID="uTF-rf-0NI">
+            <objects>
+                <tableViewController id="ew8-xl-yNJ" customClass="AnnouncementsTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jQH-gJ-cYo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="announcementCell" textLabel="zLi-qD-Nel" style="IBUITableViewCellStyleDefault" id="Ft0-6V-BqL" customClass="AnnouncementsTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ft0-6V-BqL" id="Irg-rB-1Cp">
+                                    <frame key="frameInset" width="308" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zLi-qD-Nel">
+                                            <frame key="frameInset" minX="15" width="293" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="announcementTitle" destination="zLi-qD-Nel" id="SHN-VE-OpD"/>
+                                    <segue destination="rOS-RA-VzE" kind="show" identifier="announcementDetailsSegue" trigger="accessoryAction" id="Tfp-Jk-jnb"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="archivedAnnouncementCell" textLabel="U0s-up-ANy" style="IBUITableViewCellStyleDefault" id="UsM-vd-h5e" customClass="ArchivedAnnouncementsTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="136" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UsM-vd-h5e" id="TMC-nA-aLi">
+                                    <frame key="frameInset" width="308" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Archived Announcements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0s-up-ANy">
+                                            <frame key="frameInset" minX="15" width="293" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="announcementTitle" destination="U0s-up-ANy" id="FTr-XB-9Di"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ew8-xl-yNJ" id="9U6-ae-UEn"/>
+                            <outlet property="delegate" destination="ew8-xl-yNJ" id="gmc-8V-HE5"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Announcements" id="IzY-g0-4XZ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xfb-iV-HL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1527" y="-1491"/>
+        </scene>
+        <!--Announcement Details View Controller-->
+        <scene sceneID="c3S-58-X1f">
+            <objects>
+                <viewController id="rOS-RA-VzE" customClass="AnnouncementDetailsViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L5G-Ck-OIM"/>
+                        <viewControllerLayoutGuide type="bottom" id="Fr2-NQ-s0u"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rfn-HP-Wkp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mng-hM-oKr">
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJd-Pv-n7m">
+                                <attributedString key="attributedText">
+                                    <fragment content="Details">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="system" size="17"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="Test">
+                            <accessibilityTraits key="traits" none="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstItem="Mng-hM-oKr" firstAttribute="trailing" secondItem="CJd-Pv-n7m" secondAttribute="trailing" id="0aa-Or-oAP"/>
+                            <constraint firstItem="Mng-hM-oKr" firstAttribute="leading" secondItem="Rfn-HP-Wkp" secondAttribute="leadingMargin" id="1c9-L1-y5B"/>
+                            <constraint firstItem="CJd-Pv-n7m" firstAttribute="top" secondItem="Mng-hM-oKr" secondAttribute="bottom" constant="38" id="37a-rX-902"/>
+                            <constraint firstItem="Mng-hM-oKr" firstAttribute="top" secondItem="L5G-Ck-OIM" secondAttribute="bottom" constant="88" id="4lb-we-P6c"/>
+                            <constraint firstItem="Mng-hM-oKr" firstAttribute="trailing" secondItem="Rfn-HP-Wkp" secondAttribute="trailingMargin" id="7m6-eQ-tyw"/>
+                            <constraint firstItem="Fr2-NQ-s0u" firstAttribute="top" secondItem="CJd-Pv-n7m" secondAttribute="bottom" constant="197" id="CIt-74-WCa"/>
+                            <constraint firstItem="CJd-Pv-n7m" firstAttribute="centerY" secondItem="Rfn-HP-Wkp" secondAttribute="centerY" id="UCZ-VH-vqr"/>
+                            <constraint firstItem="Mng-hM-oKr" firstAttribute="leading" secondItem="CJd-Pv-n7m" secondAttribute="leading" id="lNs-By-Dm2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="detailLabel" destination="CJd-Pv-n7m" id="Ff6-vN-Zzf"/>
+                        <outlet property="titleLabel" destination="Mng-hM-oKr" id="zTl-AL-0bb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9HB-KX-v8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2324" y="-1491.0044977511245"/>
         </scene>
     </scenes>
     <resources>
