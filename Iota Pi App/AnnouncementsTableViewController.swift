@@ -13,12 +13,8 @@ class AnnouncementsTableViewCell: UITableViewCell {
     @IBOutlet weak var announcementTitle: UILabel!
     var announcement: Announcement!
 }
-class ArchivedAnnouncementsTableViewCell: UITableViewCell {
-    var announcements: [Announcement]!
-}
+
 class AnnouncementsTableViewController: UITableViewController {
-   // var announcements = [Double : NSDictionary]()
-   // var announcementTitles = [Double]()
     var announcements = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
@@ -60,34 +56,43 @@ class AnnouncementsTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row > announcements.count) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath) as! ArchivedAnnouncementsTableViewCell
+        if (indexPath.row >= announcements.count) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
             
-            cell.announcements = archivedAnnouncements
             
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as! AnnouncementsTableViewCell
-
-            cell.announcement = announcements[indexPath.row]
-            cell.announcementTitle.text = cell.announcement.title
-        
+            cell.announcementTitle.text = "Archived"
+            
             return cell
         }
+        print("REGULAR!!!!")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
+
+        cell.announcement = announcements[indexPath.row]
+        cell.announcementTitle.text = cell.announcement.title
+        
+        return cell
     }
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
-        announcementToPass = currentCell.announcement
+        if (indexPath.row >= announcements.count) {
+            performSegue(withIdentifier: "archivedAnnouncementsSegue", sender: self)
+        } else {
+            let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
+            announcementToPass = currentCell.announcement
         
-        performSegue(withIdentifier: "announcementDetailsSegue", sender: self)
+            performSegue(withIdentifier: "announcementDetailsSegue", sender: self)
+        }
     }
  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "announcementDetailsSegue") {
             let destination = segue.destination as! AnnouncementDetailsViewController
             destination.announcement = announcementToPass
+        }
+        if (segue.identifier == "archivedAnnouncementsSegue") {
+            let destination = segue.destination as! ArchivedAnnouncementsTableViewController
+            destination.announcements = archivedAnnouncements
         }
     }
 }

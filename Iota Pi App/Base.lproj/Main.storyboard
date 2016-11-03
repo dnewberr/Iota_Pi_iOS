@@ -331,19 +331,19 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="announcementTitle" destination="zLi-qD-Nel" id="SHN-VE-OpD"/>
+                                    <outlet property="announcementTitle" destination="zLi-qD-Nel" id="cNf-Od-9IX"/>
                                     <segue destination="rOS-RA-VzE" kind="show" identifier="announcementDetailsSegue" trigger="accessoryAction" id="Tfp-Jk-jnb"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="archivedAnnouncementCell" textLabel="U0s-up-ANy" style="IBUITableViewCellStyleDefault" id="UsM-vd-h5e" customClass="ArchivedAnnouncementsTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="archivedAnnouncementCell" textLabel="U0s-up-ANy" style="IBUITableViewCellStyleDefault" id="UsM-vd-h5e">
                                 <rect key="frame" x="0.0" y="136" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UsM-vd-h5e" id="TMC-nA-aLi">
-                                    <frame key="frameInset" width="308" height="43"/>
+                                    <frame key="frameInset" width="342" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Archived Announcements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0s-up-ANy">
-                                            <frame key="frameInset" minX="15" width="293" height="43"/>
+                                            <frame key="frameInset" minX="15" width="325" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -353,6 +353,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="announcementTitle" destination="U0s-up-ANy" id="FTr-XB-9Di"/>
+                                    <segue destination="JlC-bt-kgk" kind="show" identifier="archivedAnnouncementsSegue" trigger="accessoryAction" id="ng0-zO-u2o"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -366,6 +367,47 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xfb-iV-HL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1527" y="-1491"/>
+        </scene>
+        <!--Archived Announcements Table View Controller-->
+        <scene sceneID="T93-Pk-gdc">
+            <objects>
+                <tableViewController id="JlC-bt-kgk" customClass="ArchivedAnnouncementsTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="D9U-hD-U2T">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="archivedCell" id="Kk8-Rn-cUe" customClass="ArchivedTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kk8-Rn-cUe" id="OED-mb-Ppf">
+                                    <frame key="frameInset" width="308" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROZ-UV-xSg">
+                                            <frame key="frameInset" minX="8" minY="11" width="359" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="announcementTitle" destination="ROZ-UV-xSg" id="XJQ-Qa-qjH"/>
+                                    <segue destination="rOS-RA-VzE" kind="show" identifier="archivedAnnouncementDetailsSegue" trigger="accessoryAction" id="Mka-aN-Voj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="JlC-bt-kgk" id="nXB-ex-cA9"/>
+                            <outlet property="delegate" destination="JlC-bt-kgk" id="YMi-BB-D2d"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qIE-Qm-iQI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1989.5999999999999" y="-2167.4662668665669"/>
         </scene>
         <!--Announcement Details View Controller-->
         <scene sceneID="c3S-58-X1f">
@@ -427,4 +469,7 @@
         <image name="calendar" width="32" height="32"/>
         <image name="voting" width="32" height="32"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Mka-aN-Voj"/>
+    </inferredMetricsTieBreakers>
 </document>
