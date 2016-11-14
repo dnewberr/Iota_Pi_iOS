@@ -57,12 +57,12 @@ class AnnouncementsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.row >= announcements.count) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
+           // let cell = tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
             
             
-            cell.announcementTitle.text = "Archived"
+            //cell.announcementTitle.text = "Archived"
             
-            return cell
+            return tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
         }
         print("REGULAR!!!!")
         let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
