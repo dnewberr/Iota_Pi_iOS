@@ -11,17 +11,20 @@ import Firebase
 
 public class RosterManager {
     static let sharedInstance = RosterManager();
+    var currentUserId: String!
     var brothersMap = [String : User]()
     
-    init() {
+    private init() {
         let ref = FIRDatabase.database().reference().child("Brothers")
         
-        ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
+        ref.observe(.value, with: { (snapshot) -> Void in
             for item in snapshot.children {
                 let child = item as! FIRDataSnapshot
-                let key = child.key as! String
+                let key = child.key
                 let dict = child.value as! NSDictionary
-                brothersMap[key] = User(dict: dict, userId: key)
+                let user = User(dict: dict, userId: key)
+                self.brothersMap[key] = user
+                
             }
         })
     }

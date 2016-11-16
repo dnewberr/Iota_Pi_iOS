@@ -14,14 +14,13 @@ class NomineeTableViewCell: UITableViewCell {
 }
 
 class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
     @IBOutlet weak var nomineeTableView: UITableView!
+    var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values)
     
-    let nomineeChoices = [User]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        nomineeChoices = RosterManager.sharedInstance.brothersMap.values as! [User]
+        print("Hello!! ", RosterManager.sharedInstance)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,6 +28,22 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       // print("COUNT:",  String(nomineeChoices.count))
+        return nomineeChoices.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "nomineeCell", for: indexPath) as! NomineeTableViewCell
+        
+        cell.nameLabel.text = nomineeChoices[indexPath.row].firstname + " " + nomineeChoices[indexPath.row].lastname
+        
+        return cell
+    }
 
     /*
     // MARK: - Navigation

@@ -21,6 +21,7 @@ class LoginViewController: UIViewController {
             } else {
                 FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
                     if error == nil {
+                        RosterManager.sharedInstance.currentUserId = user?.uid
                         self.performSegue(withIdentifier: "successfulLoginSegue", sender: sender)
                     } else {
                         self.errorMessageAnimation(text: "TEMP")
@@ -36,6 +37,7 @@ class LoginViewController: UIViewController {
         
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if user != nil {
+                RosterManager.sharedInstance.currentUserId = user?.uid
                 self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
             }
         }

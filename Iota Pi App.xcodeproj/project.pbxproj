@@ -27,6 +27,7 @@
 		CDFC016B1DDCFB68004C688F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016A1DDCFB68004C688F /* User.swift */; };
 		CDFC016D1DDCFD98004C688F /* VotingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016C1DDCFD98004C688F /* VotingViewController.swift */; };
 		CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */; };
+		CDFC01711DDD035A004C688F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01701DDD035A004C688F /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		CDFC016A1DDCFB68004C688F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CDFC016C1DDCFD98004C688F /* VotingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingViewController.swift; sourceTree = "<group>"; };
 		CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HirlyNomineeSelectionViewController.swift; sourceTree = "<group>"; };
+		CDFC01701DDD035A004C688F /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				CD499F0A1DC2838D0037420B /* AppDelegate.swift */,
 				CDFC01681DDCFADA004C688F /* RosterManager.swift */,
 				CDFC016A1DDCFB68004C688F /* User.swift */,
+				CDFC01701DDD035A004C688F /* Utilities.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */,
 				CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */,
 				CDFC01661DDCF805004C688F /* VotingTopic.swift in Sources */,
+				CDFC01711DDD035A004C688F /* Utilities.swift in Sources */,
 				CDFC016D1DDCFD98004C688F /* VotingViewController.swift in Sources */,
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
 				CDFC01651DDCF805004C688F /* HirlyNomsViewController.swift in Sources */,
