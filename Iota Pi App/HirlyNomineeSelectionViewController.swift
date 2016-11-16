@@ -1,19 +1,27 @@
 //
-//  CurrentVoteViewController.swift
+//  HirlyNomineeSelectionViewController.swift
 //  Iota Pi App
 //
-//  Created by Deborah Newberry on 11/14/16.
+//  Created by Deborah Newberry on 11/16/16.
 //  Copyright © 2016 Deborah Newberry. All rights reserved.
 //
 
 import UIKit
 
-class CurrentVoteViewController: UIViewController {
+//nomineeCell
+class NomineeTableViewCell: UITableViewCell {
+    @IBOutlet weak var nameLabel: UILabel!
+}
 
+class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var nomineeTableView: UITableView!
+    
+    let nomineeChoices = [User]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        nomineeChoices = RosterManager.sharedInstance.brothersMap.values as! [User]
     }
 
     override func didReceiveMemoryWarning() {

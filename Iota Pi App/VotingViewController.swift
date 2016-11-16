@@ -1,17 +1,17 @@
 //
-//  HirlyNomsViewController.swift
+//  VotingViewController.swift
 //  Iota Pi App
 //
-//  Created by Deborah Newberry on 11/14/16.
+//  Created by Deborah Newberry on 11/16/16.
 //  Copyright © 2016 Deborah Newberry. All rights reserved.
 //
 
 import UIKit
 
-class HirlyNomsViewController: UIViewController {
-    @IBOutlet weak var definitionLabel: UILabel!
-    @IBOutlet weak var hilryNomReasonText: UITextView!
-    
+class VotingViewController: UIViewController {
+    @IBAction func voteForCurrentTopic(_ sender: AnyObject) {
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +22,5 @@ class HirlyNomsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
 }
