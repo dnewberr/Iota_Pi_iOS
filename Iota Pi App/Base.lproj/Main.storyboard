@@ -140,7 +140,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4qh-q5-zIt">
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="-"/>
                                 <connections>
                                     <segue destination="dJj-MN-9Qb" kind="show" id="bVA-Mu-M9e"/>
                                 </connections>
@@ -158,7 +158,7 @@
                             <constraint firstItem="cIw-Ov-MCD" firstAttribute="leading" secondItem="9hX-Hr-vEj" secondAttribute="leadingMargin" id="N8m-2Y-gs1"/>
                             <constraint firstItem="3L7-dx-Gfl" firstAttribute="top" secondItem="r0x-Wu-uQk" secondAttribute="bottom" constant="24" id="P6F-NA-Aum"/>
                             <constraint firstItem="cIw-Ov-MCD" firstAttribute="trailing" secondItem="4qh-q5-zIt" secondAttribute="trailing" id="SS2-YZ-OaD"/>
-                            <constraint firstItem="lw9-d7-1Aq" firstAttribute="top" secondItem="4qh-q5-zIt" secondAttribute="top" id="TJY-7D-6SB"/>
+                            <constraint firstItem="lw9-d7-1Aq" firstAttribute="top" secondItem="4qh-q5-zIt" secondAttribute="top" constant="5" id="TJY-7D-6SB"/>
                             <constraint firstItem="lw9-d7-1Aq" firstAttribute="top" secondItem="cIw-Ov-MCD" secondAttribute="bottom" constant="26" id="Txk-yK-W8n"/>
                             <constraint firstItem="4qh-q5-zIt" firstAttribute="trailing" secondItem="Xqt-pI-O59" secondAttribute="trailing" id="X36-rg-qPn"/>
                             <constraint firstItem="lw9-d7-1Aq" firstAttribute="leading" secondItem="3Ci-PW-moO" secondAttribute="leading" id="XCN-zx-RhL"/>
@@ -172,7 +172,7 @@
                     <navigationItem key="navigationItem" id="Hpa-i0-hlu"/>
                     <connections>
                         <outlet property="definitionLabel" destination="cIw-Ov-MCD" id="zar-Ov-6nz"/>
-                        <outlet property="hilryNomReasonText" destination="Xqt-pI-O59" id="NnY-2Z-qtI"/>
+                        <outlet property="hirlyNomReasonText" destination="Xqt-pI-O59" id="3eV-c5-kyL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fhh-ZM-zWC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -194,7 +194,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="J0M-s5-n2L">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="nomineeCell" id="QV4-OW-BJK" customClass="NomineeTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="nomineeCell" id="QV4-OW-BJK" customClass="NomineeTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QV4-OW-BJK" id="6rv-Zf-Ueb">
@@ -227,7 +227,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="J0M-s5-n2L" firstAttribute="bottom" secondItem="Ucm-Ak-Gpo" secondAttribute="top" id="ED6-O8-1Uy"/>
-                            <constraint firstItem="J0M-s5-n2L" firstAttribute="top" secondItem="oOv-3m-hRg" secondAttribute="bottom" constant="72" id="Vn0-57-hCL"/>
+                            <constraint firstItem="J0M-s5-n2L" firstAttribute="top" secondItem="oOv-3m-hRg" secondAttribute="bottom" id="Vn0-57-hCL"/>
                             <constraint firstItem="J0M-s5-n2L" firstAttribute="leading" secondItem="wKM-5B-MMI" secondAttribute="leading" id="l6J-Ui-DxC"/>
                             <constraint firstAttribute="trailing" secondItem="J0M-s5-n2L" secondAttribute="trailing" id="r7W-cB-Crc"/>
                         </constraints>

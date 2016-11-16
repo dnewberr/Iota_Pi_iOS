@@ -10,11 +10,14 @@ import UIKit
 
 class HirlyNomsViewController: UIViewController {
     @IBOutlet weak var definitionLabel: UILabel!
-    @IBOutlet weak var hilryNomReasonText: UITextView!
+    @IBOutlet weak var hirlyNomReasonText: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        hirlyNomReasonText.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
+        hirlyNomReasonText.layer.borderWidth = 1.0
+        hirlyNomReasonText.layer.cornerRadius = 5
         // Do any additional setup after loading the view.
     }
 

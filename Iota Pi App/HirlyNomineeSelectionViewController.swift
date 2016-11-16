@@ -15,7 +15,8 @@ class NomineeTableViewCell: UITableViewCell {
 
 class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var nomineeTableView: UITableView!
-    var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values)
+    var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values).filter({!$0.hasWonHirly})
+    var currentSelectionIndexPath: IndexPath!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,17 +43,35 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
         
         cell.nameLabel.text = nomineeChoices[indexPath.row].firstname + " " + nomineeChoices[indexPath.row].lastname
         
+        cell.accessoryType = .none
+        
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath){
+            if let _ = currentSelectionIndexPath {
+                cell.accessoryType = .none
+                currentSelectionIndexPath = nil
+            }
+        }
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("SELECTED:: " + String(indexPath.row))
+        if let cell = tableView.cellForRow(at: indexPath){
+            if let currentSelectionIndexPath = currentSelectionIndexPath {
+                if let oldCell = tableView.cellForRow(at: currentSelectionIndexPath) {
+                    oldCell.accessoryType = .none
+                }
+            }
+            
+            if currentSelectionIndexPath != indexPath {
+                self.currentSelectionIndexPath = indexPath
+                cell.accessoryType = .checkmark
+            } else {
+                self.currentSelectionIndexPath = nil
+            }
+        }
+    }
 }
