@@ -26,21 +26,17 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Hello!! ", RosterManager.sharedInstance)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // print("COUNT:",  String(nomineeChoices.count))
-        return nomineeChoices.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        return nomineeChoices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,34 +44,18 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
         
         cell.nameLabel.text = nomineeChoices[indexPath.row].firstname + " " + nomineeChoices[indexPath.row].lastname
         cell.user = nomineeChoices[indexPath.row]
-        cell.accessoryType = .none
-        
+
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath){
-            if let _ = chosenCell {
-                cell.accessoryType = .none
-                chosenCell = nil
-            }
-        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath){
-            if let chosenCell = chosenCell {
-                chosenCell.accessoryType = .none
-            }
-            
-            if chosenCell != cell {
-                self.chosenCell = cell as! NomineeTableViewCell
-                cell.accessoryType = .checkmark
-            } else {
-                self.chosenCell = nil
-            }
+            self.chosenCell = cell as! NomineeTableViewCell
         }
+        
+        self.navigationController?.popViewController(animated: true)
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         if let chosenCell = chosenCell {
             self.nomineeDelegate?.saveSelection(chosenNominee: chosenCell.user)

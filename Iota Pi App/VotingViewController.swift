@@ -7,11 +7,10 @@
 //
 
 import UIKit
+import Firebase
+import SCLAlertView
 
 class VotingViewController: UIViewController {
-    @IBAction func voteForCurrentTopic(_ sender: AnyObject) {
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
