@@ -14,7 +14,7 @@ class AnnouncementsTableViewCell: UITableViewCell {
     var announcement: Announcement!
 }
 
-class AnnouncementsTableViewController: UITableViewController {
+class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
     var announcements = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
@@ -22,24 +22,21 @@ class AnnouncementsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let ref = FIRDatabase.database().reference().child("Announcements")
-
-        ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
-            for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let currentAnnouncement = Announcement(dict: dict, expiration: key)
-                if (currentAnnouncement.archived) {
-                    self.archivedAnnouncements.append(currentAnnouncement)
-                } else {
-                    self.announcements.append(currentAnnouncement)
-                }
+        let announcementsService = AnnouncementsService()
+        announcementsService.announcementsServiceDelegate = self
+        announcementsService.fetchAnnouncements()
+    }
+    
+    func updateUI(announcements: [Announcement]) {
+        for announcement in announcements {
+            if (announcement.archived) {
+                self.archivedAnnouncements.append(announcement)
+            } else {
+                self.announcements.append(announcement)
             }
-            
-            self.tableView.reloadData()
-        })
+        }
         
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

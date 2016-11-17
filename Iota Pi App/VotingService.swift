@@ -15,8 +15,6 @@ public protocol VotingServiceDelegate: class {
 }
 
 public class VotingService {
-    var currentHirlyTopic: VotingTopic?
-    var currentVoteTopic: VotingTopic?
     weak var votingServiceDelegate: VotingServiceDelegate?
     
     init() {}
