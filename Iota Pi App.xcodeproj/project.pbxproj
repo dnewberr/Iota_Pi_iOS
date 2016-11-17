@@ -31,6 +31,8 @@
 		CDFC01791DDE43EC004C688F /* CurrentVoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01781DDE43EC004C688F /* CurrentVoteViewController.swift */; };
 		CDFC017B1DDE6322004C688F /* VotingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC017A1DDE6322004C688F /* VotingService.swift */; };
 		CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC017C1DDE6A69004C688F /* AnnouncementsService.swift */; };
+		CDFC01801DDE6BD6004C688F /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */; };
+		CDFC01821DDE6BE9004C688F /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01811DDE6BE9004C688F /* LoginService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		CDFC01781DDE43EC004C688F /* CurrentVoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentVoteViewController.swift; sourceTree = "<group>"; };
 		CDFC017A1DDE6322004C688F /* VotingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingService.swift; sourceTree = "<group>"; };
 		CDFC017C1DDE6A69004C688F /* AnnouncementsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsService.swift; sourceTree = "<group>"; };
+		CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
+		CDFC01811DDE6BE9004C688F /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				CDA8BD871DC288BC00B3585E /* LoginViewController.swift */,
+				CDFC01811DDE6BE9004C688F /* LoginService.swift */,
 			);
 			name = "1 Login";
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 		CDFC017E1DDE6B98004C688F /* Roster */ = {
 			isa = PBXGroup;
 			children = (
+				CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */,
 			);
 			name = Roster;
 			sourceTree = "<group>";
@@ -362,6 +368,8 @@
 				CDFC01711DDD035A004C688F /* Utilities.swift in Sources */,
 				CDFC016D1DDCFD98004C688F /* VotingViewController.swift in Sources */,
 				CDFC017B1DDE6322004C688F /* VotingService.swift in Sources */,
+				CDFC01801DDE6BD6004C688F /* RosterViewController.swift in Sources */,
+				CDFC01821DDE6BE9004C688F /* LoginService.swift in Sources */,
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
 				CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */,

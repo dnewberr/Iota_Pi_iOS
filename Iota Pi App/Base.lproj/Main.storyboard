@@ -271,7 +271,7 @@
         <!--Roster-->
         <scene sceneID="6i3-AC-iZq">
             <objects>
-                <viewController title="Roster" automaticallyAdjustsScrollViewInsets="NO" id="eb5-iZ-IOi" sceneMemberID="viewController">
+                <viewController title="Roster" automaticallyAdjustsScrollViewInsets="NO" id="eb5-iZ-IOi" customClass="RosterViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="z99-1Q-fWd"/>
                         <viewControllerLayoutGuide type="bottom" id="2BT-r3-Nza"/>
@@ -285,23 +285,42 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="rosterCell" id="Kby-ZJ-S3W">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="rosterCell" id="Kby-ZJ-S3W" customClass="RosterTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kby-ZJ-S3W" id="8AE-Mz-bba">
                                             <frame key="frameInset" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7T-gW-af0">
+                                                    <frame key="frameInset" minX="8" minY="8" width="326" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="rosterLabel" destination="S7T-gW-af0" id="QfM-ny-BW7"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="eb5-iZ-IOi" id="tDs-aR-TXD"/>
+                                    <outlet property="delegate" destination="eb5-iZ-IOi" id="kJi-kH-GFQ"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="rosterTable" destination="ghH-Lk-98E" id="EzR-XC-MTB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xcb-xL-w7u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2285.5" y="737.5"/>
+            <point key="canvasLocation" x="2284" y="737.18140929535241"/>
         </scene>
         <!--Current Vote-->
         <scene sceneID="W3F-f9-rPq">
