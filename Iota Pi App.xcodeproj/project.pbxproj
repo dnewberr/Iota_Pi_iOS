@@ -21,13 +21,13 @@
 		CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */; };
 		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 		CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */; };
-		CDFC01651DDCF805004C688F /* HirlyNomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01621DDCF805004C688F /* HirlyNomsViewController.swift */; };
 		CDFC01661DDCF805004C688F /* VotingTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01631DDCF805004C688F /* VotingTopic.swift */; };
 		CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01681DDCFADA004C688F /* RosterManager.swift */; };
 		CDFC016B1DDCFB68004C688F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016A1DDCFB68004C688F /* User.swift */; };
 		CDFC016D1DDCFD98004C688F /* VotingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016C1DDCFD98004C688F /* VotingViewController.swift */; };
 		CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */; };
 		CDFC01711DDD035A004C688F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01701DDD035A004C688F /* Utilities.swift */; };
+		CDFC01761DDE2D1F004C688F /* HirlyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01751DDE2D1F004C688F /* HirlyFormViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,13 +49,13 @@
 		CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 		CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedAnnouncementTableViewController.swift; sourceTree = "<group>"; };
-		CDFC01621DDCF805004C688F /* HirlyNomsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HirlyNomsViewController.swift; sourceTree = "<group>"; };
 		CDFC01631DDCF805004C688F /* VotingTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingTopic.swift; sourceTree = "<group>"; };
 		CDFC01681DDCFADA004C688F /* RosterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterManager.swift; sourceTree = "<group>"; };
 		CDFC016A1DDCFB68004C688F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CDFC016C1DDCFD98004C688F /* VotingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingViewController.swift; sourceTree = "<group>"; };
 		CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HirlyNomineeSelectionViewController.swift; sourceTree = "<group>"; };
 		CDFC01701DDD035A004C688F /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		CDFC01751DDE2D1F004C688F /* HirlyFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HirlyFormViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,10 +154,9 @@
 		CDA8BD831DC2887200B3585E /* 4 Voting */ = {
 			isa = PBXGroup;
 			children = (
-				CDFC01621DDCF805004C688F /* HirlyNomsViewController.swift */,
+				CDFC01741DDE2D01004C688F /* Hirly */,
 				CDFC01631DDCF805004C688F /* VotingTopic.swift */,
 				CDFC016C1DDCFD98004C688F /* VotingViewController.swift */,
-				CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */,
 			);
 			name = "4 Voting";
 			sourceTree = "<group>";
@@ -187,6 +186,15 @@
 				CDFC01701DDD035A004C688F /* Utilities.swift */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		CDFC01741DDE2D01004C688F /* Hirly */ = {
+			isa = PBXGroup;
+			children = (
+				CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */,
+				CDFC01751DDE2D1F004C688F /* HirlyFormViewController.swift */,
+			);
+			name = Hirly;
 			sourceTree = "<group>";
 		};
 		F8CD11E68853A67CBF36C9C1 /* Frameworks */ = {
@@ -329,9 +337,9 @@
 				CDFC01711DDD035A004C688F /* Utilities.swift in Sources */,
 				CDFC016D1DDCFD98004C688F /* VotingViewController.swift in Sources */,
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
-				CDFC01651DDCF805004C688F /* HirlyNomsViewController.swift in Sources */,
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
 				CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */,
+				CDFC01761DDE2D1F004C688F /* HirlyFormViewController.swift in Sources */,
 				CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */,
 				CD499F0F1DC2838D0037420B /* CalendarViewController.swift in Sources */,
 				CDFC016B1DDCFB68004C688F /* User.swift in Sources */,

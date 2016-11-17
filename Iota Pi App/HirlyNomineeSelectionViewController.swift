@@ -8,20 +8,25 @@
 
 import UIKit
 
+public protocol SelectNomineeDelegate: class {
+    func saveSelection(chosenNominee: User?)
+}
+
 //nomineeCell
 class NomineeTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
+    var user: User!
 }
 
 class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var nomineeTableView: UITableView!
     var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values).filter({!$0.hasWonHirly})
-    var currentSelectionIndexPath: IndexPath!
+    var chosenCell: NomineeTableViewCell!
+    weak var nomineeDelegate: SelectNomineeDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Hello!! ", RosterManager.sharedInstance)
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,7 +47,7 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "nomineeCell", for: indexPath) as! NomineeTableViewCell
         
         cell.nameLabel.text = nomineeChoices[indexPath.row].firstname + " " + nomineeChoices[indexPath.row].lastname
-        
+        cell.user = nomineeChoices[indexPath.row]
         cell.accessoryType = .none
         
         return cell
@@ -50,28 +55,32 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath){
-            if let _ = currentSelectionIndexPath {
+            if let _ = chosenCell {
                 cell.accessoryType = .none
-                currentSelectionIndexPath = nil
+                chosenCell = nil
             }
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("SELECTED:: " + String(indexPath.row))
         if let cell = tableView.cellForRow(at: indexPath){
-            if let currentSelectionIndexPath = currentSelectionIndexPath {
-                if let oldCell = tableView.cellForRow(at: currentSelectionIndexPath) {
-                    oldCell.accessoryType = .none
-                }
+            if let chosenCell = chosenCell {
+                chosenCell.accessoryType = .none
             }
             
-            if currentSelectionIndexPath != indexPath {
-                self.currentSelectionIndexPath = indexPath
+            if chosenCell != cell {
+                self.chosenCell = cell as! NomineeTableViewCell
                 cell.accessoryType = .checkmark
             } else {
-                self.currentSelectionIndexPath = nil
+                self.chosenCell = nil
             }
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        if let chosenCell = chosenCell {
+            self.nomineeDelegate?.saveSelection(chosenNominee: chosenCell.user)
+        } else {
+            self.nomineeDelegate?.saveSelection(chosenNominee: nil)
         }
     }
 }
