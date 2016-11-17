@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class CurrentVoteViewController: UIViewController {
+class CurrentVoteViewController: UIViewController, VotingServiceDelegate {
     @IBOutlet weak var sessionCodeText: UITextField!
     @IBAction func yesVote(_ sender: AnyObject) {
     }
@@ -26,39 +26,19 @@ class CurrentVoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote")
-        
-        ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
-            for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let topic = VotingTopic(dict: dict, expiration: key)
-                
-                if (!topic.archived) {
-                    self.currentTopic = topic
-                }
-            }
-            
-            self.summaryLabel.text = self.currentTopic.summary
-            self.descriptionLabel.text = self.currentTopic.description
-        })
+        let votingService = VotingService()
+        votingService.votingServiceDelegate = self
+        votingService.fetchCurrentVote()
+    }
+    
+    func updateUI(topic: VotingTopic) {
+        self.currentTopic = topic
+        self.summaryLabel.text = self.currentTopic.summary
+        self.descriptionLabel.text = self.currentTopic.description
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

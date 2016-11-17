@@ -9,14 +9,16 @@
 import UIKit
 import Firebase
 
-class FormTableViewController: UITableViewController, SelectNomineeDelegate {
+class FormTableViewController: UITableViewController, SelectNomineeDelegate, VotingServiceDelegate {
     @IBOutlet weak var hirlyNomReasonText: UITextView!
     @IBOutlet weak var topicDescriptionLabel: UILabel!
     @IBOutlet weak var nomineeNameLabel: UILabel!
     
+    //let votingService = VotingService(delegate: self)
+    
     var chosenUser: User?
-    var headerTitles = ["Topic", "Nominee", "Reason"]
     var currentTopic: VotingTopic!
+    var headerTitles = ["Topic", "Nominee", "Reason"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,25 +26,17 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate {
         hirlyNomReasonText.layer.borderWidth = 1.0
         hirlyNomReasonText.layer.cornerRadius = 5
         
-        let ref = FIRDatabase.database().reference().child("Voting").child("HIRLy")
+        let votingService = VotingService()
+        votingService.votingServiceDelegate = self
+        votingService.fetchHirlyTopic()
+    }
+    
+    func updateUI(topic: VotingTopic) {
+        self.currentTopic = topic
+        self.headerTitles[0] = self.currentTopic.summary
+        self.topicDescriptionLabel.text = self.currentTopic.description
         
-        ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
-            for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let topic = VotingTopic(dict: dict, expiration: key)
-                
-                if (!topic.archived) {
-                    self.currentTopic = topic
-                }
-            }
-            
-            self.headerTitles[0] = self.currentTopic.summary
-            self.topicDescriptionLabel.text = self.currentTopic.description
-            
-            self.tableView.reloadData()
-        })
+        self.tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
