@@ -10,20 +10,18 @@ import UIKit
 
 class RosterTableViewCell: UITableViewCell {
     @IBOutlet weak var rosterLabel: UILabel!
-    var brother: User!
+    var brotherUserId: String!
     
 }
 
 class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
     @IBOutlet weak var rosterTable: UITableView!
-    
-    //let roster =
+
+    let brothersArray = Array(RosterManager.sharedInstance.brothersMap.values)
+    var chosenBrotherUserId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,21 +41,28 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "rosterCell", for: indexPath) as! RosterTableViewCell
         
+        let currentBrother = brothersArray[indexPath.row]
         
-        cell.brother = Array(RosterManager.sharedInstance.brothersMap.values)[indexPath.row]
-        cell.rosterLabel.text = cell.brother.firstname + " " + cell.brother.lastname
-        
+        cell.brotherUserId = currentBrother.userId
+        cell.rosterLabel.text = currentBrother.firstname + " " + currentBrother.lastname
         
         return cell
     }
-    /*
-    // MARK: - Navigation
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let currentCell = tableView.dequeueReusableCell(withIdentifier: "rosterCell", for: indexPath) as! RosterTableViewCell
+        if let cell = tableView.cellForRow(at: indexPath) as? RosterTableViewCell {
+            chosenBrotherUserId = cell.brotherUserId
+            performSegue(withIdentifier: "rosterDetailSegue", sender: self)
+        }
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "rosterDetailSegue" {
+            let destination = segue.destination as! RosterDetailViewController
+            print("TEST: " + chosenBrotherUserId)
+            destination.currentBrother = RosterManager.sharedInstance.brothersMap[chosenBrotherUserId]
+        }
     }
-    */
-
 }

@@ -9,6 +9,7 @@
 import Foundation
 
 public class User {
+    let birthday: String!
     let expectedGrad: String!
     let firstname: String!
     let educationClass: String!
@@ -22,9 +23,10 @@ public class User {
     let sloAddress: String!
     let status: Status!
     let userId: String!
-    
+    let email: String!
     
     init(dict: NSDictionary, userId: String) {
+        self.birthday = dict.value(forKey: "birthday") as! String
         self.expectedGrad = dict.value(forKey: "expectedGrad") as! String
         self.firstname = dict.value(forKey: "firstname") as! String
         self.educationClass = dict.value(forKey: "class") as! String
@@ -36,6 +38,7 @@ public class User {
         self.rosterNumber = dict.value(forKey: "roster") as! Int
         self.section = dict.value(forKey: "section") as! String
         self.sloAddress = dict.value(forKey: "sloAddress") as! String
+        self.email = self.firstname + "." + self.lastname + "@iotapi.com"
         
         switch dict.value(forKey: "status") as! String {
             case "Active" : self.status = Status.Active

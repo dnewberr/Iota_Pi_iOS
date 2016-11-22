@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum Status {
+enum Status: String {
     case Active, Alumni, Conditional, Inactive, Other
 }

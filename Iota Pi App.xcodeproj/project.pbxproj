@@ -33,6 +33,7 @@
 		CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC017C1DDE6A69004C688F /* AnnouncementsService.swift */; };
 		CDFC01801DDE6BD6004C688F /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */; };
 		CDFC01821DDE6BE9004C688F /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01811DDE6BE9004C688F /* LoginService.swift */; };
+		CDFC01861DDF7C3E004C688F /* RosterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01851DDF7C3E004C688F /* RosterDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		CDFC017C1DDE6A69004C688F /* AnnouncementsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsService.swift; sourceTree = "<group>"; };
 		CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
 		CDFC01811DDE6BE9004C688F /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		CDFC01851DDF7C3E004C688F /* RosterDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */,
+				CDFC01851DDF7C3E004C688F /* RosterDetailViewController.swift */,
 			);
 			name = Roster;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
 				CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */,
 				CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */,
+				CDFC01861DDF7C3E004C688F /* RosterDetailViewController.swift in Sources */,
 				CDFC01761DDE2D1F004C688F /* HirlyFormViewController.swift in Sources */,
 				CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */,
 				CDFC01791DDE43EC004C688F /* CurrentVoteViewController.swift in Sources */,
