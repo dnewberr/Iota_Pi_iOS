@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A57E1788C6610BBB6B9F78380745CDEC"
+               BlueprintIdentifier = "5D09EBFAEFE8252190205FDC555F6440"
                BuildableName = "Pods_Iota_Pi_App.framework"
                BlueprintName = "Pods-Iota Pi App"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A57E1788C6610BBB6B9F78380745CDEC"
+            BlueprintIdentifier = "5D09EBFAEFE8252190205FDC555F6440"
             BuildableName = "Pods_Iota_Pi_App.framework"
             BlueprintName = "Pods-Iota Pi App"
             ReferencedContainer = "container:Pods.xcodeproj">

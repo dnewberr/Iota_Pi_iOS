@@ -10,7 +10,6 @@
 		58934612A5EFC84B62B6E154 /* Pods_Iota_Pi_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8699AB11431215C22F348260 /* Pods_Iota_Pi_App.framework */; };
 		CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */; };
 		CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0A1DC2838D0037420B /* AppDelegate.swift */; };
-		CD499F0F1DC2838D0037420B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0E1DC2838D0037420B /* CalendarViewController.swift */; };
 		CD499F121DC2838D0037420B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F101DC2838D0037420B /* Main.storyboard */; };
 		CD499F141DC2838D0037420B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD499F131DC2838D0037420B /* Assets.xcassets */; };
 		CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F151DC2838D0037420B /* LaunchScreen.storyboard */; };
@@ -21,6 +20,7 @@
 		CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */; };
 		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 		CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */; };
+		CDF575181DE6150E00A5CE3E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF575171DE6150E00A5CE3E /* CalendarViewController.swift */; };
 		CDFC01661DDCF805004C688F /* VotingTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01631DDCF805004C688F /* VotingTopic.swift */; };
 		CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01681DDCFADA004C688F /* RosterManager.swift */; };
 		CDFC016B1DDCFB68004C688F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC016A1DDCFB68004C688F /* User.swift */; };
@@ -43,7 +43,6 @@
 		CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsTableViewController.swift; sourceTree = "<group>"; };
 		CD499F071DC2838D0037420B /* Iota Pi App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Iota Pi App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD499F0A1DC2838D0037420B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CD499F0E1DC2838D0037420B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		CD499F111DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD499F131DC2838D0037420B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD499F161DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,6 +54,7 @@
 		CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 		CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedAnnouncementTableViewController.swift; sourceTree = "<group>"; };
+		CDF575171DE6150E00A5CE3E /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		CDFC01631DDCF805004C688F /* VotingTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingTopic.swift; sourceTree = "<group>"; };
 		CDFC01681DDCFADA004C688F /* RosterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterManager.swift; sourceTree = "<group>"; };
 		CDFC016A1DDCFB68004C688F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 		CDA8BD821DC2886900B3585E /* 3 Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				CD499F0E1DC2838D0037420B /* CalendarViewController.swift */,
+				CDF575171DE6150E00A5CE3E /* CalendarViewController.swift */,
 			);
 			name = "3 Calendar";
 			sourceTree = "<group>";
@@ -377,11 +377,11 @@
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
 				CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */,
 				CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */,
+				CDF575181DE6150E00A5CE3E /* CalendarViewController.swift in Sources */,
 				CDFC01861DDF7C3E004C688F /* RosterDetailViewController.swift in Sources */,
 				CDFC01761DDE2D1F004C688F /* HirlyFormViewController.swift in Sources */,
 				CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */,
 				CDFC01791DDE43EC004C688F /* CurrentVoteViewController.swift in Sources */,
-				CD499F0F1DC2838D0037420B /* CalendarViewController.swift in Sources */,
 				CDFC016B1DDCFB68004C688F /* User.swift in Sources */,
 				CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */,
 				CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */,
@@ -458,6 +458,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -501,6 +502,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

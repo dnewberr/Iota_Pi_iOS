@@ -24,6 +24,7 @@ public class User {
     let status: Status!
     let userId: String!
     let email: String!
+    let adminPrivileges: AdminPrivileges!
     
     init(dict: NSDictionary, userId: String) {
         self.birthday = dict.value(forKey: "birthday") as! String
@@ -38,7 +39,7 @@ public class User {
         self.rosterNumber = dict.value(forKey: "roster") as! Int
         self.section = dict.value(forKey: "section") as! String
         self.sloAddress = dict.value(forKey: "sloAddress") as! String
-        self.email = self.firstname + "." + self.lastname + "@iotapi.com"
+        self.email = self.firstname.lowercased() + "." + self.lastname.lowercased() + "@iotapi.com"
         
         switch dict.value(forKey: "status") as! String {
             case "Active" : self.status = Status.Active
@@ -46,6 +47,13 @@ public class User {
             case "Conditional" : self.status = Status.Conditional
             case "Inactive" : self.status = Status.Inactive
             default : self.status = Status.Other
+        }
+        
+        switch dict.value(forKey: "admin") as! String {
+            case "President" : self.adminPrivileges = AdminPrivileges.President
+            case "RecSec" : self.adminPrivileges = AdminPrivileges.RecSec
+            case "Parliamentarian" : self.adminPrivileges = AdminPrivileges.Parliamentarian
+            default : self.adminPrivileges = AdminPrivileges.None
         }
         
         self.userId = userId

@@ -24,7 +24,6 @@ public class RosterManager {
                 let dict = child.value as! NSDictionary
                 let user = User(dict: dict, userId: key)
                 self.brothersMap[key] = user
-                
             }
         })
     }

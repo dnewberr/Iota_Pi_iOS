@@ -24,11 +24,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>JTAppleCalendar.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Iota Pi App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,11 +37,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>10010FF2440810891FE47AD11BCD4159</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>228A8785B1C6C6BFE8E1C8D261204DE3</key>
 		<dict>
 			<key>primary</key>
@@ -57,17 +47,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5D09EBFAEFE8252190205FDC555F6440</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6FF51DC9C85B81B3D8CCFF85B47351AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7D04535608058A2FABC0D16935868FB9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A57E1788C6610BBB6B9F78380745CDEC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BF0221E8569B7BE65F7BA0CBD282D370</key>
 		<dict>
 			<key>primary</key>
 			<true/>

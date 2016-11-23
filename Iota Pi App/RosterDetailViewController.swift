@@ -18,25 +18,27 @@ class RosterDetailTableViewController: UITableViewController {
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var majorLabel: UILabel!
     @IBOutlet weak var graduationLabel: UILabel!
-    var currentBrother: User!
+    var currentBrotherId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        let currentBrother = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
         
-        if let nickname = self.currentBrother.nickname {
+        if let nickname = currentBrother.nickname {
             self.nicknameLabel.text = nickname
         } else {
             self.nicknameLabel.text = "N/A"
         }
         
-        self.phoneLabel.text = self.currentBrother.phoneNumber
-        self.classLabel.text = self.currentBrother.educationClass
-        self.emailLabel.text = self.currentBrother.email
-        self.addressLabel.text = self.currentBrother.sloAddress
-        self.birthdayLabel.text = self.currentBrother.birthday
-        self.sectionLabel.text = self.currentBrother.section
-        self.majorLabel.text = self.currentBrother.major
-        self.graduationLabel.text = self.currentBrother.expectedGrad
+        self.phoneLabel.text = currentBrother.phoneNumber
+        self.classLabel.text = currentBrother.educationClass
+        self.emailLabel.text = currentBrother.email
+        self.addressLabel.text = currentBrother.sloAddress
+        self.birthdayLabel.text = currentBrother.birthday
+        self.sectionLabel.text = currentBrother.section
+        self.majorLabel.text = currentBrother.major
+        self.graduationLabel.text = currentBrother.expectedGrad
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,7 +47,7 @@ class RosterDetailTableViewController: UITableViewController {
 }
 
 class RosterDetailViewController: UIViewController {
-    var currentBrother: User!
+    var currentBrotherId: String!
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var container: UIView!
@@ -53,8 +55,10 @@ class RosterDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.numberLabel.text = String(self.currentBrother.rosterNumber) + " | "
-        self.statusLabel.text = self.currentBrother.status.rawValue
+        let currentBrother = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
+        self.numberLabel.text = String(currentBrother.rosterNumber)
+        self.statusLabel.text = currentBrother.status.rawValue
+        self.title = currentBrother.firstname + " " + currentBrother.lastname
         
         // Do any additional setup after loading the view.
     }
@@ -67,7 +71,7 @@ class RosterDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "rosterDetaiListSegue" {
             let destination = segue.destination as! RosterDetailTableViewController
-            destination.currentBrother = self.currentBrother
+            destination.currentBrotherId = self.currentBrotherId
             
         }
     }

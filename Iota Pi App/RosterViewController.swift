@@ -10,7 +10,7 @@ import UIKit
 
 class RosterTableViewCell: UITableViewCell {
     @IBOutlet weak var rosterLabel: UILabel!
-    var brotherUserId: String!
+    var brotherId: String!
     
 }
 
@@ -18,7 +18,7 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var rosterTable: UITableView!
 
     let brothersArray = Array(RosterManager.sharedInstance.brothersMap.values)
-    var chosenBrotherUserId: String!
+    var chosenBrotherId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let currentBrother = brothersArray[indexPath.row]
         
-        cell.brotherUserId = currentBrother.userId
+        cell.brotherId = currentBrother.userId
         cell.rosterLabel.text = currentBrother.firstname + " " + currentBrother.lastname
         
         return cell
@@ -52,7 +52,7 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //let currentCell = tableView.dequeueReusableCell(withIdentifier: "rosterCell", for: indexPath) as! RosterTableViewCell
         if let cell = tableView.cellForRow(at: indexPath) as? RosterTableViewCell {
-            chosenBrotherUserId = cell.brotherUserId
+            chosenBrotherId = cell.brotherId
             performSegue(withIdentifier: "rosterDetailSegue", sender: self)
         }
     }
@@ -61,8 +61,7 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "rosterDetailSegue" {
             let destination = segue.destination as! RosterDetailViewController
-            print("TEST: " + chosenBrotherUserId)
-            destination.currentBrother = RosterManager.sharedInstance.brothersMap[chosenBrotherUserId]
+            destination.currentBrotherId = chosenBrotherId
         }
     }
 }

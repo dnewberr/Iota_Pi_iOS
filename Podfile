@@ -12,8 +12,6 @@ target 'Iota Pi App' do
   pod 'Firebase/Database'
 
   pod 'SCLAlertView'
-  pod 'JTAppleCalendar'
-
 
   pod 'GoogleAPIClient/Calendar'
   pod 'GTMOAuth2'

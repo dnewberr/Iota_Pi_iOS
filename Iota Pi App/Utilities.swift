@@ -11,3 +11,7 @@ import Foundation
 enum Status: String {
     case Active, Alumni, Conditional, Inactive, Other
 }
+
+enum AdminPrivileges {
+    case President, RecSec, Parliamentarian, None
+}
