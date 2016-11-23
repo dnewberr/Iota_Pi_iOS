@@ -14,18 +14,10 @@ class MoreTableViewCell: UITableViewCell {
 }
 
 class MoreTableViewController: UITableViewController {
-    let optionLabelTexts = ["Logout"]
+    //let optionLabelTexts = ["Logout"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("now loading table view")
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // if user is admin
-        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,20 +30,6 @@ class MoreTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return optionLabelTexts.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "moreCell", for: indexPath) as! MoreTableViewCell
-
-        cell.optionLabel.text = optionLabelTexts[indexPath.row]
-
-        return cell
     }
     
 
@@ -93,7 +71,7 @@ class MoreTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! MoreTableViewCell
         
-        if (cell.optionLabel.text == optionLabelTexts[0]) {
+        if (cell.optionLabel.text == "Logout") {
             let alertController = UIAlertController(title: "Logout", message: "Are you sure you want to log out?", preferredStyle: .alert)
             let logoutAction = UIAlertAction(title: "Logout", style: .default, handler: {UIAlertAction in
                 print("Foo")
@@ -108,6 +86,13 @@ class MoreTableViewController: UITableViewController {
             alertController.addAction(cancelAction)
             
             present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "currentUserRosterInfoSegue" {
+            let destination = segue.destination as! RosterDetailViewController
+            destination.currentBrotherId = RosterManager.sharedInstance.currentUserId
         }
     }
 }

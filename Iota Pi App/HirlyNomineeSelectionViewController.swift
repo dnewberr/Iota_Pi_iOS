@@ -53,7 +53,7 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
             self.chosenCell = cell as! NomineeTableViewCell
         }
         
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
