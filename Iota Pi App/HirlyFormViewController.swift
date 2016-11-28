@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SCLAlertView
 
 class FormTableViewController: UITableViewController, SelectNomineeDelegate, VotingServiceDelegate {
     @IBOutlet weak var hirlyNomReasonText: UITextView!
@@ -37,6 +38,15 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         self.topicDescriptionLabel.text = self.currentTopic.description
         
         self.tableView.reloadData()
+    }
+    
+    func confirmVote() {
+    // TODO
+    }
+    
+    func noCurrentVote() {
+        SCLAlertView().showError("Error", subTitle: "There is currently no active HIRLy vote.")
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -70,6 +80,4 @@ class HirlyFormViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-
 }

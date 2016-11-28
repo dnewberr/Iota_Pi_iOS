@@ -12,6 +12,8 @@ import Firebase
 
 public protocol VotingServiceDelegate: class {
     func updateUI(topic: VotingTopic)
+    func confirmVote()
+    func noCurrentVote()
 }
 
 public class VotingService {
@@ -23,6 +25,8 @@ public class VotingService {
         let ref = FIRDatabase.database().reference().child("Voting").child("HIRLy")
         
         ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
+            var currentHirlyTopic: VotingTopic?
+            
             for item in snapshot.children {
                 print("HERE!!")
                 let child = item as! FIRDataSnapshot
@@ -31,9 +35,18 @@ public class VotingService {
                 let topic = VotingTopic(dict: dict, expiration: key)
                 
                 if (!topic.archived) {
-                    self.votingServiceDelegate?.updateUI(topic: topic)
+                    currentHirlyTopic = topic
+                    break
+                    //self.votingServiceDelegate?.updateUI(topic: topic)
                 }
             }
+            
+            if let topic = currentHirlyTopic {
+                self.votingServiceDelegate?.updateUI(topic: topic)
+            } else {
+                self.votingServiceDelegate?.noCurrentVote()
+            }
+            
         })
         
     }
@@ -42,6 +55,8 @@ public class VotingService {
         let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote")
         
         ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
+            var currentTopic: VotingTopic?
+            
             for item in snapshot.children {
                 let child = item as! FIRDataSnapshot
                 let key = Double(child.key)!
@@ -49,18 +64,46 @@ public class VotingService {
                 let topic = VotingTopic(dict: dict, expiration: key)
                 
                 if (!topic.archived) {
-                    self.votingServiceDelegate?.updateUI(topic: topic)
+                    currentTopic = topic
+                    //self.votingServiceDelegate?.updateUI(topic: topic)
                 }
+            }
+            
+            if let topic = currentTopic {
+                self.votingServiceDelegate?.updateUI(topic: topic)
+            } else {
+                self.votingServiceDelegate?.noCurrentVote()
             }
         })
     }
     
-    func validateSessionCode() {
+    func submitCurrentVote(topic: VotingTopic, vote: String) {
+        let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote").child(String(format:"%.0f", topic.id)).child(vote + "Count")
         
-    }
-    
-    func incrementCurrentVote(voteId: String, voteToIncrement: String) {
-        
+        ref.runTransactionBlock({(currentData: FIRMutableData!) in
+            //value of the counter before an update
+            var value = currentData.value as? Int
+            
+            if value == nil {
+                value = 0
+            }
+                        currentData.value = value! + 1
+            return FIRTransactionResult.success(withValue: currentData)
+            }, andCompletionBlock: {
+                error, commited, snap in
+                
+                if commited {
+                    //let voteCounter = snap?.value as! Int
+                    //call success callback function if you want
+                    //successBlock(voteCounter)
+                    print("SUCCESS")
+                    self.votingServiceDelegate?.confirmVote()
+                } else {
+                    //call error callback function if you want
+                    //errorBlock()
+                    print("ERROR 2")
+                }
+        })
     }
     
     func submitHirlyNom(userId: String, reason: String) {
