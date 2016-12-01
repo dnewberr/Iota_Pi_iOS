@@ -14,11 +14,8 @@ public class VotingTopic {
     let description: String!
     let expirationDate: Date!
     let id: Double!
-    var yesCount = 0
-    var noCount = 0
-    var abstainCount = 0
+    var broHasVoted = false
     var sessionCode = ""
-    
     var archived = false
     
     init(dict: NSDictionary, expiration: Double) {
@@ -27,6 +24,11 @@ public class VotingTopic {
         self.id = expiration
         self.expirationDate = Date(timeIntervalSince1970: expiration)
         
+        if let brosWhoVoted = dict.value(forKey: "brosVoted") as? [String : Bool] {
+            if let broHasVoted = brosWhoVoted[RosterManager.sharedInstance.currentUserId] {
+                self.broHasVoted = broHasVoted
+            }
+        }
         if let sessionCode = dict.value(forKey: "sessionCode") {
             self.sessionCode = sessionCode as! String
         }

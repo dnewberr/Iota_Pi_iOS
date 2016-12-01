@@ -59,6 +59,11 @@ class CurrentVoteViewController: UIViewController, VotingServiceDelegate {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    func denyVote() {
+        SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already voted on this motion.")
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
     func noCurrentVote() {
         SCLAlertView().showError("Error", subTitle: "There is currently no active vote.")
         _ = self.navigationController?.popViewController(animated: true)

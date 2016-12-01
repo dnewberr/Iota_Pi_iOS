@@ -18,6 +18,8 @@ enum AdminPrivileges {
 
 
 class Utilities {
+    static let DATA_EXPIRATION = 2629743 * 4
+    
     static func randomString(length: Int) -> String {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

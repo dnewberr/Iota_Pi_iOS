@@ -41,7 +41,11 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     }
     
     func confirmVote() {
-    // TODO
+        //TODO
+    }
+    
+    func denyVote() {
+        //TODO
     }
     
     func noCurrentVote() {

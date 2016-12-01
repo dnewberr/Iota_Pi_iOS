@@ -14,6 +14,7 @@ public protocol VotingServiceDelegate: class {
     func updateUI(topic: VotingTopic)
     func confirmVote()
     func noCurrentVote()
+    func denyVote()
 }
 
 public class VotingService {
@@ -38,11 +39,17 @@ public class VotingService {
                     currentHirlyTopic = topic
                     break
                     //self.votingServiceDelegate?.updateUI(topic: topic)
+                } else {
+                    
                 }
             }
             
             if let topic = currentHirlyTopic {
-                self.votingServiceDelegate?.updateUI(topic: topic)
+                if topic.broHasVoted {
+                    self.votingServiceDelegate?.denyVote()
+                } else {
+                    self.votingServiceDelegate?.updateUI(topic: topic)
+                }
             } else {
                 self.votingServiceDelegate?.noCurrentVote()
             }
@@ -70,7 +77,11 @@ public class VotingService {
             }
             
             if let topic = currentTopic {
-                self.votingServiceDelegate?.updateUI(topic: topic)
+                if topic.broHasVoted {
+                    self.votingServiceDelegate?.denyVote()
+                } else {
+                    self.votingServiceDelegate?.updateUI(topic: topic)
+                }
             } else {
                 self.votingServiceDelegate?.noCurrentVote()
             }
@@ -78,32 +89,47 @@ public class VotingService {
     }
     
     func submitCurrentVote(topic: VotingTopic, vote: String) {
-        let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote").child(String(format:"%.0f", topic.id)).child(vote + "Count")
+        let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote").child(String(format:"%.0f", topic.id))
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
-            //value of the counter before an update
-            var value = currentData.value as? Int
+            var value =  currentData.childData(byAppendingPath: vote + "Count").value as? Int
+            let brosVotedMap = currentData.childData(byAppendingPath: "brosVoted").value as? [String : Bool]
+            
+            if let brosVotedMap = brosVotedMap {
+                if brosVotedMap[RosterManager.sharedInstance.currentUserId] != nil &&
+                    brosVotedMap[RosterManager.sharedInstance.currentUserId] == true {
+                    return FIRTransactionResult.abort()
+                }
+            }
             
             if value == nil {
                 value = 0
             }
-                        currentData.value = value! + 1
+            
+            currentData.childData(byAppendingPath: vote + "Count").value = value! + 1
+        
             return FIRTransactionResult.success(withValue: currentData)
+            
             }, andCompletionBlock: {
                 error, commited, snap in
                 
                 if commited {
-                    //let voteCounter = snap?.value as! Int
-                    //call success callback function if you want
-                    //successBlock(voteCounter)
                     print("SUCCESS")
+                    self.markUserAsVoted(ref: ref)
                     self.votingServiceDelegate?.confirmVote()
                 } else {
                     //call error callback function if you want
                     //errorBlock()
-                    print("ERROR 2")
+                    self.votingServiceDelegate?.denyVote()
                 }
         })
+    }
+    
+    func markUserAsVoted(ref: FIRDatabaseReference) {
+        /*if ref.child("brosVoted"). {
+            ref.setValue("brosVoted")
+        }*/
+        ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
     
     func submitHirlyNom(userId: String, reason: String) {
