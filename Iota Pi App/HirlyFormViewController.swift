@@ -15,7 +15,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     @IBOutlet weak var topicDescriptionLabel: UILabel!
     @IBOutlet weak var nomineeNameLabel: UILabel!
     
-    //let votingService = VotingService(delegate: self)
+    let votingService = VotingService()
     
     var chosenUser: User?
     var currentTopic: VotingTopic!
@@ -27,7 +27,6 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         hirlyNomReasonText.layer.borderWidth = 1.0
         hirlyNomReasonText.layer.cornerRadius = 5
         
-        let votingService = VotingService()
         votingService.votingServiceDelegate = self
         votingService.fetchHirlyTopic()
     }
@@ -41,11 +40,13 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     }
     
     func confirmVote() {
-        //TODO
+        SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.")
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func denyVote() {
-        //TODO
+        SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already submitted a HIRLy nomination.")
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func noCurrentVote() {
@@ -53,6 +54,13 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    func submitVote() {
+        if self.nomineeNameLabel.text == "-" {
+            SCLAlertView().showError("Error", subTitle: "Please choose a brother to nominate.")
+        } else {
+            self.votingService.submitHirlyNom(topic: self.currentTopic, nomBroId: (self.chosenUser?.userId)!, reason: self.hirlyNomReasonText.text)
+        }
+    }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerTitles[section]
     }
@@ -76,7 +84,12 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
 class HirlyFormViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var formContainer: UIView!
-        
+    var formTableViewController: FormTableViewController!
+    
+    @IBAction func submitForm(_ sender: AnyObject) {
+        self.formTableViewController.submitVote()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -84,4 +97,11 @@ class HirlyFormViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "hirlyFormSegue" {
+            formTableViewController = segue.destination as? FormTableViewController
+        }
+    }
 }
+

@@ -181,10 +181,13 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ru7-Vs-x0y">
                                 <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="submitForm:" destination="msa-JO-kGV" eventType="touchUpInside" id="M5y-ss-Nnn"/>
+                                </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jk5-zw-CWa">
                                 <connections>
-                                    <segue destination="PDK-1M-mcB" kind="embed" id="QNh-oj-pIc"/>
+                                    <segue destination="PDK-1M-mcB" kind="embed" identifier="hirlyFormSegue" id="QNh-oj-pIc"/>
                                 </connections>
                             </containerView>
                         </subviews>

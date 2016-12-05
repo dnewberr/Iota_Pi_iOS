@@ -19,48 +19,19 @@ public protocol VotingServiceDelegate: class {
 
 public class VotingService {
     weak var votingServiceDelegate: VotingServiceDelegate?
+    let baseRef = FIRDatabase.database().reference().child("Voting")
     
     init() {}
     
     func fetchHirlyTopic() {
-        let ref = FIRDatabase.database().reference().child("Voting").child("HIRLy")
-        
-        ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
-            var currentHirlyTopic: VotingTopic?
-            
-            for item in snapshot.children {
-                print("HERE!!")
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let topic = VotingTopic(dict: dict, expiration: key)
-                
-                if (!topic.archived) {
-                    currentHirlyTopic = topic
-                    break
-                    //self.votingServiceDelegate?.updateUI(topic: topic)
-                } else {
-                    
-                }
-            }
-            
-            if let topic = currentHirlyTopic {
-                if topic.broHasVoted {
-                    self.votingServiceDelegate?.denyVote()
-                } else {
-                    self.votingServiceDelegate?.updateUI(topic: topic)
-                }
-            } else {
-                self.votingServiceDelegate?.noCurrentVote()
-            }
-            
-        })
-        
+        fetchVotingTopic(ref: baseRef.child("HIRLy"))
     }
     
     func fetchCurrentVote() {
-        let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote")
-        
+        fetchVotingTopic(ref: baseRef.child("CurrentVote"))
+    }
+    
+    func fetchVotingTopic(ref: FIRDatabaseReference) {
         ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
             var currentTopic: VotingTopic?
             
@@ -72,7 +43,6 @@ public class VotingService {
                 
                 if (!topic.archived) {
                     currentTopic = topic
-                    //self.votingServiceDelegate?.updateUI(topic: topic)
                 }
             }
             
@@ -88,20 +58,13 @@ public class VotingService {
         })
     }
     
+    
+    
     func submitCurrentVote(topic: VotingTopic, vote: String) {
-        let ref = FIRDatabase.database().reference().child("Voting").child("CurrentVote").child(String(format:"%.0f", topic.id))
+        let ref = baseRef.child("CurrentVote").child(String(format:"%.0f", topic.id))
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
             var value =  currentData.childData(byAppendingPath: vote + "Count").value as? Int
-            let brosVotedMap = currentData.childData(byAppendingPath: "brosVoted").value as? [String : Bool]
-            
-            if let brosVotedMap = brosVotedMap {
-                if brosVotedMap[RosterManager.sharedInstance.currentUserId] != nil &&
-                    brosVotedMap[RosterManager.sharedInstance.currentUserId] == true {
-                    return FIRTransactionResult.abort()
-                }
-            }
-            
             if value == nil {
                 value = 0
             }
@@ -109,31 +72,46 @@ public class VotingService {
             currentData.childData(byAppendingPath: vote + "Count").value = value! + 1
         
             return FIRTransactionResult.success(withValue: currentData)
-            
-            }, andCompletionBlock: {
-                error, commited, snap in
-                
+            }, andCompletionBlock: {error, commited, snap in
                 if commited {
-                    print("SUCCESS")
-                    self.markUserAsVoted(ref: ref)
+                    self.markBroAsVoted(ref: ref)
                     self.votingServiceDelegate?.confirmVote()
                 } else {
-                    //call error callback function if you want
-                    //errorBlock()
                     self.votingServiceDelegate?.denyVote()
                 }
-        })
+            }
+        )
     }
     
-    func markUserAsVoted(ref: FIRDatabaseReference) {
-        /*if ref.child("brosVoted"). {
-            ref.setValue("brosVoted")
-        }*/
+    func markBroAsVoted(ref: FIRDatabaseReference) {
         ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
     
-    func submitHirlyNom(userId: String, reason: String) {
+    func submitHirlyNom(topic: VotingTopic, nomBroId: String, reason: String) {
+        let ref = baseRef.child("HIRLy").child(String(format:"%.0f", topic.id)).child("noms").child(nomBroId)
         
+        ref.runTransactionBlock({(currentData: FIRMutableData!) in
+            var value =  currentData.childData(byAppendingPath: "numNoms").value as? Int
+            
+            if value == nil {
+                value = 0
+            }
+            
+            currentData.childData(byAppendingPath: "numNoms").value = value! + 1
+            
+            return FIRTransactionResult.success(withValue: currentData)
+            }, andCompletionBlock: {error, commited, snap in
+                if commited {
+                    self.addNomReason(ref: ref, reason: reason)
+                    self.votingServiceDelegate?.confirmVote()
+                } else {
+                    self.votingServiceDelegate?.denyVote()
+                }
+            }
+        )
     }
-
+    
+    func addNomReason(ref: FIRDatabaseReference, reason: String) {
+        ref.child(RosterManager.sharedInstance.currentUserId).setValue(reason)
+    }
 }
