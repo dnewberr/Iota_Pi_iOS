@@ -30,12 +30,6 @@ public class VotingTopic {
             }
         }
         
-        if let reasons = dict.value(forKey: "noms") as? NSDictionary {
-            if reasons.value(forKey: RosterManager.sharedInstance.currentUserId) != nil {
-                self.broHasVoted = true
-            }
-        }
-        
         if let sessionCode = dict.value(forKey: "sessionCode") {
             self.sessionCode = sessionCode as! String
         }

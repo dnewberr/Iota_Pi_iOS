@@ -88,21 +88,21 @@ public class VotingService {
     }
     
     func submitHirlyNom(topic: VotingTopic, nomBroId: String, reason: String) {
-        let ref = baseRef.child("HIRLy").child(String(format:"%.0f", topic.id)).child("noms").child(nomBroId)
+        let ref = baseRef.child("HIRLy").child(String(format:"%.0f", topic.id))
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
-            var value =  currentData.childData(byAppendingPath: "numNoms").value as? Int
+            var value =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).childData(byAppendingPath: "numNoms").value as? Int
             
             if value == nil {
                 value = 0
             }
             
-            currentData.childData(byAppendingPath: "numNoms").value = value! + 1
+            currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).childData(byAppendingPath: "numNoms").value = value! + 1
             
             return FIRTransactionResult.success(withValue: currentData)
             }, andCompletionBlock: {error, commited, snap in
                 if commited {
-                    self.addNomReason(ref: ref, reason: reason)
+                    self.addNomReason(ref: ref, reason: reason, nomBroId: nomBroId)
                     self.votingServiceDelegate?.confirmVote()
                 } else {
                     self.votingServiceDelegate?.denyVote()
@@ -111,7 +111,8 @@ public class VotingService {
         )
     }
     
-    func addNomReason(ref: FIRDatabaseReference, reason: String) {
-        ref.child(RosterManager.sharedInstance.currentUserId).setValue(reason)
+    func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String) {
+        ref.child(nomBroId).child(RosterManager.sharedInstance.currentUserId).setValue(reason)
+        ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
 }
