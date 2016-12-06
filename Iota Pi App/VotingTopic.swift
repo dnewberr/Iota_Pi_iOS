@@ -13,15 +13,20 @@ public class VotingTopic {
     let summary: String!
     let description: String!
     let expirationDate: Date!
-    let id: Double!
     var broHasVoted = false
     var sessionCode = ""
     var archived = false
     
+    init(summary: String, description: String) {
+        self.summary = summary
+        self.description = description
+        self.expirationDate = Utilities.getWeekExpirationDate()
+        self.sessionCode = Utilities.randomString(length: 6)
+    }
+    
     init(dict: NSDictionary, expiration: Double) {
         self.summary = dict.value(forKey: "summary") as! String
         self.description = dict.value(forKey: "description") as! String
-        self.id = expiration
         self.expirationDate = Date(timeIntervalSince1970: expiration)
         
         if let brosWhoVoted = dict.value(forKey: "brosVoted") as? [String : Bool] {
@@ -37,5 +42,22 @@ public class VotingTopic {
         if (Date() >= self.expirationDate) {
             self.archived = true
         }
+    }
+    
+    func toFirebaseObject(isSessionCodeRequired: Bool) -> Any {
+        return isSessionCodeRequired
+            ? [
+                "summary": self.summary,
+                "description": self.description,
+                "sessionCode": self.sessionCode
+            ]
+            : [
+                "summary": self.summary,
+                "description": self.description
+        ]
+    }
+    
+    func getId() -> String {
+        return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
     }
 }

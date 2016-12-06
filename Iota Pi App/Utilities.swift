@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum Status: String {
     case Active, Alumni, Conditional, Inactive, Other
@@ -34,5 +35,21 @@ class Utilities {
         }
         
         return randomString
+    }
+    
+    static func getWeekExpirationDate() -> Date {
+        var oneWeekInterval = DateComponents()
+        oneWeekInterval.day = 7
+        return Calendar.current.date(byAdding: oneWeekInterval, to: Date())!
+    }
+    
+    static func createActivityIndicator(center: CGPoint) -> UIActivityIndicatorView {
+        let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        indicator.hidesWhenStopped = true
+        indicator.center = center
+        
+        return indicator
     }
 }

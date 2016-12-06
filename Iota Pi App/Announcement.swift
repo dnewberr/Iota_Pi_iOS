@@ -10,26 +10,19 @@ import Foundation
 
 
 public class Announcement: Equatable {
-    let title: String
     let details: String
     let expirationDate: Date
+    let title: String
     var archived = false
-    
-    /*init(title: String, details: String, expiration: Double) {
-        self.title = title
-        self.details = details
-        self.expirationDate = Date(timeIntervalSince1970: expiration)
-    }*/
     
     init(title: String, details: String) {
         self.title = title
         self.details = details
-        self.expirationDate = Calendar.current.date(byAdding: .weekOfMonth, value: 1, to: Date())!
+        self.expirationDate = Utilities.getWeekExpirationDate()
     }
     
     init(dict: NSDictionary, expiration: Double) {
         self.title = dict.value(forKey: "title") as! String
-        print("CURRENT TITLE: " + self.title)
         self.details = dict.value(forKey: "details") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
         
@@ -44,9 +37,11 @@ public class Announcement: Equatable {
             "details": self.details
         ]
     }
+    
+    func getId() -> String {
+        return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
+    }
 }
-
-
 
 public func ==(lhs:Announcement, rhs:Announcement) -> Bool {
     return lhs.expirationDate == rhs.expirationDate && lhs.title == rhs.title

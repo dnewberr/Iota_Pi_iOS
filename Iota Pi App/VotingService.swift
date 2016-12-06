@@ -58,10 +58,8 @@ public class VotingService {
         })
     }
     
-    
-    
     func submitCurrentVote(topic: VotingTopic, vote: String) {
-        let ref = baseRef.child("CurrentVote").child(String(format:"%.0f", topic.id))
+        let ref = baseRef.child("CurrentVote").child(topic.getId())
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
             var value =  currentData.childData(byAppendingPath: vote + "Count").value as? Int
@@ -88,7 +86,7 @@ public class VotingService {
     }
     
     func submitHirlyNom(topic: VotingTopic, nomBroId: String, reason: String) {
-        let ref = baseRef.child("HIRLy").child(String(format:"%.0f", topic.id))
+        let ref = baseRef.child("HIRLy").child(topic.getId())
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
             var value =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).childData(byAppendingPath: "numNoms").value as? Int

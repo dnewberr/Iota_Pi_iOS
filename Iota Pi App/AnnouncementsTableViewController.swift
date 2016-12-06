@@ -19,8 +19,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     var announcements = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
-    
     let announcementsService = AnnouncementsService()
+    
+    var indicator = UIActivityIndicatorView()
     
     @IBAction func addAnnouncement(_ sender: AnyObject) {
         let announcementCreation = SCLAlertView()
@@ -42,19 +43,19 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if RosterManager.sharedInstance.currentUserCanCreateAnnouncements() {
-            self.addAnnouncementButton.isEnabled = true
-        } else {
-            self.addAnnouncementButton.isEnabled = false
-        }
+        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
+        self.parent!.view.addSubview(indicator)
+        self.addAnnouncementButton.isEnabled = RosterManager.sharedInstance.currentUserCanCreateAnnouncements()
         
+        self.indicator.startAnimating()
         announcementsService.announcementsServiceDelegate = self
         announcementsService.fetchAnnouncements()
     }
     
     func updateUI(announcements: [Announcement]) {
         self.announcements.removeAll()
+        self.archivedAnnouncements.removeAll()
+        
         for announcement in announcements {
             if announcement.archived {
                 self.archivedAnnouncements.append(announcement)
@@ -62,8 +63,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
                 self.announcements.append(announcement)
             }
         }
-            
+        
         self.tableView.reloadData()
+        self.indicator.stopAnimating()
     }
 
     override func didReceiveMemoryWarning() {
@@ -107,7 +109,8 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "announcementDetailsSegue") {
             let destination = segue.destination as! AnnouncementDetailsViewController
-            destination.announcement = announcementToPass
+            print("Selected:: " + (self.announcementToPass.toFirebaseObject() as! String))
+            destination.announcement = self.announcementToPass
         }
         if (segue.identifier == "archivedAnnouncementsSegue") {
             let destination = segue.destination as! ArchivedAnnouncementsTableViewController
