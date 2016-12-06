@@ -27,4 +27,8 @@ public class RosterManager {
             }
         })
     }
+    
+    func currentUserCanCreateAnnouncements() -> Bool {
+        return brothersMap[currentUserId]?.adminPrivileges != AdminPrivileges.None
+    }
 }

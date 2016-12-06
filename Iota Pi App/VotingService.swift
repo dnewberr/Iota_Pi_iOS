@@ -112,7 +112,7 @@ public class VotingService {
     }
     
     func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String) {
-        ref.child(nomBroId).child(RosterManager.sharedInstance.currentUserId).setValue(reason)
+        ref.child(nomBroId).child("reasons").child(RosterManager.sharedInstance.currentUserId).setValue(reason)
         ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
 }

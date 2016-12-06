@@ -402,10 +402,10 @@
                             <tableViewSection headerTitle="Nickname" id="1FT-wo-Jcn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="bfY-U5-bD0">
-                                        <rect key="frame" x="0.0" y="55" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bfY-U5-bD0" id="ire-gT-sbp">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeE-KN-FTB">
@@ -1044,7 +1044,16 @@
                             <outlet property="delegate" destination="ew8-xl-yNJ" id="gmc-8V-HE5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Announcements" id="IzY-g0-4XZ"/>
+                    <navigationItem key="navigationItem" title="Announcements" id="IzY-g0-4XZ">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="add" id="Zfw-d9-AMx">
+                            <connections>
+                                <action selector="addAnnouncement:" destination="ew8-xl-yNJ" id="8mq-IC-hwv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addAnnouncementButton" destination="Zfw-d9-AMx" id="1K2-Ef-Kyc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xfb-iV-HL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1257,7 +1266,7 @@
         <image name="voting" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Mka-aN-Voj"/>
         <segue reference="met-wk-U7a"/>
+        <segue reference="Tfp-Jk-jnb"/>
     </inferredMetricsTieBreakers>
 </document>

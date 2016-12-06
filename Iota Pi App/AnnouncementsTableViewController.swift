@@ -8,21 +8,47 @@
 
 import UIKit
 import Firebase
-
+import SCLAlertView
 class AnnouncementsTableViewCell: UITableViewCell {
     @IBOutlet weak var announcementTitle: UILabel!
     var announcement: Announcement!
 }
 
 class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
+    @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
     var announcements = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
     
+    let announcementsService = AnnouncementsService()
+    
+    @IBAction func addAnnouncement(_ sender: AnyObject) {
+        let announcementCreation = SCLAlertView()
+        let titleTextField = announcementCreation.addTextField("Title")
+        let descriptionTextView = announcementCreation.addTextView()
+        descriptionTextView.isEditable = true
+
+        
+        announcementCreation.showEdit("Create Announcement", subTitle: "Announcements expire seven days after creation.").setDismissBlock {
+            if let title = titleTextField.text, let description = descriptionTextView.text {
+                if title.isEmpty || description.isEmpty {
+                    SCLAlertView().showError("Error", subTitle: "Please enter a title and a description for the announcement.")
+                } else {
+                    self.announcementsService.pushAnnouncement(title: title, details: description)
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let announcementsService = AnnouncementsService()
+        if RosterManager.sharedInstance.currentUserCanCreateAnnouncements() {
+            self.addAnnouncementButton.isEnabled = true
+        } else {
+            self.addAnnouncementButton.isEnabled = false
+        }
+        
         announcementsService.announcementsServiceDelegate = self
         announcementsService.fetchAnnouncements()
     }

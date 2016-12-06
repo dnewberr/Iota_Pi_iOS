@@ -33,4 +33,18 @@ public class AnnouncementsService {
             self.announcementsServiceDelegate?.updateUI(announcements: announcements)
         })
     }
+    
+    public func pushAnnouncement(title: String, details: String) {
+        let ref = FIRDatabase.database().reference().child("Announcements").child(String(format:"%.0f",getDateOneWeekFromCurrent().timeIntervalSince1970))
+        
+        //ref.setValuesForKeys(["title" : title, "details" : details])
+        ref.child("title").setValue(title)
+        ref.child("details").setValue(details)
+    }
+    
+    func getDateOneWeekFromCurrent() -> Date {
+        var oneWeekInterval = DateComponents()
+        oneWeekInterval.day = 7
+        return Calendar.current.date(byAdding: oneWeekInterval, to: Date())!
+    }
 }
