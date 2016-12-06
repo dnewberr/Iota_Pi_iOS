@@ -54,14 +54,15 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     func updateUI(announcements: [Announcement]) {
+        self.announcements.removeAll()
         for announcement in announcements {
-            if (announcement.archived) {
+            if announcement.archived {
                 self.archivedAnnouncements.append(announcement)
             } else {
                 self.announcements.append(announcement)
             }
         }
-        
+            
         self.tableView.reloadData()
     }
 
@@ -80,14 +81,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.row >= announcements.count) {
-           // let cell = tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
-            
-            
-            //cell.announcementTitle.text = "Archived"
-            
             return tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
         }
-        print("REGULAR!!!!")
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
 
         cell.announcement = announcements[indexPath.row]

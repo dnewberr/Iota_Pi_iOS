@@ -9,17 +9,17 @@
 import Foundation
 
 
-public class Announcement {
+public class Announcement: Equatable {
     let title: String
     let details: String
     let expirationDate: Date
     var archived = false
     
-    init(title: String, details: String, expiration: Double) {
+    /*init(title: String, details: String, expiration: Double) {
         self.title = title
         self.details = details
         self.expirationDate = Date(timeIntervalSince1970: expiration)
-    }
+    }*/
     
     init(title: String, details: String) {
         self.title = title
@@ -29,6 +29,7 @@ public class Announcement {
     
     init(dict: NSDictionary, expiration: Double) {
         self.title = dict.value(forKey: "title") as! String
+        print("CURRENT TITLE: " + self.title)
         self.details = dict.value(forKey: "details") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
         
@@ -36,4 +37,18 @@ public class Announcement {
             self.archived = true
         }
     }
+    
+    func toFirebaseObject() -> Any {
+        return [
+            "title": self.title,
+            "details": self.details
+        ]
+    }
+}
+
+
+
+public func ==(lhs:Announcement, rhs:Announcement) -> Bool {
+    return lhs.expirationDate == rhs.expirationDate && lhs.title == rhs.title
+        && lhs.details == rhs.details
 }
