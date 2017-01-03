@@ -13,7 +13,7 @@ enum Status: String {
     case Active, Alumni, Conditional, Inactive, Other
 }
 
-enum AdminPrivileges {
+enum AdminPrivileges: String {
     case President, RecSec, Parliamentarian, None
 }
 

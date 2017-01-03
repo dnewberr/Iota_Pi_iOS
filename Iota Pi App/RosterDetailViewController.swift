@@ -7,42 +7,79 @@
 //
 
 import UIKit
+import SCLAlertView
 
-class RosterDetailTableViewController: UITableViewController {
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var phoneLabel: UILabel!
-    @IBOutlet weak var classLabel: UILabel!
-    @IBOutlet weak var emailLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var birthdayLabel: UILabel!
-    @IBOutlet weak var sectionLabel: UILabel!
-    @IBOutlet weak var majorLabel: UILabel!
-    @IBOutlet weak var graduationLabel: UILabel!
+class RosterDetailTableViewCell: UITableViewCell {
+    func update(info: String, detail: String) {
+        self.detailTextLabel?.text = detail
+        self.textLabel?.text = info
+    }
+}
+
+class RosterDetailTableViewController: UITableViewController, RosterServiceDelegate {
     var currentBrotherId: String!
+    var editableDetails = [String]()
+    var editableTitles = [String]()
+    var changedInfo = [String : String]()
+    var rosterService = RosterService()
+    
+    
+    var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        let currentBrother = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
         
-        if let nickname = currentBrother.nickname {
-            self.nicknameLabel.text = nickname
-        } else {
-            self.nicknameLabel.text = "N/A"
-        }
+        self.indicator = Utilities.createActivityIndicator(center: self.view.center)
+       // self.parent!.view.addSubview(indicator)
         
-        self.phoneLabel.text = currentBrother.phoneNumber
-        self.classLabel.text = currentBrother.educationClass
-        self.emailLabel.text = currentBrother.email
-        self.addressLabel.text = currentBrother.sloAddress
-        self.birthdayLabel.text = currentBrother.birthday
-        self.sectionLabel.text = currentBrother.section
-        self.majorLabel.text = currentBrother.major
-        self.graduationLabel.text = currentBrother.expectedGrad
+        self.editableDetails = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.getArrayOfDetails())!
+        self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
+        self.rosterService.rosterServiceDelegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return editableDetails.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rosterDetailCell", for: indexPath) as! RosterDetailTableViewCell
+        
+        cell.update(info: self.editableTitles[indexPath.row], detail: self.editableDetails[indexPath.row])
+        
+        return cell
+    }
+    
+    public func updateUI() {
+        print("TRYING TO RELOAD UI")
+        DispatchQueue.main.async {
+            self.editableTitles.removeAll()
+            self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
+            self.tableView.reloadData()
+             self.indicator.stopAnimating()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! RosterDetailTableViewCell
+        
+        let editRosterInfo = SCLAlertView()
+        let editableInfo = editRosterInfo.addTextField(cell.detailTextLabel?.text)
+        editableInfo.text = cell.textLabel?.text
+        
+        editRosterInfo.showEdit("Edit Roster Info", subTitle: (cell.detailTextLabel?.text)!).setDismissBlock {
+            if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: RosterManager.sharedInstance.detailToKey(detail: detail)!, value: value)
+                 self.indicator.startAnimating()
+            }
+        }
     }
 }
 
@@ -59,10 +96,8 @@ class RosterDetailViewController: UIViewController {
         self.numberLabel.text = String(currentBrother.rosterNumber)
         self.statusLabel.text = currentBrother.status.rawValue
         self.title = currentBrother.firstname + " " + currentBrother.lastname
-        
-        // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -72,18 +107,6 @@ class RosterDetailViewController: UIViewController {
         if segue.identifier == "rosterDetaiListSegue" {
             let destination = segue.destination as! RosterDetailTableViewController
             destination.currentBrotherId = self.currentBrotherId
-            
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -31,4 +31,17 @@ public class RosterManager {
     func currentUserCanCreateAnnouncements() -> Bool {
         return brothersMap[currentUserId]?.adminPrivileges != AdminPrivileges.None
     }
+    
+    func detailToKey(detail: String) -> String? {
+        switch detail {
+        case "Nickname": return "nickname"
+        case "Class": return "class"
+        case "Section": return "section"
+        case "Birthday": return "birthday"
+        case "Slo Address": return "sloAddress"
+        case "Major": return "major"
+        case "Expected Graduation": return "expectedGrad"
+        default: return nil
+        }
+    }
 }

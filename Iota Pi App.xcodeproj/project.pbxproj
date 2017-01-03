@@ -21,6 +21,7 @@
 		CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */; };
 		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 		CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */; };
+		CDF32D681DFA09D60018526B /* RosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF32D671DFA09D60018526B /* RosterService.swift */; };
 		CDF575181DE6150E00A5CE3E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF575171DE6150E00A5CE3E /* CalendarViewController.swift */; };
 		CDFC01661DDCF805004C688F /* VotingTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01631DDCF805004C688F /* VotingTopic.swift */; };
 		CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFC01681DDCFADA004C688F /* RosterManager.swift */; };
@@ -56,6 +57,7 @@
 		CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 		CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedAnnouncementTableViewController.swift; sourceTree = "<group>"; };
+		CDF32D671DFA09D60018526B /* RosterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterService.swift; sourceTree = "<group>"; };
 		CDF575171DE6150E00A5CE3E /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		CDFC01631DDCF805004C688F /* VotingTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingTopic.swift; sourceTree = "<group>"; };
 		CDFC01681DDCFADA004C688F /* RosterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterManager.swift; sourceTree = "<group>"; };
@@ -201,7 +203,6 @@
 			children = (
 				CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */,
 				CD499F0A1DC2838D0037420B /* AppDelegate.swift */,
-				CDFC01681DDCFADA004C688F /* RosterManager.swift */,
 				CDFC016A1DDCFB68004C688F /* User.swift */,
 				CDFC01701DDD035A004C688F /* Utilities.swift */,
 			);
@@ -230,6 +231,8 @@
 			children = (
 				CDFC017F1DDE6BD6004C688F /* RosterViewController.swift */,
 				CDFC01851DDF7C3E004C688F /* RosterDetailViewController.swift */,
+				CDF32D671DFA09D60018526B /* RosterService.swift */,
+				CDFC01681DDCFADA004C688F /* RosterManager.swift */,
 			);
 			name = Roster;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				CDFC01801DDE6BD6004C688F /* RosterViewController.swift in Sources */,
 				CDFC01821DDE6BE9004C688F /* LoginService.swift in Sources */,
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
+				CDF32D681DFA09D60018526B /* RosterService.swift in Sources */,
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
 				CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */,
 				CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */,

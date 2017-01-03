@@ -28,7 +28,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let titleTextField = announcementCreation.addTextField("Title")
         let descriptionTextView = announcementCreation.addTextView()
         descriptionTextView.isEditable = true
-
         
         announcementCreation.showEdit("Create Announcement", subTitle: "Announcements expire seven days after creation.").setDismissBlock {
             if let title = titleTextField.text, let description = descriptionTextView.text {
@@ -58,9 +57,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         
         for announcement in announcements {
             if announcement.archived {
-                self.archivedAnnouncements.append(announcement)
+                self.archivedAnnouncements.insert(announcement, at: 0)
             } else {
-                self.announcements.append(announcement)
+                self.announcements.insert(announcement, at: 0)
             }
         }
         
@@ -109,7 +108,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "announcementDetailsSegue") {
             let destination = segue.destination as! AnnouncementDetailsViewController
-            print("Selected:: " + (self.announcementToPass.toFirebaseObject() as! String))
+           // print("Selected:: " + (self.announcementToPass.toFirebaseObject() as! String))
             destination.announcement = self.announcementToPass
         }
         if (segue.identifier == "archivedAnnouncementsSegue") {
