@@ -113,4 +113,20 @@ public class VotingService {
         ref.child(nomBroId).child("reasons").child(RosterManager.sharedInstance.currentUserId).setValue(reason)
         ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
+    
+    func pushCurrentVote(title: String, description: String) {
+        let topic = VotingTopic(summary: title, description: description, isSessionCodeRequired: true)
+        let ref = baseRef.child("CurrentVote").child(topic.getId())
+        
+        ref.setValue(topic.toFirebaseObject())
+    }
+    
+    func pushHirlyNom(title: String, description: String) {
+        let topic = VotingTopic(summary: title, description: description, isSessionCodeRequired: false)
+        print(String(format: "INPUT: %s %s", title, description))
+        let ref = baseRef.child("HIRLy").child(topic.getId())
+        print(String(format: "TOPIC: %s %s", topic.summary, topic.description))
+        print(topic.toFirebaseObject())
+        ref.setValue(topic.toFirebaseObject())
+    }
 }
