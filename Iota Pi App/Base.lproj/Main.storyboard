@@ -736,6 +736,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="currentVoteButton" destination="EAW-iI-rKl" id="DPW-Pq-1Dd"/>
+                        <outlet property="hirlyButton" destination="aDh-6h-Q2I" id="UIf-tg-gVA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7aP-at-Hjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

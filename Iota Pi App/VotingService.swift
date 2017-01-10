@@ -13,8 +13,8 @@ import Firebase
 public protocol VotingServiceDelegate: class {
     func updateUI(topic: VotingTopic)
     func confirmVote()
-    func noCurrentVote()
-    func denyVote()
+    func noCurrentVote(isHirly: Bool)
+    func denyVote(isHirly: Bool)
 }
 
 public class VotingService {
@@ -24,14 +24,14 @@ public class VotingService {
     init() {}
     
     func fetchHirlyTopic() {
-        fetchVotingTopic(ref: baseRef.child("HIRLy"))
+        fetchVotingTopic(ref: baseRef.child("HIRLy"), isHirly: true)
     }
     
     func fetchCurrentVote() {
-        fetchVotingTopic(ref: baseRef.child("CurrentVote"))
+        fetchVotingTopic(ref: baseRef.child("CurrentVote"), isHirly: false)
     }
     
-    func fetchVotingTopic(ref: FIRDatabaseReference) {
+    func fetchVotingTopic(ref: FIRDatabaseReference, isHirly: Bool) {
         ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
             var currentTopic: VotingTopic?
             
@@ -48,12 +48,12 @@ public class VotingService {
             
             if let topic = currentTopic {
                 if topic.broHasVoted {
-                    self.votingServiceDelegate?.denyVote()
+                    self.votingServiceDelegate?.denyVote(isHirly: isHirly)
                 } else {
                     self.votingServiceDelegate?.updateUI(topic: topic)
                 }
             } else {
-                self.votingServiceDelegate?.noCurrentVote()
+                self.votingServiceDelegate?.noCurrentVote(isHirly: isHirly)
             }
         })
     }
@@ -75,7 +75,7 @@ public class VotingService {
                     self.markBroAsVoted(ref: ref)
                     self.votingServiceDelegate?.confirmVote()
                 } else {
-                    self.votingServiceDelegate?.denyVote()
+                    self.votingServiceDelegate?.denyVote(isHirly: true)
                 }
             }
         )
@@ -103,7 +103,7 @@ public class VotingService {
                     self.addNomReason(ref: ref, reason: reason, nomBroId: nomBroId)
                     self.votingServiceDelegate?.confirmVote()
                 } else {
-                    self.votingServiceDelegate?.denyVote()
+                    self.votingServiceDelegate?.denyVote(isHirly: true)
                 }
             }
         )

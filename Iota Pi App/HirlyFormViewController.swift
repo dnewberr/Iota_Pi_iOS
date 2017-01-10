@@ -44,12 +44,12 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    func denyVote() {
+    func denyVote(isHirly: Bool) {
         SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already submitted a HIRLy nomination.")
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    func noCurrentVote() {
+    func noCurrentVote(isHirly: Bool) {
         SCLAlertView().showError("Error", subTitle: "There is currently no active HIRLy vote.")
         _ = self.navigationController?.popViewController(animated: true)
     }

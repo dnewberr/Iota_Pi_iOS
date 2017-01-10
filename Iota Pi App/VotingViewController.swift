@@ -10,15 +10,19 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class VotingViewController: UIViewController {
+class VotingViewController: UIViewController, VotingServiceDelegate {
+    let votingService = VotingService()
+    var currentHirly: VotingTopic!
+    var currentVote: VotingTopic!
+    
+    @IBOutlet weak var currentVoteButton: UIButton!
+    @IBOutlet weak var hirlyButton: UIButton!
     @IBAction func createVote(_ sender: AnyObject) {
         let voteCreator = SCLAlertView()
         voteCreator.addButton("HIRLy", action: {
-            print("HIRLy")
             self.showCreationForm(isSessionCodeRequired: false)
         })
         voteCreator.addButton("Current Vote", action: {
-            print("HIRLy")
             self.showCreationForm(isSessionCodeRequired: true)
         })
         
@@ -27,8 +31,14 @@ class VotingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        
+        self.currentVoteButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        
+        votingService.votingServiceDelegate = self
+        votingService.fetchHirlyTopic()
+        votingService.fetchCurrentVote()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,5 +69,31 @@ class VotingViewController: UIViewController {
         let ref = FIRDatabase.database().reference().child("Voting").child(refString).child(newTopic.getId())
         
         ref.setValue(newTopic.toFirebaseObject())
+    }
+    
+    func updateUI(topic: VotingTopic) {
+        if topic.sessionCode.isEmpty {
+            self.currentHirly = topic
+        } else {
+            self.currentVote = topic
+            SCLAlertView().showInfo(topic.summary, subTitle: topic.description +  " ; " + topic.sessionCode)
+        }
+    }
+    
+    func confirmVote() {}
+    func noCurrentVote(isHirly: Bool) {
+        if isHirly {
+            self.hirlyButton.isEnabled = false
+        } else {
+            self.currentVoteButton.isEnabled = false
+        }
+    }
+    
+    func denyVote(isHirly: Bool) {
+        if isHirly {
+            self.hirlyButton.isEnabled = false
+        } else {
+            self.currentVoteButton.isEnabled = false
+        }
     }
 }
