@@ -26,20 +26,21 @@ class CurrentVoteViewController: UIViewController, VotingServiceDelegate {
     @IBOutlet weak var summaryLabel: UILabel!
     
     var currentTopic: VotingTopic!
-    var votingService: VotingService!
+    let votingService = VotingService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        votingService = VotingService()
-        votingService.votingServiceDelegate = self
-        votingService.fetchCurrentVote()
+        
+        self.summaryLabel.text = self.currentTopic.summary
+        self.descriptionLabel.text = self.currentTopic.description
+        
+        self.votingService.votingServiceDelegate = self
     }
     
     func submitVote(vote: String) {
         if let codeEntered = self.sessionCodeText.text {
             if (codeEntered == self.currentTopic.sessionCode) {
-                votingService.submitCurrentVote(topic: self.currentTopic, vote: vote)
+                self.votingService.submitCurrentVote(topic: self.currentTopic, vote: vote)
             } else {
                 SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
             }
@@ -48,26 +49,17 @@ class CurrentVoteViewController: UIViewController, VotingServiceDelegate {
         }
     }
     
-    func updateUI(topic: VotingTopic) {
-        self.currentTopic = topic
-        self.summaryLabel.text = self.currentTopic.summary
-        self.descriptionLabel.text = self.currentTopic.description
-    }
+    func updateUI(topic: VotingTopic) {}
     
     func confirmVote() {
-        SCLAlertView().showSuccess("Success!", subTitle: "Vote submitted.")
-        _ = self.navigationController?.popViewController(animated: true)
+        SCLAlertView().showSuccess("Success!", subTitle: "Vote submitted.").setDismissBlock {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
     
-    func denyVote(isHirly: Bool) {
-        SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already voted on this motion.")
-        _ = self.navigationController?.popViewController(animated: true)
-    }
+    func denyVote(isHirly: Bool) {}
     
-    func noCurrentVote(isHirly: Bool) {
-        SCLAlertView().showError("Error", subTitle: "There is currently no active vote.")
-        _ = self.navigationController?.popViewController(animated: true)
-    }
+    func noCurrentVote(isHirly: Bool) {}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -135,6 +135,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             destination.hirlyTopic = self.currentHirly
         } else if segue.identifier == "showCurrentVoteSegue" {
             let destination = segue.destination as! CurrentVoteViewController
+            destination.currentTopic = self.currentVote
         }
     }
 }

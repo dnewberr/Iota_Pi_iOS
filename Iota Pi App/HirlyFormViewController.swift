@@ -36,19 +36,14 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     func updateUI(topic: VotingTopic) {}
     
     func confirmVote() {
-        print("CONFIRM")
         SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.").setDismissBlock {
             _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
-    func denyVote(isHirly: Bool) {
-        print("IN DENY HIRLY")
-    }
+    func denyVote(isHirly: Bool) {}
     
-    func noCurrentVote(isHirly: Bool) {
-        print("IN NO CURRENT HIRLY")
-    }
+    func noCurrentVote(isHirly: Bool) {}
     
     func submitVote() {
         if self.nomineeNameLabel.text == "-" {
