@@ -75,7 +75,7 @@ public class VotingService {
                     self.markBroAsVoted(ref: ref)
                     self.votingServiceDelegate?.confirmVote()
                 } else {
-                    self.votingServiceDelegate?.denyVote(isHirly: true)
+                    self.votingServiceDelegate?.denyVote(isHirly: false)
                 }
             }
         )

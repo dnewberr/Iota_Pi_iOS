@@ -27,32 +27,20 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         hirlyNomReasonText.layer.borderWidth = 1.0
         hirlyNomReasonText.layer.cornerRadius = 5
         
-        votingService.votingServiceDelegate = self
-        votingService.fetchHirlyTopic()
-    }
-    
-    func updateUI(topic: VotingTopic) {
-        self.currentTopic = topic
         self.headerTitles[0] = self.currentTopic.summary
         self.topicDescriptionLabel.text = self.currentTopic.description
-        
-        self.tableView.reloadData()
     }
+    
+    func updateUI(topic: VotingTopic) {}
     
     func confirmVote() {
         SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.")
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    func denyVote(isHirly: Bool) {
-        SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already submitted a HIRLy nomination.")
-        _ = self.navigationController?.popViewController(animated: true)
-    }
+    func denyVote(isHirly: Bool) {}
     
-    func noCurrentVote(isHirly: Bool) {
-        SCLAlertView().showError("Error", subTitle: "There is currently no active HIRLy vote.")
-        _ = self.navigationController?.popViewController(animated: true)
-    }
+    func noCurrentVote(isHirly: Bool) {}
     
     func submitVote() {
         if self.nomineeNameLabel.text == "-" {
@@ -84,6 +72,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
 class HirlyFormViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var formContainer: UIView!
+    var hirlyTopic: VotingTopic!
     var formTableViewController: FormTableViewController!
     
     @IBAction func submitForm(_ sender: AnyObject) {
@@ -101,6 +90,7 @@ class HirlyFormViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "hirlyFormSegue" {
             formTableViewController = segue.destination as? FormTableViewController
+            formTableViewController.currentTopic = hirlyTopic
         }
     }
 }
