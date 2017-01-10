@@ -20,7 +20,6 @@ public class RosterService {
     init() {}
     
     func pushBrotherDetail(brotherId: String, key: String, value: String) {
-        print("PUSH")
         baseRef.child(brotherId).child(key).setValue(value)
         self.rosterServiceDelegate?.updateUI()
     }

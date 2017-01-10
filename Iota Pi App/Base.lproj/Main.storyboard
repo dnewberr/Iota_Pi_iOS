@@ -240,6 +240,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qmY-Ub-AeJ" kind="show" id="jwD-g9-lnh"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="pSO-6a-OWu">
                                         <rect key="frame" x="0.0" y="108" width="375" height="44"/>
@@ -330,6 +333,54 @@
             </objects>
             <point key="canvasLocation" x="2284" y="737.18140929535241"/>
         </scene>
+        <!--Meeting Check In View Controller-->
+        <scene sceneID="enp-du-4I6">
+            <objects>
+                <viewController id="qmY-Ub-AeJ" customClass="MeetingCheckInViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qO5-DD-9hA"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wzx-1g-Lua"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lh1-Pw-akd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting Session Code:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="59f-4m-Tte">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kj0-DV-iP3">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDn-7d-enb">
+                                <state key="normal" title="Check In"/>
+                                <connections>
+                                    <action selector="checkIntoMeeting:" destination="qmY-Ub-AeJ" eventType="touchUpInside" id="QXL-zt-uBK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PDn-7d-enb" firstAttribute="centerX" secondItem="Lh1-Pw-akd" secondAttribute="centerX" id="5BU-vQ-CfO"/>
+                            <constraint firstItem="59f-4m-Tte" firstAttribute="leading" secondItem="Lh1-Pw-akd" secondAttribute="leadingMargin" id="JIk-W3-oyI"/>
+                            <constraint firstItem="59f-4m-Tte" firstAttribute="centerY" secondItem="Kj0-DV-iP3" secondAttribute="centerY" id="WYi-Su-pDi"/>
+                            <constraint firstItem="Kj0-DV-iP3" firstAttribute="centerY" secondItem="Lh1-Pw-akd" secondAttribute="centerY" id="aUS-jQ-C7f"/>
+                            <constraint firstItem="Kj0-DV-iP3" firstAttribute="leading" secondItem="59f-4m-Tte" secondAttribute="trailing" constant="8" symbolic="YES" id="ctk-Kn-9eU"/>
+                            <constraint firstItem="Wzx-1g-Lua" firstAttribute="top" secondItem="PDn-7d-enb" secondAttribute="bottom" constant="103" id="xEh-Jc-ecA"/>
+                            <constraint firstItem="Kj0-DV-iP3" firstAttribute="trailing" secondItem="Lh1-Pw-akd" secondAttribute="trailingMargin" id="ytD-fN-nN0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="sessionCodeTextField" destination="Kj0-DV-iP3" id="orv-RI-Nca"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zpM-ch-aUL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3072.8000000000002" y="736.28185907046486"/>
+        </scene>
         <!--Roster Detail View Controller-->
         <scene sceneID="dy1-3l-5Tt">
             <objects>
@@ -390,7 +441,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ptg-Ji-gRM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3376.8000000000002" y="1254.4227886056972"/>
+            <point key="canvasLocation" x="3370" y="1325"/>
         </scene>
         <!--Roster Detail Table View Controller-->
         <scene sceneID="1W8-RX-2Jv">

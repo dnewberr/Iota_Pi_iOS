@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class User {
+public class User: Equatable {
     let birthday: String!
     let expectedGrad: String!
     let firstname: String!
@@ -105,4 +105,8 @@ public class User {
             "Expected Graduation"
         ]
     }
+}
+
+public func ==(lhs:User, rhs:User) -> Bool {
+    return lhs.userId == rhs.userId
 }
