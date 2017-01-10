@@ -11,6 +11,20 @@ import Firebase
 import SCLAlertView
 
 class VotingViewController: UIViewController {
+    @IBAction func createVote(_ sender: AnyObject) {
+        let voteCreator = SCLAlertView()
+        voteCreator.addButton("HIRLy", action: {
+            print("HIRLy")
+            self.showCreationForm(isSessionCodeRequired: false)
+        })
+        voteCreator.addButton("Current Vote", action: {
+            print("HIRLy")
+            self.showCreationForm(isSessionCodeRequired: true)
+        })
+        
+        voteCreator.showEdit("Create New Voting Topic", subTitle: "Note that when a new topic is created, the currently open one closes.")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,4 +36,28 @@ class VotingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func showCreationForm(isSessionCodeRequired: Bool) {
+        let creationForm = SCLAlertView()
+        let summaryTextField = creationForm.addTextField("Summary")
+        let descriptionTextView = creationForm.addTextView()
+        
+        creationForm.showEdit("Create New Topic", subTitle: "").setDismissBlock {
+            if let summary = summaryTextField.text, let description = descriptionTextView.text {
+                if summary.isEmpty || description.isEmpty {
+                    SCLAlertView().showError("Invalid Topic", subTitle: "Please submit a summary and descriptin for the new topic.")
+                } else {
+                    self.pushVotingTopic(summary: summary, description: description, isSessionCodeRequired: isSessionCodeRequired)
+                }
+            }
+        }
+    }
+    
+    public func pushVotingTopic(summary: String, description: String, isSessionCodeRequired: Bool) {
+        let newTopic = VotingTopic(summary: summary, description: description, isSessionCodeRequired: isSessionCodeRequired)
+        //print(String(format: "[%d]NEW TOPIC:: title - [%s] desc - [%s]", newTopic.getId(), newTopic.summary, newTopic.description))
+        let refString = isSessionCodeRequired ? "CurrentVote" : "HIRLy"
+        let ref = FIRDatabase.database().reference().child("Voting").child(refString).child(newTopic.getId())
+        
+        ref.setValue(newTopic.toFirebaseObject())
+    }
 }

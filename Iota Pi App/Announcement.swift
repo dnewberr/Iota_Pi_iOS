@@ -31,7 +31,7 @@ public class Announcement: Equatable {
         }
     }
     
-    func toFirebaseObject() -> Any {
+    func toFirebaseObject() -> [AnyHashable:Any] {
         return [
             "title": self.title,
             "details": self.details

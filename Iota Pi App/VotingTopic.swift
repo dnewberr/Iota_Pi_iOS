@@ -17,11 +17,17 @@ public class VotingTopic {
     var sessionCode = ""
     var archived = false
     
-    init(summary: String, description: String) {
+    init(summary: String, description: String, isSessionCodeRequired: Bool) {
         self.summary = summary
         self.description = description
-        self.expirationDate = Utilities.getWeekExpirationDate()
-        self.sessionCode = Utilities.randomString(length: 6)
+        if isSessionCodeRequired {
+            var fifteenMinInterval = DateComponents()
+            fifteenMinInterval.minute = 15
+            self.expirationDate = Calendar.current.date(byAdding: fifteenMinInterval, to: Date())!
+            self.sessionCode = Utilities.randomString(length: 6)
+        } else {
+            self.expirationDate = Utilities.getWeekExpirationDate()
+        }
     }
     
     init(dict: NSDictionary, expiration: Double) {
@@ -44,8 +50,8 @@ public class VotingTopic {
         }
     }
     
-    func toFirebaseObject(isSessionCodeRequired: Bool) -> Any {
-        return isSessionCodeRequired
+    func toFirebaseObject() -> [AnyHashable:Any] {
+        return !sessionCode.isEmpty
             ? [
                 "summary": self.summary,
                 "description": self.description,
