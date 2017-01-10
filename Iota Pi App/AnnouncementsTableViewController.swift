@@ -100,7 +100,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         } else {
             let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
             announcementToPass = currentCell.announcement
-        
             performSegue(withIdentifier: "announcementDetailsSegue", sender: self)
         }
     }
@@ -108,7 +107,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "announcementDetailsSegue") {
             let destination = segue.destination as! AnnouncementDetailsViewController
-           // print("Selected:: " + (self.announcementToPass.toFirebaseObject() as! String))
             destination.announcement = self.announcementToPass
         }
         if (segue.identifier == "archivedAnnouncementsSegue") {

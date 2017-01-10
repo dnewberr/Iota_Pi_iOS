@@ -32,7 +32,7 @@ public class VotingService {
     }
     
     func fetchVotingTopic(ref: FIRDatabaseReference, isHirly: Bool) {
-        ref.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
+        ref.observe(.value, with:{ (snapshot) -> Void in
             var currentTopic: VotingTopic?
             
             for item in snapshot.children {

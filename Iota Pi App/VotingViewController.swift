@@ -74,9 +74,10 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     func updateUI(topic: VotingTopic) {
         if topic.sessionCode.isEmpty {
             self.currentHirly = topic
+            self.hirlyButton.isEnabled = true
         } else {
             self.currentVote = topic
-            SCLAlertView().showInfo(topic.summary, subTitle: topic.description +  " ; " + topic.sessionCode)
+            self.currentVoteButton.isEnabled = true
         }
     }
     
