@@ -52,9 +52,14 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //self.hirlyButton.isEnabled = false
         self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
         
+        //self.currentVoteButton.isEnabled = false
         self.currentVoteButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        
+        
+        //self.currentVoteCodeLabel.text = ""
         
         votingService.votingServiceDelegate = self
         votingService.fetchHirlyTopic()
@@ -96,10 +101,12 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         if topic.sessionCode.isEmpty {
             self.currentHirly = topic
             self.hirlyButton.isEnabled = true
+            self.denyHirly = false
         } else {
             self.currentVote = topic
             self.currentVoteButton.isEnabled = true
             self.currentVoteCodeLabel.text = topic.sessionCode
+            self.denyCurrent = false
         }
     }
     
@@ -115,8 +122,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     }
     
     func denyVote(isHirly: Bool) {
-        print("IN DENY")
-        
         if isHirly {
             self.denyHirly = true
         } else {

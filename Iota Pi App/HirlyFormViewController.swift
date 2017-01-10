@@ -23,6 +23,8 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.votingService.votingServiceDelegate = self
+        
         hirlyNomReasonText.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
         hirlyNomReasonText.layer.borderWidth = 1.0
         hirlyNomReasonText.layer.cornerRadius = 5
@@ -34,13 +36,19 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     func updateUI(topic: VotingTopic) {}
     
     func confirmVote() {
-        SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.")
-        _ = self.navigationController?.popViewController(animated: true)
+        print("CONFIRM")
+        SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.").setDismissBlock {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
     
-    func denyVote(isHirly: Bool) {}
+    func denyVote(isHirly: Bool) {
+        print("IN DENY HIRLY")
+    }
     
-    func noCurrentVote(isHirly: Bool) {}
+    func noCurrentVote(isHirly: Bool) {
+        print("IN NO CURRENT HIRLY")
+    }
     
     func submitVote() {
         if self.nomineeNameLabel.text == "-" {
@@ -76,6 +84,7 @@ class HirlyFormViewController: UIViewController {
     var formTableViewController: FormTableViewController!
     
     @IBAction func submitForm(_ sender: AnyObject) {
+        print("SUBMIT")
         self.formTableViewController.submitVote()
     }
     
