@@ -17,6 +17,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     var denyHirly = false
     var denyCurrent = false
     
+    @IBOutlet weak var createVoteButton: UIBarButtonItem!
     @IBOutlet weak var currentVoteCodeLabel: UILabel!
     @IBOutlet weak var currentVoteButton: UIButton!
     @IBAction func viewHirly(_ sender: AnyObject) {
@@ -52,14 +53,16 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.hirlyButton.isEnabled = false
+        if (RosterManager.sharedInstance.currentUserCanCreateVote()) {
+            self.createVoteButton.isEnabled = true
+            self.createVoteButton.tintColor = nil
+        } else {
+            self.createVoteButton.isEnabled = false
+            self.createVoteButton.tintColor = UIColor.clear
+        }
+        
         self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        
-        //self.currentVoteButton.isEnabled = false
         self.currentVoteButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        
-        
-        //self.currentVoteCodeLabel.text = ""
         
         votingService.votingServiceDelegate = self
         votingService.fetchHirlyTopic()

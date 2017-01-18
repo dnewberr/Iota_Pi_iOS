@@ -12,10 +12,9 @@ import Firebase
 public class RosterManager: RosterServiceDelegate {
     static let sharedInstance = RosterManager()
     
-    let baseRef = FIRDatabase.database().reference().child("Brothers")
     let rosterService = RosterService()
-    var currentUserId: String!
     var brothersMap = [String : User]()
+    var currentUserId: String!
     
     private init() {
         self.rosterService.rosterServiceDelegate = self
@@ -102,7 +101,4 @@ public class RosterManager: RosterServiceDelegate {
     func markAsPresent() {
         self.rosterService.checkInBrother()
     }
-    
-    
-    
 }
