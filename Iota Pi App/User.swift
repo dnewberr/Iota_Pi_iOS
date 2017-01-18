@@ -62,13 +62,16 @@ public class User: Equatable {
             default : self.status = Status.Other
         }
         
-        switch dict.value(forKey: "admin") as! String {
-            case "President" : self.adminPrivileges = AdminPrivileges.President
-            case "RecSec" : self.adminPrivileges = AdminPrivileges.RecSec
-            case "Parliamentarian" : self.adminPrivileges = AdminPrivileges.Parliamentarian
-            default : self.adminPrivileges = AdminPrivileges.None
+        if let admin = dict.value(forKey: "admin") as? String {
+            switch admin {
+                case "President" : self.adminPrivileges = AdminPrivileges.President
+                case "RecSec" : self.adminPrivileges = AdminPrivileges.RecSec
+                case "Parliamentarian" : self.adminPrivileges = AdminPrivileges.Parliamentarian
+                default : self.adminPrivileges = AdminPrivileges.None
+            }
+        } else {
+            self.adminPrivileges = AdminPrivileges.None
         }
-        
         
         self.email = self.firstname.lowercased() + "." + self.lastname.lowercased() + "@iotapi.com"
         self.userId = userId

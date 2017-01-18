@@ -9,23 +9,26 @@
 import Foundation
 import Firebase
 
-public class RosterManager {
-    static let sharedInstance = RosterManager();
+public class RosterManager: RosterServiceDelegate {
+    static let sharedInstance = RosterManager()
     
     let baseRef = FIRDatabase.database().reference().child("Brothers")
+    let rosterService = RosterService()
     var currentUserId: String!
     var brothersMap = [String : User]()
     
     private init() {
-        baseRef.observe(.value, with: { (snapshot) -> Void in
-            for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = child.key
-                let dict = child.value as! NSDictionary
-                let user = User(dict: dict, userId: key)
-                self.brothersMap[key] = user
-            }
-        })
+        self.rosterService.rosterServiceDelegate = self
+    }
+    
+    public func populateRoster() {
+        rosterService.fetchBrothers()
+    }
+    
+    public func updateUI() {}
+    
+    public func sendMap(map: [String : User]) {
+        self.brothersMap = map
     }
     
     func currentUserCanCreateAnnouncements() -> Bool {
@@ -97,7 +100,7 @@ public class RosterManager {
     }
     
     func markAsPresent() {
-        baseRef.child(self.currentUserId).child("isCheckedIn").setValue(true)
+        self.rosterService.checkInBrother()
     }
     
     

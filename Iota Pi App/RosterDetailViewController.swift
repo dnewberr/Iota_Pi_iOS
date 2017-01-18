@@ -57,6 +57,8 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         return cell
     }
     
+    public func sendMap(map: [String : User]) {}
+    
     public func updateUI() {
         print("TRYING TO RELOAD UI")
         DispatchQueue.main.async {

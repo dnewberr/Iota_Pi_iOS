@@ -42,9 +42,12 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //let group = DispatchGroup()
+        //RosterManager.sharedInstance
+        
         self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
         self.parent!.view.addSubview(indicator)
-        self.addAnnouncementButton.isEnabled = RosterManager.sharedInstance.currentUserCanCreateAnnouncements()
         
         self.indicator.startAnimating()
         announcementsService.announcementsServiceDelegate = self
@@ -65,6 +68,14 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         
         self.tableView.reloadData()
         self.indicator.stopAnimating()
+        
+        if (RosterManager.sharedInstance.currentUserCanCreateAnnouncements()) {
+            self.addAnnouncementButton.isEnabled = true
+            self.addAnnouncementButton.tintColor = nil
+        } else {
+            self.addAnnouncementButton.isEnabled = false
+            self.addAnnouncementButton.tintColor = UIColor.clear
+        }
     }
 
     override func didReceiveMemoryWarning() {
