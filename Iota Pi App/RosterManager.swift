@@ -32,21 +32,74 @@ public class RosterManager {
         return brothersMap[currentUserId]?.adminPrivileges != AdminPrivileges.None
     }
     
+    func currentUserCanCreateHirly() -> Bool {
+        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        
+        switch userAdmin {
+            case .President: return true
+            case .BrotherhoodCommitteeChair: return true
+            default: return false
+        }
+    }
+    
+    func currentUserCanCreateUser() -> Bool {
+        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        
+        switch userAdmin {
+            case .President: return true
+            case .Webmaster: return true
+            default: return false
+        }
+    }
+    
+    func currentUserCanCreateVote() -> Bool {
+        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        
+        switch userAdmin {
+            case .President: return true
+            case .Parliamentarian: return true
+            default: return false
+        }
+    }
+    
+    func currentUserCanDictateMeetings() -> Bool {
+        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        
+        switch userAdmin {
+            case .President: return true
+            case .RecSec: return true
+            case .VicePresident: return true
+            default: return false
+        }
+    }
+    
+    func currentUserCanEditRoster() -> Bool {
+        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        
+        switch userAdmin {
+            case .President: return true
+            case .RecSec: return true
+            default: return false
+        }
+    }
+    
     func detailToKey(detail: String) -> String? {
         switch detail {
-        case "Nickname": return "nickname"
-        case "Class": return "class"
-        case "Section": return "section"
-        case "Birthday": return "birthday"
-        case "Slo Address": return "sloAddress"
-        case "Major": return "major"
-        case "Expected Graduation": return "expectedGrad"
-        default: return nil
+            case "Nickname": return "nickname"
+            case "Class": return "class"
+            case "Section": return "section"
+            case "Birthday": return "birthday"
+            case "Slo Address": return "sloAddress"
+            case "Major": return "major"
+            case "Expected Graduation": return "expectedGrad"
+            default: return nil
         }
     }
     
     func markAsPresent() {
         baseRef.child(self.currentUserId).child("isCheckedIn").setValue(true)
     }
+    
+    
     
 }

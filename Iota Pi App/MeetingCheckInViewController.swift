@@ -51,6 +51,8 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
     
     func alreadyCheckedIn() {
         SCLAlertView().showInfo("Meeting Check In", subTitle: "You are already checked into the current meeting.").setDismissBlock {
+            
+            
             _ = self.navigationController?.popViewController(animated: true)
         }
     }

@@ -14,7 +14,7 @@ enum Status: String {
 }
 
 enum AdminPrivileges: String {
-    case President, RecSec, Parliamentarian, None
+    case President, RecSec, VicePresident, Webmaster, Parliamentarian, BrotherhoodCommitteeChair, OtherCommitteeChair, None
 }
 
 
