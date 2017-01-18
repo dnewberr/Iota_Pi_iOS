@@ -21,6 +21,7 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
                 SCLAlertView().showError("Meeting Check In", subTitle: "Please enter the valid session meeting code.")
             } else {
                 //check in
+                meetingService.checkInBrother(meeting: self.currentMeeting)
             }
         } else {
             SCLAlertView().showError("Meeting Check In", subTitle: "Please enter the valid session meeting code.")

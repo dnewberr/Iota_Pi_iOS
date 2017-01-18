@@ -9,11 +9,14 @@
 import Foundation
 
 public class User: Equatable {
+    let adminPrivileges: AdminPrivileges!
     let birthday: String!
+    let educationClass: String!
+    let email: String!
     let expectedGrad: String!
     let firstname: String!
-    let educationClass: String!
     let hasWonHirly: Bool!
+    let isCheckedIn: Bool!
     let lastname: String!
     let major: String!
     let nickname: String!
@@ -23,15 +26,22 @@ public class User: Equatable {
     let sloAddress: String!
     let status: Status!
     let userId: String!
-    let email: String!
-    let adminPrivileges: AdminPrivileges!
     
     init(dict: NSDictionary, userId: String) {
         self.birthday = dict.value(forKey: "birthday") as! String
+        self.educationClass = dict.value(forKey: "class") as! String
         self.expectedGrad = dict.value(forKey: "expectedGrad") as! String
         self.firstname = dict.value(forKey: "firstname") as! String
-        self.educationClass = dict.value(forKey: "class") as! String
-        self.hasWonHirly = dict.value(forKey: "hasWonHirly") as! Bool
+        if let hasWonHirly = dict.value(forKey: "hasWonHirly") as? Bool {
+            self.hasWonHirly = true
+        } else {
+            self.hasWonHirly = false
+        }
+        if let isCheckedIn = dict.value(forKey: "isCheckedIn") as? Bool {
+            self.isCheckedIn = true
+        } else {
+            self.isCheckedIn = false
+        }
         self.lastname = dict.value(forKey: "lastname") as! String
         self.major = dict.value(forKey: "major") as! String
         if let nickname = dict.value(forKey: "nickname") as? String {
@@ -43,7 +53,6 @@ public class User: Equatable {
         self.rosterNumber = dict.value(forKey: "roster") as! Int
         self.section = dict.value(forKey: "section") as! String
         self.sloAddress = dict.value(forKey: "sloAddress") as! String
-        self.email = self.firstname.lowercased() + "." + self.lastname.lowercased() + "@iotapi.com"
         
         switch dict.value(forKey: "status") as! String {
             case "Active" : self.status = Status.Active
@@ -60,6 +69,8 @@ public class User: Equatable {
             default : self.adminPrivileges = AdminPrivileges.None
         }
         
+        
+        self.email = self.firstname.lowercased() + "." + self.lastname.lowercased() + "@iotapi.com"
         self.userId = userId
     }
     

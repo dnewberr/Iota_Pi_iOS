@@ -33,7 +33,6 @@ public class MeetingService {
                 if currentMeeting.endTime == nil {
                     meeting = currentMeeting
                 }
-                
             }
             
             if let meeting = meeting {
@@ -46,5 +45,12 @@ public class MeetingService {
                 self.meetingServiceDelegate?.noMeeting()
             }
         })
+    }
+    
+    func checkInBrother(meeting: Meeting) {
+        var brosPresent = meeting.brotherIdsCheckedIn
+        brosPresent.append(RosterManager.sharedInstance.currentUserId)
+        baseRef.child(meeting.sessionCode).child("brotherIdsCheckedIn").setValue(brosPresent)
+        RosterManager.sharedInstance.markAsPresent()
     }
 }

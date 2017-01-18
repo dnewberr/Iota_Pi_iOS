@@ -11,13 +11,13 @@ import Firebase
 
 public class RosterManager {
     static let sharedInstance = RosterManager();
+    
+    let baseRef = FIRDatabase.database().reference().child("Brothers")
     var currentUserId: String!
     var brothersMap = [String : User]()
     
     private init() {
-        let ref = FIRDatabase.database().reference().child("Brothers")
-        
-        ref.observe(.value, with: { (snapshot) -> Void in
+        baseRef.observe(.value, with: { (snapshot) -> Void in
             for item in snapshot.children {
                 let child = item as! FIRDataSnapshot
                 let key = child.key
@@ -44,4 +44,9 @@ public class RosterManager {
         default: return nil
         }
     }
+    
+    func markAsPresent() {
+        baseRef.child(self.currentUserId).child("isCheckedIn").setValue(true)
+    }
+    
 }
