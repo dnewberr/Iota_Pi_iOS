@@ -70,17 +70,20 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! RosterDetailTableViewCell
-        
-        let editRosterInfo = SCLAlertView()
-        let editableInfo = editRosterInfo.addTextField(cell.detailTextLabel?.text)
-        editableInfo.text = cell.textLabel?.text
-        
-        editRosterInfo.showEdit("Edit Roster Info", subTitle: (cell.detailTextLabel?.text)!).setDismissBlock {
-            if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: RosterManager.sharedInstance.detailToKey(detail: detail)!, value: value)
-                 self.indicator.startAnimating()
+        if RosterManager.sharedInstance.currentUserCanEditRoster() || currentBrotherId == RosterManager.sharedInstance.currentUserId {
+            let cell = tableView.cellForRow(at: indexPath) as! RosterDetailTableViewCell
+            
+            let editRosterInfo = SCLAlertView()
+            let editableInfo = editRosterInfo.addTextField(cell.detailTextLabel?.text)
+            editableInfo.text = cell.textLabel?.text
+            
+            editRosterInfo.showEdit("Edit Roster Info", subTitle: (cell.detailTextLabel?.text)!).setDismissBlock {
+                if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
+                    self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: RosterManager.sharedInstance.detailToKey(detail: detail)!, value: value)
+                    self.indicator.startAnimating()
+                }
             }
+
         }
     }
 }
