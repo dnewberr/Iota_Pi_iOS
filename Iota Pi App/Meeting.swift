@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Meeting {
+public class Meeting: Equatable {
     let sessionCode: String!
     let startTime: Date!
     var endTime: Date?
@@ -20,7 +20,6 @@ public class Meeting {
     }
     
     init(dict: NSDictionary, sessionCode: String) {
-        print("HERE")
         self.startTime = Date(timeIntervalSince1970: (dict.value(forKey: "startTime") as! Double))
         if let endTime = dict.value(forKey: "endTime") as? Double {
             self.endTime = Date(timeIntervalSince1970: endTime)
@@ -31,9 +30,19 @@ public class Meeting {
             self.brotherIdsCheckedIn = presentBros
         }
     }
-
     
     func isCurrentBroCheckedIn() -> Bool {
         return brotherIdsCheckedIn.contains(RosterManager.sharedInstance.currentUserId)
     }
+    
+    func toFirebaseObject() -> [AnyHashable:Any] {
+        return [
+            "startTime": floor(self.startTime.timeIntervalSince1970),
+            "brotherIdsCheckedIn": self.brotherIdsCheckedIn
+        ]
+    }
+}
+
+public func ==(lhs:Meeting, rhs:Meeting) -> Bool {
+    return lhs.sessionCode == rhs.sessionCode
 }

@@ -13,6 +13,7 @@ public protocol MeetingServiceDelegate: class {
     func updateUI(meeting: Meeting)
     func alreadyCheckedIn(meeting: Meeting)
     func noMeeting()
+    func newMeetingCreated(meeting: Meeting)
 }
 
 public class MeetingService {
@@ -51,7 +52,7 @@ public class MeetingService {
         var brosPresent = meeting.brotherIdsCheckedIn
         brosPresent.append(RosterManager.sharedInstance.currentUserId)
         baseRef.child(meeting.sessionCode).child("brotherIdsCheckedIn").setValue(brosPresent)
-        RosterManager.sharedInstance.markAsPresent()
+        //RosterManager.sharedInstance.markAsPresent()
     }
     
     func pushEndMeeting(meeting: Meeting) {
@@ -59,6 +60,8 @@ public class MeetingService {
     }
     
     func startNewMeeting() {
-        
+        let newMeeting = Meeting()
+        baseRef.child(newMeeting.sessionCode).setValue(newMeeting.toFirebaseObject())
+        self.meetingServiceDelegate?.newMeetingCreated(meeting: newMeeting)
     }
 }
