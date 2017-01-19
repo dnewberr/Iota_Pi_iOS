@@ -11,7 +11,7 @@ import Firebase
 
 public protocol MeetingServiceDelegate: class {
     func updateUI(meeting: Meeting)
-    func alreadyCheckedIn()
+    func alreadyCheckedIn(meeting: Meeting)
     func noMeeting()
 }
 
@@ -37,7 +37,7 @@ public class MeetingService {
             
             if let meeting = meeting {
                 if meeting.isCurrentBroCheckedIn() {
-                    self.meetingServiceDelegate?.alreadyCheckedIn()
+                    self.meetingServiceDelegate?.alreadyCheckedIn(meeting: meeting)
                 } else {
                     self.meetingServiceDelegate?.updateUI(meeting: meeting)
                 }
@@ -52,5 +52,13 @@ public class MeetingService {
         brosPresent.append(RosterManager.sharedInstance.currentUserId)
         baseRef.child(meeting.sessionCode).child("brotherIdsCheckedIn").setValue(brosPresent)
         RosterManager.sharedInstance.markAsPresent()
+    }
+    
+    func pushEndMeeting(meeting: Meeting) {
+        baseRef.child(meeting.sessionCode).child("endTime").setValue(floor(Date().timeIntervalSince1970))
+    }
+    
+    func startNewMeeting() {
+        
     }
 }
