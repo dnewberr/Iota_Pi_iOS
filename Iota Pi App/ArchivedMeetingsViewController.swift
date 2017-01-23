@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class PreviousMeetingsTableViewCell: UITableViewCell {
     @IBOutlet weak var meetingDateLabel: UILabel!
@@ -15,6 +16,33 @@ class PreviousMeetingsTableViewCell: UITableViewCell {
 }
 
 class ArchivedMeetingsTableViewController: UITableViewController, MeetingServiceDelegate {
+    @IBAction func searchForMeeting(_ sender: AnyObject) {
+        let alertView = SCLAlertView()
+        let sessionCodeText = alertView.addTextField()
+        sessionCodeText.placeholder = "Session Code"
+        
+        alertView.showNotice("Archived Meetings", subTitle: "Search for a meeting by its session code.").setDismissBlock {
+            
+            if let sessionCode = sessionCodeText.text {
+                self.meetingToPass = nil
+                for meeting in self.archivedMeetings {
+                    if meeting.sessionCode == sessionCode {
+                        self.meetingToPass = meeting
+                        self.performSegue(withIdentifier: "meetingDetailsSegue", sender: self)
+                    }
+                }
+                
+                if self.meetingToPass == nil {
+                    SCLAlertView().showError("Archived Meetings", subTitle: "Session code not found.")
+                }
+            } else {
+                SCLAlertView().showError("Archived Meetings", subTitle: "Please enter a session code.")
+            }
+            
+            
+        }
+    }
+
     var archivedMeetings = [Meeting]()
     var meetingService = MeetingService()
     var meetingToPass: Meeting?

@@ -530,10 +530,10 @@
             </objects>
             <point key="canvasLocation" x="4688.8000000000002" y="692.20389805097454"/>
         </scene>
-        <!--Archived Meetings Table View Controller-->
+        <!--Archived Meetings-->
         <scene sceneID="aTN-cl-yNh">
             <objects>
-                <tableViewController id="lCT-a3-inR" customClass="ArchivedMeetingsTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Archived Meetings" id="lCT-a3-inR" customClass="ArchivedMeetingsTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="SD5-TT-uVu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -574,6 +574,13 @@
                             <outlet property="delegate" destination="lCT-a3-inR" id="76c-AR-piU"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Archived Meetings" id="tLu-cD-xjS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="9WX-SH-1YQ">
+                            <connections>
+                                <action selector="searchForMeeting:" destination="lCT-a3-inR" id="2Uj-76-VnO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wfp-qB-DWL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
