@@ -14,6 +14,7 @@ public protocol MeetingServiceDelegate: class {
     func alreadyCheckedIn(meeting: Meeting)
     func noMeeting()
     func newMeetingCreated(meeting: Meeting)
+    func populateMeetings(meetings: [Meeting])
 }
 
 public class MeetingService {
@@ -45,6 +46,26 @@ public class MeetingService {
             } else {
                 self.meetingServiceDelegate?.noMeeting()
             }
+        })
+    }
+    
+    func fetchAllArchivedMeetings() {
+        baseRef.observe(.value, with:{ (snapshot) -> Void in
+            var meetings = [Meeting]()
+            
+            for item in snapshot.children {
+                let child = item as! FIRDataSnapshot
+                let dict = child.value as! NSDictionary
+                let currentMeeting = Meeting(dict: dict, sessionCode: child.key)
+                
+                if currentMeeting.endTime != nil {
+                    meetings.append(currentMeeting)
+                }
+            }
+            
+            print("SENDING BACK")
+            self.meetingServiceDelegate?.populateMeetings(meetings: meetings)
+            
         })
     }
     

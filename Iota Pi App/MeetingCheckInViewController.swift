@@ -142,5 +142,8 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
         self.meetingStartEndButton.isHidden = false
         self.meetingStartEndButton.isEnabled = true
     }
+    
+    //unnecessary delegate funcs
+    func populateMeetings(meetings: [Meeting]) {}
 
 }
