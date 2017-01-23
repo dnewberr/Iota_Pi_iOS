@@ -37,8 +37,8 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "archivedCell", for: indexPath) as! ArchivedTableViewCell
             
         cell.announcement = announcements[indexPath.row]
-        cell.textLabel!.text = cell.announcement.title
-        cell.detailTextLabel!.text = Utilities.dateToDay(date: cell.announcement.expirationDate)
+        cell.textLabel!.text = cell.announcement.title + " - " + Utilities.dateToDay(date: cell.announcement.expirationDate)
+        cell.detailTextLabel!.text = cell.announcement.getCommitteeTagList()
         
         return cell
     }
