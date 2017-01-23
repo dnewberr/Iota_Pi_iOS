@@ -105,7 +105,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         alert.customSubview = subview
         alert.addButton("Search") {
             self.activeKeyphrase = keyphraseField.text!.isEmpty ? nil : keyphraseField.text
-            
             self.filterAnnouncements()
         }
         
@@ -119,10 +118,17 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let categoryButton = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
         categoryButton.titleLabel!.font =  UIFont(name: "HelveticaNeue", size: 12)
         categoryButton.setTitle(title, for: .normal)
-        categoryButton.setTitleColor(.black, for: .normal)
         categoryButton.layer.borderColor = UIColor.blue.cgColor
         categoryButton.layer.borderWidth = 1.5
         categoryButton.layer.cornerRadius = 5
+        
+        if self.activeFilters.contains(title) {
+            categoryButton.isSelected = true
+            categoryButton.backgroundColor = UIColor.blue
+            categoryButton.setTitleColor(.white, for: .normal)
+        } else {
+            categoryButton.setTitleColor(.black, for: .normal)
+        }
         
         categoryButton.addTarget(self, action: #selector(self.categoryChosen), for: .touchUpInside)
         
@@ -130,14 +136,16 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     func categoryChosen(sender: UIButton!) {
-        print("filter:: " + sender.titleLabel!.text!)
         let indexOfFilter = self.activeFilters.index(of: (sender.titleLabel!.text)!)
         if indexOfFilter != nil {
             self.activeFilters.remove(at: indexOfFilter!)
+            sender.backgroundColor = UIColor.white
+            sender.setTitleColor(.blue, for: .normal)
         } else {
             self.activeFilters.append((sender.titleLabel!.text)!)
+            sender.backgroundColor = UIColor.blue
+            sender.setTitleColor(.white, for: .normal)
         }
-        
     }
     
     func filterAnnouncements() {
