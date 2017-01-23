@@ -16,8 +16,8 @@ public class Announcement: Equatable {
     let title: String
     var archived = false
     
-    init(title: String, details: String) {
-        self.committeeTags = [String]()
+    init(title: String, details: String, committeeTags: [String]) {
+        self.committeeTags = committeeTags
         self.title = title
         self.details = details
         self.expirationDate = Utilities.getWeekExpirationDate()
@@ -48,6 +48,24 @@ public class Announcement: Equatable {
     
     func getId() -> String {
         return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
+    }
+    
+    func getCommitteeTagList() -> String {
+        if self.committeeTags.isEmpty {
+            return ""
+        }
+        
+        var list = ""
+        
+        print(self.committeeTags)
+        
+        for tag in self.committeeTags {
+            list += tag + ", "
+        }
+        
+        list = String(list.characters.dropLast(2))
+        
+        return list
     }
 }
 

@@ -38,8 +38,8 @@ public class AnnouncementsService {
         })
     }
     
-    public func pushAnnouncement(title: String, details: String) {
-        let newAnnouncement = Announcement(title: title, details: details)
+    public func pushAnnouncement(title: String, details: String, tags: [String]) {
+        let newAnnouncement = Announcement(title: title, details: details, committeeTags: tags)
         let ref = FIRDatabase.database().reference().child("Announcements").child(newAnnouncement.getId())
         
         ref.setValue(newAnnouncement.toFirebaseObject())

@@ -23,6 +23,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     let announcementsService = AnnouncementsService()
     var activeFilters = [String]()
     var activeKeyphrase: String?
+    var tagsToAdd = [String]()
     
     var indicator = UIActivityIndicatorView()
     
@@ -32,12 +33,53 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let descriptionTextView = announcementCreation.addTextView()
         descriptionTextView.isEditable = true
         
+        // Tag subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
+        var xVal = subview.frame.minX
+        
+        let width = CGFloat(subview.frame.maxX / 3)
+        
+        var yVal = CGFloat(10)
+        
+        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social", isFilter: false)
+        subview.addSubview(bandSocButton)
+        
+        xVal += width + 5
+        
+        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood", isFilter: false)
+        subview.addSubview(brotherButton)
+        
+        xVal = subview.frame.minX
+        yVal  = brotherButton.frame.maxY + 10
+        
+        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising", isFilter: false)
+        subview.addSubview(fundraisingButton)
+        
+        xVal += width + 5
+        
+        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music", isFilter: false)
+        subview.addSubview(musicButton)
+        
+        xVal = subview.frame.minX
+        yVal  = musicButton.frame.maxY + 10
+        
+        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR", isFilter: false)
+        subview.addSubview(prButton)
+        
+        xVal += width + 5
+        
+        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service", isFilter: false)
+        subview.addSubview(serviceButton)
+        
+        // Add the subview to the alert's UI property
+        announcementCreation.customSubview = subview
+        
         announcementCreation.showEdit("Create Announcement", subTitle: "Announcements expire seven days after creation.").setDismissBlock {
             if let title = titleTextField.text, let description = descriptionTextView.text {
                 if title.isEmpty || description.isEmpty {
                     SCLAlertView().showError("Error", subTitle: "Please enter a title and a description for the announcement.")
                 } else {
-                    self.announcementsService.pushAnnouncement(title: title, details: description)
+                    self.announcementsService.pushAnnouncement(title: title, details: description, tags: self.tagsToAdd)
                 }
             }
         }
@@ -71,34 +113,34 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         
         var yVal = keyphraseField.frame.maxY + 10
         
-        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social")
+        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social", isFilter: true)
         subview.addSubview(bandSocButton)
         
         xVal += width + 5
         
-        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood")
+        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood", isFilter: true)
         subview.addSubview(brotherButton)
         
         xVal = subview.frame.minX
         yVal  = brotherButton.frame.maxY + 10
         
-        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising")
+        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising", isFilter: true)
         subview.addSubview(fundraisingButton)
         
         xVal += width + 5
         
-        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music")
+        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music", isFilter: true)
         subview.addSubview(musicButton)
         
         xVal = subview.frame.minX
         yVal  = musicButton.frame.maxY + 10
         
-        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR")
+        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR", isFilter: true)
         subview.addSubview(prButton)
         
         xVal += width + 5
         
-        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service")
+        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service", isFilter: true)
         subview.addSubview(serviceButton)
         
         // Add the subview to the alert's UI property
@@ -112,7 +154,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         
     }
     
-    func createCategoryButton(x: CGFloat, y: CGFloat, width: CGFloat, title: String) -> UIButton {
+    func createCategoryButton(x: CGFloat, y: CGFloat, width: CGFloat, title: String, isFilter: Bool) -> UIButton {
         let height = CGFloat(25)
         
         let categoryButton = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
@@ -123,14 +165,18 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         categoryButton.layer.cornerRadius = 5
         categoryButton.setTitleColor(.black, for: .normal)
         
-        if self.activeFilters.contains(title) {
-            categoryButton.isSelected = true
-            categoryButton.backgroundColor = UIColor.blue
+        if isFilter {
+            if self.activeFilters.contains(title) {
+                categoryButton.isSelected = true
+                categoryButton.backgroundColor = UIColor.blue
+            }
+            
+            categoryButton.addTarget(self, action: #selector(self.categoryChosen), for: .touchUpInside)
+        } else {
+            categoryButton.addTarget(self, action: #selector(self.addTag), for: .touchUpInside)
         }
         
         categoryButton.setTitleColor(.white, for: .selected)
-        
-        categoryButton.addTarget(self, action: #selector(self.categoryChosen), for: .touchUpInside)
         
         return categoryButton
     }
@@ -148,6 +194,19 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         }
     }
     
+    func addTag(sender: UIButton!) {
+        let indexOfFilter = self.tagsToAdd.index(of: (sender.titleLabel!.text)!)
+        if indexOfFilter != nil {
+            self.tagsToAdd.remove(at: indexOfFilter!)
+            sender.backgroundColor = UIColor.white
+            sender.isSelected = false
+        } else {
+            self.tagsToAdd.append((sender.titleLabel!.text)!)
+            sender.backgroundColor = UIColor.blue
+            sender.isSelected = true
+        }
+    }
+    
     func filterAnnouncements() {
         self.announcementsToShow.removeAll()
         
@@ -156,15 +215,18 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         } else {
             for committeeTag in self.activeFilters {
                 for announcement in self.announcements {
-                    if announcement.committeeTags.contains(committeeTag) {
+                    if announcement.committeeTags.contains(committeeTag) && !self.announcementsToShow.contains(announcement) {
                         self.announcementsToShow.append(announcement)
                     }
                 }
             }
             
             if let keyphrase = self.activeKeyphrase {
-                for announcement in self.announcementsToShow {
-                    if announcement.title.contains(keyphrase) || announcement.details.contains(keyphrase) {
+                let prevAnnouncementsToShow = self.announcementsToShow
+                self.announcementsToShow.removeAll()
+                for announcement in prevAnnouncementsToShow {
+                    if (announcement.title.contains(keyphrase) || announcement.details.contains(keyphrase))
+                        && !announcementsToShow.contains(announcement) {
                         announcementsToShow.append(announcement)
                     }
                 }
@@ -231,7 +293,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
 
         cell.announcement = announcementsToShow[indexPath.row]
         cell.textLabel!.text = cell.announcement.title
-        cell.detailTextLabel!.text = Utilities.dateToDay(date: cell.announcement.expirationDate) //replace with categories
+        cell.detailTextLabel!.text = cell.announcement.getCommitteeTagList()
         
         return cell
     }
