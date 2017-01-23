@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 
 class ArchivedTableViewCell: UITableViewCell {
-    @IBOutlet weak var announcementTitle: UILabel!
     var announcement: Announcement!
 }
 
@@ -34,20 +33,15 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
         return announcements.count
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "archivedCell", for: indexPath) as! ArchivedTableViewCell
             
         cell.announcement = announcements[indexPath.row]
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yy"
-        
-        cell.announcementTitle.text = cell.announcement.title + " - " + dateFormatter.string(from: cell.announcement.expirationDate)
+        cell.textLabel!.text = cell.announcement.title
+        cell.detailTextLabel!.text = Utilities.dateToDay(date: cell.announcement.expirationDate)
         
         return cell
     }
-    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! ArchivedTableViewCell

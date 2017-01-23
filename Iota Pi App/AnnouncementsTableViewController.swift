@@ -121,14 +121,14 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         categoryButton.layer.borderColor = UIColor.blue.cgColor
         categoryButton.layer.borderWidth = 1.5
         categoryButton.layer.cornerRadius = 5
+        categoryButton.setTitleColor(.black, for: .normal)
         
         if self.activeFilters.contains(title) {
             categoryButton.isSelected = true
             categoryButton.backgroundColor = UIColor.blue
-            categoryButton.setTitleColor(.white, for: .normal)
-        } else {
-            categoryButton.setTitleColor(.black, for: .normal)
         }
+        
+        categoryButton.setTitleColor(.white, for: .selected)
         
         categoryButton.addTarget(self, action: #selector(self.categoryChosen), for: .touchUpInside)
         
@@ -140,25 +140,35 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         if indexOfFilter != nil {
             self.activeFilters.remove(at: indexOfFilter!)
             sender.backgroundColor = UIColor.white
-            sender.setTitleColor(.blue, for: .normal)
+            sender.isSelected = false
         } else {
             self.activeFilters.append((sender.titleLabel!.text)!)
             sender.backgroundColor = UIColor.blue
-            sender.setTitleColor(.white, for: .normal)
+            sender.isSelected = true
         }
     }
     
     func filterAnnouncements() {
         self.announcementsToShow.removeAll()
         
-        if let keyphrase = self.activeKeyphrase {
-            for announcement in self.announcements {
-                if announcement.title.contains(keyphrase) || announcement.details.contains(keyphrase) {
-                    announcementsToShow.append(announcement)
+        if self.activeKeyphrase == nil && self.activeFilters.isEmpty {
+            self.announcementsToShow = self.announcements
+        } else {
+            for committeeTag in self.activeFilters {
+                for announcement in self.announcements {
+                    if announcement.committeeTags.contains(committeeTag) {
+                        self.announcementsToShow.append(announcement)
+                    }
                 }
             }
-        } else {
-            self.announcementsToShow = self.announcements
+            
+            if let keyphrase = self.activeKeyphrase {
+                for announcement in self.announcementsToShow {
+                    if announcement.title.contains(keyphrase) || announcement.details.contains(keyphrase) {
+                        announcementsToShow.append(announcement)
+                    }
+                }
+            }
         }
         
         self.tableView.reloadData()
@@ -220,11 +230,11 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
 
         cell.announcement = announcementsToShow[indexPath.row]
-        cell.announcementTitle.text = cell.announcement.title
+        cell.textLabel!.text = cell.announcement.title
+        cell.detailTextLabel!.text = Utilities.dateToDay(date: cell.announcement.expirationDate) //replace with categories
         
         return cell
     }
-    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.row >= announcementsToShow.count) {

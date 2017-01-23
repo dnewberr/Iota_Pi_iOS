@@ -10,18 +10,25 @@ import Foundation
 
 
 public class Announcement: Equatable {
+    let committeeTags: [String]
     let details: String
     let expirationDate: Date
     let title: String
     var archived = false
     
     init(title: String, details: String) {
+        self.committeeTags = [String]()
         self.title = title
         self.details = details
         self.expirationDate = Utilities.getWeekExpirationDate()
     }
     
     init(dict: NSDictionary, expiration: Double) {
+        if let committeeTags = dict.value(forKey: "committeeTags") as? [String] {
+            self.committeeTags = committeeTags
+        } else {
+            self.committeeTags = [String]()
+        }
         self.title = dict.value(forKey: "title") as! String
         self.details = dict.value(forKey: "details") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
@@ -34,7 +41,8 @@ public class Announcement: Equatable {
     func toFirebaseObject() -> [AnyHashable:Any] {
         return [
             "title": self.title,
-            "details": self.details
+            "details": self.details,
+            "committeeTags": self.committeeTags
         ]
     }
     
