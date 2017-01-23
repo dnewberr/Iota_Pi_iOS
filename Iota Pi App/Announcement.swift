@@ -51,21 +51,17 @@ public class Announcement: Equatable {
     }
     
     func getCommitteeTagList() -> String {
-        if self.committeeTags.isEmpty {
-            return ""
-        }
-        
         var list = ""
         
-        print(self.committeeTags)
+        if self.committeeTags.isEmpty {
+            return list
+        }
         
         for tag in self.committeeTags {
             list += tag + ", "
         }
         
-        list = String(list.characters.dropLast(2))
-        
-        return list
+        return String(list.characters.dropLast(2))
     }
 }
 

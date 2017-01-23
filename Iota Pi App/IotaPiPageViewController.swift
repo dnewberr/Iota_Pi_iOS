@@ -15,7 +15,9 @@ class IotaPiPageViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidesWhenStopped =  true
-        self.webView.loadRequest(URLRequest(url: URL(string: "https://www.iotapi.com")!))
+        DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+            self?.webView.loadRequest(URLRequest(url: URL(string: "https://www.iotapi.com")!))
+        }
     }
     
     func webViewDidStartLoad(_ webView: UIWebView) {
@@ -32,18 +34,5 @@ class IotaPiPageViewController: UIViewController, UIWebViewDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
