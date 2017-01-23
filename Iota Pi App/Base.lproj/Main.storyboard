@@ -1156,6 +1156,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Announcements" id="IzY-g0-4XZ">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="Bfc-De-VaJ">
+                            <connections>
+                                <action selector="searchForAnnouncement:" destination="ew8-xl-yNJ" id="c99-16-CXL"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="add" id="Zfw-d9-AMx">
                             <connections>
                                 <action selector="addAnnouncement:" destination="ew8-xl-yNJ" id="8mq-IC-hwv"/>
@@ -1168,7 +1173,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xfb-iV-HL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1527" y="-1491"/>
+            <point key="canvasLocation" x="1526" y="-1493"/>
         </scene>
         <!--Archived Announcements Table View Controller-->
         <scene sceneID="T93-Pk-gdc">

@@ -40,6 +40,109 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         }
     }
     
+    @IBAction func searchForAnnouncement(_ sender: AnyObject) {
+//        var categories = [String]()
+//        let categoryPicker = SCLAlertView()
+//        let serviceButtom = categoryPicker.addButton("Service") {
+//            if categories.contains("Service") {
+//                categories.remove(at: categories.index(of: "Service")!)
+//            } else {
+//                categories.append("Service")
+//            }
+//        }
+//        
+//        serviceButtom.setTitleColor(UIColor.blue, for: .selected)
+////        serviceButtom.
+//        
+//        categoryPicker.showNotice("Announcements", subTitle: "Select the committee filters for announcements. Optional: enter a keyword to narrow search.").setDismissBlock {
+//            print(categories)
+//        }
+        
+        // Example of using the view to add two text fields to the alert
+        // Create the subview
+        let appearance = SCLAlertView.SCLAppearance(
+            kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
+            kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
+            kButtonFont: UIFont(name: "HelveticaNeue", size: 14)!,
+            showCloseButton: false
+        )
+        
+        // Initialize SCLAlertView using custom Appearance
+        let alert = SCLAlertView(appearance: appearance)
+        
+        // Create the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 150))
+        var xVal = subview.frame.minX
+        
+        // Add textfield 1
+        let keyphraseField = UITextField(frame: CGRect(x: xVal, y: 10, width: 205, height: 25))
+        keyphraseField.layer.borderColor = UIColor.blue.cgColor
+        keyphraseField.layer.borderWidth = 1.5
+        keyphraseField.layer.cornerRadius = 5
+        keyphraseField.placeholder = "Keyphrase"
+        keyphraseField.textAlignment = NSTextAlignment.center
+        subview.addSubview(keyphraseField)
+        
+        let width = CGFloat(subview.frame.maxX / 3)
+        
+        var yVal = keyphraseField.frame.maxY + 10
+        
+        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social")
+        subview.addSubview(bandSocButton)
+        
+        xVal += width + 5
+        
+        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood")
+        subview.addSubview(brotherButton)
+        
+        xVal = subview.frame.minX
+        yVal  = brotherButton.frame.maxY + 10
+        
+        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising")
+        subview.addSubview(fundraisingButton)
+        
+        xVal += width + 5
+        
+        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music")
+        subview.addSubview(musicButton)
+        
+        xVal = subview.frame.minX
+        yVal  = musicButton.frame.maxY + 10
+        
+        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR")
+        subview.addSubview(prButton)
+        
+        xVal += width + 5
+        
+        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service")
+        subview.addSubview(serviceButton)
+        
+        // Add the subview to the alert's UI property
+        alert.customSubview = subview
+        alert.addButton("Search") {
+            print("Searching")
+        }
+        
+        alert.showInfo("Search", subTitle: "").setDismissBlock {
+            
+        }
+        
+    }
+    
+    func createCategoryButton(x: CGFloat, y: CGFloat, width: CGFloat, title: String) -> UIButton {
+        let height = CGFloat(25)
+        
+        let categoryButton = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
+        categoryButton.titleLabel!.font =  UIFont(name: "HelveticaNeue", size: 12)
+        categoryButton.setTitle(title, for: .normal)
+        categoryButton.setTitleColor(.black, for: .normal)
+        categoryButton.layer.borderColor = UIColor.blue.cgColor
+        categoryButton.layer.borderWidth = 1.5
+        categoryButton.layer.cornerRadius = 5
+        
+        return categoryButton
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
