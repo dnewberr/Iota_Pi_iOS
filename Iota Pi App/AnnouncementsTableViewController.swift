@@ -17,9 +17,12 @@ class AnnouncementsTableViewCell: UITableViewCell {
 class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
     @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
     var announcements = [Announcement]()
+    var announcementsToShow = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
     let announcementsService = AnnouncementsService()
+    var activeFilters = [String]()
+    var activeKeyphrase: String?
     
     var indicator = UIActivityIndicatorView()
     
@@ -41,25 +44,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     @IBAction func searchForAnnouncement(_ sender: AnyObject) {
-//        var categories = [String]()
-//        let categoryPicker = SCLAlertView()
-//        let serviceButtom = categoryPicker.addButton("Service") {
-//            if categories.contains("Service") {
-//                categories.remove(at: categories.index(of: "Service")!)
-//            } else {
-//                categories.append("Service")
-//            }
-//        }
-//        
-//        serviceButtom.setTitleColor(UIColor.blue, for: .selected)
-////        serviceButtom.
-//        
-//        categoryPicker.showNotice("Announcements", subTitle: "Select the committee filters for announcements. Optional: enter a keyword to narrow search.").setDismissBlock {
-//            print(categories)
-//        }
-        
-        // Example of using the view to add two text fields to the alert
-        // Create the subview
         let appearance = SCLAlertView.SCLAppearance(
             kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
             kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
@@ -120,12 +104,12 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         // Add the subview to the alert's UI property
         alert.customSubview = subview
         alert.addButton("Search") {
-            print("Searching")
+            self.activeKeyphrase = keyphraseField.text!.isEmpty ? nil : keyphraseField.text
+            
+            self.filterAnnouncements()
         }
         
-        alert.showInfo("Search", subTitle: "").setDismissBlock {
-            
-        }
+        alert.showInfo("Search", subTitle: "")
         
     }
     
@@ -140,7 +124,36 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         categoryButton.layer.borderWidth = 1.5
         categoryButton.layer.cornerRadius = 5
         
+        categoryButton.addTarget(self, action: #selector(self.categoryChosen), for: .touchUpInside)
+        
         return categoryButton
+    }
+    
+    func categoryChosen(sender: UIButton!) {
+        print("filter:: " + sender.titleLabel!.text!)
+        let indexOfFilter = self.activeFilters.index(of: (sender.titleLabel!.text)!)
+        if indexOfFilter != nil {
+            self.activeFilters.remove(at: indexOfFilter!)
+        } else {
+            self.activeFilters.append((sender.titleLabel!.text)!)
+        }
+        
+    }
+    
+    func filterAnnouncements() {
+        self.announcementsToShow.removeAll()
+        
+        if let keyphrase = self.activeKeyphrase {
+            for announcement in self.announcements {
+                if announcement.title.contains(keyphrase) || announcement.details.contains(keyphrase) {
+                    announcementsToShow.append(announcement)
+                }
+            }
+        } else {
+            self.announcementsToShow = self.announcements
+        }
+        
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -166,7 +179,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             }
         }
         
-        self.tableView.reloadData()
+        self.filterAnnouncements()
         self.indicator.stopAnimating()
         
         if (RosterManager.sharedInstance.currentUserCanCreateAnnouncements()) {
@@ -187,18 +200,18 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archivedAnnouncements.count > 0 ? announcements.count + 1 : announcements.count
+        return archivedAnnouncements.count > 0 ? announcementsToShow.count + 1 : announcementsToShow.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row >= announcements.count) {
+        if (indexPath.row >= announcementsToShow.count) {
             return tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
 
-        cell.announcement = announcements[indexPath.row]
+        cell.announcement = announcementsToShow[indexPath.row]
         cell.announcementTitle.text = cell.announcement.title
         
         return cell
@@ -206,7 +219,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row >= announcements.count) {
+        if (indexPath.row >= announcementsToShow.count) {
             performSegue(withIdentifier: "archivedAnnouncementsSegue", sender: self)
         } else {
             let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
