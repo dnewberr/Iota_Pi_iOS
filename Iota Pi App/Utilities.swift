@@ -52,4 +52,22 @@ class Utilities {
         
         return indicator
     }
+    
+    static func dateToDay(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        return dateFormatter.string(from: date)
+    }
+    
+    static func dateToTime(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        dateFormatter.timeZone = TimeZone(identifier: "America/Los_Angeles")
+        return dateFormatter.string(from: date)
+    }
+    
+    static func dateToDayTime(date: Date) -> String {
+        return dateToDay(date: date) + ", " + dateToTime(date: date)
+    }
+    
 }

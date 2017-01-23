@@ -443,7 +443,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XEH-57-1jD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XEH-57-1jD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="brotherPresentCell" id="nV9-QH-3D9">
@@ -452,20 +452,13 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nV9-QH-3D9" id="DVX-1V-F7W">
                                             <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oiw-Ws-oID">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="oiw-Ws-oID" firstAttribute="centerY" secondItem="DVX-1V-F7W" secondAttribute="centerY" id="Pkx-R2-1n1"/>
-                                                <constraint firstItem="oiw-Ws-oID" firstAttribute="leading" secondItem="DVX-1V-F7W" secondAttribute="leadingMargin" id="VhW-KK-dfF"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="OMb-lK-P2E" id="ixF-B7-98o"/>
+                                    <outlet property="delegate" destination="OMb-lK-P2E" id="JF5-OM-1KY"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LBA-F7-1lt">
                                 <constraints>
@@ -526,6 +519,12 @@
                             <constraint firstItem="UwC-8U-KYM" firstAttribute="leading" secondItem="LBA-F7-1lt" secondAttribute="trailing" constant="1" id="ztQ-HU-fjj"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="brosPresentTable" destination="XEH-57-1jD" id="FOK-0R-QaH"/>
+                        <outlet property="endTimeLabel" destination="k2c-4v-RFm" id="1eS-uj-NRo"/>
+                        <outlet property="numBrosPresentLabel" destination="l9e-8d-0bN" id="b3I-CE-sfa"/>
+                        <outlet property="startTimeLabel" destination="UwC-8U-KYM" id="qVN-Rz-pIY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pch-xO-vX0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -47,7 +47,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         
         cell.meeting = archivedMeetings[indexPath.row]
         cell.meetingCodeLabel.text = cell.meeting.sessionCode
-        cell.meetingDateLabel.text = cell.meeting.startTime.description //TODO
+        cell.meetingDateLabel.text = Utilities.dateToDayTime(date: cell.meeting.startTime) //TODO
         
         return cell
     }
@@ -76,6 +76,10 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     
     func populateMeetings(meetings: [Meeting]) {
         self.archivedMeetings = meetings
+        
+        self.archivedMeetings.sort {
+            $0.endTime! > $1.endTime!
+        }
         
         self.tableView.reloadData()
         print("POPULATE MEETINGS")
