@@ -13,7 +13,8 @@
 		CD499F121DC2838D0037420B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F101DC2838D0037420B /* Main.storyboard */; };
 		CD499F141DC2838D0037420B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD499F131DC2838D0037420B /* Assets.xcassets */; };
 		CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F151DC2838D0037420B /* LaunchScreen.storyboard */; };
-		CD49DCD01E35B9A7001CE861 /* PreviousMeetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCCF1E35B9A7001CE861 /* PreviousMeetingsViewController.swift */; };
+		CD49DCD01E35B9A7001CE861 /* ArchivedMeetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */; };
+		CD49DCD21E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCD11E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift */; };
 		CD8D33D31DE61FD0003306C7 /* IotaPiPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */; };
 		CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD871DC288BC00B3585E /* LoginViewController.swift */; };
 		CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */; };
@@ -53,7 +54,8 @@
 		CD499F131DC2838D0037420B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD499F161DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD499F181DC2838D0037420B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CD49DCCF1E35B9A7001CE861 /* PreviousMeetingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviousMeetingsViewController.swift; sourceTree = "<group>"; };
+		CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedMeetingsViewController.swift; sourceTree = "<group>"; };
+		CD49DCD11E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedMeetingDetailViewController.swift; sourceTree = "<group>"; };
 		CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotaPiPageViewController.swift; sourceTree = "<group>"; };
 		CDA8BD871DC288BC00B3585E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -224,7 +226,8 @@
 				CDE18D131E2574EE001B119C /* MeetingCheckInViewController.swift */,
 				CDE18D151E257577001B119C /* MeetingService.swift */,
 				CDE18D171E2575EA001B119C /* Meeting.swift */,
-				CD49DCCF1E35B9A7001CE861 /* PreviousMeetingsViewController.swift */,
+				CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */,
+				CD49DCD11E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift */,
 			);
 			name = Meeting;
 			sourceTree = "<group>";
@@ -400,7 +403,7 @@
 				CDFC017B1DDE6322004C688F /* VotingService.swift in Sources */,
 				CDFC01801DDE6BD6004C688F /* RosterViewController.swift in Sources */,
 				CDFC01821DDE6BE9004C688F /* LoginService.swift in Sources */,
-				CD49DCD01E35B9A7001CE861 /* PreviousMeetingsViewController.swift in Sources */,
+				CD49DCD01E35B9A7001CE861 /* ArchivedMeetingsViewController.swift in Sources */,
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
 				CDF32D681DFA09D60018526B /* RosterService.swift in Sources */,
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
@@ -416,6 +419,7 @@
 				CDFC01791DDE43EC004C688F /* CurrentVoteViewController.swift in Sources */,
 				CDFC016B1DDCFB68004C688F /* User.swift in Sources */,
 				CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */,
+				CD49DCD21E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift in Sources */,
 				CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */,
 				CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */,
 			);

@@ -14,7 +14,7 @@ class PreviousMeetingsTableViewCell: UITableViewCell {
     var meeting: Meeting!
 }
 
-class PreviousMeetingsTableViewController: UITableViewController, MeetingServiceDelegate {
+class ArchivedMeetingsTableViewController: UITableViewController, MeetingServiceDelegate {
     var archivedMeetings = [Meeting]()
     var meetingService = MeetingService()
     var meetingToPass: Meeting?
@@ -57,19 +57,22 @@ class PreviousMeetingsTableViewController: UITableViewController, MeetingService
         let currentCell = tableView.cellForRow(at: indexPath) as! PreviousMeetingsTableViewCell
         meetingToPass = currentCell.meeting
         print(meetingToPass?.sessionCode)
-        //performSegue(withIdentifier: "announcementDetailsSegue", sender: self)
+        performSegue(withIdentifier: "meetingDetailsSegue", sender: self)
     }
 
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "meetingDetailsSegue" {
+            let destination = segue.destination as! ArchivedMeetingDetailViewController
+            destination.currentMeeting = self.meetingToPass
+        }
     }
-    */
     
     func populateMeetings(meetings: [Meeting]) {
         self.archivedMeetings = meetings
