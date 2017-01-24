@@ -11,7 +11,7 @@ import Firebase
 
 public protocol LoginServiceDelegate: class {
     func showErrorMessage(message: String)
-    func successfullyLoginUser()
+    func successfullyLoginLogoutUser()
 }
 
 public class LoginService {
@@ -29,7 +29,7 @@ public class LoginService {
                     RosterManager.sharedInstance.currentUserId = user?.uid
                     
                    // self.performSegue(withIdentifier: "successfulLoginSegue", sender: sender)
-                    self.loginServiceDelegate?.successfullyLoginUser()
+                    self.loginServiceDelegate?.successfullyLoginLogoutUser()
                 } else {
                     self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
                 }
@@ -42,8 +42,17 @@ public class LoginService {
             if user != nil {
                 RosterManager.sharedInstance.currentUserId = user?.uid
                 //self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
-                self.loginServiceDelegate?.successfullyLoginUser()
+                self.loginServiceDelegate?.successfullyLoginLogoutUser()
             }
         }
+    }
+    
+    func logoutCurrentUser() {
+        try! FIRAuth.auth()!.signOut()
+//        if let storyboard = self.storyboard {
+//            let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+//            self.present(vc, animated: false, completion: nil)
+//        }
+        self.loginServiceDelegate?.successfullyLoginLogoutUser()
     }
 }

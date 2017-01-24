@@ -57,7 +57,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate {
         }
     }
     
-    func successfullyLoginUser() {
+    func successfullyLoginLogoutUser() {
         self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }
 }

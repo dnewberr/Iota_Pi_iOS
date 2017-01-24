@@ -8,49 +8,43 @@
 
 import UIKit
 import Firebase
+import SCLAlertView
 
-class MoreTableViewCell: UITableViewCell {
-    @IBOutlet weak var optionLabel: UILabel!
-}
-
-class MoreTableViewController: UITableViewController {
-    //let optionLabelTexts = ["Logout"]
+class MoreTableViewController: UITableViewController, LoginServiceDelegate {
+    let loginService = LoginService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.loginService.loginServiceDelegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if RosterManager.sharedInstance.currentUserCanCreateUser() {
+            return 4
+        }
+        
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! MoreTableViewCell
+        let cell = tableView.cellForRow(at: indexPath)
         
-        if (cell.optionLabel.text == "Logout") {
-            let alertController = UIAlertController(title: "Logout", message: "Are you sure you want to log out?", preferredStyle: .alert)
-            let logoutAction = UIAlertAction(title: "Logout", style: .default, handler: {UIAlertAction in
-                try! FIRAuth.auth()!.signOut()
-                if let storyboard = self.storyboard {
-                    let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-                    self.present(vc, animated: false, completion: nil)
-                }})
-            alertController.addAction(logoutAction)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            present(alertController, animated: true, completion: nil)
-            
-            
+        if (cell?.textLabel?.text == "Logout") {
+            let logoutAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+            logoutAlertView.addButton("Logout") {
+                self.loginService.logoutCurrentUser()
+            }
+            logoutAlertView.addButton("Cancel"){}
+            logoutAlertView.showWarning("Logout", subTitle: "Are you sure you wish to log out?")
         }
     }
     
@@ -60,4 +54,14 @@ class MoreTableViewController: UITableViewController {
             destination.currentBrotherId = RosterManager.sharedInstance.currentUserId
         }
     }
+    
+    func successfullyLoginLogoutUser() {
+        if let storyboard = self.storyboard {
+            let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+            self.present(vc, animated: false, completion: nil)
+        }
+    }
+    
+    // unnecessary delegate funcs
+    func showErrorMessage(message: String) {}
 }
