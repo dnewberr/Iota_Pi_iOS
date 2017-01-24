@@ -7,41 +7,27 @@
 //
 
 import UIKit
-import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, LoginServiceDelegate {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorMessageLabel: UILabel!
+    
+    let loginService = LoginService()
 
     @IBAction func attemptLogin(_ sender: AnyObject) {
         if let email = emailTextField.text, let password = passwordTextField.text {
-            if (email.isEmpty || password.isEmpty) {
-                self.errorMessageAnimation(text: "Fill out email and pw")
-            } else {
-                FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
-                    if error == nil {
-                        RosterManager.sharedInstance.currentUserId = user?.uid
-                        self.performSegue(withIdentifier: "successfulLoginSegue", sender: sender)
-                    } else {
-                        self.errorMessageAnimation(text: "TEMP")
-                    }
-                }
-            }
+            self.loginService.attemptLogin(email: email, password: password)
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.loginService.loginServiceDelegate = self
+        self.loginService.checkIfLoggedIn()
+        
         self.errorMessageLabel.alpha = 0;
-        
-        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
-            if user != nil {
-                RosterManager.sharedInstance.currentUserId = user?.uid
-                self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
-            }
-        }
-        
+
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
 
         
@@ -55,12 +41,11 @@ class LoginViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    func errorMessageAnimation(text: String) {
+    func showErrorMessage(message: String) {
         let animationDuration = 0.25
-        self.errorMessageLabel.text = text
+        self.errorMessageLabel.text = message
         
         UIView.animate(withDuration: animationDuration, animations: { () -> Void in
             self.errorMessageLabel.alpha = 1
@@ -70,5 +55,9 @@ class LoginViewController: UIViewController {
                 },
                            completion: nil)
         }
+    }
+    
+    func successfullyLoginUser() {
+        self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }
 }

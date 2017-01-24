@@ -7,3 +7,43 @@
 //
 
 import Foundation
+import Firebase
+
+public protocol LoginServiceDelegate: class {
+    func showErrorMessage(message: String)
+    func successfullyLoginUser()
+}
+
+public class LoginService {
+    weak var loginServiceDelegate: LoginServiceDelegate?
+    
+    init() {}
+    
+    func attemptLogin(email: String, password: String) {
+        if (email.isEmpty || password.isEmpty) {
+            // self.errorMessageAnimation(text: "Fill out email and pw")
+            self.loginServiceDelegate?.showErrorMessage(message: "Please enter an email and password.")
+        } else {
+            FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
+                if error == nil {
+                    RosterManager.sharedInstance.currentUserId = user?.uid
+                    
+                   // self.performSegue(withIdentifier: "successfulLoginSegue", sender: sender)
+                    self.loginServiceDelegate?.successfullyLoginUser()
+                } else {
+                    self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
+                }
+            }
+        }
+    }
+    
+    func checkIfLoggedIn() {
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+            if user != nil {
+                RosterManager.sharedInstance.currentUserId = user?.uid
+                //self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
+                self.loginServiceDelegate?.successfullyLoginUser()
+            }
+        }
+    }
+}
