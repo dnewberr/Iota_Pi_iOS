@@ -27,26 +27,6 @@ public class User: Equatable {
     let status: Status!
     let userId: String!
     
-    init() {
-        self.adminPrivileges = AdminPrivileges.None
-        self.birthday = ""
-        self.educationClass = ""
-        self.email = ""
-        self.expectedGrad = ""
-        self.firstname = ""
-        self.hasWonHirly = false
-        self.isCheckedIn = false
-        self.lastname = ""
-        self.major = ""
-        self.nickname = ""
-        self.phoneNumber = ""
-        self.rosterNumber = 0
-        self.section = ""
-        self.sloAddress = ""
-        self.status = Status.Other
-        self.userId = ""
-    }
-    
     init(dict: NSDictionary, userId: String) {
         self.birthday = dict.value(forKey: "birthday") as! String
         self.educationClass = dict.value(forKey: "class") as! String

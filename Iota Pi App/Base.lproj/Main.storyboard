@@ -912,53 +912,10 @@
             </objects>
             <point key="canvasLocation" x="764" y="2221"/>
         </scene>
-        <!--Create User Table View Controller-->
-        <scene sceneID="KWm-84-cla">
-            <objects>
-                <tableViewController id="3fb-gs-u4n" customClass="CreateUserTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qBP-3T-VoZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="createUserCell" id="Xyl-5i-map" customClass="CreateUserTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xyl-5i-map" id="1Tx-uf-tQP">
-                                    <frame key="frameInset" width="375" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gX6-wz-OB7">
-                                            <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="leading" secondItem="1Tx-uf-tQP" secondAttribute="leadingMargin" id="1Mx-xB-o3K"/>
-                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="trailing" secondItem="1Tx-uf-tQP" secondAttribute="trailingMargin" id="BeZ-Ei-rLU"/>
-                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="centerY" secondItem="1Tx-uf-tQP" secondAttribute="centerY" id="eWS-s5-ZpU"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="inputTextField" destination="gX6-wz-OB7" id="Qzk-AA-CBa"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="3fb-gs-u4n" id="JhW-gH-8f1"/>
-                            <outlet property="delegate" destination="3fb-gs-u4n" id="hrL-CY-caa"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="a0p-Om-buL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1601" y="2224"/>
-        </scene>
-        <!--Test View Controller-->
+        <!--Create User-->
         <scene sceneID="dDs-Rq-Evj">
             <objects>
-                <viewController id="7DB-7J-jaI" customClass="TestViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Create User" id="7DB-7J-jaI" customClass="TestViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sct-Xb-NAK"/>
                         <viewControllerLayoutGuide type="bottom" id="TJr-7Q-CLB"/>
@@ -968,6 +925,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Create User" id="fCx-Cc-5XJ">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Yro-hZ-LSK"/>
+                        <barButtonItem key="rightBarButtonItem" title="Submit" id="EC9-CA-Gtf"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XbD-AA-Fbv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
