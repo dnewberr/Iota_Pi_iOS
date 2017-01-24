@@ -20,14 +20,6 @@ class CreateUserTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        //self.editableDetails = User().getArrayOfDetails()
         
         self.editableTitles = newUser.getArrayOfDetails()
         self.editableTitles.insert("Status", at: 0)
@@ -35,8 +27,6 @@ class CreateUserTableViewController: UITableViewController {
         self.editableTitles.insert("Roster Number", at: 0)
         self.editableTitles.insert("Last Name", at: 0)
         self.editableTitles.insert("First Name", at: 0)
-        
-//        self.requiredInputs = ["Birthday", "Education Class", "Expected Graduation", ]
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,7 +50,7 @@ class CreateUserTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "createUserCell", for: indexPath) as! CreateUserTableViewCell
 
-        cell.textLabel?.text = self.editableTitles[indexPath.row]
+        cell.inputTextField.placeholder = self.editableTitles[indexPath.row]
 
         return cell
     }

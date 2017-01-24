@@ -856,7 +856,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="3fb-gs-u4n" kind="show" identifier="moreToCreateUserSegue" id="Zjv-wg-nxH"/>
+                                            <segue destination="7DB-7J-jaI" kind="show" id="4nA-KN-CNe"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -921,27 +921,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="createUserCell" textLabel="2QA-aw-Url" detailTextLabel="FRu-4k-rdR" style="IBUITableViewCellStyleSubtitle" id="Xyl-5i-map" customClass="CreateUserTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="createUserCell" id="Xyl-5i-map" customClass="CreateUserTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xyl-5i-map" id="1Tx-uf-tQP">
                                     <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2QA-aw-Url">
-                                            <frame key="frameInset" minX="15" minY="4" width="34" height="21"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FRu-4k-rdR">
-                                            <frame key="frameInset" minX="15" minY="25" width="44" height="15"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gX6-wz-OB7">
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -949,9 +935,9 @@
                                         </textField>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="trailing" secondItem="1Tx-uf-tQP" secondAttribute="trailingMargin" id="Mz6-In-P4s"/>
-                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="leading" secondItem="FRu-4k-rdR" secondAttribute="trailing" constant="87" id="jI1-IM-Aep"/>
-                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="centerY" secondItem="1Tx-uf-tQP" secondAttribute="centerY" id="wch-N6-qeE"/>
+                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="leading" secondItem="1Tx-uf-tQP" secondAttribute="leadingMargin" id="1Mx-xB-o3K"/>
+                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="trailing" secondItem="1Tx-uf-tQP" secondAttribute="trailingMargin" id="BeZ-Ei-rLU"/>
+                                        <constraint firstItem="gX6-wz-OB7" firstAttribute="centerY" secondItem="1Tx-uf-tQP" secondAttribute="centerY" id="eWS-s5-ZpU"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -967,7 +953,25 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a0p-Om-buL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1524" y="2220.5397301349326"/>
+            <point key="canvasLocation" x="1601" y="2224"/>
+        </scene>
+        <!--Test View Controller-->
+        <scene sceneID="dDs-Rq-Evj">
+            <objects>
+                <viewController id="7DB-7J-jaI" customClass="TestViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sct-Xb-NAK"/>
+                        <viewControllerLayoutGuide type="bottom" id="TJr-7Q-CLB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oO5-Gc-muO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XbD-AA-Fbv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2514" y="2186"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iL0-Tl-aK4">

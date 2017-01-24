@@ -1,4 +1,5 @@
 PODS:
+  - Eureka (2.0.0-beta.1)
   - Firebase (3.8.0):
     - Firebase/Core (= 3.8.0)
   - Firebase/Auth (3.8.0):
@@ -43,12 +44,14 @@ PODS:
   - SCLAlertView (0.7.0)
 
 DEPENDENCIES:
+  - Eureka (~> 2.0.0-beta.1)
   - Firebase
   - Firebase/Auth
   - Firebase/Database
   - SCLAlertView
 
 SPEC CHECKSUMS:
+  Eureka: d014adf16406745e1a78d5790ea37ed130a0a8e5
   Firebase: fdbecadb7b5cbef2774852d4fa659b9daf11f2af
   FirebaseAnalytics: 6e58fc9b397664369ac7617fb0ba93fab6ba7b5b
   FirebaseAuth: 96e9674ff31d6e1f826d53e26aa003a57cab0295
@@ -61,6 +64,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
   SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
 
-PODFILE CHECKSUM: 16770ab97fbbc7041f9e351a732fc8c9443648df
+PODFILE CHECKSUM: 5952adf82702ac136bbe554512b08d101f857c51
 
 COCOAPODS: 1.0.1

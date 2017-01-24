@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Eureka.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,17 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>3997FB0347E93D15DB651F148C17FE81</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7D04535608058A2FABC0D16935868FB9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7E63ACE3C62E66FBEE0E87748E89D696</key>
+		<key>873B1A0D84F1FF2C0ECD8A2440705B43</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DBADA3FC96F30770C5D1CEE43A332B59</key>
+		<key>893CF00BDA46E82776C2D1972FDFEBB7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
