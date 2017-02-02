@@ -49,10 +49,21 @@ public class LoginService {
     
     func logoutCurrentUser() {
         try! FIRAuth.auth()!.signOut()
-//        if let storyboard = self.storyboard {
-//            let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-//            self.present(vc, animated: false, completion: nil)
-//        }
         self.loginServiceDelegate?.successfullyLoginLogoutUser()
+    }
+    
+    func createNewUser(userInfo: [AnyHashable:Any]) {
+        let email = (userInfo["firstname"] as! String) + "." + (userInfo["lastname"] as! String) + "@iotapi.com"
+        FIRAuth.auth()?.createUser(withEmail: email, password: "test123", completion: {(user: FIRUser?, error) in
+            if error == nil {
+                //registration successful
+                FIRDatabase.database().reference().child("Brothers").child(user!.uid).setValue(userInfo)
+                print("UID:::: " + user!.uid)
+                self.loginServiceDelegate?.successfullyLoginLogoutUser()
+            }else{
+                //registration failure
+                print("NOOOOOOOOO nikroiaknfulewiakh cdisuljbvhjs")
+            }
+        })
     }
 }

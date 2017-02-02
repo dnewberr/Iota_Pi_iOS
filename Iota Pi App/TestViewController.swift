@@ -8,10 +8,34 @@
 
 import UIKit
 import Eureka
+import Firebase
+import SCLAlertView
 
-class TestViewController: FormViewController {
+class TestViewController: FormViewController, LoginServiceDelegate {
+    let loginService = LoginService()
+    
+    @IBAction func submitForm(_ sender: AnyObject) {
+        let valuesDictionary = form.values()
+        var toSubmit = [AnyHashable:Any] ()
+        
+        for key in valuesDictionary.keys {
+            if let value = valuesDictionary[key] {
+                if key == "birthday" {
+                    toSubmit[key] = Utilities.dateToBirthday(date: (value as! Date))
+                } else {
+                    toSubmit[key] = value                    
+                }
+            }
+        }
+        
+        loginService.createNewUser(userInfo: toSubmit)
+        
+//        FIRDatabase.database().reference().child("Brothers").child("TEST_BRO").setValue(toSubmit)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.loginService.loginServiceDelegate = self
+        
         form = Section("Required")
             <<< TextRow(){ row in
                 row.title = "First Name"
@@ -25,7 +49,7 @@ class TestViewController: FormViewController {
                 row.tag = "lastname"
                 row.add(rule: RuleRequired())
             }
-            <<< PhoneRow(){
+            <<< IntRow(){
                 $0.title = "Roster Number"
                 $0.placeholder = "300"
                 $0.tag = "roster"
@@ -89,10 +113,6 @@ class TestViewController: FormViewController {
                 row.placeholder = "Flute"
                 row.tag = "section"
         }
-        
-        let valuesDictionary = form.values()
-        
-        print(valuesDictionary)
     }
     
     
@@ -100,5 +120,11 @@ class TestViewController: FormViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func showErrorMessage(message: String) {}
+    
+    func successfullyLoginLogoutUser() {
+        SCLAlertView().showSuccess("Create User", subTitle: "User was successfully created! Their temporary password is \"test123\", and they will be required to change that upon logging in.")
     }
 }

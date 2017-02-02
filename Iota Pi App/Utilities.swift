@@ -70,4 +70,10 @@ class Utilities {
         return dateToDay(date: date) + ", " + dateToTime(date: date)
     }
     
+    static func dateToBirthday(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        return dateFormatter.string(from: date)
+    }
+    
 }
