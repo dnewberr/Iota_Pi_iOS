@@ -35,52 +35,52 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanCreateHirly() -> Bool {
-        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
         
         switch userAdmin {
-            case .President: return true
-            case .BrotherhoodCommitteeChair: return true
+            case .President?: return true
+            case .BrotherhoodCommitteeChair?: return true
             default: return false
         }
     }
     
     func currentUserCanCreateUser() -> Bool {
-        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
         
         switch userAdmin {
-            case .President: return true
-            case .Webmaster: return true
+            case .President?: return true
+            case .Webmaster?: return true
             default: return false
         }
     }
     
     func currentUserCanCreateVote() -> Bool {
-        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
         
         switch userAdmin {
-            case .President: return true
-            case .Parliamentarian: return true
+            case .President?: return true
+            case .Parliamentarian?: return true
             default: return false
         }
     }
     
     func currentUserCanDictateMeetings() -> Bool {
-        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
         
         switch userAdmin {
-            case .President: return true
-            case .RecSec: return true
-            case .VicePresident: return true
+            case .President?: return true
+            case .RecSec?: return true
+            case .VicePresident?: return true
             default: return false
         }
     }
     
     func currentUserCanEditRoster() -> Bool {
-        let userAdmin = (brothersMap[currentUserId]?.adminPrivileges)!
+        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
         
         switch userAdmin {
-            case .President: return true
-            case .RecSec: return true
+            case .President?: return true
+            case .RecSec?: return true
             default: return false
         }
     }

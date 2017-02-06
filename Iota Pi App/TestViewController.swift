@@ -16,7 +16,7 @@ class TestViewController: FormViewController, LoginServiceDelegate {
     
     @IBAction func submitForm(_ sender: AnyObject) {
         let valuesDictionary = form.values()
-        var toSubmit = [AnyHashable:Any] ()
+        var toSubmit = [AnyHashable : Any] ()
         
         for key in valuesDictionary.keys {
             if let value = valuesDictionary[key] {
@@ -28,9 +28,11 @@ class TestViewController: FormViewController, LoginServiceDelegate {
             }
         }
         
-        loginService.createNewUser(userInfo: toSubmit)
-        
-//        FIRDatabase.database().reference().child("Brothers").child("TEST_BRO").setValue(toSubmit)
+        if self.requiredFieldsFilled(userInfoKeys: Array(toSubmit.keys)) {
+            loginService.createNewUser(userInfo: toSubmit)
+        } else {
+            SCLAlertView().showError("Create User", subTitle: "Please fill out all required fields.")
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +87,7 @@ class TestViewController: FormViewController, LoginServiceDelegate {
             }
             <<< DateRow(){
                 $0.title = "Birthday"
-                $0.value = Date(timeIntervalSinceReferenceDate: 0)
+                $0.value = Date()
                 $0.tag = "birthday"
             }
             <<< PhoneRow(){
@@ -115,6 +117,12 @@ class TestViewController: FormViewController, LoginServiceDelegate {
         }
     }
     
+    func requiredFieldsFilled(userInfoKeys: [AnyHashable]) -> Bool {
+        return userInfoKeys.contains("firstname")
+            && userInfoKeys.contains("lastname")
+            && userInfoKeys.contains("roster")
+            && userInfoKeys.contains("class")
+    }
     
 
     override func didReceiveMemoryWarning() {
@@ -125,6 +133,8 @@ class TestViewController: FormViewController, LoginServiceDelegate {
     func showErrorMessage(message: String) {}
     
     func successfullyLoginLogoutUser() {
-        SCLAlertView().showSuccess("Create User", subTitle: "User was successfully created! Their temporary password is \"test123\", and they will be required to change that upon logging in.")
+        SCLAlertView().showSuccess("Create User", subTitle: "User was successfully created! Their temporary password is \"test123\", and they will be required to change that upon logging in.").setDismissBlock {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
 }
