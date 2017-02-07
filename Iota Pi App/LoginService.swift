@@ -60,7 +60,7 @@ public class LoginService {
                 FIRDatabase.database().reference().child("Brothers").child(user!.uid).setValue(userInfo)
                 print("UID:::: " + user!.uid)
                 self.loginServiceDelegate?.successfullyLoginLogoutUser()
-            }else{
+            } else{
                 //registration failure
                 print("NOOOOOOOOO nikroiaknfulewiakh cdisuljbvhjs")
             }

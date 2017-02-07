@@ -28,6 +28,9 @@ class TestViewController: FormViewController, LoginServiceDelegate {
             }
         }
         
+        
+        toSubmit["validated"] = false
+        
         if self.requiredFieldsFilled(userInfoKeys: Array(toSubmit.keys)) {
             loginService.createNewUser(userInfo: toSubmit)
         } else {
@@ -133,8 +136,9 @@ class TestViewController: FormViewController, LoginServiceDelegate {
     func showErrorMessage(message: String) {}
     
     func successfullyLoginLogoutUser() {
-        SCLAlertView().showSuccess("Create User", subTitle: "User was successfully created! Their temporary password is \"test123\", and they will be required to change that upon logging in.").setDismissBlock {
-            _ = self.navigationController?.popViewController(animated: true)
+        SCLAlertView().showSuccess("Create User", subTitle: "Your account was created with temp password \"test123\"").setDismissBlock {
+//            performSegue(withIdentifier: ", sender: <#T##Any?#>)
+            self.loginService.logoutCurrentUser()
         }
     }
 }

@@ -30,7 +30,6 @@ class LoginViewController: UIViewController, LoginServiceDelegate {
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
 
-        
         view.addGestureRecognizer(tap)
     }
     
@@ -58,6 +57,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate {
     }
     
     func successfullyLoginLogoutUser() {
+        print("LOGGING IN USER:: " + RosterManager.sharedInstance.currentUserId)
         self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }
 }
