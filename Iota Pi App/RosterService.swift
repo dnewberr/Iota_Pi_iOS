@@ -30,6 +30,8 @@ public class RosterService {
                 let dict = child.value as! NSDictionary
                 let user = User(dict: dict, userId: key)
                 brothersMap[key] = user
+                
+                print("Retrieved brother with UID: " + key)
             }
             
             

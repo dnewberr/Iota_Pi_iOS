@@ -15,7 +15,7 @@ class RosterTableViewCell: UITableViewCell {
 }
 
 class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var createUserButton: UIBarButtonItem!
+//    @IBOutlet weak var createUserButton: UIBarButtonItem!
     @IBOutlet weak var rosterTable: UITableView!
 
     let brothersArray = Array(RosterManager.sharedInstance.brothersMap.values)
@@ -24,13 +24,13 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (RosterManager.sharedInstance.currentUserCanCreateUser()) {
-            self.createUserButton.isEnabled = true
-            self.createUserButton.tintColor = nil
-        } else {
-            self.createUserButton.isEnabled = false
-            self.createUserButton.tintColor = UIColor.clear
-        }
+//        if (RosterManager.sharedInstance.currentUserCanCreateUser()) {
+//            self.createUserButton.isEnabled = true
+//            self.createUserButton.tintColor = nil
+//        } else {
+//            self.createUserButton.isEnabled = false
+//            self.createUserButton.tintColor = UIColor.clear
+//        }
     }
 
     override func didReceiveMemoryWarning() {
