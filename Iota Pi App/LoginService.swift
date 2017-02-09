@@ -16,7 +16,8 @@ public protocol LoginServiceDelegate: class {
 }
 
 public class LoginService {
-    public static let LOGGER = Logger()
+    public static let LOGGER = Logger(formatter: Formatter("🚹 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
+                                      theme: nil, minLevel: .trace)
     
     weak var loginServiceDelegate: LoginServiceDelegate?
     

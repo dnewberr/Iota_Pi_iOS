@@ -18,7 +18,8 @@ public protocol VotingServiceDelegate: class {
 }
 
 public class VotingService {
-    public static let LOGGER = Logger()
+    public static let LOGGER = Logger(formatter: Formatter("✅ [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
+                                      theme: nil, minLevel: .trace)
     weak var votingServiceDelegate: VotingServiceDelegate?
     let baseRef = FIRDatabase.database().reference().child("Voting")
     
