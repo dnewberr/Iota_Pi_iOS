@@ -62,6 +62,8 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         }
     }
     
-    // unnecessary delegate funcs
-    func showErrorMessage(message: String) {}
+    
+    func showErrorMessage(message: String) {
+        SCLAlertView().showError("Log Out", subTitle: message)
+    }
 }

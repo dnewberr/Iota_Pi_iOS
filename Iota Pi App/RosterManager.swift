@@ -97,8 +97,8 @@ public class RosterManager: RosterServiceDelegate {
             default: return nil
         }
     }
-    
-    func markAsPresent() {
-        self.rosterService.checkInBrother()
-    }
+//    
+//    func markAsPresent() {
+//        self.rosterService.checkInBrother()
+//    }
 }

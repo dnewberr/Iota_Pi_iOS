@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import Log
 
 public protocol RosterServiceDelegate: class {
     func updateUI()
@@ -15,6 +16,7 @@ public protocol RosterServiceDelegate: class {
 }
 
 public class RosterService {
+    public static let LOGGER = Logger()
     weak var rosterServiceDelegate: RosterServiceDelegate?
     let baseRef = FIRDatabase.database().reference().child("Brothers")
     
@@ -31,20 +33,21 @@ public class RosterService {
                 let user = User(dict: dict, userId: key)
                 brothersMap[key] = user
                 
-                print("Retrieved brother with UID: " + key)
+                RosterService.LOGGER.info("[Fetch Brothers] Retrieved info for brother with UID: " + key)
             }
-            
             
             self.rosterServiceDelegate?.sendMap(map: brothersMap)
         })
     }
     
     func pushBrotherDetail(brotherId: String, key: String, value: String) {
+        RosterService.LOGGER.info("[Push Brother Detail] Pushing [\(key) : \(value)] for brother with UID: " + brotherId)
+        
         baseRef.child(brotherId).child(key).setValue(value)
         self.rosterServiceDelegate?.updateUI()
     }
-    
-    func checkInBrother() {
-        baseRef.child(RosterManager.sharedInstance.currentUserId).child("isCheckedIn").setValue(true)
-    }
+//    
+//    func checkInBrother() {
+//        baseRef.child(RosterManager.sharedInstance.currentUserId).child("isCheckedIn").setValue(true)
+//    }
 }

@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Log.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Iota Pi App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,7 +42,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3997FB0347E93D15DB651F148C17FE81</key>
+		<key>303BDCD976006B1263CCED9F388BEC4F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -47,12 +52,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8637BF2DB9AD40199549D87ECDEC6D57</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>873B1A0D84F1FF2C0ECD8A2440705B43</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>893CF00BDA46E82776C2D1972FDFEBB7</key>
+		<key>B7C99010DEE22AAAB76BCF07F093651A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

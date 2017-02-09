@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import Log
 
 public protocol LoginServiceDelegate: class {
     func showErrorMessage(message: String)
@@ -15,22 +16,25 @@ public protocol LoginServiceDelegate: class {
 }
 
 public class LoginService {
+    public static let LOGGER = Logger()
+    
     weak var loginServiceDelegate: LoginServiceDelegate?
     
     init() {}
     
     func attemptLogin(email: String, password: String) {
+        LoginService.LOGGER.trace("[Sign In] Attempting sign in user with email: " + email)
         if (email.isEmpty || password.isEmpty) {
-            // self.errorMessageAnimation(text: "Fill out email and pw")
+            LoginService.LOGGER.warning("[Sign In] No email or password entered.")
             self.loginServiceDelegate?.showErrorMessage(message: "Please enter an email and password.")
         } else {
             FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
                 if error == nil {
+                    LoginService.LOGGER.info("[Sign In] UID: " + (user?.uid)!)
                     RosterManager.sharedInstance.currentUserId = user?.uid
-                    
-                   // self.performSegue(withIdentifier: "successfulLoginSegue", sender: sender)
                     self.loginServiceDelegate?.successfullyLoginLogoutUser()
                 } else {
+                    LoginService.LOGGER.warning("[Sign In] " + error!.localizedDescription)
                     self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
                 }
             }
@@ -40,29 +44,39 @@ public class LoginService {
     func checkIfLoggedIn() {
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if user != nil {
+                LoginService.LOGGER.info("[Sign In] User already signed in with UID: " + (user?.uid)!)
                 RosterManager.sharedInstance.currentUserId = user?.uid
-                //self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
                 self.loginServiceDelegate?.successfullyLoginLogoutUser()
+            } else {
+                LoginService.LOGGER.trace("[Sign In] No user authenticated.")
             }
         }
     }
     
     func logoutCurrentUser() {
-        try! FIRAuth.auth()!.signOut()
-        self.loginServiceDelegate?.successfullyLoginLogoutUser()
+        LoginService.LOGGER.info("[Log Out] UID: " + RosterManager.sharedInstance.currentUserId)
+        
+        do {
+            try FIRAuth.auth()!.signOut()
+            LoginService.LOGGER.info("[Log Out] Successfully logged out current user.")
+            self.loginServiceDelegate?.successfullyLoginLogoutUser()
+        } catch let error {
+            LoginService.LOGGER.error("[Log Out] " + error.localizedDescription)
+            self.loginServiceDelegate?.showErrorMessage(message: "There was an error when attempting to log out of the application.")
+        }
     }
     
     func createNewUser(userInfo: [AnyHashable:Any]) {
+        LoginService.LOGGER.trace("[Create User] Creating a new user with temp password \"test123\"")
         let email = (userInfo["firstname"] as! String) + "." + (userInfo["lastname"] as! String) + "@iotapi.com"
+        
         FIRAuth.auth()?.createUser(withEmail: email, password: "test123", completion: {(user: FIRUser?, error) in
             if error == nil {
-                //registration successful
+                LoginService.LOGGER.info("[Create User] Registration successful for new UID: " + user!.uid)
                 FIRDatabase.database().reference().child("Brothers").child(user!.uid).setValue(userInfo)
-                print("UID:::: " + user!.uid)
                 self.loginServiceDelegate?.successfullyLoginLogoutUser()
-            } else{
-                //registration failure
-                print("NOOOOOOOOO nikroiaknfulewiakh cdisuljbvhjs")
+            } else {
+                LoginService.LOGGER.error("[Create User] " + (error?.localizedDescription)!)
             }
         })
     }

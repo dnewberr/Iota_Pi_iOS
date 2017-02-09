@@ -8,12 +8,14 @@
 
 import Foundation
 import Firebase
+import Log
 
 public protocol AnnouncementsServiceDelegate: class {
     func updateUI(announcements: [Announcement])
 }
 
 public class AnnouncementsService {
+    public static let LOGGER = Logger()
     weak var announcementsServiceDelegate: AnnouncementsServiceDelegate?
     
     init() {}
@@ -31,9 +33,11 @@ public class AnnouncementsService {
                 
                 if !announcements.contains(currentAnnouncement) {
                     announcements.append(currentAnnouncement)
+                    AnnouncementsService.LOGGER.info("[Fetch Announcements] \(currentAnnouncement.toFirebaseObject())")
                 }
             }
             
+            AnnouncementsService.LOGGER.info("[Fetch Announcements] Retrieved " + String(announcements.count) + " announcements.")
             self.announcementsServiceDelegate?.updateUI(announcements: announcements)
         })
     }
@@ -42,6 +46,7 @@ public class AnnouncementsService {
         let newAnnouncement = Announcement(title: title, details: details, committeeTags: tags)
         let ref = FIRDatabase.database().reference().child("Announcements").child(newAnnouncement.getId())
         
+        AnnouncementsService.LOGGER.info("[Push Announcement] \(newAnnouncement.toFirebaseObject())")
         ref.setValue(newAnnouncement.toFirebaseObject())
     }
 }
