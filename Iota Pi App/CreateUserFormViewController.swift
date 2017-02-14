@@ -133,12 +133,15 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func showErrorMessage(message: String) {}
-    
     func successfullyLoginLogoutUser() {
         SCLAlertView().showSuccess("Create User", subTitle: "Your account was created with temp password \"test123\"").setDismissBlock {
-//            performSegue(withIdentifier: ", sender: <#T##Any?#>)
-            self.loginService.logoutCurrentUser()
+            self.loginService.logoutCurrentUser(isCreate: true)
+            if let storyboard = self.storyboard {
+                let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+                self.present(vc, animated: false, completion: nil)
+            }
         }
     }
+    
+    func showErrorMessage(message: String) {}
 }

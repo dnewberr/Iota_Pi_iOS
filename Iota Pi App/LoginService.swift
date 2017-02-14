@@ -69,13 +69,15 @@ public class LoginService {
         })
     }
     
-    func logoutCurrentUser() {
+    func logoutCurrentUser(isCreate: Bool) {
         LoginService.LOGGER.info("[Log Out] UID: " + RosterManager.sharedInstance.currentUserId)
         
         do {
             try FIRAuth.auth()!.signOut()
             LoginService.LOGGER.info("[Log Out] Successfully logged out current user.")
-            self.loginServiceDelegate?.successfullyLoginLogoutUser()
+            if !isCreate {
+                self.loginServiceDelegate?.successfullyLoginLogoutUser()
+            }
         } catch let error {
             LoginService.LOGGER.error("[Log Out] " + error.localizedDescription)
             self.loginServiceDelegate?.showErrorMessage(message: "There was an error when attempting to log out of the application.")

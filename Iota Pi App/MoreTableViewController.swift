@@ -41,7 +41,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         if (cell?.textLabel?.text == "Logout") {
             let logoutAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
             logoutAlertView.addButton("Logout") {
-                self.loginService.logoutCurrentUser()
+                self.loginService.logoutCurrentUser(isCreate: false)
             }
             logoutAlertView.addButton("Cancel") {}
             logoutAlertView.showWarning("Logout", subTitle: "Are you sure you wish to log out?")
