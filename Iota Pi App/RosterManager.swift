@@ -8,16 +8,19 @@
 
 import Foundation
 import Firebase
+import Log
 
 public class RosterManager: RosterServiceDelegate {
     static let sharedInstance = RosterManager()
     
     let rosterService = RosterService()
-    var brothersMap = [String : User]()
+    var brothersMap: [String : User]!
     var currentUserId: String!
+    var currentUserValidation: Bool?
     
     private init() {
         self.rosterService.rosterServiceDelegate = self
+        self.populateRoster()
     }
     
     public func populateRoster() {
@@ -28,6 +31,14 @@ public class RosterManager: RosterServiceDelegate {
     
     public func sendMap(map: [String : User]) {
         self.brothersMap = map
+        if self.currentUserValidation == nil {
+            self.currentUserValidation = map[self.currentUserId]?.isValidated
+        }
+        Logger().info("‼️ [MANAGER] Log has been populated.")
+    }
+    
+    public func sendCurrentBrotherValidation(isValidated: Bool!) {
+        self.currentUserValidation = isValidated
     }
     
     func currentUserCanCreateAnnouncements() -> Bool {
@@ -97,6 +108,9 @@ public class RosterManager: RosterServiceDelegate {
             default: return nil
         }
     }
+    
+
+    
 //    
 //    func markAsPresent() {
 //        self.rosterService.checkInBrother()

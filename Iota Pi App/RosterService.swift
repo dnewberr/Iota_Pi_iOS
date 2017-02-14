@@ -13,6 +13,8 @@ import Log
 public protocol RosterServiceDelegate: class {
     func updateUI()
     func sendMap(map: [String : User])
+    
+    func sendCurrentBrotherValidation(isValidated: Bool!)
 }
 
 public class RosterService {
@@ -39,6 +41,17 @@ public class RosterService {
             
             self.rosterServiceDelegate?.sendMap(map: brothersMap)
         })
+    }
+    
+    func fetchCurrentBrotherValidation(uid: String) {
+//        let dict = self.baseRef.value(forKey: uid) as! NSDictionary
+        
+        baseRef.child(uid).child("isValidated").observeSingleEvent(of: .value, with: { snapshot in
+            RosterService.LOGGER.info("[Fetch Current User] Retrieved validation for current brother")
+//            self.rosterServiceDelegate?.sendMap(map: [uid : User(dict: (snapshot.value as! NSDictionary), userId: uid)])
+            self.rosterServiceDelegate?.sendCurrentBrotherValidation(isValidated: (snapshot.value as! Bool))
+        })
+        
     }
     
     func pushBrotherDetail(brotherId: String, key: String, value: String) {

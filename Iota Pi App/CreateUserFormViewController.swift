@@ -11,7 +11,7 @@ import Eureka
 import Firebase
 import SCLAlertView
 
-class TestViewController: FormViewController, LoginServiceDelegate {
+class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     let loginService = LoginService()
     
     @IBAction func submitForm(_ sender: AnyObject) {

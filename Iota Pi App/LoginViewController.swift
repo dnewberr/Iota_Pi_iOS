@@ -57,7 +57,6 @@ class LoginViewController: UIViewController, LoginServiceDelegate {
     }
     
     func successfullyLoginLogoutUser() {
-        print("LOGGING IN USER:: " + RosterManager.sharedInstance.currentUserId)
         self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }
 }

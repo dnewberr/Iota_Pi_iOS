@@ -86,6 +86,10 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
 
         }
     }
+    
+    //unnecessary
+    public func sendCurrentBrotherValidation(isValidated: Bool!) {}
+
 }
 
 class RosterDetailViewController: UIViewController {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Log
 
 public class User: Equatable {
     let adminPrivileges: AdminPrivileges! //required
@@ -17,6 +18,7 @@ public class User: Equatable {
     let firstname: String! //required
     let hasWonHirly: Bool!
     let isCheckedIn: Bool!
+    let isValidated: Bool!
     let lastname: String! //required
     let major: String!
     let nickname: String!
@@ -70,17 +72,28 @@ public class User: Equatable {
             self.expectedGrad = "N/A"
         }
         
+        // TODO
         if let hasWonHirly = dict.value(forKey: "hasWonHirly") as? Bool {
-            self.hasWonHirly = true
+            self.hasWonHirly = hasWonHirly
         } else {
             self.hasWonHirly = false
         }
         
+        
+        // TODO?
         if let isCheckedIn = dict.value(forKey: "isCheckedIn") as? Bool {
-            self.isCheckedIn = true
+            self.isCheckedIn = isCheckedIn
         } else {
             self.isCheckedIn = false
         }
+        
+        
+        if let isValidated = dict.value(forKey: "isValidated") as? Bool {
+            self.isValidated = isValidated
+        } else {
+            self.isValidated = false
+        }
+        Logger().info("USER : isValidated\(self.isValidated)")
         
         if let major = dict.value(forKey: "major") as? String {
             self.major = major

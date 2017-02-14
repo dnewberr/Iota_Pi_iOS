@@ -18,7 +18,6 @@ public protocol LoginServiceDelegate: class {
 public class LoginService {
     public static let LOGGER = Logger(formatter: Formatter("🚹 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
                                       theme: nil, minLevel: .trace)
-    
     weak var loginServiceDelegate: LoginServiceDelegate?
     
     init() {}
@@ -31,9 +30,8 @@ public class LoginService {
         } else {
             FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
                 if error == nil {
-                    LoginService.LOGGER.info("[Sign In] UID: " + (user?.uid)!)
-                    RosterManager.sharedInstance.currentUserId = user?.uid
-                    self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                    RosterManager.sharedInstance.currentUserId = user!.uid
+                    self.checkIfVerified(uid: user!.uid)
                 } else {
                     LoginService.LOGGER.warning("[Sign In] " + error!.localizedDescription)
                     self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
@@ -45,13 +43,30 @@ public class LoginService {
     func checkIfLoggedIn() {
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if user != nil {
-                LoginService.LOGGER.info("[Sign In] User already signed in with UID: " + (user?.uid)!)
-                RosterManager.sharedInstance.currentUserId = user?.uid
-                self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                LoginService.LOGGER.info("[Sign In] User signed in with UID: " + user!.uid)
+                RosterManager.sharedInstance.currentUserId = user!.uid
+                self.checkIfVerified(uid: user!.uid)
             } else {
                 LoginService.LOGGER.trace("[Sign In] No user authenticated.")
             }
         }
+    }
+    
+    func checkIfVerified(uid: String) {
+        FIRDatabase.database().reference().child("Brothers").child(uid).child("isValidated").observeSingleEvent(of: .value, with: {(snapshot) -> Void in
+            if let isValidated = snapshot.value as? Bool {
+                if isValidated {
+                    LoginService.LOGGER.info("[Check Verification] User has been verified.")
+                    self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                } else {
+                    LoginService.LOGGER.info("[Check Verification] User not verified.")
+                    self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
+                }
+            } else {
+                LoginService.LOGGER.info("[Check Verification] Verification value not set.")
+                self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
+            }
+        })
     }
     
     func logoutCurrentUser() {
