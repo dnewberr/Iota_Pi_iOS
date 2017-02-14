@@ -960,17 +960,13 @@
         <scene sceneID="dDs-Rq-Evj">
             <objects>
                 <viewController title="Create User" id="7DB-7J-jaI" customClass="CreateUserFormViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="sct-Xb-NAK"/>
-                        <viewControllerLayoutGuide type="bottom" id="TJr-7Q-CLB"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oO5-Gc-muO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
                     <navigationItem key="navigationItem" title="Create User" id="fCx-Cc-5XJ">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Yro-hZ-LSK"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="vab-32-NTe">
+                            <connections>
+                                <action selector="cancelCreateUser:" destination="7DB-7J-jaI" id="1Yf-t2-h8Q"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Submit" id="EC9-CA-Gtf">
                             <connections>
                                 <action selector="submitForm:" destination="7DB-7J-jaI" id="Hh3-JI-wbx"/>
@@ -1497,6 +1493,7 @@
         <!--Navigation Controller-->
         <scene sceneID="8DA-PZ-YG9">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DXd-rI-NdP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="O7S-j8-pkX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IGy-Na-A1n">
@@ -1508,7 +1505,6 @@
                         <segue destination="7DB-7J-jaI" kind="relationship" relationship="rootViewController" id="Euk-2d-dLL"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DXd-rI-NdP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-836" y="-758"/>
         </scene>

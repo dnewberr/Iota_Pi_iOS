@@ -239,6 +239,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.hidesBackButton = true
         self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
         self.parent!.view.addSubview(indicator)
         

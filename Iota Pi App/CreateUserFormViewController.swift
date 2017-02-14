@@ -13,6 +13,14 @@ import SCLAlertView
 
 class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     let loginService = LoginService()
+    @IBAction func cancelCreateUser(_ sender: AnyObject) {
+        let cancelAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+        cancelAlertView.addButton("Exit Form") {
+            self.dismiss(animated: true)
+        }
+        cancelAlertView.addButton("Cancel") {}
+        cancelAlertView.showWarning("Create User", subTitle: "Are you sure you wish to exit this form?")
+    }
     
     @IBAction func submitForm(_ sender: AnyObject) {
         let valuesDictionary = form.values()
@@ -136,10 +144,8 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     func successfullyLoginLogoutUser() {
         SCLAlertView().showSuccess("Create User", subTitle: "Your account was created with temp password \"test123\"").setDismissBlock {
             self.loginService.logoutCurrentUser(isCreate: true)
-            if let storyboard = self.storyboard {
-                let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-                self.present(vc, animated: false, completion: nil)
-            }
+            
+            self.dismiss(animated: true)
         }
     }
     
