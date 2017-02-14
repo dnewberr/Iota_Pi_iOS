@@ -670,7 +670,7 @@
                                 <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N8M-hs-0zn" id="cmL-GG-jD4">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="97d-NP-Svp">
@@ -882,16 +882,16 @@
             </objects>
             <point key="canvasLocation" x="1526" y="1467"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Validation-->
         <scene sceneID="Nx3-zN-083">
             <objects>
-                <tableViewController id="skL-Et-Rbc" sceneMemberID="viewController">
+                <tableViewController id="skL-Et-Rbc" customClass="ValidateUsersTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="wKq-Yc-sNQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5tw-la-WED">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="invalidUserCell" id="5tw-la-WED">
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5tw-la-WED" id="8H4-cV-aXT">
@@ -905,6 +905,13 @@
                             <outlet property="delegate" destination="skL-Et-Rbc" id="TRM-ha-J0V"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Validation" id="P65-8X-3EB">
+                        <barButtonItem key="rightBarButtonItem" title="Submit" id="v0b-nM-94E">
+                            <connections>
+                                <action selector="submitValidationRequest:" destination="skL-Et-Rbc" id="ys4-PR-Tiw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nf9-HG-Iu0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -7,89 +7,76 @@
 //
 
 import UIKit
+import SCLAlertView
 
-class ValidateUsersTableViewController: UITableViewController {
-
+class ValidateUsersTableViewController: UITableViewController, RosterServiceDelegate {
+    let rosterService = RosterService()
+    var invalidUsers: [User]!
+    var uidsToVerify = [String]()
+    
+    @IBAction func submitValidationRequest(_ sender: AnyObject) {
+        let validateAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+        validateAlertView.addButton("Validate") {
+            self.rosterService.validateBrothers(uids: self.uidsToVerify)
+        }
+        validateAlertView.addButton("Cancel") {}
+        validateAlertView.showWarning("Validate Users", subTitle: "Are you sure you wish to validate the selected users?")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.rosterService.rosterServiceDelegate = self
+        self.tableView.allowsMultipleSelection = true
+        self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.invalidUsers.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "invalidUserCell", for: indexPath)
+        
+        cell.textLabel?.text = self.invalidUsers[indexPath.row].firstname + " " + self.invalidUsers[indexPath.row].lastname
 
-        // Configure the cell...
+        cell.accessoryType = cell.isSelected ? .checkmark : .none
+        cell.selectionStyle = .none // to prevent cells from being "highlighted"
 
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        
+        uidsToVerify.append(self.invalidUsers[indexPath.row].userId)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        
+        if let uidIndex = uidsToVerify.index(of: self.invalidUsers[indexPath.row].userId) {
+            uidsToVerify.remove(at: uidIndex)
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    
+    func updateUI() {
+        SCLAlertView().showSuccess("Validate Users", subTitle: "Successfully validated the requested users!").setDismissBlock {
+            self.invalidUsers.removeAll()
+            self.tableView.reloadData()
+            self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
+            self.tableView.reloadData()
+        }
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
+    //unnecessary delegate method
+    func sendMap(map: [String : User]) {}
 }

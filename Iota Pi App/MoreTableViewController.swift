@@ -28,7 +28,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if RosterManager.sharedInstance.currentUserCanCreateUser() {
+        if RosterManager.sharedInstance.currentUserCanCreateUser() && !RosterManager.sharedInstance.brothersToValidate.isEmpty {
             return 4
         }
         
@@ -43,7 +43,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
             logoutAlertView.addButton("Logout") {
                 self.loginService.logoutCurrentUser()
             }
-            logoutAlertView.addButton("Cancel"){}
+            logoutAlertView.addButton("Cancel") {}
             logoutAlertView.showWarning("Logout", subTitle: "Are you sure you wish to log out?")
         }
     }
