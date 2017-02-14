@@ -15,6 +15,7 @@ public class RosterManager: RosterServiceDelegate {
     
     let rosterService = RosterService()
     var brothersMap: [String : User]!
+    var brothersToValidate: [String : User]!
     var currentUserId: String!
     var currentUserValidation: Bool?
     
@@ -30,15 +31,22 @@ public class RosterManager: RosterServiceDelegate {
     public func updateUI() {}
     
     public func sendMap(map: [String : User]) {
-        self.brothersMap = map
-        if self.currentUserValidation == nil {
-            self.currentUserValidation = map[self.currentUserId]?.isValidated
+        var brothersMap = [String : User]()
+        var brothersToValidate = [String : User]()
+        
+        for (uid, brother) in map {
+            if brother.isValidated == true {
+                brothersMap[uid] = brother
+            } else {
+                brothersToValidate[uid] = brother
+            }
         }
+        
+        self.brothersMap = brothersMap
+        self.brothersToValidate = brothersToValidate
+        
+        print("‼️‼️‼️ BROS ‼️‼️‼️ \(brothersToValidate)")
         Logger().info("‼️ [MANAGER] Log has been populated.")
-    }
-    
-    public func sendCurrentBrotherValidation(isValidated: Bool!) {
-        self.currentUserValidation = isValidated
     }
     
     func currentUserCanCreateAnnouncements() -> Bool {

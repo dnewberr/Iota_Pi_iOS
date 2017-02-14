@@ -24,6 +24,7 @@
 		CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */; };
 		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 		CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */; };
+		CDD8D9BA1E537DF800872118 /* ValidateUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */; };
 		CDDEE4621E35FF0100D06831 /* AttendanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDEE4611E35FF0100D06831 /* AttendanceTableViewController.swift */; };
 		CDE18D141E2574EE001B119C /* MeetingCheckInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE18D131E2574EE001B119C /* MeetingCheckInViewController.swift */; };
 		CDE18D161E257577001B119C /* MeetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE18D151E257577001B119C /* MeetingService.swift */; };
@@ -67,6 +68,7 @@
 		CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 		CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedAnnouncementTableViewController.swift; sourceTree = "<group>"; };
+		CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUsersTableViewController.swift; sourceTree = "<group>"; };
 		CDDEE4611E35FF0100D06831 /* AttendanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceTableViewController.swift; sourceTree = "<group>"; };
 		CDE18D131E2574EE001B119C /* MeetingCheckInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingCheckInViewController.swift; sourceTree = "<group>"; };
 		CDE18D151E257577001B119C /* MeetingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingService.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */,
 				CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */,
 				CD06086A1E36E344003259A7 /* CreateUserFormViewController.swift */,
+				CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */,
 			);
 			name = "6 More";
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
 				CDF32D681DFA09D60018526B /* RosterService.swift in Sources */,
 				CDFC016F1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift in Sources */,
+				CDD8D9BA1E537DF800872118 /* ValidateUsersTableViewController.swift in Sources */,
 				CDFC017D1DDE6A69004C688F /* AnnouncementsService.swift in Sources */,
 				CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */,
 				CDE18D161E257577001B119C /* MeetingService.swift in Sources */,
