@@ -119,9 +119,16 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
 
 class RosterDetailViewController: UIViewController {
     var currentBrotherId: String!
+    
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var container: UIView!
+    @IBOutlet weak var deleteCurrentUserButton: UIBarButtonItem!
+    
+    
+    @IBAction func deleteCurrentUser(_ sender: AnyObject) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,6 +137,11 @@ class RosterDetailViewController: UIViewController {
         self.numberLabel.text = String(currentBrother.rosterNumber)
         self.statusLabel.text = currentBrother.status.rawValue
         self.title = currentBrother.firstname + " " + currentBrother.lastname
+        
+        if !RosterManager.sharedInstance.currentUserCanCreateUser() {
+            self.deleteCurrentUserButton.isEnabled = false
+            self.deleteCurrentUserButton.tintColor = UIColor.clear
+        }
     }
     
     override func didReceiveMemoryWarning() {

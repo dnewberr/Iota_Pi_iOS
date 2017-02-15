@@ -38,7 +38,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         
-        if (cell?.textLabel?.text == "Logout") {
+        if cell?.textLabel?.text == "Logout" {
             let logoutAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
             logoutAlertView.addButton("Logout") {
                 self.loginService.logoutCurrentUser(isCreate: false)
@@ -46,10 +46,14 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
             logoutAlertView.addButton("Cancel") {}
             logoutAlertView.showWarning("Logout", subTitle: "Are you sure you wish to log out?")
         }
+        
+        if cell?.textLabel?.text == "Your Info" {
+            performSegue(withIdentifier: "yourInfoSegue", sender: self)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "currentUserRosterInfoSegue" {
+        if segue.identifier == "yourInfoSegue" {
             let destination = segue.destination as! RosterDetailViewController
             destination.currentBrotherId = RosterManager.sharedInstance.currentUserId
         }

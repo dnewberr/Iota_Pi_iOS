@@ -647,8 +647,18 @@
                             <constraint firstItem="EwR-tc-aer" firstAttribute="leading" secondItem="u0h-XW-Vmg" secondAttribute="leading" id="rYt-jl-ePw"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="bOB-0E-aum">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="MDm-k5-g9p">
+                            <connections>
+                                <action selector="deleteCurrentUser:" destination="xIT-Il-7lb" id="pBL-y8-xZA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="container" destination="EwR-tc-aer" id="qFd-GM-021"/>
+                        <outlet property="deleteCurrentUserButton" destination="MDm-k5-g9p" id="7su-40-k96"/>
                         <outlet property="numberLabel" destination="v2j-sg-pWc" id="zAZ-SW-1U4"/>
                         <outlet property="statusLabel" destination="HoV-52-6dH" id="HWt-Xq-93o"/>
                     </connections>
@@ -662,7 +672,7 @@
             <objects>
                 <tableViewController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="qSW-0o-Cu5" customClass="RosterDetailTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qDP-Eh-vvU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="505"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="510"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -848,9 +858,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="xIT-Il-7lb" kind="show" identifier="currentUserRosterInfoSegue" id="met-wk-U7a"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="moreCell" textLabel="GYZ-oX-awP" style="IBUITableViewCellStyleDefault" id="IAX-w0-NF6">
                                         <rect key="frame" x="0.0" y="196" width="375" height="44"/>
@@ -881,6 +888,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="More Options" id="BjM-yR-oke"/>
+                    <connections>
+                        <segue destination="xIT-Il-7lb" kind="show" identifier="yourInfoSegue" id="Xyf-n9-O14"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJ3-2o-ivw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1524,7 +1534,7 @@
         <image name="voting" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ag3-EN-Pen"/>
+        <segue reference="Xyf-n9-O14"/>
         <segue reference="Tfp-Jk-jnb"/>
     </inferredMetricsTieBreakers>
 </document>
