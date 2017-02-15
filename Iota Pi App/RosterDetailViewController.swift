@@ -77,7 +77,7 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if RosterManager.sharedInstance.currentUserCanEditRoster() || currentBrotherId == RosterManager.sharedInstance.currentUserId {
+        if RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId {
             let cell = tableView.cellForRow(at: indexPath) as! RosterDetailTableViewCell
             
             let editRosterInfo = SCLAlertView()
@@ -87,15 +87,13 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
             editRosterInfo.showEdit("Edit Roster Info", subTitle: (cell.detailTextLabel?.text)!).setDismissBlock {
                 if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
                     self.updateData(key: detail, value: value)
-//                    self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: RosterManager.sharedInstance.detailToKey(detail: detail)!, value: value)
                 }
             }
-
         }
     }
     
     func updateData(key: String, value: String) {
-        var curUser = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
+        let curUser = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
         
         switch key {
             case "Nickname":
