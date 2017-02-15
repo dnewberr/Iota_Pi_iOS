@@ -31,7 +31,7 @@ public class LoginService {
             FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
                 if error == nil {
                     RosterManager.sharedInstance.currentUserId = user!.uid
-                    self.checkIfVerified(uid: user!.uid)
+                    self.checkIfCanLogIn(uid: user!.uid)
                 } else {
                     LoginService.LOGGER.warning("[Sign In] " + error!.localizedDescription)
                     self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
@@ -45,26 +45,46 @@ public class LoginService {
             if user != nil {
                 LoginService.LOGGER.info("[Sign In] User signed in with UID: " + user!.uid)
                 RosterManager.sharedInstance.currentUserId = user!.uid
-                self.checkIfVerified(uid: user!.uid)
+                self.checkIfCanLogIn(uid: user!.uid)
             } else {
                 LoginService.LOGGER.trace("[Sign In] No user authenticated.")
             }
         }
     }
     
-    func checkIfVerified(uid: String) {
-        FIRDatabase.database().reference().child("Brothers").child(uid).child("isValidated").observeSingleEvent(of: .value, with: {(snapshot) -> Void in
-            if let isValidated = snapshot.value as? Bool {
+    func checkIfCanLogIn(uid: String) {
+        FIRDatabase.database().reference().child("Brothers").child(uid).observeSingleEvent(of: .value, with: {(snapshot) -> Void in
+            
+            if let isDeleted = snapshot.childSnapshot(forPath: "isDeleted").value as? Bool {
+                if isDeleted {
+                    LoginService.LOGGER.info("[Check Login] User has been marked as deleted.")
+                    self.deleteUser()
+                }
+            } else if let isValidated = snapshot.childSnapshot(forPath: "isValidated").value as? Bool{
                 if isValidated {
-                    LoginService.LOGGER.info("[Check Verification] User has been verified.")
+                    LoginService.LOGGER.info("[Check Login] User has been verified.")
                     self.loginServiceDelegate?.successfullyLoginLogoutUser()
                 } else {
-                    LoginService.LOGGER.info("[Check Verification] User not verified.")
+                    LoginService.LOGGER.info("[Check Login] User not verified.")
                     self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
                 }
-            } else {
-                LoginService.LOGGER.info("[Check Verification] Verification value not set.")
+            } else if snapshot.childSnapshot(forPath: "isValidated").value == nil {
+                LoginService.LOGGER.info("[Check Login] Verification value not set.")
                 self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
+            }
+        })
+    }
+    
+    func deleteUser() {
+        LoginService.LOGGER.info("[Delete User] UID: " + RosterManager.sharedInstance.currentUserId)
+        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).setValue(nil)
+        
+        FIRAuth.auth()?.currentUser?.delete(completion: { (err) in
+            if let error = err {
+                LoginService.LOGGER.info("[Delete User] Error while deleting user with UID [\(RosterManager.sharedInstance.currentUserId)]: \(error.localizedDescription)")
+                self.loginServiceDelegate?.showErrorMessage(message: "There was an error logging you in. Contact exec council for details.")
+            } else {
+                self.loginServiceDelegate?.showErrorMessage(message: "Your account has been deleted.")
             }
         })
     }

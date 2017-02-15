@@ -44,23 +44,34 @@ public class RosterService {
     func pushBrotherDetail(brotherId: String, key: String, value: String) {
         RosterService.LOGGER.info("[Push Brother Detail] Pushing [\(key) : \(value)] for brother with UID: " + brotherId)
         
+        // Edit database for permanent changes; local edited already
         baseRef.child(brotherId).child(key).setValue(value)
         
-        RosterManager.sharedInstance.populateRoster()
         self.rosterServiceDelegate?.updateUI()
     }
     
     func validateBrothers(uids: [String]) {
         for uid in uids {
             RosterService.LOGGER.info("[Validate Brothers] Validated brother with UID: " + uid)
+            
+            // Edit database for permanent changes
             baseRef.child(uid).child("isValidated").setValue(true)
+            
+            // Edit locally for quick changes
+            RosterManager.sharedInstance.brothersMap[uid] = RosterManager.sharedInstance.brothersToValidate[uid]
+            RosterManager.sharedInstance.brothersToValidate.removeValue(forKey: uid)
         }
         
         self.rosterServiceDelegate?.updateUI()
     }
     
     func markUserForDeletion(uid: String) {
+        // Edit database for permanent changes
         baseRef.child(uid).child("isDeleted").setValue(true)
+        
+        // Edit locally for quick visual changes
+        RosterManager.sharedInstance.brothersMap.removeValue(forKey: uid)
+        
         self.rosterServiceDelegate?.updateUI()
     }
 }
