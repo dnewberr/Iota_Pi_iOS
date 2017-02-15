@@ -47,7 +47,7 @@ public class RosterService {
         baseRef.child(brotherId).child(key).setValue(value)
         self.rosterServiceDelegate?.updateUI()
     }
-    
+    x
     func validateBrothers(uids: [String]) {
         for uid in uids {
             RosterService.LOGGER.info("[Validate Brothers] Validated brother with UID: " + uid)

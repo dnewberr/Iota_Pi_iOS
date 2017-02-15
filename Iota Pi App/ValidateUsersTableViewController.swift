@@ -11,7 +11,7 @@ import SCLAlertView
 
 class ValidateUsersTableViewController: UITableViewController, RosterServiceDelegate {
     let rosterService = RosterService()
-    var invalidUsers: [User]!
+    var invalidUsers = [User]()
     var uidsToVerify = [String]()
     
     @IBAction func submitValidationRequest(_ sender: AnyObject) {
@@ -26,11 +26,32 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("❤️❤️❤️❤️❤️ TO VALIDATE:: \(RosterManager.sharedInstance.brothersToValidate)")
+        print("❤️❤️❤️❤️❤️ VALID:: \(RosterManager.sharedInstance.brothersMap)")
+        
+        self.uidsToVerify.removeAll()
+        self.invalidUsers.removeAll()
+        self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
+        
+        self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
+
         self.rosterService.rosterServiceDelegate = self
         self.tableView.allowsMultipleSelection = true
-        self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
     }
 
+    func refresh() {
+        RosterManager.sharedInstance.populateRoster()
+        self.uidsToVerify.removeAll()
+        self.invalidUsers.removeAll()
+        self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
+        self.tableView.reloadData()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -70,10 +91,7 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     
     func updateUI() {
         SCLAlertView().showSuccess("Validate Users", subTitle: "Successfully validated the requested users!").setDismissBlock {
-            self.invalidUsers.removeAll()
-            self.tableView.reloadData()
-            self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
-            self.tableView.reloadData()
+            self.refresh()
         }
     }
     

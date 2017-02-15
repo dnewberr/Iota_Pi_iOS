@@ -36,9 +36,6 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             }
         }
         
-        
-        toSubmit["validated"] = false
-        
         if self.requiredFieldsFilled(userInfoKeys: Array(toSubmit.keys)) {
             loginService.createNewUser(userInfo: toSubmit)
         } else {
