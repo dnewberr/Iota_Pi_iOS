@@ -159,6 +159,7 @@
 		CDA8BD801DC2884E00B3585E /* 1 Login */ = {
 			isa = PBXGroup;
 			children = (
+				CD06086A1E36E344003259A7 /* CreateUserFormViewController.swift */,
 				CDA8BD871DC288BC00B3585E /* LoginViewController.swift */,
 				CDFC01811DDE6BE9004C688F /* LoginService.swift */,
 			);
@@ -212,7 +213,6 @@
 			children = (
 				CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */,
 				CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */,
-				CD06086A1E36E344003259A7 /* CreateUserFormViewController.swift */,
 				CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */,
 			);
 			name = "6 More";

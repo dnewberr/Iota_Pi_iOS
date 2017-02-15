@@ -24,17 +24,32 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     var rosterService = RosterService()
     
     
-    var indicator = UIActivityIndicatorView()
+//    var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.indicator = Utilities.createActivityIndicator(center: self.view.center)
-       // self.parent!.view.addSubview(indicator)
+//        self.indicator = Utilities.createActivityIndicator(center: self.view.center)
+       
+        
+        self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
         
         self.editableDetails = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.getArrayOfDetails())!
         self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
         self.rosterService.rosterServiceDelegate = self
+    }
+    
+    func refresh() {
+        self.editableTitles.removeAll()
+        self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
+        
+        self.tableView.reloadData()
+        
+        if let isRefreshing = self.refreshControl?.isRefreshing {
+            if isRefreshing {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,16 +72,8 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         return cell
     }
     
-    public func sendMap(map: [String : User]) {}
-    
     public func updateUI() {
-        print("TRYING TO RELOAD UI")
-        DispatchQueue.main.async {
-            self.editableTitles.removeAll()
-            self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
-            self.tableView.reloadData()
-             self.indicator.stopAnimating()
-        }
+        self.refresh()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -79,16 +86,47 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
             
             editRosterInfo.showEdit("Edit Roster Info", subTitle: (cell.detailTextLabel?.text)!).setDismissBlock {
                 if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
-                    self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: RosterManager.sharedInstance.detailToKey(detail: detail)!, value: value)
-                    self.indicator.startAnimating()
+                    self.updateData(key: detail, value: value)
+//                    self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: RosterManager.sharedInstance.detailToKey(detail: detail)!, value: value)
                 }
             }
 
         }
     }
     
+    func updateData(key: String, value: String) {
+        var curUser = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
+        
+        switch key {
+            case "Nickname":
+                curUser.nickname = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "nickname", value: value)
+            case "Class":
+                curUser.educationClass = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "class", value: value)
+            case "Section":
+                curUser.section = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "section", value: value)
+            case "Birthday":
+                curUser.birthday = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "birthday", value: value)
+            case "Slo Address":
+                curUser.sloAddress = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "sloAddress", value: value)
+            case "Major":
+                curUser.major = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "major", value: value)
+            case "Expected Graduation":
+                curUser.expectedGrad = value
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "expectedGrad", value: value)
+            default: return
+        }
+    }
+    
     //unnecessary
     public func sendCurrentBrotherValidation(isValidated: Bool!) {}
+    
+    public func sendMap(map: [String : User]) {}
 
 }
 

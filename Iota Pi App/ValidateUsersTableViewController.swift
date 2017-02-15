@@ -27,9 +27,6 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("❤️❤️❤️❤️❤️ TO VALIDATE:: \(RosterManager.sharedInstance.brothersToValidate)")
-        print("❤️❤️❤️❤️❤️ VALID:: \(RosterManager.sharedInstance.brothersMap)")
-        
         self.uidsToVerify.removeAll()
         self.invalidUsers.removeAll()
         self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)

@@ -10,24 +10,27 @@ import Foundation
 import Log
 
 public class User: Equatable {
+    // noneditable data
     let adminPrivileges: AdminPrivileges! //required
-    let birthday: String!
-    let educationClass: String! //required
     let email: String! //generated
-    let expectedGrad: String!
     let firstname: String! //required
-    let hasWonHirly: Bool!
-    let isCheckedIn: Bool!
-    let isValidated: Bool!
+    let hasWonHirly: Bool! // is the user able to be nominated for hirly
+//    let isCheckedIn: Bool!
+    let isValidated: Bool! // is user able to log in
     let lastname: String! //required
-    let major: String!
-    let nickname: String!
-    let phoneNumber: String!
     let rosterNumber: Int! //required
-    let section: String!
-    let sloAddress: String!
     let status: Status! //required
     let userId: String! //required
+    
+    // editable data
+    var educationClass: String! //required
+    var expectedGrad: String!
+    var birthday: String!
+    var major: String!
+    var nickname: String!
+    var phoneNumber: String!
+    var section: String!
+    var sloAddress: String!
     
     init(dict: NSDictionary, userId: String) {
         // required
@@ -80,12 +83,12 @@ public class User: Equatable {
         }
         
         
-        // TODO?
-        if let isCheckedIn = dict.value(forKey: "isCheckedIn") as? Bool {
-            self.isCheckedIn = isCheckedIn
-        } else {
-            self.isCheckedIn = false
-        }
+//        // TODO?
+//        if let isCheckedIn = dict.value(forKey: "isCheckedIn") as? Bool {
+//            self.isCheckedIn = isCheckedIn
+//        } else {
+//            self.isCheckedIn = false
+//        }
         
         
         if let isValidated = dict.value(forKey: "isValidated") as? Bool {
@@ -157,7 +160,8 @@ public class User: Equatable {
             self.birthday,
             self.sloAddress,
             self.major,
-            self.expectedGrad
+            self.expectedGrad,
+            self.phoneNumber
         ]
     }
     
@@ -169,7 +173,8 @@ public class User: Equatable {
             "Birthday",
             "Slo Address",
             "Major",
-            "Expected Graduation"
+            "Expected Graduation",
+            "Phone Number"
         ]
     }
 }
