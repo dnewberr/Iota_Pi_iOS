@@ -28,7 +28,8 @@ public class LoginService {
             LoginService.LOGGER.warning("[Sign In] No email or password entered.")
             self.loginServiceDelegate?.showErrorMessage(message: "Please enter an email and password.")
         } else {
-            FIRAuth.auth()!.signIn(withEmail: email, password: password) { user, error in
+            let fullEmail = email.contains("@") ? email : email + "@iotapi.com"
+            FIRAuth.auth()!.signIn(withEmail: fullEmail, password: password) { user, error in
                 if error == nil {
                     RosterManager.sharedInstance.currentUserId = user!.uid
                     self.checkIfCanLogIn(uid: user!.uid)
