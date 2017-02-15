@@ -35,9 +35,9 @@ public class RosterManager: RosterServiceDelegate {
         var brothersToValidate = [String : User]()
         
         for (uid, brother) in map {
-            if brother.isValidated == true {
+            if brother.isValidated == true && brother.isDeleted == false {
                 brothersMap[uid] = brother
-            } else {
+            } else if brother.isDeleted == false {
                 brothersToValidate[uid] = brother
             }
         }

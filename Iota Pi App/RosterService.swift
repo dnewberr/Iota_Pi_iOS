@@ -58,4 +58,9 @@ public class RosterService {
         
         self.rosterServiceDelegate?.updateUI()
     }
+    
+    func markUserForDeletion(uid: String) {
+        baseRef.child(uid).child("isDeleted").setValue(true)
+        self.rosterServiceDelegate?.updateUI()
+    }
 }

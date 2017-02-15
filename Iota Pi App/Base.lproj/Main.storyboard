@@ -353,6 +353,9 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="RAD-Qg-czz">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <outlet property="clearFilterButton" destination="8NZ-ll-5NJ" id="vKh-qE-0uk"/>
                         <segue destination="xIT-Il-7lb" kind="show" identifier="rosterDetailSegue" id="ag3-EN-Pen"/>
@@ -1534,7 +1537,7 @@
         <image name="voting" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Xyf-n9-O14"/>
+        <segue reference="ag3-EN-Pen"/>
         <segue reference="Tfp-Jk-jnb"/>
     </inferredMetricsTieBreakers>
 </document>

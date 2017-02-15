@@ -16,6 +16,7 @@ public class User: Equatable {
     let firstname: String! //required
     let hasWonHirly: Bool! // is the user able to be nominated for hirly
 //    let isCheckedIn: Bool!
+    let isDeleted: Bool! // is user marked to be deleted
     let isValidated: Bool! // is user able to log in
     let lastname: String! //required
     let rosterNumber: Int! //required
@@ -90,6 +91,12 @@ public class User: Equatable {
 //            self.isCheckedIn = false
 //        }
         
+        
+        if let isDeleted = dict.value(forKey: "isDeleted") as? Bool {
+            self.isDeleted = isDeleted
+        } else {
+            self.isDeleted = false
+        }
         
         if let isValidated = dict.value(forKey: "isValidated") as? Bool {
             self.isValidated = isValidated

@@ -44,6 +44,15 @@ class RosterTableViewController: UITableViewController {
         self.tableView.tableFooterView = UIView()
         self.clearFilterButton.isEnabled = false
         self.clearFilterButton.tintColor = UIColor.clear
+        self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
+    }
+    
+    func refresh() {
+        self.filterRoster()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     override func didReceiveMemoryWarning() {

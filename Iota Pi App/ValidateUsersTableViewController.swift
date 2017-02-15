@@ -11,7 +11,7 @@ import SCLAlertView
 
 class ValidateUsersTableViewController: UITableViewController, RosterServiceDelegate {
     let rosterService = RosterService()
-    var invalidUsers = [User]()
+    var invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
     var uidsToVerify = [String]()
     
     @IBAction func submitValidationRequest(_ sender: AnyObject) {
@@ -30,15 +30,10 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         self.tableView.allowsMultipleSelection = true
         self.rosterService.rosterServiceDelegate = self
         
-        self.uidsToVerify.removeAll()
-        self.invalidUsers.removeAll()
-        self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
-        
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
     }
 
     func refresh() {
-        RosterManager.sharedInstance.populateRoster()
         self.uidsToVerify.removeAll()
         self.invalidUsers.removeAll()
         self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)

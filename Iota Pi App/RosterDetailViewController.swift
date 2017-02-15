@@ -117,7 +117,8 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     public func sendMap(map: [String : User]) {}
 }
 
-class RosterDetailViewController: UIViewController {
+class RosterDetailViewController: UIViewController, RosterServiceDelegate {
+    let rosterService = RosterService()
     var currentBrotherId: String!
     
     @IBOutlet weak var numberLabel: UILabel!
@@ -127,18 +128,20 @@ class RosterDetailViewController: UIViewController {
     
     
     @IBAction func deleteCurrentUser(_ sender: AnyObject) {
-        
+        self.rosterService.markUserForDeletion(uid: self.currentBrotherId)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.rosterService.rosterServiceDelegate = self
+        
         let currentBrother = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
         self.numberLabel.text = String(currentBrother.rosterNumber)
         self.statusLabel.text = currentBrother.status.rawValue
         self.title = currentBrother.firstname + " " + currentBrother.lastname
         
-        if !RosterManager.sharedInstance.currentUserCanCreateUser() {
+        if !RosterManager.sharedInstance.currentUserCanCreateUser()
+            || self.currentBrotherId == RosterManager.sharedInstance.currentUserId { //can't delete yourself
             self.deleteCurrentUserButton.isEnabled = false
             self.deleteCurrentUserButton.tintColor = UIColor.clear
         }
@@ -154,4 +157,12 @@ class RosterDetailViewController: UIViewController {
             destination.currentBrotherId = self.currentBrotherId
         }
     }
+    
+    public func updateUI() {
+        _ = self.navigationController!.popViewController(animated: true)
+    }
+    
+    // unnecessary delegate functions
+    public func sendCurrentBrotherValidation(isValidated: Bool!) {}
+    public func sendMap(map: [String : User]) {}
 }
