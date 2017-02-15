@@ -26,15 +26,15 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.tableFooterView = UIView()
+        self.tableView.allowsMultipleSelection = true
+        self.rosterService.rosterServiceDelegate = self
         
         self.uidsToVerify.removeAll()
         self.invalidUsers.removeAll()
         self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
         
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
-
-        self.rosterService.rosterServiceDelegate = self
-        self.tableView.allowsMultipleSelection = true
     }
 
     func refresh() {

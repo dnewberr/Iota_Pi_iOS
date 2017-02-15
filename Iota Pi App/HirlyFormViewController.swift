@@ -23,6 +23,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.tableFooterView = UIView()
         self.votingService.votingServiceDelegate = self
         
         hirlyNomReasonText.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor

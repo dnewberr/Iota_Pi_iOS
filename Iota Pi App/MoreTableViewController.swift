@@ -15,7 +15,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.tableFooterView = UIView()
         self.loginService.loginServiceDelegate = self
     }
 

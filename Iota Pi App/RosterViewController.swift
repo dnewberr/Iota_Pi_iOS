@@ -23,14 +23,7 @@ class RosterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        if (RosterManager.sharedInstance.currentUserCanCreateUser()) {
-//            self.createUserButton.isEnabled = true
-//            self.createUserButton.tintColor = nil
-//        } else {
-//            self.createUserButton.isEnabled = false
-//            self.createUserButton.tintColor = UIColor.clear
-//        }
+        self.rosterTable.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {

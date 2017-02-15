@@ -9,13 +9,6 @@
 import UIKit
 import SCLAlertView
 
-class RosterDetailTableViewCell: UITableViewCell {
-    func update(info: String, detail: String) {
-        self.detailTextLabel?.text = detail
-        self.textLabel?.text = info
-    }
-}
-
 class RosterDetailTableViewController: UITableViewController, RosterServiceDelegate {
     var currentBrotherId: String!
     var editableDetails = [String]()
@@ -23,15 +16,9 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     var changedInfo = [String : String]()
     var rosterService = RosterService()
     
-    
-//    var indicator = UIActivityIndicatorView()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.indicator = Utilities.createActivityIndicator(center: self.view.center)
-       
-        
+        self.tableView.tableFooterView = UIView()
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
         
         self.editableDetails = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.getArrayOfDetails())!
@@ -65,9 +52,10 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "rosterDetailCell", for: indexPath) as! RosterDetailTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rosterDetailCell", for: indexPath)
         
-        cell.update(info: self.editableTitles[indexPath.row], detail: self.editableDetails[indexPath.row])
+        cell.textLabel!.text = self.editableTitles[indexPath.row]
+        cell.detailTextLabel!.text = self.editableDetails[indexPath.row]
         
         return cell
     }
@@ -78,13 +66,15 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId {
-            let cell = tableView.cellForRow(at: indexPath) as! RosterDetailTableViewCell
+            let cell = tableView.cellForRow(at: indexPath)!
             
             let editRosterInfo = SCLAlertView()
-            let editableInfo = editRosterInfo.addTextField(cell.detailTextLabel?.text)
+            let editableInfo = editRosterInfo.addTextField(cell.detailTextLabel!.text)
             editableInfo.text = cell.textLabel?.text
+            editableInfo.autocapitalizationType = .none
+            editableInfo.autocorrectionType = .no
             
-            editRosterInfo.showEdit("Edit Roster Info", subTitle: (cell.detailTextLabel?.text)!).setDismissBlock {
+            editRosterInfo.showEdit("Edit Roster Info", subTitle: cell.detailTextLabel!.text!).setDismissBlock {
                 if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
                     self.updateData(key: detail, value: value)
                 }
@@ -94,38 +84,37 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     
     func updateData(key: String, value: String) {
         let curUser = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
+        let newValue = value.isEmpty ? "N/A" : value
         
         switch key {
             case "Nickname":
-                curUser.nickname = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "nickname", value: value)
+                curUser.nickname = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "nickname", value: newValue)
             case "Class":
-                curUser.educationClass = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "class", value: value)
+                curUser.educationClass = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "class", value: newValue)
             case "Section":
-                curUser.section = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "section", value: value)
+                curUser.section = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "section", value: newValue)
             case "Birthday":
-                curUser.birthday = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "birthday", value: value)
+                curUser.birthday = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "birthday", value: newValue)
             case "Slo Address":
-                curUser.sloAddress = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "sloAddress", value: value)
+                curUser.sloAddress = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "sloAddress", value: newValue)
             case "Major":
-                curUser.major = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "major", value: value)
+                curUser.major = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "major", value: newValue)
             case "Expected Graduation":
-                curUser.expectedGrad = value
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "expectedGrad", value: value)
+                curUser.expectedGrad = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "expectedGrad", value: newValue)
             default: return
         }
     }
     
-    //unnecessary
+    // unnecessary delegate functions
     public func sendCurrentBrotherValidation(isValidated: Bool!) {}
-    
     public func sendMap(map: [String : User]) {}
-
 }
 
 class RosterDetailViewController: UIViewController {
@@ -145,7 +134,6 @@ class RosterDetailViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

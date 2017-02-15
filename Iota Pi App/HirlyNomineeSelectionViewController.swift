@@ -26,6 +26,7 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.nomineeTableView.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {
