@@ -24,6 +24,7 @@
 		CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */; };
 		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 		CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */; };
+		CDBA83C61E5CAC0B00246048 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBA83C51E5CAC0B00246048 /* TabBarViewController.swift */; };
 		CDD8D9BA1E537DF800872118 /* ValidateUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */; };
 		CDDEE4621E35FF0100D06831 /* AttendanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDEE4611E35FF0100D06831 /* AttendanceTableViewController.swift */; };
 		CDE18D141E2574EE001B119C /* MeetingCheckInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE18D131E2574EE001B119C /* MeetingCheckInViewController.swift */; };
@@ -68,6 +69,7 @@
 		CDACA6AD1DCA9D9600BD8363 /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 		CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedAnnouncementTableViewController.swift; sourceTree = "<group>"; };
+		CDBA83C51E5CAC0B00246048 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUsersTableViewController.swift; sourceTree = "<group>"; };
 		CDDEE4611E35FF0100D06831 /* AttendanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceTableViewController.swift; sourceTree = "<group>"; };
 		CDE18D131E2574EE001B119C /* MeetingCheckInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingCheckInViewController.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				CD499F0A1DC2838D0037420B /* AppDelegate.swift */,
 				CDFC016A1DDCFB68004C688F /* User.swift */,
 				CDFC01701DDD035A004C688F /* Utilities.swift */,
+				CDBA83C51E5CAC0B00246048 /* TabBarViewController.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDBA83C61E5CAC0B00246048 /* TabBarViewController.swift in Sources */,
 				CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */,
 				CD8D33D31DE61FD0003306C7 /* IotaPiPageViewController.swift in Sources */,
 				CDACA6AE1DCA9D9600BD8363 /* Announcement.swift in Sources */,
