@@ -1106,7 +1106,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxO-z5-VFL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxO-z5-VFL">
                                 <fontDescription key="fontDescription" name="AbadiMT-CondensedLight" family="Abadi MT Condensed Light" pointSize="14"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1564,5 +1564,5 @@
         <segue reference="ag3-EN-Pen"/>
         <segue reference="Tfp-Jk-jnb"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.45098039507865906" green="0.58431375026702881" blue="0.81568628549575806" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.02352941222" green="0.1019607857" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>
