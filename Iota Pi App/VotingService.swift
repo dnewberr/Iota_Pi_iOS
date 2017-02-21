@@ -14,7 +14,7 @@ public protocol VotingServiceDelegate: class {
     func updateUI(topic: VotingTopic)
     func confirmVote()
     func noCurrentVote(isHirly: Bool)
-    func denyVote(isHirly: Bool)
+    func denyVote(isHirly: Bool, topic: VotingTopic?)
 }
 
 public class VotingService {
@@ -54,7 +54,7 @@ public class VotingService {
             if let topic = currentTopic {
                 if topic.broHasVoted {
                     VotingService.LOGGER.info("[Fetch Voting Topic] User with UID \(RosterManager.sharedInstance.currentUserId) has already voted.")
-                    self.votingServiceDelegate?.denyVote(isHirly: isHirly)
+                    self.votingServiceDelegate?.denyVote(isHirly: isHirly, topic: topic)
                 } else {
                     VotingService.LOGGER.info("[Fetch Voting Topic] Successfully retrieved voting topic.")
                     self.votingServiceDelegate?.updateUI(topic: topic)
@@ -86,7 +86,7 @@ public class VotingService {
                     self.votingServiceDelegate?.confirmVote()
                 } else {
                     VotingService.LOGGER.error("[Submit Vote] Could not submit \"" + vote + "\" vote with ID " + topic.getId())
-                    self.votingServiceDelegate?.denyVote(isHirly: false)
+                    self.votingServiceDelegate?.denyVote(isHirly: false, topic: nil)
                 }
             }
         )
@@ -118,7 +118,7 @@ public class VotingService {
                     self.votingServiceDelegate?.confirmVote()
                 } else {
                     VotingService.LOGGER.info("[Submit Vote] Could not nominate user with ID \(nomBroId) for HIRLy vote with ID " + topic.getId())
-                    self.votingServiceDelegate?.denyVote(isHirly: true)
+                    self.votingServiceDelegate?.denyVote(isHirly: true, topic: nil)
                 }
             }
         )

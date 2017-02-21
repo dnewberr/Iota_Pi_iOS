@@ -33,8 +33,34 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         if denyCurrent {
             SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already voted on the open topic.")
             _ = self.navigationController?.popViewController(animated: true)
+        } else if self.currentVote != nil {
+            let currentVote = SCLAlertView()
+            let voteCodeTextField = currentVote.addTextField()
+            voteCodeTextField.placeholder = "Vote Code"
+            
+            currentVote.addButton("Yes") {
+                self.submitVote(vote: "yes", code: voteCodeTextField.text)
+            }
+            currentVote.addButton("No") {
+                self.submitVote(vote: "no", code: voteCodeTextField.text)
+            }
+            currentVote.addButton("Abstain") {
+                self.submitVote(vote: "abstain", code: voteCodeTextField.text)
+            }
+            
+            currentVote.showInfo("Current Vote", subTitle: self.currentVote.description)
+        }
+    }
+    
+    func submitVote(vote: String, code: String?) {
+        if let codeEntered = code {
+            if (codeEntered == self.currentVote.sessionCode) {
+                self.votingService.submitCurrentVote(topic: self.currentVote, vote: vote)
+            } else {
+                SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
+            }
         } else {
-            self.performSegue(withIdentifier: "showCurrentVoteSegue", sender: self)
+            SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
         }
     }
     
@@ -56,13 +82,17 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         if (RosterManager.sharedInstance.currentUserCanCreateVote()) {
             self.createVoteButton.isEnabled = true
             self.createVoteButton.tintColor = nil
+            self.currentVoteCodeLabel.isHidden = false
         } else {
             self.createVoteButton.isEnabled = false
             self.createVoteButton.tintColor = UIColor.clear
+            self.currentVoteCodeLabel.isHidden = true
         }
         
         self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
         self.currentVoteButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        self.hirlyButton.isEnabled = false
+        self.currentVoteButton.isEnabled = false
         
         votingService.votingServiceDelegate = self
         votingService.fetchHirlyTopic()
@@ -71,7 +101,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     func showCreationForm(isSessionCodeRequired: Bool) {
@@ -113,7 +142,12 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         }
     }
     
-    func confirmVote() {}
+    func confirmVote() {
+        SCLAlertView().showSuccess("Success!", subTitle: "Vote submitted.")
+        
+        self.currentVoteButton.isEnabled = false
+        self.denyCurrent = true
+    }
     
     func noCurrentVote(isHirly: Bool) {
         if isHirly {
@@ -124,11 +158,17 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         }
     }
     
-    func denyVote(isHirly: Bool) {
+    func denyVote(isHirly: Bool, topic: VotingTopic?) {
         if isHirly {
             self.denyHirly = true
+            self.hirlyButton.isEnabled = true
         } else {
             self.denyCurrent = true
+            
+            if let topic = topic {
+                self.currentVoteCodeLabel.text = topic.sessionCode
+            }
+            self.currentVoteButton.isEnabled = true
         }
     }
     
@@ -136,9 +176,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         if segue.identifier == "showHirlySegue" {
             let destination = segue.destination as! HirlyFormViewController
             destination.hirlyTopic = self.currentHirly
-        } else if segue.identifier == "showCurrentVoteSegue" {
-            let destination = segue.destination as! CurrentVoteViewController
-            destination.currentTopic = self.currentVote
         }
     }
 }

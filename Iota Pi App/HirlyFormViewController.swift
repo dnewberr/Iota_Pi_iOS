@@ -42,7 +42,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         }
     }
     
-    func denyVote(isHirly: Bool) {}
+    func denyVote(isHirly: Bool, topic: VotingTopic?) {}
     
     func noCurrentVote(isHirly: Bool) {}
     
