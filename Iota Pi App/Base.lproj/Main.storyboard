@@ -1170,12 +1170,13 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexColor" red="0.023529412224888802" green="0.10196078568696976" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="announcementCell" textLabel="zLi-qD-Nel" detailTextLabel="Mpv-71-qoa" style="IBUITableViewCellStyleSubtitle" id="Ft0-6V-BqL" customClass="AnnouncementsTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="announcementCell" textLabel="zLi-qD-Nel" detailTextLabel="Mpv-71-qoa" style="IBUITableViewCellStyleSubtitle" id="Ft0-6V-BqL" customClass="AnnouncementsTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ft0-6V-BqL" id="Irg-rB-1Cp">
-                                    <frame key="frameInset" width="308" height="43.5"/>
+                                    <frame key="frameInset" width="342" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zLi-qD-Nel">
@@ -1504,7 +1505,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ag3-EN-Pen"/>
-        <segue reference="Mka-aN-Voj"/>
+        <segue reference="Tfp-Jk-jnb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.02352941222" green="0.1019607857" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>

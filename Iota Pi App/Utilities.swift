@@ -17,6 +17,13 @@ enum AdminPrivileges: String {
     case President, RecSec, VicePresident, Webmaster, Parliamentarian, BrotherhoodCommitteeChair, OtherCommitteeChair, None
 }
 
+struct Style {
+    static var mainColor = UIColor(red:0.02, green:0.10, blue:0.25, alpha:1.0) //dark kkpsi blue
+    static var mainColorHex: UInt = 0x061A40
+    static var tintColor = UIColor(red:0.45, green:0.58, blue:0.82, alpha:1.0) //lighter blue
+    static var tintColorHex: UInt = 0x7395D0
+}
+
 
 class Utilities {
     static let DATA_EXPIRATION = 2629743 * 4

@@ -21,7 +21,7 @@ class AnnouncementDetailsViewController: UIViewController {
 
         self.committeeTagLabel.text = self.announcement.getCommitteeTagList()
         self.detailLabel.text = self.announcement.details
-        self.expirationDateLabel.text = Utilities.dateToDay(date: self.announcement.expirationDate)
+        self.expirationDateLabel.text = "Expires: " + Utilities.dateToDay(date: self.announcement.expirationDate)
         self.titleLabel.text = self.announcement.title
     }
 

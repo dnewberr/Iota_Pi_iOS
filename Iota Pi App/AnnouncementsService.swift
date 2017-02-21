@@ -15,8 +15,7 @@ public protocol AnnouncementsServiceDelegate: class {
 }
 
 public class AnnouncementsService {
-    public static let LOGGER = Logger(formatter: Formatter("📣 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
-                                      theme: nil, minLevel: .trace)
+    public static let LOGGER = Logger(formatter: Formatter("📣 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message), theme: nil, minLevel: .trace)
     weak var announcementsServiceDelegate: AnnouncementsServiceDelegate?
     
     init() {}

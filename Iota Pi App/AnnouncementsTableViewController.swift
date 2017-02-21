@@ -29,52 +29,32 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     
     @IBAction func addAnnouncement(_ sender: AnyObject) {
         let announcementCreation = SCLAlertView()
+        announcementCreation.customSubview = createFilterSubview(isFilter: false)
+        
         let titleTextField = announcementCreation.addTextField("Title")
         let descriptionTextView = announcementCreation.addTextView()
         descriptionTextView.isEditable = true
         
-        // Tag subview
-        let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
-        var xVal = subview.frame.minX
+        // replacement subtitle since subview overwrites it
+        let note = announcementCreation.addTextView()
+        note.isEditable = false
+        note.text = "Announcements expire seven days after creation."
+        note.font = UIFont(name: "Helvetica", size: 14)
+        note.layoutIfNeeded()
+        note.sizeToFit()
+        note.isScrollEnabled = false
+        note.layer.borderWidth = 0
+        note.textAlignment = .center
         
-        let width = CGFloat(subview.frame.maxX / 3)
-        
-        var yVal = CGFloat(10)
-        
-        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social", isFilter: false)
-        subview.addSubview(bandSocButton)
-        
-        xVal += width + 5
-        
-        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood", isFilter: false)
-        subview.addSubview(brotherButton)
-        
-        xVal = subview.frame.minX
-        yVal  = brotherButton.frame.maxY + 10
-        
-        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising", isFilter: false)
-        subview.addSubview(fundraisingButton)
-        
-        xVal += width + 5
-        
-        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music", isFilter: false)
-        subview.addSubview(musicButton)
-        
-        xVal = subview.frame.minX
-        yVal  = musicButton.frame.maxY + 10
-        
-        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR", isFilter: false)
-        subview.addSubview(prButton)
-        
-        xVal += width + 5
-        
-        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service", isFilter: false)
-        subview.addSubview(serviceButton)
-        
-        // Add the subview to the alert's UI property
-        announcementCreation.customSubview = subview
-        
-        announcementCreation.showEdit("Create Announcement", subTitle: "Announcements expire seven days after creation.").setDismissBlock {
+        announcementCreation.showTitle(
+            "Create Announcement",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Create",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF
+            ).setDismissBlock {
             if let title = titleTextField.text, let description = descriptionTextView.text {
                 if title.isEmpty || description.isEmpty {
                     SCLAlertView().showError("Error", subTitle: "Please enter a title and a description for the announcement.")
@@ -86,72 +66,66 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     @IBAction func searchForAnnouncement(_ sender: AnyObject) {
-        let appearance = SCLAlertView.SCLAppearance(
-            kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
-            kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
-            kButtonFont: UIFont(name: "HelveticaNeue", size: 14)!,
-            showCloseButton: false
-        )
+        let alert = SCLAlertView()
         
-        // Initialize SCLAlertView using custom Appearance
-        let alert = SCLAlertView(appearance: appearance)
+        let keyphraseField = alert.addTextField("Title")
+
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
+        subview.addSubview(createFilterSubview(isFilter: true))
+        alert.customSubview = subview
         
-        // Create the subview
-        let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 150))
-        var xVal = subview.frame.minX
+        alert.showTitle(
+            "Search",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Search",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF
+            ).setDismissBlock {
+                self.activeKeyphrase = keyphraseField.text!.isEmpty ? nil : keyphraseField.text
+                self.filterAnnouncements()
+        }
         
-        // Add textfield 1
-        let keyphraseField = UITextField(frame: CGRect(x: xVal, y: 10, width: 205, height: 25))
-        keyphraseField.layer.borderColor = UIColor.blue.cgColor
-        keyphraseField.layer.borderWidth = 1.5
-        keyphraseField.layer.cornerRadius = 5
-        keyphraseField.placeholder = "Keyphrase"
-        keyphraseField.textAlignment = NSTextAlignment.center
-        subview.addSubview(keyphraseField)
-        
+    }
+    
+    func createFilterSubview(isFilter: Bool) -> UIView {
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
         let width = CGFloat(subview.frame.maxX / 3)
+        var xVal = subview.frame.minX
+        var yVal = CGFloat(10)
         
-        var yVal = keyphraseField.frame.maxY + 10
-        
-        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social", isFilter: true)
+        let bandSocButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Band Social", isFilter: isFilter)
         subview.addSubview(bandSocButton)
         
         xVal += width + 5
         
-        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood", isFilter: true)
+        let brotherButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Brotherhood", isFilter: isFilter)
         subview.addSubview(brotherButton)
         
         xVal = subview.frame.minX
         yVal  = brotherButton.frame.maxY + 10
         
-        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising", isFilter: true)
+        let fundraisingButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Fundraising", isFilter: isFilter)
         subview.addSubview(fundraisingButton)
         
         xVal += width + 5
         
-        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music", isFilter: true)
+        let musicButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Music", isFilter: isFilter)
         subview.addSubview(musicButton)
         
         xVal = subview.frame.minX
         yVal  = musicButton.frame.maxY + 10
         
-        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR", isFilter: true)
+        let prButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "PR", isFilter: isFilter)
         subview.addSubview(prButton)
         
         xVal += width + 5
         
-        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service", isFilter: true)
+        let serviceButton = createCategoryButton(x: xVal, y: yVal, width: width, title: "Service", isFilter: isFilter)
         subview.addSubview(serviceButton)
         
-        // Add the subview to the alert's UI property
-        alert.customSubview = subview
-        alert.addButton("Search") {
-            self.activeKeyphrase = keyphraseField.text!.isEmpty ? nil : keyphraseField.text
-            self.filterAnnouncements()
-        }
-        
-        alert.showInfo("Search", subTitle: "")
-        
+        return subview
     }
     
     func createCategoryButton(x: CGFloat, y: CGFloat, width: CGFloat, title: String, isFilter: Bool) -> UIButton {
@@ -160,7 +134,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let categoryButton = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
         categoryButton.titleLabel!.font =  UIFont(name: "HelveticaNeue", size: 12)
         categoryButton.setTitle(title, for: .normal)
-        categoryButton.layer.borderColor = UIColor.blue.cgColor
+        categoryButton.layer.borderColor = Style.mainColor.cgColor
         categoryButton.layer.borderWidth = 1.5
         categoryButton.layer.cornerRadius = 5
         categoryButton.setTitleColor(.black, for: .normal)
@@ -168,7 +142,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         if isFilter {
             if self.activeFilters.contains(title) {
                 categoryButton.isSelected = true
-                categoryButton.backgroundColor = UIColor.blue
+                categoryButton.backgroundColor = Style.tintColor
             }
             
             categoryButton.addTarget(self, action: #selector(self.categoryChosen), for: .touchUpInside)
@@ -189,7 +163,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             sender.isSelected = false
         } else {
             self.activeFilters.append((sender.titleLabel!.text)!)
-            sender.backgroundColor = UIColor.blue
+            sender.backgroundColor = Style.tintColor
             sender.isSelected = true
         }
     }
@@ -202,7 +176,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             sender.isSelected = false
         } else {
             self.tagsToAdd.append((sender.titleLabel!.text)!)
-            sender.backgroundColor = UIColor.blue
+            sender.backgroundColor = Style.tintColor
             sender.isSelected = true
         }
     }
