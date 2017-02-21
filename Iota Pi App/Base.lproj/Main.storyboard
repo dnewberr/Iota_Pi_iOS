@@ -312,7 +312,9 @@
                             <outlet property="delegate" destination="atw-BD-dZf" id="vHC-qt-umO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Attendance" id="0cW-ae-Lkk"/>
+                    <navigationItem key="navigationItem" title="Attendance" id="0cW-ae-Lkk">
+                        <barButtonItem key="backBarButtonItem" title=" " id="cEC-zl-gf4"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j5U-g6-Vw9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -351,6 +353,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Roster" id="ws7-pQ-Yc1">
+                        <barButtonItem key="backBarButtonItem" title=" " id="bfd-Yd-Lcw"/>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="search" id="7bM-VV-m09">
                                 <connections>
@@ -377,7 +380,7 @@
             </objects>
             <point key="canvasLocation" x="2286" y="984"/>
         </scene>
-        <!--Meeting Check In View Controller-->
+        <!--Check In-->
         <scene sceneID="enp-du-4I6">
             <objects>
                 <viewController id="qmY-Ub-AeJ" customClass="MeetingCheckInViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -443,6 +446,9 @@
                             <constraint firstItem="Kj0-DV-iP3" firstAttribute="trailing" secondItem="Lh1-Pw-akd" secondAttribute="trailingMargin" id="ytD-fN-nN0"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Check In" id="Dpp-AS-q1T">
+                        <barButtonItem key="backBarButtonItem" title=" " id="35b-Mg-Rqq"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="checkInButton" destination="PDn-7d-enb" id="S0d-xY-6I8"/>
                         <outlet property="meetingLabel" destination="59f-4m-Tte" id="5Ob-ah-lrt"/>
@@ -598,7 +604,8 @@
                             <outlet property="delegate" destination="lCT-a3-inR" id="76c-AR-piU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Archived Meetings" id="tLu-cD-xjS">
+                    <navigationItem key="navigationItem" title="Archived " id="tLu-cD-xjS">
+                        <barButtonItem key="backBarButtonItem" title=" " id="GA2-u2-sKs"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="9WX-SH-1YQ">
                             <connections>
                                 <action selector="searchForMeeting:" destination="lCT-a3-inR" id="2Uj-76-VnO"/>
@@ -664,6 +671,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="bOB-0E-aum">
+                        <barButtonItem key="backBarButtonItem" title=" " id="SE5-7r-4kr"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="MDm-k5-g9p">
                             <connections>
                                 <action selector="deleteCurrentUser:" destination="xIT-Il-7lb" id="pBL-y8-xZA"/>
@@ -824,7 +832,9 @@
                             <outlet property="delegate" destination="YI2-km-NxM" id="yUV-tw-4Mg"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="More Options" id="BjM-yR-oke"/>
+                    <navigationItem key="navigationItem" title="More Options" id="BjM-yR-oke">
+                        <barButtonItem key="backBarButtonItem" title=" " id="VGs-Io-Xq4"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="xIT-Il-7lb" kind="show" identifier="yourInfoSegue" id="Xyf-n9-O14"/>
                     </connections>
@@ -857,6 +867,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Validation" id="P65-8X-3EB">
+                        <barButtonItem key="backBarButtonItem" title=" " id="kk5-Vi-SFH"/>
                         <barButtonItem key="rightBarButtonItem" title="Submit" id="v0b-nM-94E">
                             <connections>
                                 <action selector="submitValidationRequest:" destination="skL-Et-Rbc" id="ys4-PR-Tiw"/>
@@ -1047,6 +1058,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Voting" id="BYs-Qu-kLo">
+                        <barButtonItem key="backBarButtonItem" title=" " id="2YS-LH-oyy"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="action" id="UdY-UY-Qic"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="3LB-Ob-uCb">
                             <connections>
@@ -1117,7 +1129,9 @@
                             <constraint firstItem="0Ep-M7-Nuy" firstAttribute="leading" secondItem="ESg-13-D2O" secondAttribute="leading" id="ouM-3p-g6v"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Calendar" id="Xcu-MJ-21b"/>
+                    <navigationItem key="navigationItem" title="Calendar" id="Xcu-MJ-21b">
+                        <barButtonItem key="backBarButtonItem" title=" " id="G70-Ma-Ncr"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="1i1-1x-efc" id="Rad-yb-zs8"/>
                         <outlet property="webView" destination="0Ep-M7-Nuy" id="SxW-fK-l6w"/>
@@ -1212,6 +1226,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Announcements" id="IzY-g0-4XZ">
+                        <barButtonItem key="backBarButtonItem" title=" " id="cA5-KR-3mp"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="search" id="Bfc-De-VaJ">
                             <connections>
                                 <action selector="searchForAnnouncement:" destination="ew8-xl-yNJ" id="c99-16-CXL"/>
@@ -1231,7 +1246,7 @@
             </objects>
             <point key="canvasLocation" x="1526" y="-1493"/>
         </scene>
-        <!--Archived Announcements Table View Controller-->
+        <!--Archived-->
         <scene sceneID="T93-Pk-gdc">
             <objects>
                 <tableViewController id="JlC-bt-kgk" customClass="ArchivedAnnouncementsTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -1240,11 +1255,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="archivedCell" textLabel="rGf-18-suY" detailTextLabel="wL1-hm-8W5" style="IBUITableViewCellStyleSubtitle" id="Kk8-Rn-cUe" customClass="ArchivedTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="archivedCell" textLabel="rGf-18-suY" detailTextLabel="wL1-hm-8W5" style="IBUITableViewCellStyleSubtitle" id="Kk8-Rn-cUe" customClass="ArchivedTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kk8-Rn-cUe" id="OED-mb-Ppf">
-                                    <frame key="frameInset" width="308" height="43.5"/>
+                                    <frame key="frameInset" width="342" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rGf-18-suY">
@@ -1273,6 +1288,9 @@
                             <outlet property="delegate" destination="JlC-bt-kgk" id="YMi-BB-D2d"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Archived" id="xwf-cR-P6s">
+                        <barButtonItem key="backBarButtonItem" title=" " id="6ri-dg-D3i"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qIE-Qm-iQI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1338,6 +1356,9 @@
                             <constraint firstItem="1OK-6G-KvL" firstAttribute="leading" secondItem="Mng-hM-oKr" secondAttribute="leading" id="zof-ty-gV5"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="jfZ-6c-SCz">
+                        <barButtonItem key="backBarButtonItem" title=" " id="57c-av-ndT"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="committeeTagLabel" destination="4Su-eR-3VR" id="P4n-tD-09z"/>
                         <outlet property="detailLabel" destination="CJd-Pv-n7m" id="Ff6-vN-Zzf"/>
@@ -1483,7 +1504,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ag3-EN-Pen"/>
-        <segue reference="Tfp-Jk-jnb"/>
+        <segue reference="Mka-aN-Voj"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.02352941222" green="0.1019607857" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>
