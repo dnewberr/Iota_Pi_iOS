@@ -48,8 +48,12 @@ public class User: Equatable {
         
         switch dict.value(forKey: "admin") as! String {
             case "President" : self.adminPrivileges = AdminPrivileges.President
+            case "VicePresident" : self.adminPrivileges = AdminPrivileges.VicePresident
             case "RecSec" : self.adminPrivileges = AdminPrivileges.RecSec
             case "Parliamentarian" : self.adminPrivileges = AdminPrivileges.Parliamentarian
+            case "BrotherhoodCommitteeChair" : self.adminPrivileges = AdminPrivileges.BrotherhoodCommitteeChair
+            case "OtherCommitteeChair" : self.adminPrivileges  = AdminPrivileges.OtherCommitteeChair
+            case "Webmaster" : self.adminPrivileges = AdminPrivileges.Webmaster
             default : self.adminPrivileges = AdminPrivileges.None
         }
         

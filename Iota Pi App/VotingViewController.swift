@@ -38,6 +38,8 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             let currentVote = SCLAlertView()
             let voteCodeTextField = currentVote.addTextField()
             voteCodeTextField.placeholder = "Vote Code"
+            voteCodeTextField.autocapitalizationType = .none
+            voteCodeTextField.autocorrectionType = .no
             
             currentVote.addButton("Yes") {
                 self.submitVote(vote: "yes", code: voteCodeTextField.text)
@@ -49,7 +51,14 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
                 self.submitVote(vote: "abstain", code: voteCodeTextField.text)
             }
             
-            currentVote.showInfo("Current Vote", subTitle: self.currentVote.description)
+            currentVote.showTitle(
+                "Current Vote",
+                subTitle: self.currentVote.description,
+                duration: 0.0,
+                completeText: "Vote",
+                style: .info,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
         }
     }
     
@@ -74,7 +83,14 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             self.showCreationForm(isSessionCodeRequired: true)
         })
         
-        voteCreator.showEdit("Create New Vote", subTitle: "Note that when a new topic is created, the current one closes.")
+        voteCreator.showTitle(
+            "Create New Vote",
+            subTitle: "Note that when a new topic is created, the current one closes.",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     override func viewDidLoad() {
@@ -111,10 +127,17 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         let summaryTextField = creationForm.addTextField("Summary")
         let descriptionTextView = creationForm.addTextView()
         
-        creationForm.showEdit("Create New Topic", subTitle: "").setDismissBlock {
+        creationForm.showTitle(
+            "Create New Topic",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Done",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
             if let summary = summaryTextField.text, let description = descriptionTextView.text {
                 if summary.isEmpty || description.isEmpty {
-                    SCLAlertView().showError("Invalid Topic", subTitle: "Please submit a summary and descriptin for the new topic.")
+                    SCLAlertView().showError("Invalid Topic", subTitle: "Please submit a summary and description for the new topic.")
                 } else {
                     self.pushVotingTopic(summary: summary, description: description, isSessionCodeRequired: isSessionCodeRequired)
                     SCLAlertView().showSuccess("Create New Topic", subTitle: "A new voting topic was successfully created!")

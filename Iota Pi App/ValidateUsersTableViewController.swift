@@ -15,12 +15,19 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     var uidsToVerify = [String]()
     
     @IBAction func submitValidationRequest(_ sender: AnyObject) {
-        let validateAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+        let validateAlertView = SCLAlertView()
         validateAlertView.addButton("Validate") {
             self.rosterService.validateBrothers(uids: self.uidsToVerify)
         }
-        validateAlertView.addButton("Cancel") {}
-        validateAlertView.showWarning("Validate Users", subTitle: "Are you sure you wish to validate the selected users?")
+        
+        validateAlertView.showTitle(
+            "Validate Users",
+            subTitle: "Are you sure you wish to validate the selected users?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .warning,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     

@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import Log
+
 class AnnouncementsTableViewCell: UITableViewCell {
     @IBOutlet weak var announcementTitle: UILabel!
     var announcement: Announcement!

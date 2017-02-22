@@ -17,7 +17,7 @@ public class RosterManager: RosterServiceDelegate {
     var brothersMap: [String : User]!
     var brothersToValidate: [String : User]!
     var currentUserId: String!
-    var currentUserValidation: Bool?
+    var currentUserAdmin: AdminPrivileges!
     
     private init() {
         self.rosterService.rosterServiceDelegate = self
@@ -45,61 +45,50 @@ public class RosterManager: RosterServiceDelegate {
         self.brothersMap = brothersMap
         self.brothersToValidate = brothersToValidate
         
-        print("‼️‼️‼️ BROS ‼️‼️‼️ \(brothersToValidate)")
         Logger().info("‼️ [MANAGER] Log has been populated.")
     }
     
     func currentUserCanCreateAnnouncements() -> Bool {
-        return brothersMap[currentUserId]?.adminPrivileges != AdminPrivileges.None
+        return RosterManager.sharedInstance.currentUserAdmin != AdminPrivileges.None
     }
     
     func currentUserCanCreateHirly() -> Bool {
-        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
-        
-        switch userAdmin {
-            case .President?: return true
-            case .BrotherhoodCommitteeChair?: return true
+        switch RosterManager.sharedInstance.currentUserAdmin! {
+            case .President: return true
+            case .BrotherhoodCommitteeChair: return true
             default: return false
         }
     }
     
     func currentUserCanCreateUser() -> Bool {
-        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
-        
-        switch userAdmin {
-            case .President?: return true
-            case .Webmaster?: return true
+        switch RosterManager.sharedInstance.currentUserAdmin! {
+            case .President: return true
+            case .Webmaster: return true
             default: return false
         }
     }
     
     func currentUserCanCreateVote() -> Bool {
-        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
-        
-        switch userAdmin {
-            case .President?: return true
-            case .Parliamentarian?: return true
+        switch RosterManager.sharedInstance.currentUserAdmin! {
+            case .President: return true
+            case .Parliamentarian: return true
             default: return false
         }
     }
     
     func currentUserCanDictateMeetings() -> Bool {
-        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
-        
-        switch userAdmin {
-            case .President?: return true
-            case .RecSec?: return true
-            case .VicePresident?: return true
+        switch RosterManager.sharedInstance.currentUserAdmin! {
+            case .President: return true
+            case .RecSec: return true
+            case .VicePresident: return true
             default: return false
         }
     }
     
     func currentUserCanEditRoster() -> Bool {
-        let userAdmin = brothersMap[currentUserId]?.adminPrivileges
-        
-        switch userAdmin {
-            case .President?: return true
-            case .RecSec?: return true
+        switch RosterManager.sharedInstance.currentUserAdmin! {
+            case .President: return true
+            case .RecSec: return true
             default: return false
         }
     }

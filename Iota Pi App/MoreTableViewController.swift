@@ -39,12 +39,19 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         let cell = tableView.cellForRow(at: indexPath)
         
         if cell?.textLabel?.text == "Logout" {
-            let logoutAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+            let logoutAlertView = SCLAlertView()
             logoutAlertView.addButton("Logout") {
                 self.loginService.logoutCurrentUser(isCreate: false)
             }
-            logoutAlertView.addButton("Cancel") {}
-            logoutAlertView.showWarning("Logout", subTitle: "Are you sure you wish to log out?")
+            
+            logoutAlertView.showTitle(
+                "Logout",
+                subTitle: "Are you sure you wish to log out?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
         }
         
         if cell?.textLabel?.text == "Your Info" {

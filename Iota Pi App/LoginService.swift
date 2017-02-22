@@ -56,6 +56,22 @@ public class LoginService {
     func checkIfCanLogIn(uid: String) {
         FIRDatabase.database().reference().child("Brothers").child(uid).observeSingleEvent(of: .value, with: {(snapshot) -> Void in
             
+            if let admin = snapshot.childSnapshot(forPath: "admin").value as? String {
+                switch admin {
+                    case "President" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.President
+                    case "VicePresident" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.VicePresident
+                    case "RecSec" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.RecSec
+                    case "Parliamentarian" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.Parliamentarian
+                    case "BrotherhoodCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.BrotherhoodCommitteeChair
+                    case "OtherCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin  = AdminPrivileges.OtherCommitteeChair
+                    case "Webmaster" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.Webmaster
+                    default : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.None
+                }
+                
+            } else {
+                RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.None
+            }
+            
             if let isDeleted = snapshot.childSnapshot(forPath: "isDeleted").value as? Bool {
                 if isDeleted {
                     LoginService.LOGGER.info("[Check Login] User has been marked as deleted.")
