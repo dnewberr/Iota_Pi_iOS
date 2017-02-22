@@ -18,13 +18,14 @@ class AnnouncementsTableViewCell: UITableViewCell {
 
 class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
     @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
+    @IBOutlet weak var clearButton: UIBarButtonItem!
     var announcements = [Announcement]()
     var announcementsToShow = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
     let announcementsService = AnnouncementsService()
     var activeFilters = [String]()
-    var activeKeyphrase: String?
+    var activeKeyphrase = ""
     var tagsToAdd = [String]()
     
     var indicator: UIActivityIndicatorView!
@@ -70,6 +71,8 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let alert = SCLAlertView()
         
         let keyphraseField = alert.addTextField("Title")
+        keyphraseField.autocorrectionType = .no
+        keyphraseField.autocapitalizationType = .none
         keyphraseField.text = self.activeKeyphrase
 
         let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
@@ -84,10 +87,16 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             style: .info,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
-                self.activeKeyphrase = keyphraseField.text!.isEmpty ? nil : keyphraseField.text
+                self.activeKeyphrase = keyphraseField.text!.isEmpty ? "" : keyphraseField.text!.lowercased()
                 self.filterAnnouncements()
         }
         
+    }
+    
+    @IBAction func clearFilter(_ sender: Any) {
+        self.activeFilters.removeAll()
+        self.activeKeyphrase = ""
+        self.filterAnnouncements()
     }
     
     func createFilterSubview(isFilter: Bool) -> UIView {
@@ -185,27 +194,35 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     func filterAnnouncements() {
         self.announcementsToShow.removeAll()
         
-        if self.activeKeyphrase == nil && self.activeFilters.isEmpty {
+        
+        if self.activeKeyphrase.isEmpty && self.activeFilters.isEmpty {
             self.announcementsToShow = self.announcements
+            self.clearButton.isEnabled = false
+            self.clearButton.tintColor = UIColor.clear
         } else {
-            for committeeTag in self.activeFilters {
-                for announcement in self.announcements {
-                    if announcement.committeeTags.contains(committeeTag) && !self.announcementsToShow.contains(announcement) {
-                        self.announcementsToShow.append(announcement)
+            self.clearButton.isEnabled = true
+            self.clearButton.tintColor = nil
+            
+            if !self.activeFilters.isEmpty {
+                for committeeTag in self.activeFilters {
+                    for announcement in self.announcements {
+                        if announcement.committeeTags.contains(committeeTag) && !announcementsToShow.contains(announcement) {
+                            self.announcementsToShow.append(announcement)
+                        }
                     }
                 }
             }
             
-            if let keyphrase = self.activeKeyphrase {
+            if !self.activeKeyphrase.isEmpty {
                 let prevAnnouncementsToShow = self.announcementsToShow
                 self.announcementsToShow.removeAll()
                 for announcement in prevAnnouncementsToShow {
-                    if (announcement.title.contains(keyphrase) || announcement.details.contains(keyphrase))
-                        && !announcementsToShow.contains(announcement) {
+                    if (announcement.title.lowercased().contains(self.activeKeyphrase) || announcement.details.lowercased().contains(self.activeKeyphrase)) && !announcementsToShow.contains(announcement) {
                         announcementsToShow.append(announcement)
                     }
                 }
             }
+            
         }
         
         self.tableView.reloadData()
@@ -213,6 +230,8 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.clearButton.isEnabled = false
+        self.clearButton.tintColor = UIColor.clear
         
         if (RosterManager.sharedInstance.currentUserCanCreateAnnouncements()) {
             self.addAnnouncementButton.isEnabled = true

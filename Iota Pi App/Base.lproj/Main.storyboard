@@ -1366,11 +1366,18 @@
                                 <action selector="addAnnouncement:" destination="ew8-xl-yNJ" id="8mq-IC-hwv"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="Bfc-De-VaJ">
-                            <connections>
-                                <action selector="searchForAnnouncement:" destination="ew8-xl-yNJ" id="c99-16-CXL"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="search" id="Bfc-De-VaJ">
+                                <connections>
+                                    <action selector="searchForAnnouncement:" destination="ew8-xl-yNJ" id="c99-16-CXL"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Clear" id="fmL-Uw-uSd">
+                                <connections>
+                                    <action selector="clearFilter:" destination="ew8-xl-yNJ" id="Gsf-UX-8cB"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="1SG-G5-9ZH">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -1378,6 +1385,7 @@
                     </refreshControl>
                     <connections>
                         <outlet property="addAnnouncementButton" destination="Zfw-d9-AMx" id="1K2-Ef-Kyc"/>
+                        <outlet property="clearButton" destination="fmL-Uw-uSd" id="IIR-wl-gV6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xfb-iV-HL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
