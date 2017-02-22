@@ -31,7 +31,14 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         searchField.autocorrectionType = .no
         searchField.placeholder = "Keyphrase"
         
-        searchAlert.showEdit("Search Archives", subTitle: "").setDismissBlock {
+        searchAlert.showTitle(
+            "Search",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Seach",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
             if let search = searchField.text {
                 self.filter = search.lowercased()
                 self.filterVotes()

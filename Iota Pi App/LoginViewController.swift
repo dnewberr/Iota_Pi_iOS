@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, LoginServiceDelegate {
+class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorMessageLabel: UILabel!
@@ -33,7 +33,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate {
         view.addGestureRecognizer(tap)
     }
     
-    //Calls this function when the tap is recognized.
+    // Closes keyboard when tapped outside textfields
     func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -41,6 +41,18 @@ class LoginViewController: UIViewController, LoginServiceDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        if self.emailTextField == textField {
+            passwordTextField.becomeFirstResponder()
+        } else if self.passwordTextField == textField {
+            textField.resignFirstResponder()
+            self.attemptLogin(textField)
+        }
+        
+        return true
+    }
+    
     
     func showErrorMessage(message: String) {
         let animationDuration = 0.25

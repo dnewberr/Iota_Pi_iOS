@@ -78,7 +78,14 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
                 }
             }
         } else {
-            SCLAlertView().showInfo("Meeting Check In", subTitle: "There is no active meeting session.").setDismissBlock {
+            SCLAlertView().showTitle(
+                "Meeting Check In",
+                subTitle: "There is no active meeting session.",
+                duration: 0.0,
+                completeText: "Okay",
+                style: .notice,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
                 if !RosterManager.sharedInstance.currentUserCanDictateMeetings() {
                     _ = self.navigationController?.popViewController(animated: true)
                 } else {
@@ -95,9 +102,15 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
                 self.createCheckInDismissBlock(meeting: meeting)
             }
         } else {
-        
-        SCLAlertView().showInfo("Meeting Check In", subTitle: "You have checked into the current meeting.").setDismissBlock {
-            self.createCheckInDismissBlock(meeting: meeting)
+            SCLAlertView().showTitle(
+                "Meeting Check In",
+                subTitle: "You have checked into the current meeting.",
+                duration: 0.0,
+                completeText: "Okay",
+                style: .info,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
+                self.createCheckInDismissBlock(meeting: meeting)
             }
         }
     }

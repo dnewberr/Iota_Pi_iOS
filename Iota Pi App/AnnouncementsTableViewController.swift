@@ -55,8 +55,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             completeText: "Create",
             style: .edit,
             colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF
-            ).setDismissBlock {
+            colorTextButton: 0xFFFFFF).setDismissBlock {
             if let title = titleTextField.text, let description = descriptionTextView.text {
                 if title.isEmpty || description.isEmpty {
                     SCLAlertView().showError("Error", subTitle: "Please enter a title and a description for the announcement.")
@@ -83,8 +82,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             completeText: "Search",
             style: .info,
             colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF
-            ).setDismissBlock {
+            colorTextButton: 0xFFFFFF).setDismissBlock {
                 self.activeKeyphrase = keyphraseField.text!.isEmpty ? nil : keyphraseField.text
                 self.filterAnnouncements()
         }

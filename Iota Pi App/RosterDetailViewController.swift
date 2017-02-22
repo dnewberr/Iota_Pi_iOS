@@ -74,7 +74,14 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
             editableInfo.autocapitalizationType = .none
             editableInfo.autocorrectionType = .no
             
-            editRosterInfo.showEdit("Edit Roster Info", subTitle: cell.detailTextLabel!.text!).setDismissBlock {
+            editRosterInfo.showTitle(
+                "Edit Roster Info",
+                subTitle: cell.detailTextLabel!.text!,
+                duration: 0.0,
+                completeText: "Done",
+                style: .edit,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
                 if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
                     self.updateData(key: detail, value: value)
                 }

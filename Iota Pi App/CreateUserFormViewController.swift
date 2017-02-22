@@ -14,12 +14,19 @@ import SCLAlertView
 class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     let loginService = LoginService()
     @IBAction func cancelCreateUser(_ sender: AnyObject) {
-        let cancelAlertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+        let cancelAlertView = SCLAlertView()
         cancelAlertView.addButton("Exit Form") {
             self.dismiss(animated: true)
         }
-        cancelAlertView.addButton("Cancel") {}
-        cancelAlertView.showWarning("Create User", subTitle: "Are you sure you wish to exit this form?")
+        
+        cancelAlertView.showTitle(
+            "Create User",
+            subTitle: "Are you sure you wish to exit this form?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     @IBAction func submitForm(_ sender: AnyObject) {

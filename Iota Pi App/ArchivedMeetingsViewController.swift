@@ -21,7 +21,14 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         let sessionCodeText = alertView.addTextField()
         sessionCodeText.placeholder = "Session Code"
         
-        alertView.showNotice("Archived Meetings", subTitle: "Search for a meeting by its session code.").setDismissBlock {
+        alertView.showTitle(
+            "Archived Meetings",
+            subTitle: "Search for a meeting by its session code.",
+            duration: 0.0,
+            completeText: "Seach",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
             
             if let sessionCode = sessionCodeText.text {
                 self.meetingToPass = nil
