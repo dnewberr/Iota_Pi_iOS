@@ -81,7 +81,6 @@ class HirlyFormViewController: UIViewController {
     var formTableViewController: FormTableViewController!
     
     @IBAction func submitForm(_ sender: AnyObject) {
-        print("SUBMIT")
         self.formTableViewController.submitVote()
     }
     

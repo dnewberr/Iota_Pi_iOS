@@ -138,7 +138,6 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellTopic = self.filteredTopics[indexPath.row]
-        print("SELECTED ROW \(indexPath.row) = {\(self.votingTopics[indexPath.row].summary)}")
         if self.isHirly {
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(

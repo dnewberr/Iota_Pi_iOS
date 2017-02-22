@@ -75,7 +75,6 @@ public class VotingTopic {
             }
             
             for i in 0...(winnersArray.count - 1) {
-                print("winnersArray[i] | i = \(i) | winnersArray.count = \(winnersArray.count) | \(winnersArray[i])")
                 let user = RosterManager.sharedInstance.brothersMap[winnersArray[i]]
                 if user != nil {
                     self.winners += (user?.firstname)! + " " + (user?.lastname)!

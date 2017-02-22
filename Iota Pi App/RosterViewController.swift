@@ -75,7 +75,6 @@ class RosterTableViewController: UITableViewController {
         let currentBrother = brothersArray[indexPath.row]
         
         cell.brotherId = currentBrother.userId
-        print("🛎🛎🛎🛎🛎🛎🛎🛎🛎🛎 + \(currentBrother.userId)")
         cell.textLabel!.text = currentBrother.firstname + " " + currentBrother.lastname
         
         return cell

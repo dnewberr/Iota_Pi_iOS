@@ -51,7 +51,6 @@ public class VotingService {
                     archivedTopics.append(topic)
                     
                     if topic.winners == "N/A" && isHirly {
-                        print("?????")
                         self.calculateHirlyWinners(voteId: topic.getId())
                     }
                 }

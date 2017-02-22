@@ -91,7 +91,6 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! PreviousMeetingsTableViewCell
         meetingToPass = currentCell.meeting
-        print(meetingToPass?.sessionCode)
         performSegue(withIdentifier: "meetingDetailsSegue", sender: self)
     }
 
@@ -117,7 +116,6 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         }
         
         self.tableView.reloadData()
-        print("POPULATE MEETINGS")
     }
     
     // unnecessary delegate methods
