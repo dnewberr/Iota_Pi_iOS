@@ -13,6 +13,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorMessageLabel: UILabel!
     
+    let animationDuration = 0.25
     let loginService = LoginService()
     var blurredEffectView: UIVisualEffectView!
     var indicator: UIActivityIndicatorView!
@@ -20,7 +21,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     @IBAction func attemptLogin(_ sender: AnyObject) {
         if let email = emailTextField.text, let password = passwordTextField.text {
             self.indicator.startAnimating()
-            self.blurredEffectView.isHidden = false
+            self.blurView()
             self.loginService.attemptLogin(email: email, password: password)
         }
     }
@@ -34,14 +35,14 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         self.blurredEffectView = UIVisualEffectView(effect: blurEffect)
         self.blurredEffectView.frame = self.view.frame
         view.addSubview(self.blurredEffectView)
-        self.blurredEffectView.isHidden = true
+        self.blurredEffectView.alpha = 0;
         
         self.indicator = Utilities.createActivityIndicator(center: self.view.center)
         self.view.addSubview(indicator)
         
         self.loginService.loginServiceDelegate = self
         self.indicator.startAnimating()
-        self.blurredEffectView.isHidden = false
+        self.blurView()
         self.loginService.checkIfLoggedIn()
         
         self.errorMessageLabel.alpha = 0;
@@ -73,17 +74,25 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     
     func showErrorMessage(message: String) {
         self.indicator.stopAnimating()
-        self.blurredEffectView.isHidden = true
-        let animationDuration = 0.25
+        self.blurredEffectView.alpha = 0
         self.errorMessageLabel.text = message
         
-        UIView.animate(withDuration: animationDuration, animations: { () -> Void in
+        UIView.animate(withDuration: self.animationDuration, animations: { () -> Void in
             self.errorMessageLabel.alpha = 1
         }) { (Bool) -> Void in
-            UIView.animate(withDuration: animationDuration, delay: 1.5, options: .curveEaseInOut, animations: { () -> Void in
+            UIView.animate(withDuration: self.animationDuration, delay: 1.5, options: .curveEaseInOut, animations: { () -> Void in
                 self.errorMessageLabel.alpha = 0
-                },
-                           completion: nil)
+            }, completion: nil)
+        }
+    }
+    
+    func blurView() {
+        UIView.animate(withDuration: self.animationDuration, animations: { () -> Void in
+            self.blurredEffectView.alpha = 1
+        }) { (Bool) -> Void in
+            UIView.animate(withDuration: self.animationDuration, delay: 10, options: .curveEaseInOut, animations: { () -> Void in
+                self.blurredEffectView.alpha = 0
+            }, completion: nil)
         }
     }
     
