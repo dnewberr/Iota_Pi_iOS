@@ -17,6 +17,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     var denyHirly = false
     var denyCurrent = false
     
+    @IBOutlet weak var archivedCurrentVoteButton: UIButton!
     @IBOutlet weak var createVoteButton: UIBarButtonItem!
     @IBOutlet weak var currentVoteCodeLabel: UILabel!
     @IBOutlet weak var currentVoteButton: UIButton!
@@ -83,10 +84,12 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             self.createVoteButton.isEnabled = true
             self.createVoteButton.tintColor = nil
             self.currentVoteCodeLabel.isHidden = false
+            self.archivedCurrentVoteButton.isHidden = false
         } else {
             self.createVoteButton.isEnabled = false
             self.createVoteButton.tintColor = UIColor.clear
             self.currentVoteCodeLabel.isHidden = true
+            self.archivedCurrentVoteButton.isHidden = true
         }
         
         self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
@@ -177,5 +180,19 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             let destination = segue.destination as! HirlyFormViewController
             destination.hirlyTopic = self.currentHirly
         }
+        
+        if segue.identifier == "hirlyArchivedSegue" {
+            let destination = segue.destination as! ArchivedVoteTableViewController
+            destination.isHirly = true
+        }
+        
+        if segue.identifier == "currentArchivedSegue" {
+            let destination = segue.destination as! ArchivedVoteTableViewController
+            destination.isHirly = false
+        }
     }
+    
+    
+    // unnecessary method
+    func sendArchivedTopics(topics: [VotingTopic]) {}
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		58934612A5EFC84B62B6E154 /* Pods_Iota_Pi_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8699AB11431215C22F348260 /* Pods_Iota_Pi_App.framework */; };
+		CD02DC0A1E5D397400B14BA3 /* ArchivedVoteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD02DC091E5D397400B14BA3 /* ArchivedVoteTableViewController.swift */; };
 		CD06086B1E36E344003259A7 /* CreateUserFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD06086A1E36E344003259A7 /* CreateUserFormViewController.swift */; };
 		CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */; };
 		CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0A1DC2838D0037420B /* AppDelegate.swift */; };
@@ -50,6 +51,7 @@
 		0A521279ED2B15304A39D9A4 /* Pods-Iota Pi App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iota Pi App.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iota Pi App/Pods-Iota Pi App.release.xcconfig"; sourceTree = "<group>"; };
 		8699AB11431215C22F348260 /* Pods_Iota_Pi_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Iota_Pi_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16BEB1BE8E3C378DCFEBCC1 /* Pods-Iota Pi App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iota Pi App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iota Pi App/Pods-Iota Pi App.debug.xcconfig"; sourceTree = "<group>"; };
+		CD02DC091E5D397400B14BA3 /* ArchivedVoteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedVoteTableViewController.swift; sourceTree = "<group>"; };
 		CD06086A1E36E344003259A7 /* CreateUserFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUserFormViewController.swift; sourceTree = "<group>"; };
 		CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsTableViewController.swift; sourceTree = "<group>"; };
 		CD499F071DC2838D0037420B /* Iota Pi App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Iota Pi App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +195,7 @@
 				CDFC01631DDCF805004C688F /* VotingTopic.swift */,
 				CDFC016C1DDCFD98004C688F /* VotingViewController.swift */,
 				CDFC017A1DDE6322004C688F /* VotingService.swift */,
+				CD02DC091E5D397400B14BA3 /* ArchivedVoteTableViewController.swift */,
 			);
 			name = "4 Voting";
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				CDFC01801DDE6BD6004C688F /* RosterViewController.swift in Sources */,
 				CDFC01821DDE6BE9004C688F /* LoginService.swift in Sources */,
 				CD49DCD01E35B9A7001CE861 /* ArchivedMeetingsViewController.swift in Sources */,
+				CD02DC0A1E5D397400B14BA3 /* ArchivedVoteTableViewController.swift in Sources */,
 				CDDEE4621E35FF0100D06831 /* AttendanceTableViewController.swift in Sources */,
 				CDFC01691DDCFADA004C688F /* RosterManager.swift in Sources */,
 				CDF32D681DFA09D60018526B /* RosterService.swift in Sources */,

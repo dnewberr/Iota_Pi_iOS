@@ -15,6 +15,7 @@ public protocol VotingServiceDelegate: class {
     func confirmVote()
     func noCurrentVote(isHirly: Bool)
     func denyVote(isHirly: Bool, topic: VotingTopic?)
+    func sendArchivedTopics(topics: [VotingTopic])
 }
 
 public class VotingService {
@@ -35,6 +36,28 @@ public class VotingService {
         fetchVotingTopic(ref: baseRef.child("CurrentVote"), isHirly: false)
     }
     
+    func fetchArchivedVotingTopics(isHirly: Bool) {
+        let ref = isHirly ? baseRef.child("HIRLy") : baseRef.child("CurrentVote")
+        var archivedTopics = [VotingTopic]()
+        
+        ref.observe(.value, with:{ (snapshot) -> Void in
+            for item in snapshot.children {
+                let child = item as! FIRDataSnapshot
+                let key = Double(child.key)!
+                let dict = child.value as! NSDictionary
+                let topic = VotingTopic(dict: dict, expiration: key)
+                
+                if topic.archived {
+                    archivedTopics.append(topic)
+                }
+            }
+            
+            VotingService.LOGGER.info("[Fetch Archived Topics] Retrieved \(archivedTopics.count) archived topics for isHirly = [\(isHirly)]")
+            
+            self.votingServiceDelegate?.sendArchivedTopics(topics: archivedTopics)
+        })
+    }
+    
     func fetchVotingTopic(ref: FIRDatabaseReference, isHirly: Bool) {
         ref.observe(.value, with:{ (snapshot) -> Void in
             var currentTopic: VotingTopic?
@@ -45,7 +68,7 @@ public class VotingService {
                 let dict = child.value as! NSDictionary
                 let topic = VotingTopic(dict: dict, expiration: key)
                 
-                if (!topic.archived) {
+                if !topic.archived {
                     VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
                     currentTopic = topic
                 }

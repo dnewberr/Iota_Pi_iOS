@@ -42,10 +42,6 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         }
     }
     
-    func denyVote(isHirly: Bool, topic: VotingTopic?) {}
-    
-    func noCurrentVote(isHirly: Bool) {}
-    
     func submitVote() {
         if self.nomineeNameLabel.text == "-" {
             SCLAlertView().showError("Error", subTitle: "Please choose a brother to nominate.")
@@ -71,6 +67,11 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
             destination.nomineeDelegate = self
         }
     }
+    
+    // unnecessary methods
+    func denyVote(isHirly: Bool, topic: VotingTopic?) {}
+    func noCurrentVote(isHirly: Bool) {}
+    func sendArchivedTopics(topics: [VotingTopic]) {}
 }
 
 class HirlyFormViewController: UIViewController {

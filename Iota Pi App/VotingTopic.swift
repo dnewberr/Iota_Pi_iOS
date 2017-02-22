@@ -13,9 +13,18 @@ public class VotingTopic {
     let summary: String!
     let description: String!
     let expirationDate: Date!
-    var broHasVoted = false
-    var sessionCode = ""
+    
     var archived = false
+    var broHasVoted = false
+    
+    // currentVote only
+    var abstainVotes = 0
+    var noVotes = 0
+    var sessionCode = ""
+    var yesVotes = 0
+    
+    // hirly only
+    var winner = "N/A"
     
     init(summary: String, description: String, isSessionCodeRequired: Bool) {
         self.summary = summary
@@ -47,6 +56,17 @@ public class VotingTopic {
         
         if (Date() >= self.expirationDate) {
             self.archived = true
+        }
+        
+        // Currentvote only
+        if let numAbstain = dict.value(forKey: "abstainCount") as? Int {
+            self.abstainVotes = numAbstain
+        }
+        if let numNo = dict.value(forKey: "noCount") as? Int {
+            self.noVotes = numNo
+        }
+        if let numYes = dict.value(forKey: "yesCount") as? Int {
+            self.yesVotes = numYes
         }
     }
     
