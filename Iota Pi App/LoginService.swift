@@ -19,6 +19,7 @@ public class LoginService {
     public static let LOGGER = Logger(formatter: Formatter("🚹 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
                                       theme: nil, minLevel: .trace)
     weak var loginServiceDelegate: LoginServiceDelegate?
+    var userAlreadyLoggedIn = false // keeps autologin - because it's a state change method - from seguing 2x
     
     init() {}
     
@@ -79,8 +80,11 @@ public class LoginService {
                 }
             } else if let isValidated = snapshot.childSnapshot(forPath: "isValidated").value as? Bool{
                 if isValidated {
-                    LoginService.LOGGER.info("[Check Login] User has been verified.")
-                    self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                    if !self.userAlreadyLoggedIn {
+                        LoginService.LOGGER.info("[Check Login] User has been verified.")
+                        self.userAlreadyLoggedIn = true
+                        self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                    }
                 } else {
                     LoginService.LOGGER.info("[Check Login] User not verified.")
                     self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
