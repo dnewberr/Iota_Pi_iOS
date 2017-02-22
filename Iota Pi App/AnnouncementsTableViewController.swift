@@ -25,7 +25,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     var activeKeyphrase: String?
     var tagsToAdd = [String]()
     
-    var indicator = UIActivityIndicatorView()
+    var indicator: UIActivityIndicatorView!
     
     @IBAction func addAnnouncement(_ sender: AnyObject) {
         let announcementCreation = SCLAlertView()
@@ -213,13 +213,26 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if (RosterManager.sharedInstance.currentUserCanCreateAnnouncements()) {
+            self.addAnnouncementButton.isEnabled = true
+            self.addAnnouncementButton.tintColor = nil
+        } else {
+            self.addAnnouncementButton.isEnabled = false
+            self.addAnnouncementButton.tintColor = UIColor.clear
+        }
+        
         self.tableView.tableFooterView = UIView()
-        self.navigationItem.hidesBackButton = true
         self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
         self.parent!.view.addSubview(indicator)
         
+        self.refreshControl?.addTarget(self, action: #selector(ArchivedVoteTableViewController.refresh), for: UIControlEvents.valueChanged)
+        
         self.indicator.startAnimating()
         announcementsService.announcementsServiceDelegate = self
+        announcementsService.fetchAnnouncements()
+    }
+    
+    func refresh() {
         announcementsService.fetchAnnouncements()
     }
     
@@ -238,13 +251,10 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         self.filterAnnouncements()
         self.indicator.stopAnimating()
         
-        if (RosterManager.sharedInstance.currentUserCanCreateAnnouncements()) {
-            self.addAnnouncementButton.isEnabled = true
-            self.addAnnouncementButton.tintColor = nil
-        } else {
-            self.addAnnouncementButton.isEnabled = false
-            self.addAnnouncementButton.tintColor = UIColor.clear
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
         }
+
     }
 
     override func didReceiveMemoryWarning() {

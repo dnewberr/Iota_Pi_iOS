@@ -14,6 +14,8 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     
     let votingService = VotingService()
     var votingTopics = [VotingTopic]()
+    
+    var indicator: UIActivityIndicatorView!
     var filteredTopics = [VotingTopic]()
     var filter = ""
     var isHirly = false
@@ -70,8 +72,21 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         super.viewDidLoad()
         self.votingService.votingServiceDelegate = self
         
+        self.tableView.tableFooterView = UIView()
+        
         self.clearFilterButton.isEnabled = false
         self.clearFilterButton.tintColor = UIColor.clear
+        
+        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
+        self.parent!.view.addSubview(indicator)
+    
+        self.refreshControl?.addTarget(self, action: #selector(ArchivedVoteTableViewController.refresh), for: UIControlEvents.valueChanged)
+        
+        self.indicator.startAnimating()
+        self.votingService.fetchArchivedVotingTopics(isHirly: self.isHirly)
+    }
+    
+    func refresh() {
         self.votingService.fetchArchivedVotingTopics(isHirly: self.isHirly)
     }
 
@@ -79,6 +94,11 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         self.votingTopics = topics
         self.filteredTopics = topics
         self.tableView.reloadData()
+        self.indicator.stopAnimating()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     override func didReceiveMemoryWarning() {

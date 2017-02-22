@@ -15,6 +15,10 @@ class IotaPiPageViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidesWhenStopped =  true
+        
+        self.webView.scalesPageToFit = true
+        self.webView.contentMode = UIViewContentMode.scaleAspectFit
+        
         DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
             self?.webView.loadRequest(URLRequest(url: URL(string: "https://www.iotapi.com")!))
         }
