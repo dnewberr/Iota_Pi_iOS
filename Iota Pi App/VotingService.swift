@@ -49,6 +49,11 @@ public class VotingService {
                 
                 if topic.archived {
                     archivedTopics.append(topic)
+                    
+                    if topic.winners == "N/A" && isHirly {
+                        print("?????")
+                        self.calculateHirlyWinners(voteId: topic.getId())
+                    }
                 }
             }
             
@@ -71,6 +76,8 @@ public class VotingService {
                 if !topic.archived {
                     VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
                     currentTopic = topic
+                } else if topic.winners == "N/A" && isHirly  {
+                    self.calculateHirlyWinners(voteId: topic.getId())
                 }
             }
             
@@ -151,5 +158,34 @@ public class VotingService {
         VotingService.LOGGER.info("[Submit Vote] Marking user with UID \(RosterManager.sharedInstance.currentUserId) as having voted.")
         ref.child(nomBroId).child("reasons").child(RosterManager.sharedInstance.currentUserId).setValue(reason)
         ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
+    }
+    
+    func calculateHirlyWinners(voteId: String) {
+        VotingService.LOGGER.info("[Calculate Winner] Figuring out HIRLy winner for vote \(voteId).")
+        var hirlyWinners = [String]()
+        var maxNoms = -1
+        
+        baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+            for contender in snapshot.children {
+                let contenderData = contender as! FIRDataSnapshot
+                let dict = contenderData.value as! NSDictionary
+                if let numVotes = dict.value(forKey: "numNoms") as? Int {
+                    if numVotes > maxNoms {
+                        hirlyWinners.removeAll()
+                        hirlyWinners.append(contenderData.key)
+                        maxNoms = numVotes
+                    } else if numVotes == maxNoms {
+                        hirlyWinners.append(contenderData.key)
+                    }
+                }
+            }
+            
+            self.updateWinner(voteId: voteId, winners: hirlyWinners)
+        })
+    }
+    
+    func updateWinner(voteId: String, winners: [String]) {
+        VotingService.LOGGER.info("[Calculate Winner] Pushing winner(s) with uid(s) \(winners) to vote \(voteId).")
+        baseRef.child("HIRLy").child(voteId).child("winners").setValue(winners)
     }
 }

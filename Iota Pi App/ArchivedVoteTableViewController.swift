@@ -44,7 +44,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             if isHirly {
                 self.filteredTopics = self.votingTopics.filter({
                     $0.summary.lowercased().contains(filter)
-                        || $0.winner.lowercased().contains(filter)
+                        || $0.winners.lowercased().contains(filter)
                         || $0.description.lowercased().contains(filter)
                         || Utilities.dateToDayTime(date: $0.expirationDate).contains(filter)
                 })
@@ -100,7 +100,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         let cellTopic = self.filteredTopics[indexPath.row]
         if self.isHirly {
             cell.textLabel?.text = cellTopic.summary
-            cell.detailTextLabel?.text = "\(Utilities.dateToDayTime(date: cellTopic.expirationDate)) | \(cellTopic.winner)"
+            cell.detailTextLabel?.text = "\(Utilities.dateToDayTime(date: cellTopic.expirationDate)) | \(cellTopic.winners)"
         } else {
             cell.textLabel?.text = cellTopic.sessionCode
             cell.detailTextLabel?.text = Utilities.dateToDayTime(date: cellTopic.expirationDate)
@@ -116,7 +116,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(
                 cellTopic.summary,
-                subTitle: "Winner: \(cellTopic.winner).\nDate: \(Utilities.dateToDayTime(date: cellTopic.expirationDate))",
+                subTitle: "Winner(s): \(cellTopic.winners).\nDate: \(Utilities.dateToDayTime(date: cellTopic.expirationDate))",
                 duration: 0.0,
                 completeText: "Done",
                 style: .info,

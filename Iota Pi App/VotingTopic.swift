@@ -24,7 +24,7 @@ public class VotingTopic {
     var yesVotes = 0
     
     // hirly only
-    var winner = "N/A"
+    var winners = "N/A"
     
     init(summary: String, description: String, isSessionCodeRequired: Bool) {
         self.summary = summary
@@ -67,6 +67,24 @@ public class VotingTopic {
         }
         if let numYes = dict.value(forKey: "yesCount") as? Int {
             self.yesVotes = numYes
+        }
+        
+        if let winnersArray = dict.value(forKey: "winners") as? [String] {
+            if winnersArray.count > 0 {
+                self.winners = ""
+            }
+            
+            for i in 0...(winnersArray.count - 1) {
+                print("winnersArray[i] | i = \(i) | winnersArray.count = \(winnersArray.count) | \(winnersArray[i])")
+                let user = RosterManager.sharedInstance.brothersMap[winnersArray[i]]
+                if user != nil {
+                    self.winners += (user?.firstname)! + " " + (user?.lastname)!
+                }
+                
+                if i < winnersArray.count - 1 {
+                    self.winners += "; "
+                }
+            }
         }
     }
     
