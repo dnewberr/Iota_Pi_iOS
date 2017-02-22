@@ -16,8 +16,9 @@ public class RosterManager: RosterServiceDelegate {
     let rosterService = RosterService()
     var brothersMap: [String : User]!
     var brothersToValidate: [String : User]!
-    var currentUserId: String!
+    var currentUserAlreadyLoggedIn = false
     var currentUserAdmin: AdminPrivileges!
+    var currentUserId: String!
     
     private init() {
         self.rosterService.rosterServiceDelegate = self

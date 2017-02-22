@@ -142,7 +142,6 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func successfullyLoginLogoutUser() {
@@ -153,5 +152,6 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
         }
     }
     
+    // unnecessary delegate method
     func showErrorMessage(message: String) {}
 }

@@ -14,22 +14,30 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     @IBOutlet weak var errorMessageLabel: UILabel!
     
     let loginService = LoginService()
+    var indicator: UIActivityIndicatorView!
 
     @IBAction func attemptLogin(_ sender: AnyObject) {
         if let email = emailTextField.text, let password = passwordTextField.text {
+            self.indicator.startAnimating()
             self.loginService.attemptLogin(email: email, password: password)
         }
     }
+    
+    @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.indicator = Utilities.createActivityIndicator(center: self.view.center)
+        self.view.addSubview(indicator)
 
         self.loginService.loginServiceDelegate = self
+        self.indicator.startAnimating()
         self.loginService.checkIfLoggedIn()
         
         self.errorMessageLabel.alpha = 0;
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
-
         view.addGestureRecognizer(tap)
     }
     
@@ -55,6 +63,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     
     
     func showErrorMessage(message: String) {
+        self.indicator.stopAnimating()
         let animationDuration = 0.25
         self.errorMessageLabel.text = message
         
@@ -69,6 +78,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     }
     
     func successfullyLoginLogoutUser() {
+        self.indicator.stopAnimating()
         self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }
 }

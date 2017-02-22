@@ -12,7 +12,7 @@ import SCLAlertView
 
 class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     let loginService = LoginService()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
@@ -67,10 +67,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     }
     
     func successfullyLoginLogoutUser() {
-        if let storyboard = self.storyboard {
-            let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-            self.present(vc, animated: false, completion: nil)
-        }
+        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
     }
     
     

@@ -16,10 +16,8 @@ public protocol LoginServiceDelegate: class {
 }
 
 public class LoginService {
-    public static let LOGGER = Logger(formatter: Formatter("🚹 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
-                                      theme: nil, minLevel: .trace)
+    public static let LOGGER = Logger(formatter: Formatter("🚹 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message), theme: nil, minLevel: .trace)
     weak var loginServiceDelegate: LoginServiceDelegate?
-    var userAlreadyLoggedIn = false // keeps autologin - because it's a state change method - from seguing 2x
     
     init() {}
     
@@ -45,11 +43,12 @@ public class LoginService {
     func checkIfLoggedIn() {
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if user != nil {
-                LoginService.LOGGER.info("[Sign In] User signed in with UID: " + user!.uid)
+                LoginService.LOGGER.info("[Sign In] User with UID: [" + user!.uid + "] exists.")
                 RosterManager.sharedInstance.currentUserId = user!.uid
                 self.checkIfCanLogIn(uid: user!.uid)
             } else {
                 LoginService.LOGGER.trace("[Sign In] No user authenticated.")
+                self.loginServiceDelegate?.showErrorMessage(message: "Please log in.")
             }
         }
     }
@@ -78,18 +77,20 @@ public class LoginService {
                     LoginService.LOGGER.info("[Check Login] User has been marked as deleted.")
                     self.deleteUser()
                 }
-            } else if let isValidated = snapshot.childSnapshot(forPath: "isValidated").value as? Bool{
+            } else if let isValidated = snapshot.childSnapshot(forPath: "isValidated").value as? Bool {
                 if isValidated {
-                    if !self.userAlreadyLoggedIn {
+                    if !RosterManager.sharedInstance.currentUserAlreadyLoggedIn {
                         LoginService.LOGGER.info("[Check Login] User has been verified.")
-                        self.userAlreadyLoggedIn = true
+                        RosterManager.sharedInstance.currentUserAlreadyLoggedIn = true
                         self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                    } else {
+                        LoginService.LOGGER.info("[Check Login] User has been verified and has already been logged in.")
                     }
                 } else {
                     LoginService.LOGGER.info("[Check Login] User not verified.")
                     self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
                 }
-            } else if snapshot.childSnapshot(forPath: "isValidated").value == nil {
+            } else {
                 LoginService.LOGGER.info("[Check Login] Verification value not set.")
                 self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
             }
@@ -115,13 +116,14 @@ public class LoginService {
         
         do {
             try FIRAuth.auth()!.signOut()
+            RosterManager.sharedInstance.currentUserAlreadyLoggedIn = false
             LoginService.LOGGER.info("[Log Out] Successfully logged out current user.")
             if !isCreate {
                 self.loginServiceDelegate?.successfullyLoginLogoutUser()
             }
         } catch let error {
             LoginService.LOGGER.error("[Log Out] " + error.localizedDescription)
-            self.loginServiceDelegate?.showErrorMessage(message: "There was an error when attempting to log out of the application.")
+            self.loginServiceDelegate?.showErrorMessage(message: "There was an error while attempting to log out of the application.")
         }
     }
     

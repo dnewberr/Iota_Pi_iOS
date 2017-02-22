@@ -70,6 +70,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let alert = SCLAlertView()
         
         let keyphraseField = alert.addTextField("Title")
+        keyphraseField.text = self.activeKeyphrase
 
         let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
         subview.addSubview(createFilterSubview(isFilter: true))
