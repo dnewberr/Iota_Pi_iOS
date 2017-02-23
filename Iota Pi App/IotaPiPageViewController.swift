@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Log
 
 class IotaPiPageViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var webView: UIWebView!
@@ -18,9 +19,9 @@ class IotaPiPageViewController: UIViewController, UIWebViewDelegate {
         
         self.webView.scalesPageToFit = true
         self.webView.contentMode = UIViewContentMode.scaleAspectFit
-        
+        Logger().trace("[IotaPi Page] Beginning to load the iotapi.com web view.")
         DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
-            self?.webView.loadRequest(URLRequest(url: URL(string: "https://www.iotapi.com")!))
+            self?.webView.loadRequest(URLRequest(url: URL(string: "http://www.iotapi.com/")!))
         }
     }
     
