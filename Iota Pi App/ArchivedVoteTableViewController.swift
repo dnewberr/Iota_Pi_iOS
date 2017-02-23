@@ -142,7 +142,8 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(
                 cellTopic.summary,
-                subTitle: "Winner(s): \(cellTopic.winners).\nDate: \(Utilities.dateToDayTime(date: cellTopic.expirationDate))",
+                subTitle: "[\(Utilities.dateToDayTime(date: cellTopic.expirationDate))]"
+                    + "\nWinner(s): \(cellTopic.winners)",
                 duration: 0.0,
                 completeText: "Done",
                 style: .info,
@@ -152,7 +153,10 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(
                 cellTopic.summary,
-                subTitle: "Yes - \(cellTopic.yesVotes) | No - \(cellTopic.noVotes) | Abstain - \(cellTopic.abstainVotes)\nDate: \(Utilities.dateToDayTime(date: cellTopic.expirationDate))",
+                subTitle: "[\(Utilities.dateToDayTime(date: cellTopic.expirationDate))]"
+                    + "\nYes - \(cellTopic.yesVotes)"
+                    + "\nNo - \(cellTopic.noVotes)"
+                    + "\nAbstain - \(cellTopic.abstainVotes)",
                 duration: 0.0,
                 completeText: "Done",
                 style: .info,
