@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
@@ -28,6 +29,35 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     
     // Necessary for logout to work
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
+    
+    @IBAction func forgotPassword(_ sender: Any) {
+        let forgotPasswordAlert = SCLAlertView()
+        let emailText = forgotPasswordAlert.addTextField()
+        emailText.text = self.emailTextField.text
+        
+        forgotPasswordAlert.showTitle(
+            "Reset Password",
+            subTitle: "Please enter your username or email",
+            duration: 0.0,
+            completeText: "Reset",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
+                if let email = emailText.text {
+                    if !email.trim().isEmpty {
+                        let fullEmail = email.contains("@") ? email : email + "@iotapi.com"
+                        self.indicator.startAnimating()
+                        self.blurView()
+                        self.loginService.resetPassword(email: fullEmail)
+                    } else {
+                        SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
+                    }
+                } else {
+                    SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
+                }
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

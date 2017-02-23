@@ -143,7 +143,7 @@ public class LoginService {
     }
     
     func changePassword(oldPassword: String, newPassword: String) {
-        LoginService.LOGGER.error("[Change Password] Changing password for UID " + RosterManager.sharedInstance.currentUserId)
+        LoginService.LOGGER.info("[Change Password] Changing password for UID " + RosterManager.sharedInstance.currentUserId)
         let user = FIRAuth.auth()!.currentUser!
         let credential = FIREmailPasswordAuthProvider.credential(withEmail: user.email!, password: oldPassword)
         
@@ -157,9 +157,23 @@ public class LoginService {
                         LoginService.LOGGER.error("[Change Password] " + error.localizedDescription)
                         self.loginServiceDelegate?.showErrorMessage(message: "An error occured while trying to change your password. The change was unsuccessful.")
                     } else {
+                        LoginService.LOGGER.info("[Change Password] Password successfully changed.")
                         self.loginServiceDelegate?.successfullyLoginLogoutUser()
                     }
                 }
+            }
+        }
+    }
+    
+    func resetPassword(email: String) {
+        LoginService.LOGGER.info("[Reset Password] Resetting password for user with email: " + email)
+        FIRAuth.auth()!.sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                LoginService.LOGGER.error("[Reset Password] " + error.localizedDescription)
+                self.loginServiceDelegate?.showErrorMessage(message: "Username or email not found.")
+            } else {
+                LoginService.LOGGER.info("[Reset Password] Password reset email sent.")
+                self.loginServiceDelegate?.showErrorMessage(message: "An email has been sent to you to reset your password.")
             }
         }
     }
