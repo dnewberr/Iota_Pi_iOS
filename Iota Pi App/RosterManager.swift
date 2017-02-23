@@ -50,19 +50,19 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanCreateAnnouncements() -> Bool {
-        return RosterManager.sharedInstance.currentUserAdmin != AdminPrivileges.None
+        return self.currentUserAdmin != AdminPrivileges.None
     }
     
     func currentUserCanCreateHirly() -> Bool {
-        switch RosterManager.sharedInstance.currentUserAdmin! {
+        switch self.currentUserAdmin! {
             case .President: return true
             case .BrotherhoodCommitteeChair: return true
             default: return false
         }
     }
     
-    func currentUserCanCreateUser() -> Bool {
-        switch RosterManager.sharedInstance.currentUserAdmin! {
+    func currentUserCanCreateUserChangeAdmin() -> Bool {
+        switch self.currentUserAdmin! {
             case .President: return true
             case .Webmaster: return true
             default: return false
@@ -70,7 +70,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanCreateVote() -> Bool {
-        switch RosterManager.sharedInstance.currentUserAdmin! {
+        switch self.currentUserAdmin! {
             case .President: return true
             case .Parliamentarian: return true
             default: return false
@@ -78,7 +78,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanDictateMeetings() -> Bool {
-        switch RosterManager.sharedInstance.currentUserAdmin! {
+        switch self.currentUserAdmin! {
             case .President: return true
             case .RecSec: return true
             case .VicePresident: return true
@@ -87,7 +87,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanEditRoster() -> Bool {
-        switch RosterManager.sharedInstance.currentUserAdmin! {
+        switch self.currentUserAdmin! {
             case .President: return true
             case .RecSec: return true
             default: return false

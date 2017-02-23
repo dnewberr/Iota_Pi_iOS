@@ -26,6 +26,10 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         self.rosterService.rosterServiceDelegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     func refresh() {
         self.editableTitles.removeAll()
         self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
@@ -128,11 +132,14 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     let rosterService = RosterService()
     var currentBrotherId: String!
     
+    @IBOutlet weak var changeStatusAdminButton: UIButton!
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var container: UIView!
     @IBOutlet weak var deleteCurrentUserButton: UIBarButtonItem!
     
+    // Necessary for pop from status/admin changes to work
+    @IBAction func unwindToDetail(segue: UIStoryboardSegue) {}
     
     @IBAction func deleteCurrentUser(_ sender: AnyObject) {
         let deleteUserAlert = SCLAlertView()
@@ -160,13 +167,27 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
         self.statusLabel.text = currentBrother.status.rawValue
         self.title = currentBrother.firstname + " " + currentBrother.lastname
         
-        if !RosterManager.sharedInstance.currentUserCanCreateUser()
+        if !RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin()
             || self.currentBrotherId == RosterManager.sharedInstance.currentUserId { //can't delete yourself
             self.deleteCurrentUserButton.isEnabled = false
             self.deleteCurrentUserButton.tintColor = UIColor.clear
         }
+        
+        if RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin()
+            && self.currentBrotherId != RosterManager.sharedInstance.currentUserId {
+            self.changeStatusAdminButton.setTitle("Edit Admin or Status", for: .normal)
+        } else if RosterManager.sharedInstance.currentUserCanEditRoster()
+            && self.currentBrotherId != RosterManager.sharedInstance.currentUserId {
+            self.changeStatusAdminButton.setTitle("Edit Status", for: .normal)
+        } else {
+            self.changeStatusAdminButton.isEnabled = false
+            self.changeStatusAdminButton.tintColor = UIColor.clear
+        }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.statusLabel.text = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.status.rawValue
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -174,6 +195,10 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "rosterDetaiListSegue" {
             let destination = segue.destination as! RosterDetailTableViewController
+            destination.currentBrotherId = self.currentBrotherId
+        }
+        if segue.identifier == "changeAdminStatusSegue" {
+            let destination = segue.destination as! ChangeAdminStatusViewController
             destination.currentBrotherId = self.currentBrotherId
         }
     }
