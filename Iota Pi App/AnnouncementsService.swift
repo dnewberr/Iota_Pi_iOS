@@ -12,6 +12,7 @@ import Log
 
 public protocol AnnouncementsServiceDelegate: class {
     func updateUI(announcements: [Announcement])
+    func error(message: String)
 }
 
 public class AnnouncementsService {
@@ -48,5 +49,17 @@ public class AnnouncementsService {
         
         AnnouncementsService.LOGGER.info("[Push Announcement] \(newAnnouncement.toFirebaseObject())")
         ref.setValue(newAnnouncement.toFirebaseObject())
+    }
+    
+    public func deleteAnnouncement(id: String, announcements: [Announcement]) {
+        AnnouncementsService.LOGGER.info("[Delete Announcement] Removing announcement with ID \(id)")
+        FIRDatabase.database().reference().child("Announcements").child(id).removeValue(completionBlock: { (error, ref) in
+            if let error = error {
+                AnnouncementsService.LOGGER.error("[Delete Announcement] " + error.localizedDescription)
+                self.announcementsServiceDelegate?.error(message: "An error occurred while trying to delete the announcement.")
+            } else {
+                self.announcementsServiceDelegate?.updateUI(announcements: announcements.filter({$0.getId() != id}))
+            }
+        })
     }
 }

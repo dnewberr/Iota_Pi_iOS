@@ -194,7 +194,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     func filterAnnouncements() {
         self.announcementsToShow.removeAll()
         
-        
         if self.activeKeyphrase.isEmpty && self.activeFilters.isEmpty {
             self.announcementsToShow = self.announcements
             self.clearButton.isEnabled = false
@@ -225,6 +224,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             
         }
         
+        self.announcementsToShow = self.announcementsToShow.sorted(by: {$0.getId() > $1.getId()})
         self.tableView.reloadData()
     }
     
@@ -313,6 +313,30 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             performSegue(withIdentifier: "announcementDetailsSegue", sender: self)
         }
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let deleteAnnouncementAlert = SCLAlertView()
+            deleteAnnouncementAlert.addButton("Delete") {
+                self.indicator.startAnimating()
+                let allAnnouncements = self.announcements + self.archivedAnnouncements
+                self.announcementsService.deleteAnnouncement(id: self.announcementsToShow[indexPath.row].getId(), announcements: allAnnouncements)
+            }
+            
+            deleteAnnouncementAlert.showTitle(
+                "Delete Announcement",
+                subTitle: "Are you sure you want to delete this announcement?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+    }
  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "announcementDetailsSegue") {
@@ -323,5 +347,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             let destination = segue.destination as! ArchivedAnnouncementsTableViewController
             destination.announcements = archivedAnnouncements
         }
+    }
+    
+    func error(message: String) {
+        SCLAlertView().showError("Error", subTitle: message)
     }
 }
