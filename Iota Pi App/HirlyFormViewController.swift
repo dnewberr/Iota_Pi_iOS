@@ -43,8 +43,8 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     }
     
     func submitVote() {
-        if self.nomineeNameLabel.text == "-" {
-            SCLAlertView().showError("Error", subTitle: "Please choose a brother to nominate.")
+        if self.nomineeNameLabel.text == "-" || self.hirlyNomReasonText.text!.isEmpty {
+            SCLAlertView().showError("Error", subTitle: "Please choose a brother and write the reason you wish to nominate them.")
         } else {
             self.votingService.submitHirlyNom(topic: self.currentTopic, nomBroId: (self.chosenUser?.userId)!, reason: self.hirlyNomReasonText.text)
         }

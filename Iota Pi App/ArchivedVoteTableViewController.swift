@@ -34,7 +34,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         
         searchAlert.showTitle(
             "Search",
-            subTitle: "",
+            subTitle: "Enter a phrase to find a topic containing it.",
             duration: 0.0,
             completeText: "Seach",
             style: .notice,

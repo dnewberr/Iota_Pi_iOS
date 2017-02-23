@@ -8,17 +8,77 @@
 
 import UIKit
 import Firebase
+import SCLAlertView
 
 class ArchivedTableViewCell: UITableViewCell {
     var announcement: Announcement!
 }
 
 class ArchivedAnnouncementsTableViewController: UITableViewController {
+    @IBOutlet weak var clearButton: UIBarButtonItem!
+    
+    @IBAction func search(_ sender: Any) {
+        let alert = SCLAlertView()
+        
+        let keyphraseField = alert.addTextField("Title")
+        keyphraseField.autocorrectionType = .no
+        keyphraseField.autocapitalizationType = .none
+        keyphraseField.text = self.activeKeyphrase
+        
+        alert.showTitle(
+            "Search",
+            subTitle: "Enter a phrase to find an announcement.",
+            duration: 0.0,
+            completeText: "Search",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
+                self.activeKeyphrase = keyphraseField.text!.isEmpty ? "" : keyphraseField.text!.lowercased()
+                self.filterAnnouncements()
+        }
+        
+    }
+    
+    @IBAction func clearFilter(_ sender: Any) {
+        self.activeKeyphrase = ""
+        self.filterAnnouncements()
+    }
+    
     var announcements = [Announcement]()
+    var filteredAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
+    var activeKeyphrase = ""
+    
+    func filterAnnouncements() {
+        self.filteredAnnouncements.removeAll()
+        
+        if self.activeKeyphrase.isEmpty {
+            self.filteredAnnouncements = self.announcements
+            self.clearButton.isEnabled = false
+            self.clearButton.tintColor = UIColor.clear
+        } else {
+            self.clearButton.isEnabled = true
+            self.clearButton.tintColor = nil
+            
+            for announcement in self.announcements {
+                if (announcement.title.lowercased().contains(self.activeKeyphrase) || announcement.details.lowercased().contains(self.activeKeyphrase)) && !filteredAnnouncements.contains(announcement) {
+                    filteredAnnouncements.append(announcement)
+                }
+            }
+            
+        }
+        
+        self.tableView.reloadData()
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.clearButton.isEnabled = false
+        self.clearButton.tintColor = UIColor.clear
+        
+        self.filterAnnouncements()
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,13 +90,13 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return announcements.count
+        return filteredAnnouncements.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "archivedCell", for: indexPath) as! ArchivedTableViewCell
             
-        cell.announcement = announcements[indexPath.row]
+        cell.announcement = filteredAnnouncements[indexPath.row]
         cell.textLabel!.text = cell.announcement.title + " - " + Utilities.dateToDay(date: cell.announcement.expirationDate)
         cell.detailTextLabel!.text = cell.announcement.getCommitteeTagList()
         

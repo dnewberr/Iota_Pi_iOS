@@ -1442,7 +1442,22 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Archived" id="xwf-cR-P6s">
                         <barButtonItem key="backBarButtonItem" title=" " id="6ri-dg-D3i"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="search" id="CPd-oo-BzS">
+                                <connections>
+                                    <action selector="search:" destination="JlC-bt-kgk" id="V4r-Zz-OnL"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Clear" id="Gqf-eJ-pN6">
+                                <connections>
+                                    <action selector="clearFilter:" destination="JlC-bt-kgk" id="BBr-34-XfK"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="clearButton" destination="Gqf-eJ-pN6" id="VCe-js-9Iq"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qIE-Qm-iQI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1662,9 +1677,9 @@
         <image name="voting" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Tfp-Jk-jnb"/>
         <segue reference="Xyf-n9-O14"/>
         <segue reference="nqs-DP-CBH"/>
+        <segue reference="Mka-aN-Voj"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.02352941222" green="0.1019607857" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>
