@@ -37,7 +37,6 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
                 self.activeKeyphrase = sessionCode
                 self.filterMeetings()
             }
-            
         }
     }
     

@@ -76,6 +76,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     func showErrorMessage(message: String) {
         self.indicator.stopAnimating()
         self.blurredEffectView.alpha = 0
+        self.blurredEffectView.layer.removeAllAnimations()
         self.errorMessageLabel.text = message
         
         UIView.animate(withDuration: self.animationDuration, animations: { () -> Void in

@@ -135,7 +135,20 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     
     
     @IBAction func deleteCurrentUser(_ sender: AnyObject) {
-        self.rosterService.markUserForDeletion(uid: self.currentBrotherId)
+        let deleteUserAlert = SCLAlertView()
+        deleteUserAlert.addButton("Delete") {
+            self.rosterService.markUserForDeletion(uid: self.currentBrotherId)
+        }
+        
+        deleteUserAlert.showTitle(
+            "Delete User",
+            subTitle: "Are you sure you wish to delete this user?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .warning,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+        
     }
     
     override func viewDidLoad() {

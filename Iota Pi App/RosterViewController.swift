@@ -48,6 +48,10 @@ class RosterTableViewController: UITableViewController {
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.filterRoster()
+    }
+    
     func refresh() {
         RosterManager.sharedInstance.populateRoster()
         self.filterRoster()

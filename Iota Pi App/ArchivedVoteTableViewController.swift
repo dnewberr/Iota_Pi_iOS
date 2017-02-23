@@ -36,7 +36,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             "Search",
             subTitle: "Enter a phrase to find a topic containing it.",
             duration: 0.0,
-            completeText: "Seach",
+            completeText: "Search",
             style: .notice,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
