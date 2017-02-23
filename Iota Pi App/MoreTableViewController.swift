@@ -12,11 +12,14 @@ import SCLAlertView
 
 class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     let loginService = LoginService()
+    var userLoggedOut = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
         self.loginService.loginServiceDelegate = self
+        
+        self.refreshControl?.addTarget(self, action: #selector(MoreTableViewController.refresh), for: UIControlEvents.valueChanged)
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,11 +31,13 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var numRows = 4
+        
         if RosterManager.sharedInstance.currentUserCanCreateUser() && !RosterManager.sharedInstance.brothersToValidate.isEmpty {
-            return 4
+            numRows += 1
         }
         
-        return 3
+        return numRows
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -41,6 +46,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         if cell?.textLabel?.text == "Logout" {
             let logoutAlertView = SCLAlertView()
             logoutAlertView.addButton("Logout") {
+                self.userLoggedOut = true
                 self.loginService.logoutCurrentUser(isCreate: false)
             }
             
@@ -57,6 +63,85 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         if cell?.textLabel?.text == "Your Info" {
             performSegue(withIdentifier: "yourInfoSegue", sender: self)
         }
+        
+        if cell?.textLabel?.text == "Change Password" {
+            let changePasswordAlert = SCLAlertView()
+            let oldPasswordText = changePasswordAlert.addTextField()
+            oldPasswordText.isSecureTextEntry = true
+            oldPasswordText.placeholder = "Current Password"
+            let newPasswordText1 = changePasswordAlert.addTextField()
+            newPasswordText1.isSecureTextEntry = true
+            newPasswordText1.placeholder = "New Password"
+            let newPasswordText2 = changePasswordAlert.addTextField()
+            newPasswordText2.isSecureTextEntry = true
+            newPasswordText2.placeholder = "New Password Again"
+            
+            changePasswordAlert.addButton("Submit") {
+                if let oldPassword = oldPasswordText.text, let newPassword1 = newPasswordText1.text, let newPassword2 = newPasswordText2.text {
+                    if oldPassword.isEmpty {
+                        SCLAlertView().showTitle(
+                            "Logout",
+                            subTitle: "Please enter your current password.",
+                            duration: 0.0,
+                            completeText: "Okay",
+                            style: .warning,
+                            colorStyle: Style.mainColorHex,
+                            colorTextButton: 0xFFFFFF)
+                    } else if newPassword1.isEmpty || newPassword2.isEmpty || newPassword1 != newPassword2 {
+                        SCLAlertView().showTitle(
+                            "Logout",
+                            subTitle: "Please enter your new password twice.",
+                            duration: 0.0,
+                            completeText: "Okay",
+                            style: .warning,
+                            colorStyle: Style.mainColorHex,
+                            colorTextButton: 0xFFFFFF)
+                    } else if newPassword1.characters.count < 6 {
+                        SCLAlertView().showTitle(
+                            "Logout",
+                            subTitle: "Your new password must be at least 6 characters long.",
+                            duration: 0.0,
+                            completeText: "Okay",
+                            style: .warning,
+                            colorStyle: Style.mainColorHex,
+                            colorTextButton: 0xFFFFFF)
+                    } else if oldPassword == newPassword1 {
+                        SCLAlertView().showTitle(
+                            "Logout",
+                            subTitle: "You must choose a new password to change to.",
+                            duration: 0.0,
+                            completeText: "Okay",
+                            style: .warning,
+                            colorStyle: Style.mainColorHex,
+                            colorTextButton: 0xFFFFFF)
+                    } else if newPassword1 == newPassword2 && !oldPassword.isEmpty {
+                        self.loginService.changePassword(oldPassword: oldPassword, newPassword: newPassword1)
+                    }
+                } else {
+                    SCLAlertView().showTitle(
+                        "Logout",
+                        subTitle: "Please enter your current password and your new password.",
+                        duration: 0.0,
+                        completeText: "OK",
+                        style: .warning,
+                        colorStyle: Style.mainColorHex,
+                        colorTextButton: 0xFFFFFF)
+                }
+            }
+            
+            changePasswordAlert.showTitle(
+                "Change Password",
+                subTitle: "Enter your new password.",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.refresh()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -66,12 +151,24 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         }
     }
     
+    func refresh() {
+        self.tableView.reloadData()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     func successfullyLoginLogoutUser() {
-        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+        if self.userLoggedOut {
+            self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+        } else {
+            SCLAlertView().showSuccess("Change Password", subTitle: "Your password was successfully changed!")
     }
     
     
     func showErrorMessage(message: String) {
-        SCLAlertView().showError("Log Out", subTitle: message)
+        SCLAlertView().showError("Error", subTitle: message)
+        self.userLoggedOut = false
     }
 }

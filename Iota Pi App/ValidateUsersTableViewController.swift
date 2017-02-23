@@ -46,7 +46,12 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         self.uidsToVerify.removeAll()
         self.invalidUsers.removeAll()
         self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
-        self.tableView.reloadData()
+        if invalidUsers.isEmpty {
+            _ = self.navigationController?.popViewController(animated: true)
+        } else {
+            self.tableView.reloadData()
+        }
+    
         
         if (self.refreshControl?.isRefreshing)! {
             self.refreshControl?.endRefreshing()

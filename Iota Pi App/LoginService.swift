@@ -141,4 +141,28 @@ public class LoginService {
             }
         })
     }
+    
+    func changePassword(oldPassword: String, newPassword: String) {
+        LoginService.LOGGER.error("[Change Password] Changing password for UID " + RosterManager.sharedInstance.currentUserId)
+        let user = FIRAuth.auth()!.currentUser!
+        let credential = FIREmailPasswordAuthProvider.credential(withEmail: user.email!, password: oldPassword)
+        
+        user.reauthenticate(with: credential) { error in
+            if let error = error {
+                LoginService.LOGGER.error("[Change Password] " + error.localizedDescription)
+                self.loginServiceDelegate?.showErrorMessage(message: "Please enter the correct current password.")
+            } else {
+                user.updatePassword(newPassword) { error in
+                    if let error = error {
+                        LoginService.LOGGER.error("[Change Password] " + error.localizedDescription)
+                        self.loginServiceDelegate?.showErrorMessage(message: "An error occured while trying to change your password. The change was unsuccessful.")
+                    } else {
+                        print("CAN CHANGE PW")
+                    }
+                }
+            }
+        }
+
+        
+    }
 }
