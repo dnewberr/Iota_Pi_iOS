@@ -98,7 +98,9 @@ class RosterTableViewController: UITableViewController {
     func filterRoster() {
         if !filter.trim().isEmpty {
             self.brothersArray = self.brothersArray.filter({
-                $0.firstname.lowercased().contains(filter.lowercased()) || $0.lastname.lowercased().contains(filter.lowercased())
+                $0.firstname.lowercased().contains(filter.lowercased())
+                    || $0.lastname.lowercased().contains(filter.lowercased())
+                    || $0.nickname.lowercased().contains(filter.lowercased())
             })
             self.clearFilterButton.isEnabled = true
             self.clearFilterButton.tintColor = nil
@@ -107,6 +109,7 @@ class RosterTableViewController: UITableViewController {
             self.clearFilterButton.isEnabled = false
             self.clearFilterButton.tintColor = UIColor.clear
         }
+        
         self.tableView.reloadData()
     }
 }

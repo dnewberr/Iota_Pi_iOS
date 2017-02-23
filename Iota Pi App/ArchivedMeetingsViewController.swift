@@ -20,67 +20,84 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         let alertView = SCLAlertView()
         let sessionCodeText = alertView.addTextField()
         sessionCodeText.placeholder = "Session Code"
+        sessionCodeText.text = self.activeKeyphrase
         
         alertView.showTitle(
             "Archived Meetings",
             subTitle: "Search for a meeting by its session code.",
             duration: 0.0,
-            completeText: "Seach",
+            completeText: "Search",
             style: .notice,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
-            
             if let sessionCode = sessionCodeText.text {
-                self.meetingToPass = nil
-                for meeting in self.archivedMeetings {
-                    if meeting.sessionCode == sessionCode {
-                        self.meetingToPass = meeting
-                        self.performSegue(withIdentifier: "meetingDetailsSegue", sender: self)
-                    }
-                }
-                
-                if self.meetingToPass == nil {
-                    SCLAlertView().showError("Archived Meetings", subTitle: "Session code not found.")
-                }
-            } else {
-                SCLAlertView().showError("Archived Meetings", subTitle: "Please enter a session code.")
+                print("ok")
+                self.activeKeyphrase = sessionCode
+                self.filterMeetings()
             }
-            
             
         }
     }
+    
+    func filterMeetings() {
+        self.filteredMeetings.removeAll()
+        
+        if !self.activeKeyphrase.isEmpty {
+            print("filtering")
+            for meeting in self.archivedMeetings {
+                if meeting.sessionCode.lowercased().contains(self.activeKeyphrase.trim().lowercased()) {
+                    print("appending meeting")
+                    self.filteredMeetings.append(meeting)
+                }
+            }
+        } else {
+            self.filteredMeetings = self.archivedMeetings
+        }
+        
+        self.tableView.reloadData()
+    }
 
     var archivedMeetings = [Meeting]()
+    var filteredMeetings = [Meeting]()
     var meetingService = MeetingService()
     var meetingToPass: Meeting?
+    var activeKeyphrase = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.tableFooterView = UIView()
         meetingService.meetingServiceDelegate = self
         meetingService.fetchAllArchivedMeetings()
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if !self.archivedMeetings.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "No data available"
+            noDataLabel.textColor = Style.tintColor
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archivedMeetings.count
+        return self.filteredMeetings.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "previousMeetingsCell", for: indexPath) as!    PreviousMeetingsTableViewCell
         
-        cell.meeting = archivedMeetings[indexPath.row]
+        cell.meeting = self.filteredMeetings[indexPath.row]
         cell.meetingCodeLabel.text = cell.meeting.sessionCode
         cell.meetingDateLabel.text = Utilities.dateToDayTime(date: cell.meeting.startTime) //TODO
         
@@ -109,13 +126,11 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     }
     
     func populateMeetings(meetings: [Meeting]) {
-        self.archivedMeetings = meetings
-        
-        self.archivedMeetings.sort {
+        self.archivedMeetings = meetings.sorted {
             $0.endTime! > $1.endTime!
         }
-        
-        self.tableView.reloadData()
+
+        self.filterMeetings()
     }
     
     // unnecessary delegate methods
@@ -123,5 +138,4 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     func alreadyCheckedIn(meeting: Meeting) {}
     func noMeeting() {}
     func newMeetingCreated(meeting: Meeting) {}
-
 }

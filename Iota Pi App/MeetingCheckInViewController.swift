@@ -9,7 +9,7 @@
 import UIKit
 import SCLAlertView
 
-class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
+class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UITextFieldDelegate {
     @IBOutlet weak var sessionCodeLabel: UILabel!
     @IBOutlet weak var meetingStartEndButton: UIButton!
     @IBOutlet weak var checkInButton: UIButton!
@@ -42,15 +42,33 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.meetingService.meetingServiceDelegate = self
+        
         self.resetView()
         
-        self.meetingService.meetingServiceDelegate = self
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MeetingCheckInViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
         self.meetingService.fetchCurrentMeeting()
+    }
+    
+    // Closes keyboard when tapped outside textfields
+    func dismissKeyboard() {
+        view.endEditing(true)
+    
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        if self.sessionCodeTextField == textField {
+            textField.resignFirstResponder()
+            return false
+        }
+        
+        return true
     }
     
     func updateUI(meeting: Meeting) {
@@ -71,11 +89,11 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
     func noMeeting() {
         if let _ = self.currentMeeting {
             SCLAlertView().showSuccess("Meeting Check In", subTitle: "The meeting was successfully closed.").setDismissBlock {
-                if !RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-                    _ = self.navigationController?.popViewController(animated: true)
-                } else {
+//                if !RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+//                    _ = self.navigationController?.popViewController(animated: true)
+//                } else {
                     self.enableStartEndButton(title: "Start Meeting")
-                }
+//                }
             }
         } else {
             SCLAlertView().showTitle(
@@ -120,6 +138,7 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
         SCLAlertView().showSuccess("Meeting Check In", subTitle: "A new meeting has started with session code: " + meeting.sessionCode)
         
         self.currentMeeting = meeting
+        self.sessionCodeTextField.text = ""
         self.sessionCodeLabel.text = "Session Code: " + self.currentMeeting.sessionCode
     }
     
@@ -158,5 +177,4 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate {
     
     //unnecessary delegate funcs
     func populateMeetings(meetings: [Meeting]) {}
-
 }

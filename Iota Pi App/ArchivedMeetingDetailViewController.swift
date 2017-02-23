@@ -20,6 +20,9 @@ class ArchivedMeetingDetailViewController: UIViewController, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.brosPresentTable.tableFooterView = UIView()
+        
         self.title = Utilities.dateToDay(date: (self.currentMeeting?.startTime)!)
         self.startTimeLabel.text = Utilities.dateToTime(date: (self.currentMeeting?.startTime)!)
         self.endTimeLabel.text = Utilities.dateToTime(date: (self.currentMeeting?.endTime)!)
@@ -37,6 +40,7 @@ class ArchivedMeetingDetailViewController: UIViewController, UITableViewDataSour
         for uid in (self.currentMeeting?.brotherIdsCheckedIn)! {
             self.brosPresent.append(RosterManager.sharedInstance.brothersMap[uid]!)
         }
+        
         self.brosPresent.sort {
             $0.lastname < $1.lastname
         }
