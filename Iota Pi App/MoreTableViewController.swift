@@ -164,6 +164,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
             self.performSegue(withIdentifier: "unwindToLogin", sender: self)
         } else {
             SCLAlertView().showSuccess("Change Password", subTitle: "Your password was successfully changed!")
+        }
     }
     
     

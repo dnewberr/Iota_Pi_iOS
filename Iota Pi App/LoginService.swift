@@ -157,7 +157,7 @@ public class LoginService {
                         LoginService.LOGGER.error("[Change Password] " + error.localizedDescription)
                         self.loginServiceDelegate?.showErrorMessage(message: "An error occured while trying to change your password. The change was unsuccessful.")
                     } else {
-                        print("CAN CHANGE PW")
+                        self.loginServiceDelegate?.successfullyLoginLogoutUser()
                     }
                 }
             }
