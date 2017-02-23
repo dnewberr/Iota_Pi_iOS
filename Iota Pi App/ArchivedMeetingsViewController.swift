@@ -16,11 +16,14 @@ class PreviousMeetingsTableViewCell: UITableViewCell {
 }
 
 class ArchivedMeetingsTableViewController: UITableViewController, MeetingServiceDelegate {
+    @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBAction func searchForMeeting(_ sender: AnyObject) {
         let alertView = SCLAlertView()
         let sessionCodeText = alertView.addTextField()
         sessionCodeText.placeholder = "Session Code"
         sessionCodeText.text = self.activeKeyphrase
+        sessionCodeText.autocorrectionType = .no
+        sessionCodeText.autocapitalizationType = .none
         
         alertView.showTitle(
             "Archived Meetings",
@@ -31,7 +34,6 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
             if let sessionCode = sessionCodeText.text {
-                print("ok")
                 self.activeKeyphrase = sessionCode
                 self.filterMeetings()
             }
@@ -39,19 +41,27 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         }
     }
     
+    @IBAction func clearFilter(_ sender: Any) {
+        self.activeKeyphrase = ""
+        self.filterMeetings()
+    }
+    
     func filterMeetings() {
         self.filteredMeetings.removeAll()
         
         if !self.activeKeyphrase.isEmpty {
-            print("filtering")
+            self.clearButton.isEnabled = true
+            self.clearButton.tintColor = nil
+            
             for meeting in self.archivedMeetings {
                 if meeting.sessionCode.lowercased().contains(self.activeKeyphrase.trim().lowercased()) {
-                    print("appending meeting")
                     self.filteredMeetings.append(meeting)
                 }
             }
         } else {
             self.filteredMeetings = self.archivedMeetings
+            self.clearButton.isEnabled = false
+            self.clearButton.tintColor = UIColor.clear
         }
         
         self.tableView.reloadData()
@@ -66,9 +76,18 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.clearButton.isEnabled = false
+        self.clearButton.tintColor = UIColor.clear
         self.tableView.tableFooterView = UIView()
-        meetingService.meetingServiceDelegate = self
-        meetingService.fetchAllArchivedMeetings()
+        
+        self.refreshControl?.addTarget(self, action: #selector(ArchivedMeetingsTableViewController.refresh), for: UIControlEvents.valueChanged)
+        
+        self.meetingService.meetingServiceDelegate = self
+        self.meetingService.fetchAllArchivedMeetings()
+    }
+    
+    func refresh() {
+        self.meetingService.fetchAllArchivedMeetings()
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,7 +95,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if !self.archivedMeetings.isEmpty {
+        if !self.filteredMeetings.isEmpty {
             tableView.backgroundView = nil
             return 1
         } else {
@@ -131,6 +150,9 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         }
 
         self.filterMeetings()
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     // unnecessary delegate methods
