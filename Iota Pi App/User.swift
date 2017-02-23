@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Log
 
 public class User: Equatable {
     // noneditable data
@@ -15,7 +14,7 @@ public class User: Equatable {
     let email: String! //generated
     let firstname: String! //required
     let hasWonHirly: Bool! // is the user able to be nominated for hirly
-//    let isCheckedIn: Bool!
+
     let isDeleted: Bool! // is user marked to be deleted
     let isValidated: Bool! // is user able to log in
     let lastname: String! //required
@@ -87,15 +86,6 @@ public class User: Equatable {
             self.hasWonHirly = false
         }
         
-        
-//        // TODO?
-//        if let isCheckedIn = dict.value(forKey: "isCheckedIn") as? Bool {
-//            self.isCheckedIn = isCheckedIn
-//        } else {
-//            self.isCheckedIn = false
-//        }
-        
-        
         if let isDeleted = dict.value(forKey: "isDeleted") as? Bool {
             self.isDeleted = isDeleted
         } else {
@@ -107,7 +97,6 @@ public class User: Equatable {
         } else {
             self.isValidated = false
         }
-        Logger().info("USER : isValidated\(self.isValidated)")
         
         if let major = dict.value(forKey: "major") as? String {
             self.major = major

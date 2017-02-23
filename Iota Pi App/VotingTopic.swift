@@ -17,7 +17,7 @@ public class VotingTopic {
     var archived = false
     var broHasVoted = false
     
-    // currentVote only
+    // currentvare only
     var abstainVotes = 0
     var noVotes = 0
     var sessionCode = ""
@@ -104,3 +104,5 @@ public class VotingTopic {
         return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
     }
 }
+
+

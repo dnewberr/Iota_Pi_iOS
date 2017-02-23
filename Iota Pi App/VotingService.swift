@@ -186,5 +186,9 @@ public class VotingService {
     func updateWinner(voteId: String, winners: [String]) {
         VotingService.LOGGER.info("[Calculate Winner] Pushing winner(s) with uid(s) \(winners) to vote \(voteId).")
         baseRef.child("HIRLy").child(voteId).child("winners").setValue(winners)
+        
+        for uid in winners {
+            FIRDatabase.database().reference().child("Brothers").child(uid).child("hasWonHirly").setValue(true)
+        }
     }
 }

@@ -24,6 +24,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         self.filter = ""
         self.filterVotes()
     }
+    
     @IBAction func search(_ sender: AnyObject) {
         let searchAlert = SCLAlertView()
         let searchField = searchAlert.addTextField()
@@ -61,6 +62,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
                 self.filteredTopics = self.votingTopics.filter({
                     $0.summary.lowercased().contains(filter)
                         || $0.description.lowercased().contains(filter)
+                        || $0.sessionCode.lowercased().contains(filter)
                         || Utilities.dateToDayTime(date: $0.expirationDate).contains(filter)
                 })
             }
@@ -72,13 +74,14 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             self.clearFilterButton.isEnabled = false
             self.clearFilterButton.tintColor = UIColor.clear
         }
+        
+        self.filteredTopics = self.filteredTopics.sorted(by: {$0.expirationDate > $1.expirationDate})
         self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.votingService.votingServiceDelegate = self
-        
         self.tableView.tableFooterView = UIView()
         
         self.clearFilterButton.isEnabled = false
@@ -98,10 +101,9 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     }
 
     func sendArchivedTopics(topics: [VotingTopic]) {
-        self.votingTopics = topics
-        self.filteredTopics = topics
-        self.tableView.reloadData()
         self.indicator.stopAnimating()
+        self.votingTopics = topics
+        self.filterVotes()
         
         if (self.refreshControl?.isRefreshing)! {
             self.refreshControl?.endRefreshing()
@@ -113,7 +115,17 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if !self.filteredTopics.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "No data available"
+            noDataLabel.textColor = Style.tintColor
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

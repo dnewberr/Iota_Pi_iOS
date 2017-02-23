@@ -25,7 +25,10 @@ public class Announcement: Equatable {
     
     init(dict: NSDictionary, expiration: Double) {
         if let committeeTags = dict.value(forKey: "committeeTags") as? [String] {
-            self.committeeTags = committeeTags
+            self.committeeTags = committeeTags.sorted {
+                $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending
+            }
+
         } else {
             self.committeeTags = [String]()
         }
