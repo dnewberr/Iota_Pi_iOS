@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class FormTableViewController: UITableViewController, SelectNomineeDelegate, VotingServiceDelegate {
+class FormTableViewController: UITableViewController, SelectNomineeDelegate, VotingServiceDelegate, UITextViewDelegate {
     @IBOutlet weak var hirlyNomReasonText: UITextView!
     @IBOutlet weak var topicDescriptionLabel: UILabel!
     @IBOutlet weak var nomineeNameLabel: UILabel!
@@ -34,7 +34,18 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         self.topicDescriptionLabel.text = self.currentTopic.description
     }
     
-    func updateUI(topic: VotingTopic) {}
+    // Closes keyboard when tapped outside textfields
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
     
     func confirmVote() {
         SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.").setDismissBlock {
@@ -43,7 +54,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     }
     
     func submitVote() {
-        if self.nomineeNameLabel.text == "-" || self.hirlyNomReasonText.text!.isEmpty {
+        if self.nomineeNameLabel.text == "-" || self.hirlyNomReasonText.text!.trim().isEmpty {
             SCLAlertView().showError("Error", subTitle: "Please choose a brother and write the reason you wish to nominate them.")
         } else {
             self.votingService.submitHirlyNom(topic: self.currentTopic, nomBroId: (self.chosenUser?.userId)!, reason: self.hirlyNomReasonText.text)
@@ -69,6 +80,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     }
     
     // unnecessary methods
+    func updateUI(topic: VotingTopic) {}
     func denyVote(isHirly: Bool, topic: VotingTopic?) {}
     func noCurrentVote(isHirly: Bool) {}
     func sendArchivedTopics(topics: [VotingTopic]) {}

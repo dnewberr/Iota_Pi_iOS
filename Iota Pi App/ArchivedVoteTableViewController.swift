@@ -50,7 +50,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     func filterVotes() {
         self.filteredTopics.removeAll()
         
-        if !filter.isEmpty {
+        if !filter.trim().isEmpty {
             if isHirly {
                 self.filteredTopics = self.votingTopics.filter({
                     $0.summary.lowercased().contains(filter)

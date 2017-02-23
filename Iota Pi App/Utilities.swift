@@ -24,6 +24,12 @@ struct Style {
     static var tintColorHex: UInt = 0x7395D0
 }
 
+extension String {
+    func trim() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
 
 class Utilities {
     static let DATA_EXPIRATION = 2629743 * 4

@@ -33,7 +33,7 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
             style: .info,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
-                self.activeKeyphrase = keyphraseField.text!.isEmpty ? "" : keyphraseField.text!.lowercased()
+                self.activeKeyphrase = keyphraseField.text!.trim().isEmpty ? "" : keyphraseField.text!.lowercased()
                 self.filterAnnouncements()
         }
         

@@ -96,7 +96,7 @@ class RosterTableViewController: UITableViewController {
     }
     
     func filterRoster() {
-        if !filter.isEmpty {
+        if !filter.trim().isEmpty {
             self.brothersArray = self.brothersArray.filter({
                 $0.firstname.lowercased().contains(filter.lowercased()) || $0.lastname.lowercased().contains(filter.lowercased())
             })

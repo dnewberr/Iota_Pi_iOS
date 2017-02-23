@@ -26,6 +26,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         }
     }
     
+    // Necessary for logout to work
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
     
     override func viewDidLoad() {

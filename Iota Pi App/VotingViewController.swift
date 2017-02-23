@@ -136,7 +136,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
             if let summary = summaryTextField.text, let description = descriptionTextView.text {
-                if summary.isEmpty || description.isEmpty {
+                if summary.trim().isEmpty || description.trim().isEmpty {
                     SCLAlertView().showError("Invalid Topic", subTitle: "Please submit a summary and description for the new topic.")
                 } else {
                     self.pushVotingTopic(summary: summary, description: description, isSessionCodeRequired: isSessionCodeRequired)
