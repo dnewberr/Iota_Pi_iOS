@@ -16,6 +16,7 @@ public protocol VotingServiceDelegate: class {
     func noCurrentVote(isHirly: Bool)
     func denyVote(isHirly: Bool, topic: VotingTopic?)
     func sendArchivedTopics(topics: [VotingTopic])
+    func error(message: String)
 }
 
 public class VotingService {
@@ -100,6 +101,7 @@ public class VotingService {
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
             var value =  currentData.childData(byAppendingPath: vote + "Count").value as? Int
+            
             if value == nil {
                 value = 0
             }
@@ -156,12 +158,9 @@ public class VotingService {
     func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String, hirlyId: String) {
         VotingService.LOGGER.info("[Submit Vote] Marking user with UID \(RosterManager.sharedInstance.currentUserId) as having voted.")
         
-        ref.child(nomBroId).child(RosterManager.sharedInstance.currentUserId).setValue(reason)
+        ref.child("reasons").child(nomBroId).child(RosterManager.sharedInstance.currentUserId).setValue(reason)
         FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(hirlyId)
         RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = hirlyId
-        
-        //TODO remove
-//        ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
     
     func calculateHirlyWinners(voteId: String) {
@@ -172,7 +171,6 @@ public class VotingService {
         baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             for contender in snapshot.children {
                 let contenderData = contender as! FIRDataSnapshot
-//                let dict =
                 if let numVotes = contenderData.value as? Int {
                     if numVotes > maxNoms {
                         hirlyWinners.removeAll()
@@ -195,5 +193,18 @@ public class VotingService {
         for uid in winners {
             FIRDatabase.database().reference().child("Brothers").child(uid).child("hasWonHirly").setValue(true)
         }
+    }
+    
+    public func deleteVote(id: String, topics: [VotingTopic], isHirly: Bool) {
+        VotingService.LOGGER.info("[Delete Vote] Removing vote with ID \(id)")
+        let voteType = isHirly ? "HIRLy" : "CurrentVote"
+        baseRef.child(voteType).child(id).removeValue(completionBlock: { (error, ref) in
+            if let error = error {
+                VotingService.LOGGER.error("[Delete Vote] " + error.localizedDescription)
+                self.votingServiceDelegate?.error(message: "An error occurred while trying to delete the Vote.")
+            } else {
+                self.votingServiceDelegate?.sendArchivedTopics(topics: topics.filter({$0.getId() != id}))
+            }
+        })
     }
 }

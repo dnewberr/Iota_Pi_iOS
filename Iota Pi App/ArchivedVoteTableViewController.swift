@@ -178,6 +178,29 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         }
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let deleteVoteAlert = SCLAlertView()
+            deleteVoteAlert.addButton("Delete") {
+                self.indicator.startAnimating()
+                self.votingService.deleteVote(id: self.filteredTopics[indexPath.row].getId(), topics: self.votingTopics, isHirly: self.isHirly)
+            }
+            
+            deleteVoteAlert.showTitle(
+                "Delete Vote",
+                subTitle: "Are you sure you want to delete this vote?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+    }
+    
+    func error(message: String) {
+        SCLAlertView().showError("Error", subTitle: message)
+    }
+    
     // unnecessary delegate methods
     func updateUI(topic: VotingTopic) {}
     func confirmVote() {}

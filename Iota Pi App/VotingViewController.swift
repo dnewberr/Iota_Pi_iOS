@@ -216,6 +216,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     }
     
     
-    // unnecessary method
+    // unnecessary delegate methods
     func sendArchivedTopics(topics: [VotingTopic]) {}
+    func error(message: String) {}
 }

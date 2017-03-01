@@ -79,11 +79,12 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         }
     }
     
-    // unnecessary methods
+    // delegate unnecessary methods
     func updateUI(topic: VotingTopic) {}
     func denyVote(isHirly: Bool, topic: VotingTopic?) {}
     func noCurrentVote(isHirly: Bool) {}
     func sendArchivedTopics(topics: [VotingTopic]) {}
+    func error(message: String) {}
 }
 
 class HirlyFormViewController: UIViewController {
