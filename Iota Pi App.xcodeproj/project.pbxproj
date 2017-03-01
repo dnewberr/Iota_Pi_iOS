@@ -26,6 +26,8 @@
 		CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */; };
 		CDACA6B21DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */; };
 		CDB54C941E5F623700E113C3 /* ChangeAdminStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54C931E5F623700E113C3 /* ChangeAdminStatusViewController.swift */; };
+		CDB554C51E60CFC20092D70A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDB554C31E60CFC20092D70A /* Fabric.framework */; };
+		CDB554C61E60CFC20092D70A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDB554C41E60CFC20092D70A /* Crashlytics.framework */; };
 		CDBA83C61E5CAC0B00246048 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBA83C51E5CAC0B00246048 /* TabBarViewController.swift */; };
 		CDD8D9BA1E537DF800872118 /* ValidateUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */; };
 		CDDEE4621E35FF0100D06831 /* AttendanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDEE4611E35FF0100D06831 /* AttendanceTableViewController.swift */; };
@@ -72,6 +74,8 @@
 		CDACA6AF1DCBA70100BD8363 /* AnnouncementDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailsViewController.swift; sourceTree = "<group>"; };
 		CDACA6B11DCBDC2F00BD8363 /* ArchivedAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedAnnouncementTableViewController.swift; sourceTree = "<group>"; };
 		CDB54C931E5F623700E113C3 /* ChangeAdminStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeAdminStatusViewController.swift; sourceTree = "<group>"; };
+		CDB554C31E60CFC20092D70A /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		CDB554C41E60CFC20092D70A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		CDBA83C51E5CAC0B00246048 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CDD8D9B91E537DF800872118 /* ValidateUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUsersTableViewController.swift; sourceTree = "<group>"; };
 		CDDEE4611E35FF0100D06831 /* AttendanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceTableViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				58934612A5EFC84B62B6E154 /* Pods_Iota_Pi_App.framework in Frameworks */,
+				CDB554C61E60CFC20092D70A /* Crashlytics.framework in Frameworks */,
+				CDB554C51E60CFC20092D70A /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +124,8 @@
 		CD499EFE1DC2838D0037420B = {
 			isa = PBXGroup;
 			children = (
+				CDB554C31E60CFC20092D70A /* Fabric.framework */,
+				CDB554C41E60CFC20092D70A /* Crashlytics.framework */,
 				CD499F091DC2838D0037420B /* Iota Pi App */,
 				CD499F081DC2838D0037420B /* Products */,
 				05FA88AEF6AA2D8E5512C5F5 /* Pods */,
@@ -288,6 +296,7 @@
 				CD499F051DC2838D0037420B /* Resources */,
 				0A5FB71621DDB6B1CBFB85DE /* [CP] Embed Pods Frameworks */,
 				084CE9F9FA5551032B0BAC74 /* [CP] Copy Pods Resources */,
+				CDB554C21E60CFA70092D70A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -393,6 +402,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		CDB554C21E60CFA70092D70A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 3f521d4504b782695d392cd6c2522bafabdf510d 6134b418f165d38fa592cff2d45930748421f47bfd3d179d2f334f5656cf0135";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -563,6 +585,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KP537WFKBH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Iota Pi App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "iotapi.Iota-Pi-App";
@@ -578,6 +604,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KP537WFKBH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Iota Pi App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "iotapi.Iota-Pi-App";
