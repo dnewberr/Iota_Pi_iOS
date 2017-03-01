@@ -14,7 +14,7 @@ public class User: Equatable {
     let email: String! //generated
     let firstname: String! //required
     let hasWonHirly: Bool! // is the user able to be nominated for hirly
-
+    
     let isDeleted: Bool! // is user marked to be deleted
     let isValidated: Bool! // is user able to log in
     let lastname: String! //required
@@ -26,11 +26,14 @@ public class User: Equatable {
     var educationClass: String! //required
     var expectedGrad: String!
     var birthday: String!
+    var lastHirlyId: String!
+    var lastVoteId: String!
     var major: String!
     var nickname: String!
     var phoneNumber: String!
     var section: String!
     var sloAddress: String!
+    
     
     init(dict: NSDictionary, userId: String) {
         // required
@@ -79,11 +82,22 @@ public class User: Equatable {
             self.expectedGrad = "N/A"
         }
         
-        // TODO
         if let hasWonHirly = dict.value(forKey: "hasWonHirly") as? Bool {
             self.hasWonHirly = hasWonHirly
         } else {
             self.hasWonHirly = false
+        }
+        
+        if let lastHirlyId = dict.value(forKey: "lastHirlyId") as? String {
+            self.lastHirlyId = lastHirlyId
+        } else {
+            self.lastHirlyId = ""
+        }
+        
+        if let lastVoteId = dict.value(forKey: "lastVoteId") as? String {
+            self.lastVoteId = lastVoteId
+        } else {
+            self.lastVoteId = ""
         }
         
         if let isDeleted = dict.value(forKey: "isDeleted") as? Bool {

@@ -19,8 +19,7 @@ public protocol VotingServiceDelegate: class {
 }
 
 public class VotingService {
-    public static let LOGGER = Logger(formatter: Formatter("✅ [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
-                                      theme: nil, minLevel: .trace)
+    public static let LOGGER = Logger(formatter: Formatter("✅ [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message), theme: nil, minLevel: .trace)
     weak var votingServiceDelegate: VotingServiceDelegate?
     let baseRef = FIRDatabase.database().reference().child("Voting")
     
@@ -81,7 +80,7 @@ public class VotingService {
             }
             
             if let topic = currentTopic {
-                if topic.broHasVoted {
+                if topic.hasCurrentBroVoted(isHirly: isHirly) {
                     VotingService.LOGGER.info("[Fetch Voting Topic] User with UID \(RosterManager.sharedInstance.currentUserId) has already voted.")
                     self.votingServiceDelegate?.denyVote(isHirly: isHirly, topic: topic)
                 } else {
@@ -110,7 +109,7 @@ public class VotingService {
             return FIRTransactionResult.success(withValue: currentData)
             }, andCompletionBlock: {error, commited, snap in
                 if commited {
-                    self.markBroAsVoted(ref: ref)
+                    self.markBroAsVoted(ref: ref, voteId: topic.getId())
                     VotingService.LOGGER.info("[Submit Vote] Vote with ID " + topic.getId() + " increased the \"" + vote + "\" vote by one.")
                     self.votingServiceDelegate?.confirmVote()
                 } else {
@@ -121,9 +120,10 @@ public class VotingService {
         )
     }
     
-    func markBroAsVoted(ref: FIRDatabaseReference) {
+    func markBroAsVoted(ref: FIRDatabaseReference, voteId: String) {
         VotingService.LOGGER.info("[Submit Vote] Marking user with UID \(RosterManager.sharedInstance.currentUserId) as having voted.")
-        ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
+        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastVoteId").setValue(voteId)
+        RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastVoteId = voteId
     }
     
     func submitHirlyNom(topic: VotingTopic, nomBroId: String, reason: String) {
@@ -131,18 +131,18 @@ public class VotingService {
         let ref = baseRef.child("HIRLy").child(topic.getId())
         
         ref.runTransactionBlock({(currentData: FIRMutableData!) in
-            var value =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).childData(byAppendingPath: "numNoms").value as? Int
+            var value =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value as? Int
             
             if value == nil {
                 value = 0
             }
             
-            currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).childData(byAppendingPath: "numNoms").value = value! + 1
+            currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value = value! + 1
             
             return FIRTransactionResult.success(withValue: currentData)
             }, andCompletionBlock: {error, commited, snap in
                 if commited {
-                    self.addNomReason(ref: ref, reason: reason, nomBroId: nomBroId)
+                    self.addNomReason(ref: ref, reason: reason, nomBroId: nomBroId, hirlyId: topic.getId())
                     VotingService.LOGGER.info("[Submit Vote] User with ID \(nomBroId) was nominated for HIRLy vote with ID " + topic.getId())
                     self.votingServiceDelegate?.confirmVote()
                 } else {
@@ -153,10 +153,15 @@ public class VotingService {
         )
     }
     
-    func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String) {
+    func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String, hirlyId: String) {
         VotingService.LOGGER.info("[Submit Vote] Marking user with UID \(RosterManager.sharedInstance.currentUserId) as having voted.")
-        ref.child(nomBroId).child("reasons").child(RosterManager.sharedInstance.currentUserId).setValue(reason)
-        ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
+        
+        ref.child(nomBroId).child(RosterManager.sharedInstance.currentUserId).setValue(reason)
+        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(hirlyId)
+        RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = hirlyId
+        
+        //TODO remove
+//        ref.child("brosVoted").setValue([RosterManager.sharedInstance.currentUserId : true])
     }
     
     func calculateHirlyWinners(voteId: String) {
@@ -167,8 +172,8 @@ public class VotingService {
         baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             for contender in snapshot.children {
                 let contenderData = contender as! FIRDataSnapshot
-                let dict = contenderData.value as! NSDictionary
-                if let numVotes = dict.value(forKey: "numNoms") as? Int {
+//                let dict =
+                if let numVotes = contenderData.value as? Int {
                     if numVotes > maxNoms {
                         hirlyWinners.removeAll()
                         hirlyWinners.append(contenderData.key)

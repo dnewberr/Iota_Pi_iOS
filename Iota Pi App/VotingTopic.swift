@@ -15,9 +15,9 @@ public class VotingTopic {
     let expirationDate: Date!
     
     var archived = false
-    var broHasVoted = false
+//    var broHasVoted = false
     
-    // currentvare only
+    // currentvote only
     var abstainVotes = 0
     var noVotes = 0
     var sessionCode = ""
@@ -44,11 +44,11 @@ public class VotingTopic {
         self.description = dict.value(forKey: "description") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
         
-        if let brosWhoVoted = dict.value(forKey: "brosVoted") as? [String : Bool] {
-            if let broHasVoted = brosWhoVoted[RosterManager.sharedInstance.currentUserId] {
-                self.broHasVoted = broHasVoted
-            }
-        }
+//        if let brosWhoVoted = dict.value(forKey: "brosVoted") as? [String : Bool] {
+//            if let broHasVoted = brosWhoVoted[RosterManager.sharedInstance.currentUserId] {
+//                self.broHasVoted = broHasVoted
+//            }
+//        }
         
         if let sessionCode = dict.value(forKey: "sessionCode") {
             self.sessionCode = sessionCode as! String
@@ -85,6 +85,15 @@ public class VotingTopic {
                 }
             }
         }
+    }
+    
+    func hasCurrentBroVoted(isHirly: Bool) -> Bool {
+        let currentUser = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!
+        let currentVoteId = self.getId()
+        
+        print("COMPARING:: \(currentUser.lastHirlyId!) | \(currentVoteId)")
+        
+        return isHirly ? currentUser.lastHirlyId! == currentVoteId : currentUser.lastVoteId == currentVoteId
     }
     
     func toFirebaseObject() -> [AnyHashable:Any] {
