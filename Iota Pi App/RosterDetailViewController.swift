@@ -64,8 +64,12 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         return cell
     }
     
-    public func updateUI() {
+    func updateUI() {
         self.refresh()
+    }
+    
+    func error(message: String) {
+        SCLAlertView().showError("Error", subTitle: message)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -205,6 +209,10 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     
     public func updateUI() {
         _ = self.navigationController!.popViewController(animated: true)
+    }
+    
+    func error(message: String) {
+        SCLAlertView().showError("Error", subTitle: message)
     }
     
     // unnecessary delegate functions

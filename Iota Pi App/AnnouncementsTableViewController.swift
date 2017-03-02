@@ -20,7 +20,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
     @IBOutlet weak var clearButton: UIBarButtonItem!
     var announcements = [Announcement]()
-    var announcementsToShow = [Announcement]()
+    var filteredAnnouncements = [Announcement]()
     var archivedAnnouncements = [Announcement]()
     var announcementToPass: Announcement!
     let announcementsService = AnnouncementsService()
@@ -192,10 +192,10 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     func filterAnnouncements() {
-        self.announcementsToShow.removeAll()
+        self.filteredAnnouncements.removeAll()
         
         if self.activeKeyphrase.isEmpty && self.activeFilters.isEmpty {
-            self.announcementsToShow = self.announcements
+            self.filteredAnnouncements = self.announcements
             self.clearButton.isEnabled = false
             self.clearButton.tintColor = UIColor.clear
         } else {
@@ -205,28 +205,28 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             if !self.activeFilters.isEmpty {
                 for committeeTag in self.activeFilters {
                     for announcement in self.announcements {
-                        if announcement.committeeTags.contains(committeeTag) && !announcementsToShow.contains(announcement) {
-                            self.announcementsToShow.append(announcement)
+                        if announcement.committeeTags.contains(committeeTag) && !filteredAnnouncements.contains(announcement) {
+                            self.filteredAnnouncements.append(announcement)
                         }
                     }
                 }
             }
             
             if !self.activeKeyphrase.isEmpty {
-                let prevAnnouncementsToShow = self.announcementsToShow
-                self.announcementsToShow.removeAll()
-                for announcement in prevAnnouncementsToShow {
+                let prevfilteredAnnouncements = self.filteredAnnouncements
+                self.filteredAnnouncements.removeAll()
+                for announcement in prevfilteredAnnouncements {
                     if (announcement.title.lowercased().contains(self.activeKeyphrase)
                         || announcement.details.lowercased().contains(self.activeKeyphrase))
-                        && !announcementsToShow.contains(announcement) {
-                        announcementsToShow.append(announcement)
+                        && !filteredAnnouncements.contains(announcement) {
+                        filteredAnnouncements.append(announcement)
                     }
                 }
             }
             
         }
         
-        self.announcementsToShow = self.announcementsToShow.sorted(by: {$0.getId() > $1.getId()})
+        self.filteredAnnouncements = self.filteredAnnouncements.sorted(by: {$0.getId() > $1.getId()})
         self.tableView.reloadData()
     }
     
@@ -284,22 +284,32 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if !self.filteredAnnouncements.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "No data available"
+            noDataLabel.textColor = Style.tintColor
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archivedAnnouncements.count > 0 ? announcementsToShow.count + 1 : announcementsToShow.count
+        return archivedAnnouncements.count > 0 ? filteredAnnouncements.count + 1 : filteredAnnouncements.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row >= announcementsToShow.count {
+        if indexPath.row >= filteredAnnouncements.count {
             return tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
 
-        cell.announcement = announcementsToShow[indexPath.row]
+        cell.announcement = filteredAnnouncements[indexPath.row]
         cell.textLabel!.text = cell.announcement.title
         cell.detailTextLabel!.text = cell.announcement.getCommitteeTagList()
         
@@ -307,7 +317,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row >= announcementsToShow.count {
+        if indexPath.row >= filteredAnnouncements.count {
             performSegue(withIdentifier: "archivedAnnouncementsSegue", sender: self)
         } else {
             let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
@@ -326,7 +336,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             deleteAnnouncementAlert.addButton("Delete") {
                 self.indicator.startAnimating()
                 let allAnnouncements = self.announcements + self.archivedAnnouncements
-                self.announcementsService.deleteAnnouncement(id: self.announcementsToShow[indexPath.row].getId(), announcements: allAnnouncements)
+                self.announcementsService.deleteAnnouncement(id: self.filteredAnnouncements[indexPath.row].getId(), announcements: allAnnouncements)
             }
             
             deleteAnnouncementAlert.showTitle(
@@ -344,7 +354,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             archiveAnnouncementAlert.addButton("Archive") {
                 self.indicator.startAnimating()
                 let allAnnouncements = self.announcements + self.archivedAnnouncements
-                self.announcementsService.archiveAnnouncement(id: self.announcementsToShow[indexPath.row].getId(), announcements: allAnnouncements)
+                self.announcementsService.archiveAnnouncement(id: self.filteredAnnouncements[indexPath.row].getId(), announcements: allAnnouncements)
             }
             
             archiveAnnouncementAlert.showTitle(

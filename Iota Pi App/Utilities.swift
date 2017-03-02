@@ -32,8 +32,8 @@ extension String {
 
 
 class Utilities {
-    static let SECONDS_IN_WEEK = 604800
-    static let SECONDS_IN_YEAR = 31557600
+    static let SECONDS_IN_WEEK: Double = 604800
+    static let SECONDS_IN_YEAR: Double = 31557600
     
     static func isOlderThanOneYear(date: Date) -> Bool {
         return !(Date(timeIntervalSinceNow: -SECONDS_IN_YEAR)...Date(timeIntervalSinceNow: SECONDS_IN_WEEK)).contains(date) // 7 day buffer for manually archived

@@ -29,8 +29,6 @@ public class RosterManager: RosterServiceDelegate {
         rosterService.fetchBrothers()
     }
     
-    public func updateUI() {}
-    
     public func sendMap(map: [String : User]) {
         var brothersMap = [String : User]()
         var brothersToValidate = [String : User]()
@@ -107,10 +105,7 @@ public class RosterManager: RosterServiceDelegate {
         }
     }
     
-
-    
-//    
-//    func markAsPresent() {
-//        self.rosterService.checkInBrother()
-//    }
+    // unnecessary delegate methods
+    public func updateUI() {}
+    public func error(message: String) {}
 }

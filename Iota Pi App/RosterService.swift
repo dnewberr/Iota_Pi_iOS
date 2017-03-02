@@ -13,6 +13,7 @@ import Log
 public protocol RosterServiceDelegate: class {
     func updateUI()
     func sendMap(map: [String : User])
+    func error(message: String)
 }
 
 public class RosterService {
@@ -45,9 +46,14 @@ public class RosterService {
         RosterService.LOGGER.info("[Push Brother Detail] Pushing [\(key) : \(value)] for brother with UID: " + brotherId)
         
         // Edit database for permanent changes; local edited already
-        baseRef.child(brotherId).child(key).setValue(value)
-        
-        self.rosterServiceDelegate?.updateUI()
+        baseRef.child(brotherId).child(key).setValue(value, withCompletionBlock: {(error, ref) in
+            if let error = error {
+                RosterService.LOGGER.info("[Push Brother Detail] \(error.localizedDescription)")
+                self.rosterServiceDelegate?.error(message: "An error has occured that prevents your changes from being saved.")
+            } else {
+                self.rosterServiceDelegate?.updateUI()
+            }
+        })
     }
     
     func validateBrothers(uids: [String]) {
@@ -66,12 +72,18 @@ public class RosterService {
     }
     
     func markUserForDeletion(uid: String) {
+        RosterService.LOGGER.info("[Mark Deletion] Marking brother with UID: " + uid + " as to be deleted.")
+        
         // Edit database for permanent changes
-        baseRef.child(uid).child("isDeleted").setValue(true)
-        
-        // Edit locally for quick visual changes
-        RosterManager.sharedInstance.brothersMap.removeValue(forKey: uid)
-        
-        self.rosterServiceDelegate?.updateUI()
+        baseRef.child(uid).child("isDeleted").setValue(true, withCompletionBlock: {(error, ref) in
+            if let error = error {
+                RosterService.LOGGER.info("[Mark Deletion] \(error.localizedDescription)")
+                self.rosterServiceDelegate?.error(message: "An error has occured that prevents your changes from being saved.")
+            } else {
+                // Edit locally for quick visual changes
+                RosterManager.sharedInstance.brothersMap.removeValue(forKey: uid)
+                self.rosterServiceDelegate?.updateUI()
+            }
+        })
     }
 }

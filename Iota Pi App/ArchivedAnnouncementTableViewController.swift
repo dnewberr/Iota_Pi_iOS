@@ -81,6 +81,8 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
         self.clearButton.isEnabled = false
         self.clearButton.tintColor = UIColor.clear
         
+        self.tableView.tableFooterView = UIView()
+        
         self.filterAnnouncements()
     }
     
@@ -89,7 +91,17 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if !self.filteredAnnouncements.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "No data available"
+            noDataLabel.textColor = Style.tintColor
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

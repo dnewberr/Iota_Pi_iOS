@@ -66,6 +66,10 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
         }
     }
     
+    func error(message: String) {
+        SCLAlertView().showError("Error", subTitle: message)
+    }
+    
     // unnecessary delegate method
     func sendMap(map: [String : User]) {}
 }
