@@ -160,7 +160,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Ucm-Ak-Gpo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wKM-5B-MMI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="502"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="J0M-s5-n2L">
@@ -291,18 +291,18 @@
                         <viewControllerLayoutGuide type="bottom" id="14E-9c-G02"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xRm-YK-Iva">
-                        <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ru7-Vs-x0y">
-                                <rect key="frame" x="16" y="510" width="343" height="30"/>
+                                <rect key="frame" x="16" y="515" width="343" height="30"/>
                                 <state key="normal" title="Submit"/>
                                 <connections>
                                     <action selector="submitForm:" destination="msa-JO-kGV" eventType="touchUpInside" id="M5y-ss-Nnn"/>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jk5-zw-CWa">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="502"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <connections>
                                     <segue destination="PDK-1M-mcB" kind="embed" identifier="hirlyFormSegue" id="QNh-oj-pIc"/>
                                 </connections>
@@ -319,7 +319,18 @@
                             <constraint firstItem="ru7-Vs-x0y" firstAttribute="top" secondItem="Jk5-zw-CWa" secondAttribute="bottom" constant="8" symbolic="YES" id="ymN-kk-t0W"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="HIRLy Nominations" id="crQ-X5-58d">
+                        <barButtonItem key="backBarButtonItem" title=" " id="maN-z1-u4v"/>
+                        <barButtonItem key="rightBarButtonItem" title="Archive" id="E19-W2-YVA">
+                            <connections>
+                                <action selector="archive:" destination="msa-JO-kGV" id="agu-W9-GWt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="archiveButton" destination="E19-W2-YVA" id="agh-zw-iGA"/>
                         <outlet property="formContainer" destination="Jk5-zw-CWa" id="Fgp-F3-nvD"/>
                         <outlet property="submitButton" destination="ru7-Vs-x0y" id="QyY-p1-fRm"/>
                     </connections>
@@ -731,6 +742,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="an1-Yf-CaP">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
@@ -849,7 +861,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N8M-hs-0zn" id="cmL-GG-jD4">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="97d-NP-Svp">
@@ -1029,6 +1041,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="VGs-Io-Xq4"/>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="68h-hu-VKu">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
@@ -1251,8 +1264,8 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxO-z5-VFL">
-                                <rect key="frame" x="186" y="538" width="4" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxO-z5-VFL">
+                                <rect key="frame" x="16" y="508" width="343" height="17"/>
                                 <fontDescription key="fontDescription" name="AbadiMT-CondensedLight" family="Abadi MT Condensed Light" pointSize="14"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1271,22 +1284,40 @@
                                     <segue destination="TJd-JK-eSC" kind="show" identifier="hirlyArchivedSegue" id="Y4N-Gi-cRE"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8FG-rz-RZ7">
+                                <rect key="frame" x="131" y="523" width="114" height="30"/>
+                                <state key="normal" title=" "/>
+                                <connections>
+                                    <action selector="closeCurrentVote:" destination="wdK-eZ-M7F" eventType="touchUpInside" id="f3y-xv-Rdk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="aDh-6h-Q2I" firstAttribute="top" secondItem="nah-2X-z0W" secondAttribute="bottom" constant="95" id="1aK-gH-RJb"/>
-                            <constraint firstItem="SY0-uI-bCc" firstAttribute="top" secondItem="6bW-si-fKl" secondAttribute="bottom" constant="8" symbolic="YES" id="1hG-bv-KbV"/>
-                            <constraint firstItem="6bW-si-fKl" firstAttribute="centerX" secondItem="nxO-z5-VFL" secondAttribute="centerX" id="3kq-bd-mud"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="nxO-z5-VFL" secondAttribute="bottom" constant="-1" id="4E7-6J-blf"/>
-                            <constraint firstItem="212-EF-yZt" firstAttribute="leading" secondItem="Wfe-Bx-mdJ" secondAttribute="leading" id="9Pl-Gi-ML5"/>
-                            <constraint firstItem="6bW-si-fKl" firstAttribute="leading" secondItem="gCM-7S-YGt" secondAttribute="leadingMargin" id="E5u-Q4-xa4"/>
-                            <constraint firstAttribute="bottom" secondItem="Wfe-Bx-mdJ" secondAttribute="bottom" constant="125" id="PL3-hV-zQE"/>
-                            <constraint firstItem="Wfe-Bx-mdJ" firstAttribute="top" secondItem="EAW-iI-rKl" secondAttribute="bottom" constant="8" symbolic="YES" id="SEe-B7-nUv"/>
-                            <constraint firstItem="Wfe-Bx-mdJ" firstAttribute="centerX" secondItem="6bW-si-fKl" secondAttribute="centerX" id="SGa-c3-RGZ"/>
-                            <constraint firstItem="212-EF-yZt" firstAttribute="top" secondItem="aDh-6h-Q2I" secondAttribute="bottom" constant="8" symbolic="YES" id="e9c-LN-nDa"/>
-                            <constraint firstItem="EAW-iI-rKl" firstAttribute="centerX" secondItem="Wfe-Bx-mdJ" secondAttribute="centerX" id="kGJ-Hq-NfL"/>
-                            <constraint firstItem="6bW-si-fKl" firstAttribute="trailing" secondItem="gCM-7S-YGt" secondAttribute="trailingMargin" id="u3Q-zb-hbh"/>
-                            <constraint firstItem="aDh-6h-Q2I" firstAttribute="centerX" secondItem="212-EF-yZt" secondAttribute="centerX" id="w2m-YZ-nOE"/>
+                            <constraint firstItem="8FG-rz-RZ7" firstAttribute="centerX" secondItem="gCM-7S-YGt" secondAttribute="centerX" id="2wm-dv-kwY"/>
+                            <constraint firstItem="212-EF-yZt" firstAttribute="leading" secondItem="Wfe-Bx-mdJ" secondAttribute="leading" id="7g4-Qp-Xma"/>
+                            <constraint firstItem="nxO-z5-VFL" firstAttribute="leading" secondItem="gCM-7S-YGt" secondAttribute="leadingMargin" id="G3F-wG-gQx"/>
+                            <constraint firstItem="nxO-z5-VFL" firstAttribute="trailing" secondItem="6bW-si-fKl" secondAttribute="trailing" id="H1t-H3-vLE"/>
+                            <constraint firstItem="SY0-uI-bCc" firstAttribute="top" secondItem="Wfe-Bx-mdJ" secondAttribute="bottom" constant="125" id="O1j-3E-zB0"/>
+                            <constraint firstItem="nxO-z5-VFL" firstAttribute="leading" secondItem="6bW-si-fKl" secondAttribute="leading" id="Uac-C7-rTK"/>
+                            <constraint firstItem="6bW-si-fKl" firstAttribute="top" secondItem="nxO-z5-VFL" secondAttribute="bottom" constant="8" symbolic="YES" id="Z5x-2m-ghP"/>
+                            <constraint firstItem="nxO-z5-VFL" firstAttribute="centerX" secondItem="gCM-7S-YGt" secondAttribute="centerX" id="alA-4d-cYJ"/>
+                            <constraint firstItem="EAW-iI-rKl" firstAttribute="centerX" secondItem="gCM-7S-YGt" secondAttribute="centerX" id="b7c-Rk-9am"/>
+                            <constraint firstItem="nxO-z5-VFL" firstAttribute="top" secondItem="Wfe-Bx-mdJ" secondAttribute="bottom" constant="79" id="blb-1d-Y45"/>
+                            <constraint firstItem="Wfe-Bx-mdJ" firstAttribute="top" secondItem="EAW-iI-rKl" secondAttribute="bottom" constant="8" symbolic="YES" id="eJl-l0-aei"/>
+                            <constraint firstItem="212-EF-yZt" firstAttribute="centerX" secondItem="gCM-7S-YGt" secondAttribute="centerX" id="gOC-bC-8np"/>
+                            <constraint firstItem="212-EF-yZt" firstAttribute="top" secondItem="aDh-6h-Q2I" secondAttribute="bottom" constant="8" symbolic="YES" id="gWL-VB-Sgo"/>
+                            <constraint firstItem="aDh-6h-Q2I" firstAttribute="top" secondItem="nah-2X-z0W" secondAttribute="bottom" constant="95" id="i5v-mw-pr6"/>
+                            <constraint firstItem="8FG-rz-RZ7" firstAttribute="trailing" secondItem="Wfe-Bx-mdJ" secondAttribute="trailing" id="iaU-CW-Z6A"/>
+                            <constraint firstItem="SY0-uI-bCc" firstAttribute="top" secondItem="6bW-si-fKl" secondAttribute="bottom" constant="8" symbolic="YES" id="jqB-gt-kOt"/>
+                            <constraint firstItem="6bW-si-fKl" firstAttribute="baseline" secondItem="8FG-rz-RZ7" secondAttribute="baseline" id="mvg-Qf-zJO"/>
+                            <constraint firstItem="EAW-iI-rKl" firstAttribute="centerX" secondItem="Wfe-Bx-mdJ" secondAttribute="centerX" id="mxh-9U-n2Z"/>
+                            <constraint firstItem="Wfe-Bx-mdJ" firstAttribute="centerX" secondItem="gCM-7S-YGt" secondAttribute="centerX" id="nBg-7a-MCw"/>
+                            <constraint firstItem="aDh-6h-Q2I" firstAttribute="centerX" secondItem="gCM-7S-YGt" secondAttribute="centerX" id="nUC-ol-INT"/>
+                            <constraint firstItem="8FG-rz-RZ7" firstAttribute="centerX" secondItem="6bW-si-fKl" secondAttribute="centerX" id="rim-IN-YoS"/>
+                            <constraint firstItem="nxO-z5-VFL" firstAttribute="trailing" secondItem="gCM-7S-YGt" secondAttribute="trailingMargin" id="viy-y2-8GC"/>
+                            <constraint firstItem="Wfe-Bx-mdJ" firstAttribute="centerX" secondItem="nxO-z5-VFL" secondAttribute="centerX" id="vqo-2K-40T"/>
+                            <constraint firstItem="aDh-6h-Q2I" firstAttribute="centerX" secondItem="212-EF-yZt" secondAttribute="centerX" id="xQK-Am-DDR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Voting" id="BYs-Qu-kLo">
@@ -1299,6 +1330,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="archivedCurrentVoteButton" destination="Wfe-Bx-mdJ" id="bBR-RU-Z3t"/>
+                        <outlet property="closeCurrentVoteButton" destination="8FG-rz-RZ7" id="jVO-Sz-8WM"/>
                         <outlet property="createVoteButton" destination="3LB-Ob-uCb" id="tJv-39-lkd"/>
                         <outlet property="currentVoteButton" destination="EAW-iI-rKl" id="DPW-Pq-1Dd"/>
                         <outlet property="currentVoteCodeLabel" destination="nxO-z5-VFL" id="sWl-Zb-bXw"/>
@@ -1642,7 +1674,7 @@
             <objects>
                 <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="PDK-1M-mcB" customClass="FormTableViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="0Pd-km-zmY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="502"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -1776,9 +1808,9 @@
         <image name="voting" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Mka-aN-Voj"/>
         <segue reference="Xyf-n9-O14"/>
         <segue reference="nqs-DP-CBH"/>
-        <segue reference="Mka-aN-Voj"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.02352941222" green="0.1019607857" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>

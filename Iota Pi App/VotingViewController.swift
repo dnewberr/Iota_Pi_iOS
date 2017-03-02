@@ -18,6 +18,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     var denyCurrent = false
     
     @IBOutlet weak var archivedCurrentVoteButton: UIButton!
+    @IBOutlet weak var closeCurrentVoteButton: UIButton!
     @IBOutlet weak var createVoteButton: UIBarButtonItem!
     @IBOutlet weak var currentVoteCodeLabel: UILabel!
     @IBOutlet weak var currentVoteButton: UIButton!
@@ -74,6 +75,21 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         }
     }
     
+    @IBAction func closeCurrentVote(_ sender: Any) {
+        let closeCurrentVoteAlert = SCLAlertView()
+        closeCurrentVoteAlert.addButton("Close Vote") {
+            print("ARCHIVE")
+        }
+        closeCurrentVoteAlert.showTitle(
+            "Close Vote",
+            subTitle: "Are you sure you want to close the current vote?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+    }
+    
     @IBAction func createVote(_ sender: AnyObject) {
         let voteCreator = SCLAlertView()
         voteCreator.addButton("HIRLy", action: {
@@ -99,13 +115,18 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         if (RosterManager.sharedInstance.currentUserCanCreateVote()) {
             self.createVoteButton.isEnabled = true
             self.createVoteButton.tintColor = nil
-            self.currentVoteCodeLabel.isHidden = false
+            
             self.archivedCurrentVoteButton.isHidden = false
+            
+            self.currentVoteCodeLabel.isHidden = false
+            self.closeCurrentVoteButton.isHidden = false
         } else {
             self.createVoteButton.isEnabled = false
             self.createVoteButton.tintColor = UIColor.clear
-            self.currentVoteCodeLabel.isHidden = true
+            
             self.archivedCurrentVoteButton.isHidden = true
+            
+            self.currentVoteCodeLabel.isHidden = true
         }
         
         self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
@@ -164,6 +185,8 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             self.currentVote = topic
             self.currentVoteButton.isEnabled = true
             self.currentVoteCodeLabel.text = topic.sessionCode
+            self.closeCurrentVoteButton.setTitle("Close Current Vote", for: .normal)
+            self.closeCurrentVoteButton.isHidden = false
             self.denyCurrent = false
         }
     }
@@ -181,6 +204,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         } else {
             self.currentVoteButton.isEnabled = false
             self.currentVoteCodeLabel.text = ""
+            self.closeCurrentVoteButton.setTitle("", for: .normal)
         }
     }
     
@@ -193,6 +217,8 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             
             if let topic = topic {
                 self.currentVoteCodeLabel.text = topic.sessionCode
+                self.closeCurrentVoteButton.isHidden = false
+                self.closeCurrentVoteButton.setTitle("Close Current Vote", for: .normal)
             }
             self.currentVoteButton.isEnabled = true
         }
@@ -218,5 +244,5 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     
     // unnecessary delegate methods
     func sendArchivedTopics(topics: [VotingTopic]) {}
-    func error(message: String) {}
+    func showMessage(message: String) {}
 }

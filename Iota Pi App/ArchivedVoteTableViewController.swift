@@ -197,7 +197,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         }
     }
     
-    func error(message: String) {
+    func showMessage(message: String) {
         SCLAlertView().showError("Error", subTitle: message)
     }
     

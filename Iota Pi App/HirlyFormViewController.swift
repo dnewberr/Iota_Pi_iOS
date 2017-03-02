@@ -79,19 +79,46 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         }
     }
     
+    func archive() {
+        self.votingService.archive(id: self.currentTopic.getId(), isHirly: true)
+    }
+    
+    
+    func showMessage(message: String) {
+        SCLAlertView().showSuccess("Archive Vote", subTitle: message).setDismissBlock {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     // delegate unnecessary methods
     func updateUI(topic: VotingTopic) {}
     func denyVote(isHirly: Bool, topic: VotingTopic?) {}
     func noCurrentVote(isHirly: Bool) {}
     func sendArchivedTopics(topics: [VotingTopic]) {}
-    func error(message: String) {}
 }
 
 class HirlyFormViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var formContainer: UIView!
+    @IBOutlet weak var archiveButton: UIBarButtonItem!
+    
     var hirlyTopic: VotingTopic!
     var formTableViewController: FormTableViewController!
+    
+    @IBAction func archive(_ sender: Any) {
+        let archiveVoteAlert = SCLAlertView()
+        archiveVoteAlert.addButton("Archive") {
+            self.formTableViewController.archive()
+        }
+        archiveVoteAlert.showTitle(
+            "Archive Vote",
+            subTitle: "Are you sure you wish to archive this vote?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+    }
     
     @IBAction func submitForm(_ sender: AnyObject) {
         self.formTableViewController.submitVote()
@@ -99,6 +126,11 @@ class HirlyFormViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if !RosterManager.sharedInstance.currentUserCanCreateHirly() {
+            self.archiveButton.isEnabled = false
+            self.archiveButton.tintColor = UIColor.clear
+        }
     }
         
     override func didReceiveMemoryWarning() {

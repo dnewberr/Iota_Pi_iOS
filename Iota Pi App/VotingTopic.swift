@@ -43,19 +43,15 @@ public class VotingTopic {
         self.summary = dict.value(forKey: "summary") as! String
         self.description = dict.value(forKey: "description") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
-        
-//        if let brosWhoVoted = dict.value(forKey: "brosVoted") as? [String : Bool] {
-//            if let broHasVoted = brosWhoVoted[RosterManager.sharedInstance.currentUserId] {
-//                self.broHasVoted = broHasVoted
-//            }
-//        }
-        
-        if let sessionCode = dict.value(forKey: "sessionCode") {
-            self.sessionCode = sessionCode as! String
+                
+        if let sessionCode = dict.value(forKey: "sessionCode") as? String {
+            self.sessionCode = sessionCode
         }
         
-        if (Date() >= self.expirationDate) {
-            self.archived = true
+        if let archived = dict.value(forKey: "archived") as? Bool {
+            self.archived = archived
+        } else {
+            self.archived = Date() >= self.expirationDate
         }
         
         // Currentvote only
