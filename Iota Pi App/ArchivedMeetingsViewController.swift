@@ -122,21 +122,31 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let deleteMeetingAlert = SCLAlertView()
+            deleteMeetingAlert.addButton("Delete") {
+                self.meetingService.deleteMeeting(sessionCode: self.filteredMeetings[indexPath.row].sessionCode, meetings: self.archivedMeetings)
+            }
+            
+            deleteMeetingAlert.showTitle(
+                "Delete Meeting",
+                subTitle: "Are you sure you want to delete this meeting?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! PreviousMeetingsTableViewCell
         meetingToPass = currentCell.meeting
         performSegue(withIdentifier: "meetingDetailsSegue", sender: self)
     }
-
-
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         if segue.identifier == "meetingDetailsSegue" {
             let destination = segue.destination as! ArchivedMeetingDetailViewController
             destination.currentMeeting = self.meetingToPass
@@ -152,6 +162,17 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         if (self.refreshControl?.isRefreshing)! {
             self.refreshControl?.endRefreshing()
         }
+    }
+    
+    func showMessage(message: String) {
+        SCLAlertView().showTitle(
+            "Delete Meeting",
+            subTitle: message,
+            duration: 0.0,
+            completeText: "Okay",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     // unnecessary delegate methods

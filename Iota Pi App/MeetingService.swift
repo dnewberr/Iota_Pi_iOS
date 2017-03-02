@@ -16,6 +16,7 @@ public protocol MeetingServiceDelegate: class {
     func noMeeting()
     func newMeetingCreated(meeting: Meeting)
     func populateMeetings(meetings: [Meeting])
+    func showMessage(message: String)
 }
 
 public class MeetingService {
@@ -66,7 +67,11 @@ public class MeetingService {
                 let currentMeeting = Meeting(dict: dict, sessionCode: child.key)
                 
                 if currentMeeting.endTime != nil {
-                    meetings.append(currentMeeting)
+                    if Utilities.isOlderThanOneYear(date: currentMeeting.endTime!) {
+                        self.deleteMeeting(sessionCode: currentMeeting.sessionCode, meetings: [])
+                    } else {
+                        meetings.append(currentMeeting)
+                    }
                 }
             }
             
@@ -94,5 +99,20 @@ public class MeetingService {
         MeetingService.LOGGER.info("[Start New Meeting] Creating a new meeting with session code " + newMeeting.sessionCode)
         baseRef.child(newMeeting.sessionCode).setValue(newMeeting.toFirebaseObject())
         self.meetingServiceDelegate?.newMeetingCreated(meeting: newMeeting)
+    }
+    
+    func deleteMeeting(sessionCode: String, meetings: [Meeting]) {
+        MeetingService.LOGGER.info("[Delete Meeting] Meeting vote with ID \(sessionCode)")
+
+        baseRef.child(sessionCode).removeValue(completionBlock: { (error, ref) in
+            if let error = error {
+                VotingService.LOGGER.error("[Delete Vote] " + error.localizedDescription)
+                self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the meeting.")
+            } else {
+                if !meetings.isEmpty {
+                    self.meetingServiceDelegate?.populateMeetings(meetings: meetings.filter({$0.sessionCode != sessionCode}))
+                }
+            }
+        })
     }
 }

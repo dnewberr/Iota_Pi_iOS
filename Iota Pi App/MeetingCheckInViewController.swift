@@ -177,4 +177,5 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
     
     //unnecessary delegate funcs
     func populateMeetings(meetings: [Meeting]) {}
+    func showMessage(message: String) {}
 }
