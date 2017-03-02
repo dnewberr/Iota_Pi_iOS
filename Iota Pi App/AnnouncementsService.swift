@@ -32,7 +32,10 @@ public class AnnouncementsService {
                 let dict = child.value as! NSDictionary
                 let currentAnnouncement = Announcement(dict: dict, expiration: key)
                 
-                if !announcements.contains(currentAnnouncement) {
+                
+                if currentAnnouncement.isArchived && !(Utilities.PREV_YEAR_DATE...Date()).contains(currentAnnouncement.expirationDate) {
+                    self.deleteAnnouncement(id: currentAnnouncement.getId(), announcements: [])
+                } else if !announcements.contains(currentAnnouncement) {
                     announcements.append(currentAnnouncement)
                     AnnouncementsService.LOGGER.info("[Fetch Announcements] \(currentAnnouncement.toFirebaseObject())")
                 }
@@ -58,7 +61,9 @@ public class AnnouncementsService {
                 AnnouncementsService.LOGGER.error("[Delete Announcement] " + error.localizedDescription)
                 self.announcementsServiceDelegate?.error(message: "An error occurred while trying to delete the announcement.")
             } else {
-                self.announcementsServiceDelegate?.updateUI(announcements: announcements.filter{$0.getId() != id})
+                if !announcements.isEmpty {
+                    self.announcementsServiceDelegate?.updateUI(announcements: announcements.filter{$0.getId() != id})
+                }
             }
         })
     }

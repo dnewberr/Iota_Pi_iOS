@@ -14,7 +14,7 @@ public class Announcement: Equatable {
     let details: String
     let expirationDate: Date
     let title: String
-    var archived = false
+    var isArchived = false
     
     init(title: String, details: String, committeeTags: [String]) {
         self.committeeTags = committeeTags
@@ -36,8 +36,10 @@ public class Announcement: Equatable {
         self.details = dict.value(forKey: "details") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
         
-        if (Date() >= self.expirationDate) {
-            self.archived = true
+        if let isArchived = dict.value(forKey: "isArchived") as? Bool {
+            self.isArchived = isArchived
+        } else {
+            self.isArchived = Date() >= self.expirationDate
         }
     }
     

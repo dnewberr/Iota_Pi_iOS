@@ -32,7 +32,7 @@ extension String {
 
 
 class Utilities {
-    static let DATA_EXPIRATION = 2629743 * 4
+    static let PREV_YEAR_DATE = Date(timeIntervalSinceNow: -31557600) // one year ago
     
     static func randomString(length: Int) -> String {
         

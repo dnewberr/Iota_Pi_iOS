@@ -261,7 +261,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         self.archivedAnnouncements.removeAll()
         
         for announcement in announcements {
-            if announcement.archived {
+            if announcement.isArchived {
                 self.archivedAnnouncements.insert(announcement, at: 0)
             } else {
                 self.announcements.insert(announcement, at: 0)
