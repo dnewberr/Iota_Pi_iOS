@@ -1655,8 +1655,8 @@
                             <constraint firstItem="1OK-6G-KvL" firstAttribute="leading" secondItem="Mng-hM-oKr" secondAttribute="leading" id="zof-ty-gV5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="jfZ-6c-SCz">
-                        <barButtonItem key="backBarButtonItem" title=" " id="57c-av-ndT"/>
+                    <navigationItem key="navigationItem" id="6Un-zI-OQU">
+                        <barButtonItem key="backBarButtonItem" title=" " id="rJ3-NO-gsh"/>
                     </navigationItem>
                     <connections>
                         <outlet property="committeeTagLabel" destination="4Su-eR-3VR" id="P4n-tD-09z"/>

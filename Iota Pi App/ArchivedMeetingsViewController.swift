@@ -123,7 +123,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             let deleteMeetingAlert = SCLAlertView()
             deleteMeetingAlert.addButton("Delete") {
                 self.meetingService.deleteMeeting(sessionCode: self.filteredMeetings[indexPath.row].sessionCode, meetings: self.archivedMeetings)

@@ -179,7 +179,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             let deleteVoteAlert = SCLAlertView()
             deleteVoteAlert.addButton("Delete") {
                 self.indicator.startAnimating()

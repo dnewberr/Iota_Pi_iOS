@@ -65,7 +65,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     
     func submitVote(vote: String, code: String?) {
         if let codeEntered = code {
-            if (codeEntered == self.currentVote.sessionCode) {
+            if codeEntered == self.currentVote.sessionCode {
                 self.votingService.submitCurrentVote(topic: self.currentVote, vote: vote)
             } else {
                 SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
@@ -112,7 +112,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (RosterManager.sharedInstance.currentUserCanCreateVote()) {
+        if RosterManager.sharedInstance.currentUserCanCreateVote() {
             self.createVoteButton.isEnabled = true
             self.createVoteButton.tintColor = nil
             

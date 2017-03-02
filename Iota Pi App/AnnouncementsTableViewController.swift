@@ -216,7 +216,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
                 let prevAnnouncementsToShow = self.announcementsToShow
                 self.announcementsToShow.removeAll()
                 for announcement in prevAnnouncementsToShow {
-                    if (announcement.title.lowercased().contains(self.activeKeyphrase) || announcement.details.lowercased().contains(self.activeKeyphrase)) && !announcementsToShow.contains(announcement) {
+                    if (announcement.title.lowercased().contains(self.activeKeyphrase)
+                        || announcement.details.lowercased().contains(self.activeKeyphrase))
+                        && !announcementsToShow.contains(announcement) {
                         announcementsToShow.append(announcement)
                     }
                 }
@@ -233,7 +235,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         self.clearButton.isEnabled = false
         self.clearButton.tintColor = UIColor.clear
         
-        if (RosterManager.sharedInstance.currentUserCanCreateAnnouncements()) {
+        if RosterManager.sharedInstance.currentUserCanCreateAnnouncements() {
             self.addAnnouncementButton.isEnabled = true
             self.addAnnouncementButton.tintColor = nil
         } else {
@@ -291,7 +293,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row >= announcementsToShow.count) {
+        if indexPath.row >= announcementsToShow.count {
             return tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
         }
         
@@ -305,7 +307,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row >= announcementsToShow.count) {
+        if indexPath.row >= announcementsToShow.count {
             performSegue(withIdentifier: "archivedAnnouncementsSegue", sender: self)
         } else {
             let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
@@ -317,9 +319,9 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
+ 
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             let deleteAnnouncementAlert = SCLAlertView()
             deleteAnnouncementAlert.addButton("Delete") {
                 self.indicator.startAnimating()
@@ -336,14 +338,36 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
         }
+        
+        let archive = UITableViewRowAction(style: .normal, title: "Archive") { (action, indexPath) in
+            let archiveAnnouncementAlert = SCLAlertView()
+            archiveAnnouncementAlert.addButton("Archive") {
+                self.indicator.startAnimating()
+                let allAnnouncements = self.announcements + self.archivedAnnouncements
+                self.announcementsService.archiveAnnouncement(id: self.announcementsToShow[indexPath.row].getId(), announcements: allAnnouncements)
+            }
+            
+            archiveAnnouncementAlert.showTitle(
+                "Archive Announcement",
+                subTitle: "Do you want to archive this announcement?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+        
+        archive.backgroundColor = UIColor.gray
+        
+        return [delete, archive]
     }
- 
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "announcementDetailsSegue") {
+        if segue.identifier == "announcementDetailsSegue" {
             let destination = segue.destination as! AnnouncementDetailsViewController
             destination.announcement = self.announcementToPass
         }
-        if (segue.identifier == "archivedAnnouncementsSegue") {
+        if segue.identifier == "archivedAnnouncementsSegue" {
             let destination = segue.destination as! ArchivedAnnouncementsTableViewController
             destination.announcements = archivedAnnouncements
         }

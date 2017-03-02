@@ -23,7 +23,7 @@ public class LoginService {
     
     func attemptLogin(email: String, password: String) {
         LoginService.LOGGER.trace("[Sign In] Attempting sign in user with email: " + email)
-        if (email.trim().isEmpty || password.isEmpty) {
+        if email.trim().isEmpty || password.isEmpty {
             LoginService.LOGGER.warning("[Sign In] No email or password entered.")
             self.loginServiceDelegate?.showErrorMessage(message: "Please enter an email and password.")
         } else {

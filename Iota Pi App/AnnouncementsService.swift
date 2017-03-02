@@ -35,6 +35,7 @@ public class AnnouncementsService {
                 
                 
                 if currentAnnouncement.isArchived && Utilities.isOlderThanOneYear(date: currentAnnouncement.expirationDate) {
+                    AnnouncementsService.LOGGER.info("[Fetch Announcements] Removing announcement older than one year: \(currentAnnouncement.getId()) | \(currentAnnouncement.expirationDate)")
                     self.deleteAnnouncement(id: currentAnnouncement.getId(), announcements: [])
                 } else if !announcements.contains(currentAnnouncement) {
                     announcements.append(currentAnnouncement)
@@ -64,6 +65,21 @@ public class AnnouncementsService {
             } else {
                 if !announcements.isEmpty {
                     self.announcementsServiceDelegate?.updateUI(announcements: announcements.filter{$0.getId() != id})
+                }
+            }
+        })
+    }
+    
+    public func archiveAnnouncement(id: String, announcements: [Announcement]) {
+        AnnouncementsService.LOGGER.info("[Archive Announcement] Archiving announcement with ID \(id)")
+        FIRDatabase.database().reference().child("Announcements").child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                AnnouncementsService.LOGGER.error("[Archive Announcement] " + error.localizedDescription)
+                self.announcementsServiceDelegate?.error(message: "An error occurred while trying to archive the announcement.")
+            } else {
+                if !announcements.isEmpty {
+                    announcements.first(where: {$0.getId() == id})?.isArchived = true
+                    self.announcementsServiceDelegate?.updateUI(announcements: announcements)
                 }
             }
         })

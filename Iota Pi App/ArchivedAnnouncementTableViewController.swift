@@ -63,7 +63,8 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
             for announcement in self.announcements {
                 if (announcement.title.lowercased().contains(self.activeKeyphrase)
                     || announcement.details.lowercased().contains(self.activeKeyphrase)
-                        || !announcement.committeeTags.filter{$0.lowercased().contains(self.activeKeyphrase)}.isEmpty) && !filteredAnnouncements.contains(announcement) {
+                        || !announcement.committeeTags.filter{$0.lowercased().contains(self.activeKeyphrase)}.isEmpty)
+                    && !filteredAnnouncements.contains(announcement) {
                     filteredAnnouncements.append(announcement)
                 }
             }
@@ -106,7 +107,7 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             let deleteAnnouncementAlert = SCLAlertView()
             deleteAnnouncementAlert.addButton("Delete") {
                 let announcementsService = AnnouncementsService()
@@ -133,7 +134,7 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "archivedAnnouncementDetailsSegue") {
+        if segue.identifier == "archivedAnnouncementDetailsSegue" {
             let destination = segue.destination as! AnnouncementDetailsViewController
             destination.announcement = announcementToPass
         }
