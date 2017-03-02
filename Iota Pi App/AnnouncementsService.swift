@@ -23,9 +23,10 @@ public class AnnouncementsService {
     
     public func fetchAnnouncements() {
         let ref = FIRDatabase.database().reference().child("Announcements")
-        var announcements = [Announcement]()
         
         ref.observe(.value, with:{ (snapshot) -> Void in
+            var announcements = [Announcement]()
+            
             for item in snapshot.children {
                 let child = item as! FIRDataSnapshot
                 let key = Double(child.key)!
@@ -33,7 +34,7 @@ public class AnnouncementsService {
                 let currentAnnouncement = Announcement(dict: dict, expiration: key)
                 
                 
-                if currentAnnouncement.isArchived && !(Utilities.PREV_YEAR_DATE...Date()).contains(currentAnnouncement.expirationDate) {
+                if currentAnnouncement.isArchived && Utilities.isOlderThanOneYear(date: currentAnnouncement.expirationDate) {
                     self.deleteAnnouncement(id: currentAnnouncement.getId(), announcements: [])
                 } else if !announcements.contains(currentAnnouncement) {
                     announcements.append(currentAnnouncement)

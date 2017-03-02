@@ -38,20 +38,25 @@ public class VotingService {
     
     func fetchArchivedVotingTopics(isHirly: Bool) {
         let ref = isHirly ? baseRef.child("HIRLy") : baseRef.child("CurrentVote")
-        var archivedTopics = [VotingTopic]()
         
         ref.observe(.value, with:{ (snapshot) -> Void in
+            var archivedTopics = [VotingTopic]()
+            
             for item in snapshot.children {
                 let child = item as! FIRDataSnapshot
                 let key = Double(child.key)!
                 let dict = child.value as! NSDictionary
                 let topic = VotingTopic(dict: dict, expiration: key)
                 
-                if topic.archived {
-                    archivedTopics.append(topic)
+                if topic.isArchived {
+                    if Utilities.isOlderThanOneYear(date: topic.expirationDate) {
+                        self.deleteVote(id: topic.getId(), topics: [], isHirly: isHirly)
+                    } else {
+                        archivedTopics.append(topic)
                     
-                    if topic.winners == "N/A" && isHirly {
-                        self.calculateHirlyWinners(voteId: topic.getId())
+                        if topic.winners == "N/A" && isHirly {
+                            self.calculateHirlyWinners(voteId: topic.getId())
+                        }
                     }
                 }
             }
@@ -72,7 +77,8 @@ public class VotingService {
                 let dict = child.value as! NSDictionary
                 let topic = VotingTopic(dict: dict, expiration: key)
                 
-                if !topic.archived {
+                
+                if !topic.isArchived {
                     VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
                     currentTopic = topic
                 } else if topic.winners == "N/A" && isHirly  {
@@ -203,7 +209,9 @@ public class VotingService {
                 VotingService.LOGGER.error("[Delete Vote] " + error.localizedDescription)
                 self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the Vote.")
             } else {
-                self.votingServiceDelegate?.sendArchivedTopics(topics: topics.filter({$0.getId() != id}))
+                if !topics.isEmpty {
+                    self.votingServiceDelegate?.sendArchivedTopics(topics: topics.filter({$0.getId() != id}))
+                }
             }
         })
     }
@@ -211,7 +219,7 @@ public class VotingService {
     func archive(id: String, isHirly: Bool) {
         VotingService.LOGGER.info("[Archive Vote] Archiving vote with ID \(id)")
         let voteType = isHirly ? "HIRLy" : "CurrentVote"
-        baseRef.child(voteType).child(id).child("archived").setValue(true, withCompletionBlock: { (error, ref) in
+        baseRef.child(voteType).child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Archive Vote] " + error.localizedDescription)
                 self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to archive the vote.")

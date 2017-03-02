@@ -14,7 +14,7 @@ public class VotingTopic {
     let description: String!
     let expirationDate: Date!
     
-    var archived = false
+    var isArchived = false
 //    var broHasVoted = false
     
     // currentvote only
@@ -48,10 +48,10 @@ public class VotingTopic {
             self.sessionCode = sessionCode
         }
         
-        if let archived = dict.value(forKey: "archived") as? Bool {
-            self.archived = archived
+        if let isArchived = dict.value(forKey: "isArchived") as? Bool {
+            self.isArchived = isArchived
         } else {
-            self.archived = Date() >= self.expirationDate
+            self.isArchived = Date() >= self.expirationDate
         }
         
         // Currentvote only

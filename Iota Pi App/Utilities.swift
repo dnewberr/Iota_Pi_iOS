@@ -32,10 +32,11 @@ extension String {
 
 
 class Utilities {
-    static let PREV_YEAR_DATE = Date(timeIntervalSinceNow: -31557600) // one year ago
+    static func isOlderThanOneYear(date: Date) -> Bool {
+        return !(Date(timeIntervalSinceNow: -31557600)...Date()).contains(date)
+    }
     
     static func randomString(length: Int) -> String {
-        
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let len = UInt32(letters.length)
         
