@@ -14,7 +14,7 @@ class ArchivedTableViewCell: UITableViewCell {
     var announcement: Announcement!
 }
 
-class ArchivedAnnouncementsTableViewController: UITableViewController {
+class ArchivedAnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
     @IBOutlet weak var clearButton: UIBarButtonItem!
     
     @IBAction func search(_ sender: Any) {
@@ -61,7 +61,9 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
             self.clearButton.tintColor = nil
             
             for announcement in self.announcements {
-                if (announcement.title.lowercased().contains(self.activeKeyphrase) || announcement.details.lowercased().contains(self.activeKeyphrase)) && !filteredAnnouncements.contains(announcement) {
+                if (announcement.title.lowercased().contains(self.activeKeyphrase)
+                    || announcement.details.lowercased().contains(self.activeKeyphrase)
+                        || !announcement.committeeTags.filter{$0.lowercased().contains(self.activeKeyphrase)}.isEmpty) && !filteredAnnouncements.contains(announcement) {
                     filteredAnnouncements.append(announcement)
                 }
             }
@@ -103,6 +105,26 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let deleteAnnouncementAlert = SCLAlertView()
+            deleteAnnouncementAlert.addButton("Delete") {
+                let announcementsService = AnnouncementsService()
+                announcementsService.announcementsServiceDelegate = self
+                announcementsService.deleteAnnouncement(id: self.filteredAnnouncements[indexPath.row].getId(), announcements: self.announcements)
+            }
+            
+            deleteAnnouncementAlert.showTitle(
+                "Delete Announcement",
+                subTitle: "Are you sure you want to delete this announcement?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! ArchivedTableViewCell
         announcementToPass = currentCell.announcement
@@ -115,5 +137,14 @@ class ArchivedAnnouncementsTableViewController: UITableViewController {
             let destination = segue.destination as! AnnouncementDetailsViewController
             destination.announcement = announcementToPass
         }
+    }
+    
+    func updateUI(announcements: [Announcement]) {
+        self.announcements = announcements
+        self.filterAnnouncements()
+    }
+    
+    func error(message: String) {
+        SCLAlertView().showError("Error", subTitle: message)
     }
 }

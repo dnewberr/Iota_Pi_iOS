@@ -58,7 +58,7 @@ public class AnnouncementsService {
                 AnnouncementsService.LOGGER.error("[Delete Announcement] " + error.localizedDescription)
                 self.announcementsServiceDelegate?.error(message: "An error occurred while trying to delete the announcement.")
             } else {
-                self.announcementsServiceDelegate?.updateUI(announcements: announcements.filter({$0.getId() != id}))
+                self.announcementsServiceDelegate?.updateUI(announcements: announcements.filter{$0.getId() != id})
             }
         })
     }
