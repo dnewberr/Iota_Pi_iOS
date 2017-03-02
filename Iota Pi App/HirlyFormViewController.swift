@@ -85,7 +85,14 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     
     
     func showMessage(message: String) {
-        SCLAlertView().showSuccess("Archive Vote", subTitle: message).setDismissBlock {
+        SCLAlertView().showTitle(
+            "Archive Vote",
+            subTitle: message,
+            duration: 0.0,
+            completeText: "Okay",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
             _ = self.navigationController?.popViewController(animated: true)
         }
     }

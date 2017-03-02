@@ -78,7 +78,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     @IBAction func closeCurrentVote(_ sender: Any) {
         let closeCurrentVoteAlert = SCLAlertView()
         closeCurrentVoteAlert.addButton("Close Vote") {
-            print("ARCHIVE")
+            self.votingService.archive(id: self.currentVote.getId(), isHirly: false)
         }
         closeCurrentVoteAlert.showTitle(
             "Close Vote",
@@ -244,5 +244,16 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     
     // unnecessary delegate methods
     func sendArchivedTopics(topics: [VotingTopic]) {}
-    func showMessage(message: String) {}
+    
+    func showMessage(message: String) {
+        SCLAlertView().showTitle(
+            "Close Current Vote",
+            subTitle: message,
+            duration: 0.0,
+            completeText: "Okay",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+    
+    }
 }

@@ -214,7 +214,7 @@ public class VotingService {
         baseRef.child(voteType).child(id).child("archived").setValue(true, withCompletionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Archive Vote] " + error.localizedDescription)
-                self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to archive the Vote.")
+                self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to archive the vote.")
             } else {
                 self.votingServiceDelegate?.showMessage(message: "Vote has been closed. You can view the results in the archives.")
             }
