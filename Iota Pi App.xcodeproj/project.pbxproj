@@ -57,6 +57,7 @@
 		CD02DC091E5D397400B14BA3 /* ArchivedVoteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedVoteTableViewController.swift; sourceTree = "<group>"; };
 		CD06086A1E36E344003259A7 /* CreateUserFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUserFormViewController.swift; sourceTree = "<group>"; };
 		CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsTableViewController.swift; sourceTree = "<group>"; };
+		CD2766141E6E3D80008B5B15 /* Iota Pi App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Iota Pi App.entitlements"; sourceTree = "<group>"; };
 		CD499F071DC2838D0037420B /* Iota Pi App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Iota Pi App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD499F0A1DC2838D0037420B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD499F111DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		CD499F091DC2838D0037420B /* Iota Pi App */ = {
 			isa = PBXGroup;
 			children = (
+				CD2766141E6E3D80008B5B15 /* Iota Pi App.entitlements */,
 				CDA8BD851DC2887D00B3585E /* 6 More */,
 				CDA8BD841DC2887700B3585E /* 5 Attendance */,
 				CDA8BD831DC2887200B3585E /* 4 Voting */,
@@ -319,8 +321,13 @@
 				TargetAttributes = {
 					CD499F061DC2838D0037420B = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = KP537WFKBH;
+						DevelopmentTeam = NMNX69KF33;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -584,16 +591,21 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = KP537WFKBH;
+				CODE_SIGN_ENTITLEMENTS = "Iota Pi App/Iota Pi App.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Deborah Newberry (NMNX69KF33)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = NMNX69KF33;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Iota Pi App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "iotapi.Iota-Pi-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iotapi.Iota-Pi-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -603,16 +615,21 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = KP537WFKBH;
+				CODE_SIGN_ENTITLEMENTS = "Iota Pi App/Iota Pi App.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Deborah Newberry (NMNX69KF33)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = NMNX69KF33;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Iota Pi App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "iotapi.Iota-Pi-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iotapi.Iota-Pi-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

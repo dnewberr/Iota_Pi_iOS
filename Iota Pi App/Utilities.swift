@@ -30,7 +30,6 @@ extension String {
     }
 }
 
-
 class Utilities {
     static let SECONDS_IN_WEEK: Double = 604800
     static let SECONDS_IN_YEAR: Double = 31557600

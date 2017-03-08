@@ -13,6 +13,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorMessageLabel: UILabel!
+    @IBOutlet weak var loginButton: UIButton!
     
     let animationDuration = 0.25
     let loginService = LoginService()
@@ -77,9 +78,12 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         self.loginService.checkIfLoggedIn()
         
         self.errorMessageLabel.alpha = 0;
-
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        
+        self.loginButton.layer.borderColor = Style.mainColor.cgColor
+        self.loginButton.layer.borderWidth = 1
+        
+        let keyboardDismissTap = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        view.addGestureRecognizer(keyboardDismissTap)
     }
     
     // Closes keyboard when tapped outside textfields
@@ -91,7 +95,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         super.didReceiveMemoryWarning()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if self.emailTextField == textField {
             passwordTextField.becomeFirstResponder()
         } else if self.passwordTextField == textField {
