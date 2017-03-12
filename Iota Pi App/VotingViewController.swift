@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class VotingViewController: UIViewController, VotingServiceDelegate {
+class VotingViewController: UIViewController, VotingServiceDelegate, UITextFieldDelegate {
     let votingService = VotingService()
     var currentHirly: VotingTopic!
     var currentVote: VotingTopic!
@@ -193,6 +193,10 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     func showCreationForm(isHirly: Bool) {
         let creationForm = SCLAlertView()
         let summaryTextField = creationForm.addTextField("Summary")
+        if !isHirly {
+            summaryTextField.delegate = self
+        }
+        
         let descriptionTextView = creationForm.addTextView()
         
         creationForm.showTitle(
@@ -217,6 +221,20 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
                 }
             }
         }
+    }
+    
+    // keeps text length at max of 15
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else {
+            return true
+        }
+        
+        let newLength = text.characters.count + string.characters.count - range.length
+        if newLength >= Utilities.MAX_SUMMARY_LENGTH {
+            textField.deleteBackward()
+            return false
+        }
+        return true
     }
     
     // TODO MOVE TO SERVICE
