@@ -70,6 +70,8 @@ public class RosterManager: RosterServiceDelegate {
     func currentUserCanCreateVote() -> Bool {
         switch self.currentUserAdmin! {
             case .President: return true
+            case .RecSec: return true
+            case .VicePresident: return true
             case .Parliamentarian: return true
             default: return false
         }

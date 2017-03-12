@@ -37,7 +37,7 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Status"
-                $0.options = ["Active", "Alumni", "Conditional", "Inactive", "Other"]
+                $0.options = ["Active", "Alumni", "Conditional", "Honorary", "Inactive", "Other"]
                 $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.status!.rawValue // initially selected
                 $0.tag = "status"
                 $0.add(rule: RuleRequired())

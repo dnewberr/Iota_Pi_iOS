@@ -38,7 +38,7 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
                 if key == "birthday" {
                     toSubmit[key] = Utilities.dateToBirthday(date: (value as! Date))
                 } else {
-                    toSubmit[key] = value                    
+                    toSubmit[key] = value
                 }
             }
         }

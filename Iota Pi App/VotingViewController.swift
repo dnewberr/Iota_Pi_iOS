@@ -26,7 +26,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     @IBAction func archiveVote(_ sender: Any) {
         let archiveAlert = SCLAlertView()
         
-        if self.currentHirly != nil {
+        if self.currentHirly != nil && RosterManager.sharedInstance.currentUserCanCreateHirly() {
             archiveAlert.addButton("HIRLy") {
                 self.votingService.archive(id: self.currentHirly.getId(), isHirly: true, isAuto: false)
                 self.currentHirly = nil
@@ -107,9 +107,12 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     
     @IBAction func createVote(_ sender: AnyObject) {
         let voteCreator = SCLAlertView()
-        voteCreator.addButton("HIRLy", action: {
-            self.showCreationForm(isHirly: true)
-        })
+        
+        if RosterManager.sharedInstance.currentUserCanCreateHirly() {
+            voteCreator.addButton("HIRLy", action: {
+                self.showCreationForm(isHirly: true)
+            })
+        }
         
         if RosterManager.sharedInstance.currentUserCanCreateVote() {
             voteCreator.addButton("Current Vote", action: {
@@ -167,8 +170,8 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             self.archivedCurrentVoteButton.isHidden = !RosterManager.sharedInstance.currentUserCanCreateVote()
             self.currentVoteCodeLabel.isHidden = !RosterManager.sharedInstance.currentUserCanCreateVote()
             
-            // if they can create current votes, let them archive them; otherwise just HIRLy
-            if self.currentHirly != nil
+            // if they can create that vote type and there's an open vote, let them
+            if (self.currentHirly != nil && RosterManager.sharedInstance.currentUserCanCreateHirly())
                 || (self.currentVote != nil && RosterManager.sharedInstance.currentUserCanCreateVote()) {
                 self.archiveVoteButton.isEnabled = true
                 self.archiveVoteButton.tintColor = nil

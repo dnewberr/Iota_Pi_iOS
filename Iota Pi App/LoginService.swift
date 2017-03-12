@@ -128,7 +128,7 @@ public class LoginService {
     }
     
     func createNewUser(userInfo: [AnyHashable:Any]) {
-        let email = (userInfo["firstname"] as! String) + "." + (userInfo["lastname"] as! String) + "@iotapi.com"
+        let email = (userInfo["firstname"] as! String).lowercased().trim() + "." + (userInfo["lastname"] as! String).lowercased().trim() + "@iotapi.com"
         LoginService.LOGGER.trace("[Create User] Creating a new user with temp password \"test123\" and email \"\(email)\"")
         
         FIRAuth.auth()?.createUser(withEmail: email, password: "test123", completion: {(user: FIRUser?, error) in
