@@ -20,7 +20,9 @@ class NomineeTableViewCell: UITableViewCell {
 
 class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var nomineeTableView: UITableView!
-    var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values).filter({!$0.hasWonHirly})
+    var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values).filter({
+        !$0.hasWonHirly && $0.userId != RosterManager.sharedInstance.currentUserId
+    })
     var chosenCell: NomineeTableViewCell!
     weak var nomineeDelegate: SelectNomineeDelegate?
     

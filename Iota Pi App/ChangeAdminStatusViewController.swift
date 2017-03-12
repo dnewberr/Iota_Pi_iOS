@@ -27,7 +27,7 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
         form +++ Section()
             <<< PickerInlineRow<String>() {
                 $0.title = "Admin Privileges"
-                $0.options = ["President", "RecordingSecretary", "VicePresident", "Webmaster", "Parliamentarian", "BrotherhoodCommitteeChair", "OtherCommitteeChair", "None"]
+                $0.options = Utilities.ADMIN_ARRAY
                 $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.adminPrivileges!.rawValue // initially selected
                 $0.tag = "admin"
                 $0.hidden = Condition.function(["admin"], { form in //only show to those that can edit admin privileges
@@ -37,7 +37,7 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Status"
-                $0.options = ["Active", "Alumni", "Conditional", "Honorary", "Inactive", "Other"]
+                $0.options = Utilities.STATUS_ARRAY
                 $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.status!.rawValue // initially selected
                 $0.tag = "status"
                 $0.add(rule: RuleRequired())

@@ -26,12 +26,21 @@ class RosterTableViewController: UITableViewController {
         searchField.autocorrectionType = .no
         searchField.placeholder = "Name"
         
-        searchByNameAlert.showEdit("Search Roster", subTitle: "").setDismissBlock {
+        searchByNameAlert.addButton("Search") {
             if let search = searchField.text {
                 self.filter = search
                 self.filterRoster()
             }
         }
+        
+        searchByNameAlert.showTitle(
+                "Search Roster",
+                subTitle: "Search by first name, last name, and nick name.",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .info,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
     }
     
     @IBAction func clearFilter(_ sender: AnyObject) {
@@ -100,7 +109,7 @@ class RosterTableViewController: UITableViewController {
     }
     
     func filterRoster() {
-        if !filter.trim().isEmpty {
+        if !self.filter.trim().isEmpty {
             self.brothersArray = self.brothersArray.filter({
                 $0.firstname.lowercased().contains(filter.lowercased())
                     || $0.lastname.lowercased().contains(filter.lowercased())

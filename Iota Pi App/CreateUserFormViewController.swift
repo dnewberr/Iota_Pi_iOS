@@ -74,7 +74,7 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Admin Privileges"
-                $0.options = ["President", "Recording Secretary", "Vice President", "Webmaster", "Parliamentarian", "Brotherhood Committee Chair", "Other Committee Chair", "None"]
+                $0.options = Utilities.ADMIN_ARRAY
                 $0.value = "None"    // initially selected
                 $0.tag = "admin"
                 $0.add(rule: RuleRequired())
@@ -87,7 +87,7 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Status"
-                $0.options = ["Active", "Alumni", "Conditional", "Honorary", "Inactive", "Other"]
+                $0.options = Utilities.STATUS_ARRAY
                 $0.value = "Active"    // initially selected
                 $0.tag = "status"
                 $0.add(rule: RuleRequired())

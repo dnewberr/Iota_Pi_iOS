@@ -31,6 +31,8 @@ extension String {
 }
 
 class Utilities {
+    static let ADMIN_ARRAY = ["President", "RecordingSecretary", "VicePresident", "Webmaster", "Parliamentarian", "BrotherhoodCommitteeChair", "OtherCommitteeChair", "None"]
+    static let STATUS_ARRAY = ["Active", "Alumni", "Conditional", "Honorary", "Inactive", "Other"]
     static let SECONDS_IN_WEEK: Double = 604800
     static let SECONDS_IN_YEAR: Double = 31557600
     
