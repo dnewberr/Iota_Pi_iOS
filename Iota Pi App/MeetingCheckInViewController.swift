@@ -89,11 +89,7 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
     func noMeeting() {
         if let _ = self.currentMeeting {
             SCLAlertView().showSuccess("Meeting Check In", subTitle: "The meeting was successfully closed.").setDismissBlock {
-//                if !RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-//                    _ = self.navigationController?.popViewController(animated: true)
-//                } else {
-                    self.enableStartEndButton(title: "Start Meeting")
-//                }
+                self.enableStartEndButton(title: "Start Meeting")
             }
         } else {
             SCLAlertView().showTitle(
@@ -177,5 +173,21 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
     
     //unnecessary delegate funcs
     func populateMeetings(meetings: [Meeting]) {}
-    func showMessage(message: String) {}
+    
+    func showMessage(message: String, isError: Bool) {
+        if isError {
+            SCLAlertView().showError("Meeting Check In", subTitle: message)
+        } else {
+            SCLAlertView().showTitle(
+                "Meeting Check In",
+                subTitle: message,
+                duration: 0.0,
+                completeText: "Okay",
+                style: .info,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
+                    self.createCheckInDismissBlock(meeting: self.currentMeeting)
+            }
+        }
+    }
 }

@@ -16,7 +16,7 @@ public protocol MeetingServiceDelegate: class {
     func noMeeting()
     func newMeetingCreated(meeting: Meeting)
     func populateMeetings(meetings: [Meeting])
-    func showMessage(message: String)
+    func showMessage(message: String, isError: Bool)
 }
 
 public class MeetingService {
@@ -83,10 +83,26 @@ public class MeetingService {
     
     func checkInBrother(meeting: Meeting) {
         MeetingService.LOGGER.info("[Check In Brother] Marking current user present for meeting with session code " + meeting.sessionCode)
-        var brosPresent = meeting.brotherIdsCheckedIn
-        brosPresent.append(RosterManager.sharedInstance.currentUserId)
-        baseRef.child(meeting.sessionCode).child("brotherIdsCheckedIn").setValue(brosPresent)
-        //RosterManager.sharedInstance.markAsPresent()
+        
+        baseRef.child(meeting.sessionCode).runTransactionBlock({(currentData: FIRMutableData!) in
+            var value =  currentData.childData(byAppendingPath: "brotherIdsCheckedIn").value as? NSMutableArray
+            
+            if value == nil {
+                value = NSMutableArray()
+            }
+            
+            value!.add(RosterManager.sharedInstance.currentUserId)
+            currentData.childData(byAppendingPath: "brotherIdsCheckedIn").value = value!.copy() as! NSArray
+
+            return FIRTransactionResult.success(withValue: currentData)
+        }, andCompletionBlock: {error, commited, snap in
+            if commited {
+                MeetingService.LOGGER.info("[Check In Brother] Checked in currentuser for meeting with session code " + meeting.sessionCode)
+            } else {
+                MeetingService.LOGGER.error("[Check In Brother] Could not check in current user for meeting with session code " + meeting.sessionCode)
+                self.meetingServiceDelegate?.showMessage(message: "There was an issue in recording your attendance.", isError: true)
+            }
+        })
     }
     
     func pushEndMeeting(meeting: Meeting) {
@@ -107,7 +123,7 @@ public class MeetingService {
         baseRef.child(sessionCode).removeValue(completionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Delete Vote] " + error.localizedDescription)
-                self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the meeting.")
+                self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the meeting.", isError: true)
             } else {
                 if !meetings.isEmpty {
                     self.meetingServiceDelegate?.populateMeetings(meetings: meetings.filter({$0.sessionCode != sessionCode}))

@@ -174,15 +174,19 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         }
     }
     
-    func showMessage(message: String) {
-        SCLAlertView().showTitle(
-            "Delete Meeting",
-            subTitle: message,
-            duration: 0.0,
-            completeText: "Okay",
-            style: .notice,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF)
+    func showMessage(message: String, isError: Bool) {
+        if isError {
+            SCLAlertView().showError("Error", subTitle: message)
+        } else {
+            SCLAlertView().showTitle(
+                "Delete Meeting",
+                subTitle: message,
+                duration: 0.0,
+                completeText: "Okay",
+                style: .notice,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
     }
     
     // unnecessary delegate methods
