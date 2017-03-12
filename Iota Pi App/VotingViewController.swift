@@ -18,10 +18,39 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     var denyCurrent = false
     
     @IBOutlet weak var archivedCurrentVoteButton: UIButton!
-    @IBOutlet weak var closeCurrentVoteButton: UIButton!
+    @IBOutlet weak var archiveVoteButton: UIBarButtonItem!
     @IBOutlet weak var createVoteButton: UIBarButtonItem!
     @IBOutlet weak var currentVoteCodeLabel: UILabel!
     @IBOutlet weak var currentVoteButton: UIButton!
+    
+    @IBAction func archiveVote(_ sender: Any) {
+        let archiveAlert = SCLAlertView()
+        
+        if self.currentHirly != nil {
+            archiveAlert.addButton("HIRLy") {
+                self.votingService.archive(id: self.currentHirly.getId(), isHirly: true, isAuto: false)
+                self.currentHirly = nil
+            }
+        }
+        
+        if self.currentVote != nil && RosterManager.sharedInstance.currentUserCanCreateVote() {
+            archiveAlert.addButton("Current Vote") {
+                self.votingService.archive(id: self.currentVote.getId(), isHirly: false, isAuto: false)
+                self.currentVote = nil
+            }
+        }
+        
+        archiveAlert.showTitle(
+            "Archive Vote",
+            subTitle: "Which vote would you like to archive?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+
+    }
+    
     @IBAction func viewHirly(_ sender: AnyObject) {
         if denyHirly {
             SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already submitted a HIRLy nomination.")
@@ -31,6 +60,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         }
     }
     @IBOutlet weak var hirlyButton: UIButton!
+    
     @IBAction func viewCurrent(_ sender: AnyObject) {
         if denyCurrent {
             SCLAlertView().showError("Cannot Submit Vote", subTitle: "You've already voted on the open topic.")
@@ -53,10 +83,10 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
             }
             
             currentVote.showTitle(
-                "Current Vote",
+                self.currentVote.summary,
                 subTitle: self.currentVote.description,
                 duration: 0.0,
-                completeText: "Vote",
+                completeText: "Cancel",
                 style: .info,
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
@@ -76,27 +106,27 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     }
     
     @IBAction func closeCurrentVote(_ sender: Any) {
-        let closeCurrentVoteAlert = SCLAlertView()
-        closeCurrentVoteAlert.addButton("Close Vote") {
-            self.votingService.archive(id: self.currentVote.getId(), isHirly: false)
-        }
-        closeCurrentVoteAlert.showTitle(
-            "Close Vote",
-            subTitle: "Are you sure you want to close the current vote?",
-            duration: 0.0,
-            completeText: "Cancel",
-            style: .info,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF)
+//        let closeCurrentVoteAlert = SCLAlertView()
+//        closeCurrentVoteAlert.addButton("Close Vote") {
+//            self.votingService.archive(id: self.currentVote.getId(), isHirly: false, isAuto: false)
+//        }
+//        closeCurrentVoteAlert.showTitle(
+//            "Close Vote",
+//            subTitle: "Are you sure you want to close the current vote?",
+//            duration: 0.0,
+//            completeText: "Cancel",
+//            style: .info,
+//            colorStyle: Style.mainColorHex,
+//            colorTextButton: 0xFFFFFF)
     }
     
     @IBAction func createVote(_ sender: AnyObject) {
         let voteCreator = SCLAlertView()
         voteCreator.addButton("HIRLy", action: {
-            self.showCreationForm(isSessionCodeRequired: false)
+            self.showCreationForm(isHirly: true)
         })
         voteCreator.addButton("Current Vote", action: {
-            self.showCreationForm(isSessionCodeRequired: true)
+            self.showCreationForm(isHirly: false)
         })
         
         voteCreator.showTitle(
@@ -112,38 +142,64 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if RosterManager.sharedInstance.currentUserCanCreateVote() {
-            self.createVoteButton.isEnabled = true
-            self.createVoteButton.tintColor = nil
-            
-            self.archivedCurrentVoteButton.isHidden = false
-            
-            self.currentVoteCodeLabel.isHidden = false
-            self.closeCurrentVoteButton.isHidden = false
-        } else {
-            self.createVoteButton.isEnabled = false
-            self.createVoteButton.tintColor = UIColor.clear
-            
-            self.archivedCurrentVoteButton.isHidden = true
-            
-            self.currentVoteCodeLabel.isHidden = true
-        }
-        
         self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
         self.currentVoteButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        self.hirlyButton.isEnabled = false
-        self.currentVoteButton.isEnabled = false
+        
+        self.managePermissions()
         
         votingService.votingServiceDelegate = self
         votingService.fetchHirlyTopic()
         votingService.fetchCurrentVote()
+    }
+    
+    // helps to manage the many views dependent on admin priviledges and presence of votes
+    func managePermissions() {
+        self.hirlyButton.isEnabled = self.currentHirly != nil
+        self.currentVoteButton.isEnabled = self.currentVote != nil
+        
+        if !RosterManager.sharedInstance.currentUserCanCreateHirly()
+            && !RosterManager.sharedInstance.currentUserCanCreateVote() {
+            // Hide ability to create a vote
+            self.createVoteButton.isEnabled = false
+            self.createVoteButton.tintColor = UIColor.clear
+            
+            // Hide ability to see archived current votes, hide current vote label
+            self.archivedCurrentVoteButton.isHidden = true
+            self.currentVoteCodeLabel.isHidden = true
+            
+            // Hide ability to archive a vote
+            self.archiveVoteButton.isEnabled = false
+            self.archiveVoteButton.tintColor = UIColor.clear
+        } else {
+            // Show create vote button
+            self.createVoteButton.isEnabled = true
+            self.createVoteButton.tintColor = nil
+            
+            // if they can create a current vote, DON'T hide the archive current vote button/code label
+            self.archivedCurrentVoteButton.isHidden = !RosterManager.sharedInstance.currentUserCanCreateVote()
+            self.currentVoteCodeLabel.isHidden = !RosterManager.sharedInstance.currentUserCanCreateVote()
+            
+            // if they can create current votes, let them archive them; otherwise just HIRLy
+            if self.currentHirly != nil
+                || (self.currentVote != nil && RosterManager.sharedInstance.currentUserCanCreateVote()) {
+                self.archiveVoteButton.isEnabled = true
+                self.archiveVoteButton.tintColor = nil
+            } else {
+                self.archiveVoteButton.isEnabled = false
+                self.archiveVoteButton.tintColor = UIColor.clear
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.managePermissions()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    func showCreationForm(isSessionCodeRequired: Bool) {
+    func showCreationForm(isHirly: Bool) {
         let creationForm = SCLAlertView()
         let summaryTextField = creationForm.addTextField("Summary")
         let descriptionTextView = creationForm.addTextView()
@@ -160,7 +216,12 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
                 if summary.trim().isEmpty || description.trim().isEmpty {
                     SCLAlertView().showError("Invalid Topic", subTitle: "Please submit a summary and description for the new topic.")
                 } else {
-                    self.pushVotingTopic(summary: summary, description: description, isSessionCodeRequired: isSessionCodeRequired)
+                    if isHirly && self.currentHirly != nil {
+                        self.votingService.archive(id: self.currentHirly.getId(), isHirly: isHirly, isAuto: true)
+                    } else if !isHirly && self.currentVote != nil {
+                        self.votingService.archive(id: self.currentVote.getId(), isHirly: isHirly, isAuto: true)
+                    }
+                    self.pushVotingTopic(summary: summary, description: description, isHirly: isHirly)
                     SCLAlertView().showSuccess("Create New Topic", subTitle: "A new voting topic was successfully created!")
                 }
             }
@@ -168,9 +229,9 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     }
     
     // TODO MOVE TO SERVICE
-    public func pushVotingTopic(summary: String, description: String, isSessionCodeRequired: Bool) {
-        let newTopic = VotingTopic(summary: summary, description: description, isSessionCodeRequired: isSessionCodeRequired)
-        let refString = isSessionCodeRequired ? "CurrentVote" : "HIRLy"
+    public func pushVotingTopic(summary: String, description: String, isHirly: Bool) {
+        let newTopic = VotingTopic(summary: summary, description: description, isHirly: isHirly)
+        let refString = isHirly ? "HIRLy" : "CurrentVote"
         let ref = FIRDatabase.database().reference().child("Voting").child(refString).child(newTopic.getId())
         
         ref.setValue(newTopic.toFirebaseObject())
@@ -179,49 +240,50 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     func updateUI(topic: VotingTopic) {
         if topic.sessionCode.isEmpty {
             self.currentHirly = topic
-            self.hirlyButton.isEnabled = true
             self.denyHirly = false
         } else {
             self.currentVote = topic
-            self.currentVoteButton.isEnabled = true
-            self.currentVoteCodeLabel.text = topic.sessionCode
-            self.closeCurrentVoteButton.setTitle("Close Current Vote", for: .normal)
-            self.closeCurrentVoteButton.isHidden = false
             self.denyCurrent = false
+            
+            if RosterManager.sharedInstance.currentUserCanCreateVote() {
+                self.currentVoteCodeLabel.text = topic.sessionCode
+            }
         }
+        
+        self.managePermissions()
     }
     
     func confirmVote() {
-        SCLAlertView().showSuccess("Success!", subTitle: "Vote submitted.")
-        
-        self.currentVoteButton.isEnabled = false
-        self.denyCurrent = true
+        SCLAlertView().showSuccess("Success!", subTitle: "Vote submitted.").setDismissBlock {
+            self.denyCurrent = true
+        }
     }
     
     func noCurrentVote(isHirly: Bool) {
         if isHirly {
-            self.hirlyButton.isEnabled = false
+            self.currentHirly = nil
         } else {
-            self.currentVoteButton.isEnabled = false
             self.currentVoteCodeLabel.text = ""
-            self.closeCurrentVoteButton.setTitle("", for: .normal)
+            self.currentVote = nil
         }
+        
+        self.managePermissions()
     }
     
     func denyVote(isHirly: Bool, topic: VotingTopic?) {
         if isHirly {
+            self.currentHirly = topic
             self.denyHirly = true
-            self.hirlyButton.isEnabled = true
         } else {
+            self.currentVote = topic
             self.denyCurrent = true
             
             if let topic = topic {
                 self.currentVoteCodeLabel.text = topic.sessionCode
-                self.closeCurrentVoteButton.isHidden = false
-                self.closeCurrentVoteButton.setTitle("Close Current Vote", for: .normal)
             }
-            self.currentVoteButton.isEnabled = true
         }
+        
+        self.managePermissions()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -247,13 +309,14 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
     
     func showMessage(message: String) {
         SCLAlertView().showTitle(
-            "Close Current Vote",
+            "Archive Vote",
             subTitle: message,
             duration: 0.0,
             completeText: "Okay",
             style: .notice,
             colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF)
-    
+            colorTextButton: 0xFFFFFF).setDismissBlock {
+                self.managePermissions()
+        }
     }
 }

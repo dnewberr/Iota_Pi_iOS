@@ -79,14 +79,14 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         }
     }
     
-    func archive() {
-        self.votingService.archive(id: self.currentTopic.getId(), isHirly: true)
+    func delete() {
+        self.votingService.deleteVote(id: self.currentTopic.getId(), topics: [], isHirly: true, isShown: true)
     }
     
     
     func showMessage(message: String) {
         SCLAlertView().showTitle(
-            "Archive Vote",
+            "Delete Vote",
             subTitle: message,
             duration: 0.0,
             completeText: "Okay",
@@ -107,19 +107,20 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
 class HirlyFormViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var formContainer: UIView!
-    @IBOutlet weak var archiveButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
     
     var hirlyTopic: VotingTopic!
     var formTableViewController: FormTableViewController!
     
-    @IBAction func archive(_ sender: Any) {
-        let archiveVoteAlert = SCLAlertView()
-        archiveVoteAlert.addButton("Archive") {
-            self.formTableViewController.archive()
+    @IBAction func deleteVote(_ sender: Any) {
+        let deleteVoteAlert = SCLAlertView()
+        deleteVoteAlert.addButton("Delete") {
+            self.formTableViewController.delete()
         }
-        archiveVoteAlert.showTitle(
-            "Archive Vote",
-            subTitle: "Are you sure you wish to archive this vote?",
+        
+        deleteVoteAlert.showTitle(
+            "Delete HIRLy Vote",
+            subTitle: "Are you sure you wish to delete this vote? Its results will not be displayed in the archives.",
             duration: 0.0,
             completeText: "Cancel",
             style: .info,
@@ -135,8 +136,8 @@ class HirlyFormViewController: UIViewController {
         super.viewDidLoad()
         
         if !RosterManager.sharedInstance.currentUserCanCreateHirly() {
-            self.archiveButton.isEnabled = false
-            self.archiveButton.tintColor = UIColor.clear
+            self.deleteButton.isEnabled = false
+            self.deleteButton.tintColor = UIColor.clear
         }
     }
         

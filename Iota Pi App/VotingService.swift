@@ -50,7 +50,7 @@ public class VotingService {
                 
                 if topic.isArchived {
                     if Utilities.isOlderThanOneYear(date: topic.expirationDate) {
-                        self.deleteVote(id: topic.getId(), topics: [], isHirly: isHirly)
+                        self.deleteVote(id: topic.getId(), topics: [], isHirly: isHirly, isShown: false)
                     } else {
                         archivedTopics.append(topic)
                     
@@ -76,7 +76,6 @@ public class VotingService {
                 let key = Double(child.key)!
                 let dict = child.value as! NSDictionary
                 let topic = VotingTopic(dict: dict, expiration: key)
-                
                 
                 if !topic.isArchived {
                     VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
@@ -201,7 +200,7 @@ public class VotingService {
         }
     }
     
-    public func deleteVote(id: String, topics: [VotingTopic], isHirly: Bool) {
+    public func deleteVote(id: String, topics: [VotingTopic], isHirly: Bool, isShown: Bool) {
         VotingService.LOGGER.info("[Delete Vote] Removing vote with ID \(id)")
         let voteType = isHirly ? "HIRLy" : "CurrentVote"
         baseRef.child(voteType).child(id).removeValue(completionBlock: { (error, ref) in
@@ -212,11 +211,15 @@ public class VotingService {
                 if !topics.isEmpty {
                     self.votingServiceDelegate?.sendArchivedTopics(topics: topics.filter({$0.getId() != id}))
                 }
+                
+                if isShown {
+                    self.votingServiceDelegate?.showMessage(message: "Vote was deleted successfully.")
+                }
             }
         })
     }
     
-    func archive(id: String, isHirly: Bool) {
+    func archive(id: String, isHirly: Bool, isAuto: Bool) {
         VotingService.LOGGER.info("[Archive Vote] Archiving vote with ID \(id)")
         let voteType = isHirly ? "HIRLy" : "CurrentVote"
         baseRef.child(voteType).child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
@@ -224,7 +227,9 @@ public class VotingService {
                 VotingService.LOGGER.error("[Archive Vote] " + error.localizedDescription)
                 self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to archive the vote.")
             } else {
-                self.votingServiceDelegate?.showMessage(message: "Vote has been closed. You can view the results in the archives.")
+                if !isAuto {
+                    self.votingServiceDelegate?.showMessage(message: "Vote has been closed. You can view the results in the archives.")
+                }
             }
         })
     }

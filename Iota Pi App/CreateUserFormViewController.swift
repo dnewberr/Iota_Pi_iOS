@@ -87,7 +87,7 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Status"
-                $0.options = ["Active", "Alumni", "Conditional", "Inactive", "Other"]
+                $0.options = ["Active", "Alumni", "Conditional", "Honorary", "Inactive", "Other"]
                 $0.value = "Active"    // initially selected
                 $0.tag = "status"
                 $0.add(rule: RuleRequired())

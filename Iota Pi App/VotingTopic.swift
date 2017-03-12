@@ -26,10 +26,10 @@ public class VotingTopic {
     // hirly only
     var winners = "N/A"
     
-    init(summary: String, description: String, isSessionCodeRequired: Bool) {
+    init(summary: String, description: String, isHirly: Bool) {
         self.summary = summary
         self.description = description
-        if isSessionCodeRequired {
+        if !isHirly {
             var fifteenMinInterval = DateComponents()
             fifteenMinInterval.minute = 15
             self.expirationDate = Calendar.current.date(byAdding: fifteenMinInterval, to: Date())!
@@ -86,8 +86,6 @@ public class VotingTopic {
     func hasCurrentBroVoted(isHirly: Bool) -> Bool {
         let currentUser = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!
         let currentVoteId = self.getId()
-        
-        print("COMPARING:: \(currentUser.lastHirlyId!) | \(currentVoteId)")
         
         return isHirly ? currentUser.lastHirlyId! == currentVoteId : currentUser.lastVoteId == currentVoteId
     }

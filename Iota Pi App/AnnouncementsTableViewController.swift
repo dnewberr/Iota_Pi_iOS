@@ -327,7 +327,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return indexPath.row < filteredAnnouncements.count
     }
  
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

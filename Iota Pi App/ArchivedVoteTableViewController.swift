@@ -183,7 +183,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             let deleteVoteAlert = SCLAlertView()
             deleteVoteAlert.addButton("Delete") {
                 self.indicator.startAnimating()
-                self.votingService.deleteVote(id: self.filteredTopics[indexPath.row].getId(), topics: self.votingTopics, isHirly: self.isHirly)
+                self.votingService.deleteVote(id: self.filteredTopics[indexPath.row].getId(), topics: self.votingTopics, isHirly: self.isHirly, isShown: false)
             }
             
             deleteVoteAlert.showTitle(

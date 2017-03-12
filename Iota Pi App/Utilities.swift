@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 enum Status: String {
-    case Active, Alumni, Conditional, Inactive, Other
+    case Active, Alumni, Conditional, Honorary, Inactive, Other
 }
 
 enum AdminPrivileges: String {
