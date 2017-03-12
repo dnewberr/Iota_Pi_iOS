@@ -105,33 +105,21 @@ class VotingViewController: UIViewController, VotingServiceDelegate {
         }
     }
     
-    @IBAction func closeCurrentVote(_ sender: Any) {
-//        let closeCurrentVoteAlert = SCLAlertView()
-//        closeCurrentVoteAlert.addButton("Close Vote") {
-//            self.votingService.archive(id: self.currentVote.getId(), isHirly: false, isAuto: false)
-//        }
-//        closeCurrentVoteAlert.showTitle(
-//            "Close Vote",
-//            subTitle: "Are you sure you want to close the current vote?",
-//            duration: 0.0,
-//            completeText: "Cancel",
-//            style: .info,
-//            colorStyle: Style.mainColorHex,
-//            colorTextButton: 0xFFFFFF)
-    }
-    
     @IBAction func createVote(_ sender: AnyObject) {
         let voteCreator = SCLAlertView()
         voteCreator.addButton("HIRLy", action: {
             self.showCreationForm(isHirly: true)
         })
-        voteCreator.addButton("Current Vote", action: {
-            self.showCreationForm(isHirly: false)
-        })
+        
+        if RosterManager.sharedInstance.currentUserCanCreateVote() {
+            voteCreator.addButton("Current Vote", action: {
+                self.showCreationForm(isHirly: false)
+            })
+        }
         
         voteCreator.showTitle(
             "Create New Vote",
-            subTitle: "Note that when a new topic is created, the current one closes.",
+            subTitle: "Note that when a new topic is created, the current one automatically archives.",
             duration: 0.0,
             completeText: "Cancel",
             style: .edit,

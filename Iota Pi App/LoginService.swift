@@ -60,7 +60,7 @@ public class LoginService {
                 switch admin {
                     case "President" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.President
                     case "VicePresident" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.VicePresident
-                    case "RecSec" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.RecSec
+                    case "RecordingSecretary" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.RecSec
                     case "Parliamentarian" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.Parliamentarian
                     case "BrotherhoodCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.BrotherhoodCommitteeChair
                     case "OtherCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin  = AdminPrivileges.OtherCommitteeChair

@@ -38,25 +38,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         let descriptionTextView = announcementCreation.addTextView()
         descriptionTextView.isEditable = true
         
-        // replacement subtitle since subview overwrites it
-        let note = announcementCreation.addTextView()
-        note.isEditable = false
-        note.text = "Announcements expire seven days after creation."
-        note.font = UIFont(name: "Helvetica", size: 14)
-        note.layoutIfNeeded()
-        note.sizeToFit()
-        note.isScrollEnabled = false
-        note.layer.borderWidth = 0
-        note.textAlignment = .center
-        
-        announcementCreation.showTitle(
-            "Create Announcement",
-            subTitle: "",
-            duration: 0.0,
-            completeText: "Create",
-            style: .edit,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
+        announcementCreation.addButton("Create") {
             if let title = titleTextField.text, let description = descriptionTextView.text {
                 if title.trim().isEmpty || description.trim().isEmpty {
                     SCLAlertView().showError("Error", subTitle: "Please enter a title and a description for the announcement.")
@@ -65,6 +47,15 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
                 }
             }
         }
+        
+        announcementCreation.showTitle(
+            "Create Announcement",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     @IBAction func searchForAnnouncement(_ sender: AnyObject) {
