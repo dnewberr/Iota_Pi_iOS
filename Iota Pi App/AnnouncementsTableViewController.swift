@@ -59,29 +59,30 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     @IBAction func searchForAnnouncement(_ sender: AnyObject) {
-        let alert = SCLAlertView()
+        let searchAlert = SCLAlertView()
         
-        let keyphraseField = alert.addTextField("Title")
+        let keyphraseField = searchAlert.addTextField("Title")
         keyphraseField.autocorrectionType = .no
         keyphraseField.autocapitalizationType = .none
         keyphraseField.text = self.activeKeyphrase
 
         let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
         subview.addSubview(createFilterSubview(isFilter: true))
-        alert.customSubview = subview
+        searchAlert.customSubview = subview
         
-        alert.showTitle(
-            "Search",
-            subTitle: "",
-            duration: 0.0,
-            completeText: "Search",
-            style: .info,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
-                self.activeKeyphrase = keyphraseField.text!.trim().isEmpty ? "" : keyphraseField.text!.lowercased()
-                self.filterAnnouncements()
+        searchAlert.addButton("Search") {
+            self.activeKeyphrase = keyphraseField.text!.trim().isEmpty ? "" : keyphraseField.text!.lowercased()
+            self.filterAnnouncements()
         }
         
+        searchAlert.showTitle(
+            "Search Announcements",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     @IBAction func clearFilter(_ sender: Any) {

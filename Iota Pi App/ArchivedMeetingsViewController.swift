@@ -18,26 +18,28 @@ class PreviousMeetingsTableViewCell: UITableViewCell {
 class ArchivedMeetingsTableViewController: UITableViewController, MeetingServiceDelegate {
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBAction func searchForMeeting(_ sender: AnyObject) {
-        let alertView = SCLAlertView()
-        let sessionCodeText = alertView.addTextField()
+        let searchAlert = SCLAlertView()
+        let sessionCodeText = searchAlert.addTextField()
         sessionCodeText.placeholder = "Session Code"
         sessionCodeText.text = self.activeKeyphrase
         sessionCodeText.autocorrectionType = .no
         sessionCodeText.autocapitalizationType = .none
         
-        alertView.showTitle(
-            "Archived Meetings",
-            subTitle: "Search for a meeting by its session code.",
-            duration: 0.0,
-            completeText: "Search",
-            style: .notice,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
+        searchAlert.addButton("Search") {
             if let sessionCode = sessionCodeText.text {
                 self.activeKeyphrase = sessionCode
                 self.filterMeetings()
             }
         }
+        
+        searchAlert.showTitle(
+            "Archived Meetings",
+            subTitle: "Search for a meeting by its session code or present members.",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     @IBAction func clearFilter(_ sender: Any) {
@@ -53,7 +55,15 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
             self.clearButton.tintColor = nil
             
             for meeting in self.archivedMeetings {
-                if meeting.sessionCode.lowercased().contains(self.activeKeyphrase.trim().lowercased()) {
+                let usersCheckedIn = meeting.brotherIdsCheckedIn.map({RosterManager.sharedInstance.brothersMap[$0]!})
+                
+                // filters by sessions code and present member's first/last/nickname
+                let trimmedFilter = self.activeKeyphrase.trim().lowercased()
+                if meeting.sessionCode.lowercased().contains(trimmedFilter)
+                    || !usersCheckedIn.filter({
+                        $0.firstname.lowercased().contains(trimmedFilter)
+                        || $0.lastname.lowercased().contains(trimmedFilter)
+                            || $0.nickname.lowercased().contains(trimmedFilter)}).isEmpty {
                     self.filteredMeetings.append(meeting)
                 }
             }
