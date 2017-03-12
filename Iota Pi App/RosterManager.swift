@@ -108,6 +108,6 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     // unnecessary delegate methods
-    public func updateUI() {}
+    public func updateUI(isDeleted: Bool) {}
     public func error(message: String) {}
 }

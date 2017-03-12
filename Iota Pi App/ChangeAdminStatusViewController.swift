@@ -57,7 +57,7 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
     }
     
     
-    func updateUI() {
+    func updateUI(isDeleted: Bool) {
         if !self.alreadyUpdated {
             self.alreadyUpdated = true
             SCLAlertView().showSuccess("Change Admin and Status", subTitle: "The user's admin and status have been saved.").setDismissBlock {

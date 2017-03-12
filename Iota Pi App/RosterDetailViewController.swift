@@ -64,9 +64,10 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         return cell
     }
     
-    func updateUI() {
+    public func updateUI(isDeleted: Bool) {
         self.refresh()
     }
+
     
     func error(message: String) {
         SCLAlertView().showError("Error", subTitle: message)
@@ -207,9 +208,10 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
         }
     }
     
-    public func updateUI() {
+    public func updateUI(isDeleted: Bool) {
         _ = self.navigationController!.popViewController(animated: true)
     }
+
     
     func error(message: String) {
         SCLAlertView().showError("Error", subTitle: message)

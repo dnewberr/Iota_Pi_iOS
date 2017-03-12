@@ -16,18 +16,30 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     
     @IBAction func submitValidationRequest(_ sender: AnyObject) {
         let validateAlertView = SCLAlertView()
-        validateAlertView.addButton("Validate") {
-            self.rosterService.validateBrothers(uids: self.uidsToVerify)
-        }
         
-        validateAlertView.showTitle(
-            "Validate Users",
-            subTitle: "Are you sure you wish to validate the selected users?",
-            duration: 0.0,
-            completeText: "Cancel",
-            style: .warning,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF)
+        if uidsToVerify.isEmpty {
+            validateAlertView.showTitle(
+                "Validate Users",
+                subTitle: "Please select at least one user to validate.",
+                duration: 0.0,
+                completeText: "Okay",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        } else {
+            validateAlertView.addButton("Validate") {
+                self.rosterService.validateBrothers(uids: self.uidsToVerify)
+            }
+        
+            validateAlertView.showTitle(
+                "Validate Users",
+                subTitle: "Are you sure you wish to validate the selected users?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
     }
     
     
@@ -81,6 +93,30 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            let deletePendingUserAlert = SCLAlertView()
+            deletePendingUserAlert.addButton("Delete") {
+                self.rosterService.markUserForDeletion(uid: self.invalidUsers[indexPath.row].userId)
+            }
+            
+            deletePendingUserAlert.showTitle(
+                "Delete User",
+                subTitle: "Are you sure you wish to delete this user?",
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
+
+        return [delete]
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         
@@ -95,8 +131,9 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         }
     }
     
-    func updateUI() {
-        SCLAlertView().showSuccess("Validate Users", subTitle: "Successfully validated the requested users!").setDismissBlock {
+    func updateUI(isDeleted isDelete: Bool) {
+        let message = isDelete ? "Successfully deleted the selected user." : "Successfully validated the requested users!"
+        SCLAlertView().showSuccess("Validate Users", subTitle: message).setDismissBlock {
             self.refresh()
         }
     }

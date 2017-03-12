@@ -34,6 +34,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         var numRows = 4
         
         if RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin() && !RosterManager.sharedInstance.brothersToValidate.isEmpty {
+            print("SHOULD SHOW VALIDATE")
             numRows += 1
         }
         

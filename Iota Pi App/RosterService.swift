@@ -11,7 +11,7 @@ import Firebase
 import Log
 
 public protocol RosterServiceDelegate: class {
-    func updateUI()
+    func updateUI(isDeleted: Bool)
     func sendMap(map: [String : User])
     func error(message: String)
 }
@@ -51,7 +51,7 @@ public class RosterService {
                 RosterService.LOGGER.info("[Push Brother Detail] \(error.localizedDescription)")
                 self.rosterServiceDelegate?.error(message: "An error has occured that prevents your changes from being saved.")
             } else {
-                self.rosterServiceDelegate?.updateUI()
+                self.rosterServiceDelegate?.updateUI(isDeleted: false)
             }
         })
     }
@@ -68,7 +68,7 @@ public class RosterService {
             RosterManager.sharedInstance.brothersToValidate.removeValue(forKey: uid)
         }
         
-        self.rosterServiceDelegate?.updateUI()
+        self.rosterServiceDelegate?.updateUI(isDeleted: false)
     }
     
     func markUserForDeletion(uid: String) {
@@ -82,7 +82,7 @@ public class RosterService {
             } else {
                 // Edit locally for quick visual changes
                 RosterManager.sharedInstance.brothersMap.removeValue(forKey: uid)
-                self.rosterServiceDelegate?.updateUI()
+                self.rosterServiceDelegate?.updateUI(isDeleted: true)
             }
         })
     }
