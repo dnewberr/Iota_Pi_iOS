@@ -178,6 +178,13 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         }
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if isHirly {
+            return RosterManager.sharedInstance.currentUserCanCreateHirly()
+        } else {
+            return RosterManager.sharedInstance.currentUserCanCreateVote()
+        }
+    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
             let deleteVoteAlert = SCLAlertView()
