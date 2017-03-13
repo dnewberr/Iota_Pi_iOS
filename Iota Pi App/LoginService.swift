@@ -98,15 +98,25 @@ public class LoginService {
     }
     
     func deleteUser() {
-        LoginService.LOGGER.info("[Delete User] UID: " + RosterManager.sharedInstance.currentUserId)
-        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).setValue(nil)
+        let uid = RosterManager.sharedInstance.currentUserId!
+        LoginService.LOGGER.info("[Delete User] Deleting account with UID: " + uid)
         
         FIRAuth.auth()?.currentUser?.delete(completion: { (err) in
             if let error = err {
-                LoginService.LOGGER.info("[Delete User] Error while deleting user with UID [\(RosterManager.sharedInstance.currentUserId)]: \(error.localizedDescription)")
-                self.loginServiceDelegate?.showErrorMessage(message: "There was an error logging you in. Contact exec council for details.")
+                LoginService.LOGGER.info("[Delete User] Error while deleting user with UID [\(uid)]: \(error.localizedDescription)")
+                self.loginServiceDelegate?.showErrorMessage(message: "There was an error while logging in. Contact the webmaster for assistance.")
             } else {
-                self.loginServiceDelegate?.showErrorMessage(message: "Your account has been deleted.")
+                LoginService.LOGGER.info("[Delete User] Successfully deleted account: " + uid)
+                LoginService.LOGGER.info("[Delete User] Removing references of UID: " + uid + " from the databse")
+                FIRDatabase.database().reference().child("Brothers").child(uid).removeValue(completionBlock: { (error, ref) in
+                    if let error = error {
+                        LoginService.LOGGER.info("[Delete User] Error while deleting database reference of UID [\(uid)]: \(error.localizedDescription)")
+                        self.loginServiceDelegate?.showErrorMessage(message: "There was an error while logging in. Contact the webmaster for assistance.")
+                    } else {
+                        LoginService.LOGGER.info("[Delete User] Successfully removed all references to UID: " + RosterManager.sharedInstance.currentUserId + " from the database.")
+                        self.loginServiceDelegate?.showErrorMessage(message: "Your account has been deleted.")
+                    }
+                })
             }
         })
     }
