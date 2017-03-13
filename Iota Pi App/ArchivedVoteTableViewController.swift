@@ -197,8 +197,19 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         }
     }
     
-    func showMessage(message: String) {
-        SCLAlertView().showError("Error", subTitle: message)
+    func showMessage(message: String, title: String, isError: Bool) {
+        if isError {
+            SCLAlertView().showError(title, subTitle: message)
+        } else {
+            SCLAlertView().showTitle(
+                title,
+                subTitle: message,
+                duration: 0.0,
+                completeText: "Cancel",
+                style: .warning,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF)
+        }
     }
     
     // unnecessary delegate methods

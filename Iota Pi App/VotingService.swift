@@ -16,7 +16,7 @@ public protocol VotingServiceDelegate: class {
     func noCurrentVote(isHirly: Bool)
     func denyVote(isHirly: Bool, topic: VotingTopic?)
     func sendArchivedTopics(topics: [VotingTopic])
-    func showMessage(message: String)
+    func showMessage(message: String, title: String, isError: Bool)
 }
 
 public class VotingService {
@@ -96,6 +96,22 @@ public class VotingService {
             } else {
                 VotingService.LOGGER.info("[Fetch Voting Topic] There was no active voting topic found.")
                 self.votingServiceDelegate?.noCurrentVote(isHirly: isHirly)
+            }
+        })
+    }
+    
+    public func pushVotingTopic(summary: String, description: String, isHirly: Bool) {
+        let newTopic = VotingTopic(summary: summary, description: description, isHirly: isHirly)
+        let refString = isHirly ? "HIRLy" : "CurrentVote"
+        VotingService.LOGGER.info("[Push Voting Topic] Pushing \(refString) with id = [\(newTopic.getId())]")
+        
+        baseRef.child(refString).child(newTopic.getId()).setValue(newTopic.toFirebaseObject(), withCompletionBlock: { (error, ref) in
+            if let error = error {
+                VotingService.LOGGER.error("[Push Voting Topic] \(error.localizedDescription)")
+                self.votingServiceDelegate?.showMessage(message: "There was an error while trying to create a new vote.", title: "Create Vote", isError: true)
+            } else {
+                VotingService.LOGGER.info("[Push Voting Topic] Successfully pushed \(refString) with id = [\(newTopic.getId())]")
+                self.votingServiceDelegate?.showMessage(message: "Successfully created a new vote!", title: "Create Vote", isError: false)
             }
         })
     }
@@ -252,14 +268,14 @@ public class VotingService {
         baseRef.child(voteType).child(id).removeValue(completionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Delete Vote] " + error.localizedDescription)
-                self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the Vote.")
+                self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the Vote.", title: "Delete Vote", isError: true)
             } else {
                 if !topics.isEmpty {
                     self.votingServiceDelegate?.sendArchivedTopics(topics: topics.filter({$0.getId() != id}))
                 }
                 
                 if isShown {
-                    self.votingServiceDelegate?.showMessage(message: "Vote was deleted successfully.")
+                    self.votingServiceDelegate?.showMessage(message: "Vote was deleted successfully.", title: "Delete Vote", isError: false)
                 }
             }
         })
@@ -271,10 +287,10 @@ public class VotingService {
         baseRef.child(voteType).child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Archive Vote] " + error.localizedDescription)
-                self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to archive the vote.")
+                self.votingServiceDelegate?.showMessage(message: "An error occurred while trying to archive the vote.", title: "Archive Vote", isError: true)
             } else {
                 if !isAuto {
-                    self.votingServiceDelegate?.showMessage(message: "Vote has been closed. You can view the results in the archives.")
+                    self.votingServiceDelegate?.showMessage(message: "Vote has been closed. You can view the results in the archives.", title: "Archive Vote", isError: false)
                 }
             }
         })

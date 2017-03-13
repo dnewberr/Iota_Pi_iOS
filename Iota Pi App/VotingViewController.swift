@@ -203,7 +203,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
             "Create New Topic",
             subTitle: "",
             duration: 0.0,
-            completeText: "Done",
+            completeText: "Create",
             style: .edit,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
@@ -216,8 +216,8 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
                     } else if !isHirly && self.currentVote != nil {
                         self.votingService.archive(id: self.currentVote.getId(), isHirly: isHirly, isAuto: true)
                     }
-                    self.pushVotingTopic(summary: summary, description: description, isHirly: isHirly)
-                    SCLAlertView().showSuccess("Create New Topic", subTitle: "A new voting topic was successfully created!")
+                    
+                    self.votingService.pushVotingTopic(summary: summary, description: description, isHirly: isHirly)
                 }
             }
         }
@@ -235,15 +235,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
             return false
         }
         return true
-    }
-    
-    // TODO MOVE TO SERVICE
-    public func pushVotingTopic(summary: String, description: String, isHirly: Bool) {
-        let newTopic = VotingTopic(summary: summary, description: description, isHirly: isHirly)
-        let refString = isHirly ? "HIRLy" : "CurrentVote"
-        let ref = FIRDatabase.database().reference().child("Voting").child(refString).child(newTopic.getId())
-        
-        ref.setValue(newTopic.toFirebaseObject())
     }
     
     func updateUI(topic: VotingTopic) {
@@ -315,17 +306,24 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
     
     // unnecessary delegate methods
     func sendArchivedTopics(topics: [VotingTopic]) {}
+
     
-    func showMessage(message: String) {
-        SCLAlertView().showTitle(
-            "Archive Vote",
-            subTitle: message,
-            duration: 0.0,
-            completeText: "Okay",
-            style: .notice,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
+    func showMessage(message: String, title: String, isError: Bool) {
+        if isError {
+            SCLAlertView().showError(title, subTitle: message).setDismissBlock {
                 self.managePermissions()
+            }
+        } else {
+            SCLAlertView().showTitle(
+                title,
+                subTitle: message,
+                duration: 0.0,
+                completeText: "Okay",
+                style: .notice,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
+                    self.managePermissions()
+            }
         }
     }
 }

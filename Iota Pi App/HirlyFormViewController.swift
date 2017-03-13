@@ -84,16 +84,20 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
     }
     
     
-    func showMessage(message: String) {
-        SCLAlertView().showTitle(
-            "Delete Vote",
-            subTitle: message,
-            duration: 0.0,
-            completeText: "Okay",
-            style: .notice,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
-            _ = self.navigationController?.popViewController(animated: true)
+    func showMessage(message: String, title: String, isError: Bool) {
+        if isError {
+            SCLAlertView().showError(title, subTitle: message)
+        } else {
+            SCLAlertView().showTitle(
+                "Delete Vote",
+                subTitle: message,
+                duration: 0.0,
+                completeText: "Okay",
+                style: .notice,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
+                    _ = self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
