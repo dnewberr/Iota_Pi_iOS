@@ -20,8 +20,7 @@ public protocol MeetingServiceDelegate: class {
 }
 
 public class MeetingService {
-    public static let LOGGER = Logger(formatter: Formatter("📘 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message),
-                                      theme: nil, minLevel: .trace)
+    public static let LOGGER = Logger(formatter: Formatter("📘 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message), theme: nil, minLevel: .trace)
     
     weak var meetingServiceDelegate: MeetingServiceDelegate?
     let baseRef = FIRDatabase.database().reference().child("Meetings")
@@ -106,25 +105,44 @@ public class MeetingService {
     }
     
     func pushEndMeeting(meeting: Meeting) {
-        MeetingService.LOGGER.info("[Push End Meeting] Setting end time for meeting with session code " + meeting.sessionCode)
-        baseRef.child(meeting.sessionCode).child("endTime").setValue(floor(Date().timeIntervalSince1970))
+        MeetingService.LOGGER.info("[End Meeting] Setting end time for meeting with session code " + meeting.sessionCode)
+        
+        baseRef.child(meeting.sessionCode).child("endTime").setValue(floor(Date().timeIntervalSince1970), withCompletionBlock: { (error, ref) in
+            if let error = error {
+                MeetingService.LOGGER.error("[End Meeting] " + error.localizedDescription)
+                self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to end the meeting.", isError: true)
+            } else {
+                //no need to call delegate method - observer automatically will update the UI
+                MeetingService.LOGGER.info("[End Meeting] Meeting ended for session code " + meeting.sessionCode)
+            }
+        })
+        
     }
     
     func startNewMeeting() {
         let newMeeting = Meeting()
         MeetingService.LOGGER.info("[Start New Meeting] Creating a new meeting with session code " + newMeeting.sessionCode)
-        baseRef.child(newMeeting.sessionCode).setValue(newMeeting.toFirebaseObject())
-        self.meetingServiceDelegate?.newMeetingCreated(meeting: newMeeting)
+        
+        baseRef.child(newMeeting.sessionCode).setValue(newMeeting.toFirebaseObject(), withCompletionBlock: { (error, ref) in
+            if let error = error {
+                MeetingService.LOGGER.error("[Start Meeting] " + error.localizedDescription)
+                self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to create the meeting.", isError: true)
+            } else {
+                MeetingService.LOGGER.info("[Start New Meeting] Meeting created with session code " + newMeeting.sessionCode)
+                self.meetingServiceDelegate?.newMeetingCreated(meeting: newMeeting)
+            }
+        })
     }
     
     func deleteMeeting(sessionCode: String, meetings: [Meeting]) {
-        MeetingService.LOGGER.info("[Delete Meeting] Meeting vote with ID \(sessionCode)")
+        MeetingService.LOGGER.info("[Delete Meeting] Deleting meeting with ID \(sessionCode)")
 
         baseRef.child(sessionCode).removeValue(completionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Delete Vote] " + error.localizedDescription)
                 self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to delete the meeting.", isError: true)
             } else {
+                MeetingService.LOGGER.info("[Delete Meeting] Meeting with ID \(sessionCode) was successfully deleted.")
                 if !meetings.isEmpty {
                     self.meetingServiceDelegate?.populateMeetings(meetings: meetings.filter({$0.sessionCode != sessionCode}))
                 }

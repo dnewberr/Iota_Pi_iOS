@@ -67,11 +67,6 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     public func updateUI(isDeleted: Bool) {
         self.refresh()
     }
-
-    
-    func error(message: String) {
-        SCLAlertView().showError("Error", subTitle: message)
-    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId {
@@ -126,6 +121,10 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
                 self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "expectedGrad", value: newValue)
             default: return
         }
+    }
+    
+    func error(message: String, autoClose: Bool) {
+        SCLAlertView().showError("Error", subTitle: message)
     }
     
     // unnecessary delegate functions
@@ -213,7 +212,7 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     }
 
     
-    func error(message: String) {
+    func error(message: String, autoClose: Bool) {
         SCLAlertView().showError("Error", subTitle: message)
     }
     

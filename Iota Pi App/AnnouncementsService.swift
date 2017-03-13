@@ -18,13 +18,12 @@ public protocol AnnouncementsServiceDelegate: class {
 public class AnnouncementsService {
     public static let LOGGER = Logger(formatter: Formatter("📣 [%@] %@ %@: %@", .date("dd/MM/yy HH:mm"), .location, .level, .message), theme: nil, minLevel: .trace)
     weak var announcementsServiceDelegate: AnnouncementsServiceDelegate?
+    let baseRef = FIRDatabase.database().reference().child("Announcements")
     
     init() {}
     
     public func fetchAnnouncements() {
-        let ref = FIRDatabase.database().reference().child("Announcements")
-        
-        ref.observe(.value, with:{ (snapshot) -> Void in
+        baseRef.observe(.value, with:{ (snapshot) -> Void in
             var announcements = [Announcement]()
             
             for item in snapshot.children {
@@ -49,16 +48,23 @@ public class AnnouncementsService {
     }
     
     public func pushAnnouncement(title: String, details: String, tags: [String]) {
+        AnnouncementsService.LOGGER.info("[Push Announcement] Pushing a new announcement.")
         let newAnnouncement = Announcement(title: title, details: details, committeeTags: tags)
-        let ref = FIRDatabase.database().reference().child("Announcements").child(newAnnouncement.getId())
         
-        AnnouncementsService.LOGGER.info("[Push Announcement] \(newAnnouncement.toFirebaseObject())")
-        ref.setValue(newAnnouncement.toFirebaseObject())
+        baseRef.child(newAnnouncement.getId()).setValue(newAnnouncement.toFirebaseObject(), withCompletionBlock: { (error, ref) in
+            if let error = error {
+                AnnouncementsService.LOGGER.error("[Push Announcement] " + error.localizedDescription)
+                self.announcementsServiceDelegate?.error(message: "An error occurred while trying to create the announcement.")
+            } else {
+                AnnouncementsService.LOGGER.info("[Push Announcement] Successfully pushed new announcement with ID \(newAnnouncement.getId())")
+            }
+        })
     }
     
     public func deleteAnnouncement(id: String, announcements: [Announcement]) {
         AnnouncementsService.LOGGER.info("[Delete Announcement] Removing announcement with ID \(id)")
-        FIRDatabase.database().reference().child("Announcements").child(id).removeValue(completionBlock: { (error, ref) in
+        
+        baseRef.child(id).removeValue(completionBlock: { (error, ref) in
             if let error = error {
                 AnnouncementsService.LOGGER.error("[Delete Announcement] " + error.localizedDescription)
                 self.announcementsServiceDelegate?.error(message: "An error occurred while trying to delete the announcement.")
@@ -72,7 +78,8 @@ public class AnnouncementsService {
     
     public func archiveAnnouncement(id: String, announcements: [Announcement]) {
         AnnouncementsService.LOGGER.info("[Archive Announcement] Archiving announcement with ID \(id)")
-        FIRDatabase.database().reference().child("Announcements").child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
+        
+        baseRef.child("Announcements").child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
             if let error = error {
                 AnnouncementsService.LOGGER.error("[Archive Announcement] " + error.localizedDescription)
                 self.announcementsServiceDelegate?.error(message: "An error occurred while trying to archive the announcement.")

@@ -66,7 +66,7 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
         }
     }
     
-    func error(message: String) {
+    func error(message: String, autoClose: Bool) {
         SCLAlertView().showError("Error", subTitle: message)
     }
     

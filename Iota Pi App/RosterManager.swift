@@ -109,5 +109,5 @@ public class RosterManager: RosterServiceDelegate {
     
     // unnecessary delegate methods
     public func updateUI(isDeleted: Bool) {}
-    public func error(message: String) {}
+    public func error(message: String, autoClose: Bool) {}
 }

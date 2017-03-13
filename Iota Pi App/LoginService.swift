@@ -88,11 +88,11 @@ public class LoginService {
                     }
                 } else {
                     LoginService.LOGGER.info("[Check Login] User not verified.")
-                    self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
+                    self.loginServiceDelegate?.showErrorMessage(message: "Your account is not validated.")
                 }
             } else {
                 LoginService.LOGGER.info("[Check Login] Verification value not set.")
-                self.loginServiceDelegate?.showErrorMessage(message: "Your account has not yet been validated.")
+                self.loginServiceDelegate?.showErrorMessage(message: "Your account is not validated.")
             }
         })
     }
@@ -138,7 +138,7 @@ public class LoginService {
                 var message: String
                 
                 switch errCode {
-                    case .errorCodeInvalidEmail:
+                    case .errorCodeEmailAlreadyInUse:
                         message = "A user with this email already exists. Contact the webmaster for assistance."
                     default:
                         message = "There was a problem while creating the account. Please try again later."

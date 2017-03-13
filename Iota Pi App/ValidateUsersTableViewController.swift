@@ -131,15 +131,23 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         }
     }
     
-    func updateUI(isDeleted isDelete: Bool) {
-        let message = isDelete ? "Successfully deleted the selected user." : "Successfully validated the requested users!"
-        SCLAlertView().showSuccess("Validate Users", subTitle: message).setDismissBlock {
+    func updateUI(isDeleted: Bool) {
+        let message = isDeleted ? "Successfully deleted the selected brother." : "Successfully validated the requested brother(s)!"
+        SCLAlertView().showSuccess("Validate Brothers", subTitle: message).setDismissBlock {
             self.refresh()
         }
     }
     
-    func error(message: String) {
-        SCLAlertView().showError("Error", subTitle: message)
+    func error(message: String, autoClose: Bool) {
+        if autoClose {
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            SCLAlertView(appearance: appearance).showError("Error", subTitle: message, duration: 1)
+        } else {
+            SCLAlertView().showError("Error", subTitle: message)
+        }
     }
     
     //unnecessary delegate method
