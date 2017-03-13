@@ -9,12 +9,13 @@
 import Foundation
 import UIKit
 
+
 enum Status: String {
-    case Active, Alumni, Conditional, Honorary, Inactive, Other
+    case Active, Associate, Alumni, Conditional, Honorary, Inactive, Life
 }
 
 enum AdminPrivileges: String {
-    case President, RecSec, VicePresident, Webmaster, Parliamentarian, BrotherhoodCommitteeChair, OtherCommitteeChair, None
+    case President, RecSec, VicePresident, Webmaster, Parliamentarian, BrotherhoodCommitteeChair, OtherCommitteeChair, NoVoting, None
 }
 
 struct Style {
@@ -36,7 +37,7 @@ class Utilities {
     static let MAX_SUMMARY_LENGTH = 15
     static let SECONDS_IN_WEEK: Double = 604800
     static let SECONDS_IN_YEAR: Double = 31557600
-    static let STATUS_ARRAY = ["Active", "Alumni", "Conditional", "Honorary", "Inactive", "Other"]
+    static let STATUS_ARRAY = ["Active", "Associate", "Alumni", "Conditional", "Honorary", "Inactive", "Life"]
     
     static func isOlderThanOneYear(date: Date) -> Bool {
         return !(Date(timeIntervalSinceNow: -SECONDS_IN_YEAR)...Date(timeIntervalSinceNow: SECONDS_IN_WEEK)).contains(date) // 7 day buffer for manually archived

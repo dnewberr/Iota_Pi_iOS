@@ -17,7 +17,7 @@ public class RosterManager: RosterServiceDelegate {
     var brothersMap: [String : User]!
     var brothersToValidate: [String : User]!
     var currentUserAlreadyLoggedIn = false
-    var currentUserAdmin: AdminPrivileges!
+    var currentUserAdmin = AdminPrivileges.None
     var currentUserId: String!
     
     private init() {
@@ -48,11 +48,11 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanCreateAnnouncements() -> Bool {
-        return self.currentUserAdmin != AdminPrivileges.None
+        return self.currentUserAdmin != AdminPrivileges.None && self.currentUserAdmin != AdminPrivileges.NoVoting
     }
     
     func currentUserCanCreateHirly() -> Bool {
-        switch self.currentUserAdmin! {
+        switch self.currentUserAdmin {
             case .President: return true
             case .BrotherhoodCommitteeChair: return true
             default: return false
@@ -60,7 +60,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanCreateUserChangeAdmin() -> Bool {
-        switch self.currentUserAdmin! {
+        switch self.currentUserAdmin {
             case .President: return true
             case .Webmaster: return true
             default: return false
@@ -68,7 +68,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanCreateVote() -> Bool {
-        switch self.currentUserAdmin! {
+        switch self.currentUserAdmin {
             case .President: return true
             case .RecSec: return true
             case .VicePresident: return true
@@ -78,7 +78,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanDictateMeetings() -> Bool {
-        switch self.currentUserAdmin! {
+        switch self.currentUserAdmin {
             case .President: return true
             case .RecSec: return true
             case .VicePresident: return true
@@ -87,7 +87,7 @@ public class RosterManager: RosterServiceDelegate {
     }
     
     func currentUserCanEditRoster() -> Bool {
-        switch self.currentUserAdmin! {
+        switch self.currentUserAdmin {
             case .President: return true
             case .RecSec: return true
             default: return false

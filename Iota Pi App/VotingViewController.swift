@@ -138,9 +138,15 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         
         self.managePermissions()
         
-        votingService.votingServiceDelegate = self
-        votingService.fetchHirlyTopic()
-        votingService.fetchCurrentVote()
+        // If the user isn't Active or Associate, they cannot vote
+        if RosterManager.sharedInstance.currentUserAdmin != .NoVoting {
+            votingService.votingServiceDelegate = self
+            votingService.fetchHirlyTopic()
+            votingService.fetchCurrentVote()
+        } else {
+            self.hirlyButton.isEnabled = false
+            self.currentVoteButton.isEnabled = false
+        }
     }
     
     // helps to manage the many views dependent on admin priviledges and presence of votes
@@ -148,6 +154,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         self.hirlyButton.isEnabled = self.currentHirly != nil
         self.currentVoteButton.isEnabled = self.currentVote != nil
         
+        print("HERE")
         if !RosterManager.sharedInstance.currentUserCanCreateHirly()
             && !RosterManager.sharedInstance.currentUserCanCreateVote() {
             // Hide ability to create a vote

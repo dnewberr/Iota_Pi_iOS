@@ -55,21 +55,25 @@ public class LoginService {
     
     func checkIfCanLogIn(uid: String) {
         FIRDatabase.database().reference().child("Brothers").child(uid).observeSingleEvent(of: .value, with: {(snapshot) -> Void in
-            
-            if let admin = snapshot.childSnapshot(forPath: "admin").value as? String {
-                switch admin {
-                    case "President" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.President
-                    case "VicePresident" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.VicePresident
-                    case "RecordingSecretary" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.RecSec
-                    case "Parliamentarian" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.Parliamentarian
-                    case "BrotherhoodCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.BrotherhoodCommitteeChair
-                    case "OtherCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin  = AdminPrivileges.OtherCommitteeChair
-                    case "Webmaster" : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.Webmaster
-                    default : RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.None
+            // Only Active and Associate members can participate fully in matters involving voting and introducing business
+            // https://www.kkytbs.org/forms/KKPsiGuidetoMembership.pdf page 84
+            // if a member is not of Active status, their privileges are automatically none, and they cannot vote
+            RosterManager.sharedInstance.currentUserAdmin = .NoVoting
+            if let status = snapshot.childSnapshot(forPath: "status").value as? String {
+                if status == "Active" || status  == "Associate" {
+                    if let admin = snapshot.childSnapshot(forPath: "admin").value as? String {
+                        switch admin {
+                            case "President" : RosterManager.sharedInstance.currentUserAdmin = .President
+                            case "VicePresident" : RosterManager.sharedInstance.currentUserAdmin = .VicePresident
+                            case "RecordingSecretary" : RosterManager.sharedInstance.currentUserAdmin = .RecSec
+                            case "Parliamentarian" : RosterManager.sharedInstance.currentUserAdmin = .Parliamentarian
+                            case "BrotherhoodCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin = .BrotherhoodCommitteeChair
+                            case "OtherCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin  = .OtherCommitteeChair
+                            case "Webmaster" : RosterManager.sharedInstance.currentUserAdmin = .Webmaster
+                            default : RosterManager.sharedInstance.currentUserAdmin = .None
+                        }
+                    }
                 }
-                
-            } else {
-                RosterManager.sharedInstance.currentUserAdmin = AdminPrivileges.None
             }
             
             if let isDeleted = snapshot.childSnapshot(forPath: "isDeleted").value as? Bool {

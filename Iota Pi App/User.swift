@@ -10,7 +10,7 @@ import Foundation
 
 public class User: Equatable {
     // noneditable data
-    let adminPrivileges: AdminPrivileges! //required
+    var adminPrivileges: AdminPrivileges! //required
     let email: String! //generated
     let firstname: String! //required
     let hasWonHirly: Bool! // is the user able to be nominated for hirly
@@ -63,10 +63,17 @@ public class User: Equatable {
         
         switch dict.value(forKey: "status") as! String {
             case "Active" : self.status = Status.Active
+            case "Associate" : self.status = Status.Associate
             case "Alumni" : self.status = Status.Alumni
+                self.adminPrivileges = AdminPrivileges.NoVoting
             case "Conditional" : self.status = Status.Conditional
-            case "Inactive" : self.status = Status.Inactive
-            default : self.status = Status.Other
+                self.adminPrivileges = AdminPrivileges.NoVoting
+            case "Honorary" : self.status = Status.Honorary
+                self.adminPrivileges = AdminPrivileges.NoVoting
+            case "Life" : self.status = Status.Life
+                self.adminPrivileges = AdminPrivileges.NoVoting
+            default : self.status = Status.Inactive
+                self.adminPrivileges = AdminPrivileges.NoVoting
         }
         
         // optional
