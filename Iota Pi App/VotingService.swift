@@ -141,39 +141,63 @@ public class VotingService {
     }
     
     func submitHirlyNom(topic: VotingTopic, nomBroId: String, reason: String) {
-        VotingService.LOGGER.info("[Submit Vote] Summiting HIRLy vote with ID: " + topic.getId())
-        let ref = baseRef.child("HIRLy").child(topic.getId())
+        VotingService.LOGGER.info("[Submit Vote] Setting voted ID \(topic.getId()) for current user")
         
-        ref.runTransactionBlock({(currentData: FIRMutableData!) in
-            var value =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value as? Int
-            
-            if value == nil {
-                value = 0
-            }
-            
-            currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value = value! + 1
-            
-            return FIRTransactionResult.success(withValue: currentData)
-            }, andCompletionBlock: {error, commited, snap in
-                if commited {
-                    self.addNomReason(ref: ref, reason: reason, nomBroId: nomBroId, hirlyId: topic.getId())
-                    VotingService.LOGGER.info("[Submit Vote] User with ID \(nomBroId) was nominated for HIRLy vote with ID " + topic.getId())
-                    self.votingServiceDelegate?.confirmVote()
+        // saving prev last voted hirly ID  - setting current to this id to prevent users from accidentally submitting twice
+        let oldHirly = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId
+        
+        if oldHirly != topic.getId() {
+            RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = topic.getId()
+            FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(topic.getId(), withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    VotingService.LOGGER.error("[Submit Vote] \(error.localizedDescription)")
+                    // revert to old hirly id
+                    RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = oldHirly
+                    self.votingServiceDelegate?.denyVote(isHirly: true, topic: topic)
                 } else {
-                    VotingService.LOGGER.info("[Submit Vote] Could not nominate user with ID \(nomBroId) for HIRLy vote with ID " + topic.getId())
-                    self.votingServiceDelegate?.denyVote(isHirly: true, topic: nil)
-                }
+                    RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = topic.getId()
+                    VotingService.LOGGER.info("[Submit Vote] Summiting HIRLy vote with ID: " + topic.getId())
+                    self.baseRef.child("HIRLy").child(topic.getId()).child("noms").child(nomBroId).runTransactionBlock({(currentData: FIRMutableData!) in
+                        var reasons =  currentData.childData(byAppendingPath: "reasons").value as? NSMutableArray
+                        var numVotes =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value as? Int
+                    
+                        if reasons == nil {
+                            reasons = NSMutableArray()
+                        }
+                    
+                        if numVotes == nil {
+                            numVotes = 0
+                        }
+                    
+                        reasons!.add(reason)
+                        currentData.childData(byAppendingPath: "reasons").value = reasons!.copy() as! NSArray
+                        currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value = numVotes! + 1
+                    
+                        return FIRTransactionResult.success(withValue: currentData)
+                    }, andCompletionBlock: {error, commited, snap in
+                        if commited {
+                            VotingService.LOGGER.info("[Submit Vote] User with ID \(nomBroId) was nominated for HIRLy vote with ID " + topic.getId())
+                            self.votingServiceDelegate?.confirmVote()
+                        } else {
+                            if let error = error {
+                                VotingService.LOGGER.error("[Submit Vote] \(error.localizedDescription)")
+                            } else {
+                                VotingService.LOGGER.error("[Submit Vote] Failed reason to brother with uid \(nomBroId) for vote \(topic.getId())")
+                            }
+                            // revert to old hirly id
+                            RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = oldHirly
+                            // not doing call back because it can be done in it's own time - if we've gotten this far down the chain, it can be assumed that this won't fail due to new reasons
+                            FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(oldHirly)
+                            self.votingServiceDelegate?.denyVote(isHirly: true, topic: topic)
+                    }
+                })
             }
-        )
+        })
+        }
     }
     
     func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String, hirlyId: String) {
-        VotingService.LOGGER.info("[Submit Vote] Marking user with UID \(RosterManager.sharedInstance.currentUserId) as having voted.")
-        
-        ref.child("reasons").child(nomBroId).child(RosterManager.sharedInstance.currentUserId).setValue(reason)
-        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(hirlyId)
-        RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = hirlyId
-    }
+           }
     
     func calculateHirlyWinners(voteId: String) {
         VotingService.LOGGER.info("[Calculate Winner] Figuring out HIRLy winner for vote \(voteId).")
