@@ -319,7 +319,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.row < filteredAnnouncements.count
+        return indexPath.row < filteredAnnouncements.count && RosterManager.sharedInstance.currentUserCanCreateAnnouncements()
     }
  
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

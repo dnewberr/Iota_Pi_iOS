@@ -33,8 +33,8 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var numRows = 4
         
-        if RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin() && !RosterManager.sharedInstance.brothersToValidate.isEmpty {
-            print("SHOULD SHOW VALIDATE")
+        if RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin()
+            && !RosterManager.sharedInstance.brothersToValidate.isEmpty {
             numRows += 1
         }
         

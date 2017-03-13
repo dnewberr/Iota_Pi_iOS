@@ -138,6 +138,10 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
         }
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return RosterManager.sharedInstance.currentUserCanCreateAnnouncements()
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! ArchivedTableViewCell
         announcementToPass = currentCell.announcement
