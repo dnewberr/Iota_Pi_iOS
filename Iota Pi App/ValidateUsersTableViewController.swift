@@ -14,6 +14,9 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     var invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
     var uidsToVerify = [String]()
     
+    var blurredEffectView: UIVisualEffectView!
+    var indicator: UIActivityIndicatorView!
+    
     @IBAction func submitValidationRequest(_ sender: AnyObject) {
         let validateAlertView = SCLAlertView()
         
@@ -27,6 +30,8 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
         } else {
+            self.blurView()
+            self.indicator.startAnimating()
             validateAlertView.addButton("Validate") {
                 self.rosterService.validateBrothers(uids: self.uidsToVerify)
             }
@@ -49,10 +54,19 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         self.tableView.allowsMultipleSelection = true
         self.rosterService.rosterServiceDelegate = self
         
-        RosterManager.sharedInstance.populateRoster()
+        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
+        self.parent!.view.addSubview(indicator)
+        
+        let blurEffect = UIBlurEffect(style: .dark)
+        self.blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        self.blurredEffectView.frame = self.view.frame
+        view.addSubview(self.blurredEffectView)
+        self.blurredEffectView.alpha = 0;
+        
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
     }
 
+    //TODO
     func refresh() {
         RosterManager.sharedInstance.populateRoster()
         self.uidsToVerify.removeAll()
@@ -131,9 +145,18 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         }
     }
     
+    func blurView() {
+        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
+            self.blurredEffectView.alpha = 1.0
+        }
+    }
+    
     func updateUI(isDeleted: Bool) {
         let message = isDeleted ? "Successfully deleted the selected brother." : "Successfully validated the requested brother(s)!"
         SCLAlertView().showSuccess("Validate Brothers", subTitle: message).setDismissBlock {
+            self.indicator.stopAnimating()
+            self.blurredEffectView.alpha = 0
+            self.blurredEffectView.layer.removeAllAnimations()
             self.refresh()
         }
     }
