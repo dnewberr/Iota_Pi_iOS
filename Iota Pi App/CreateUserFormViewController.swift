@@ -177,6 +177,11 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
         }
     }
     
-    // unnecessary delegate method
-    func showErrorMessage(message: String) {}
+    func showErrorMessage(message: String) {self.indicator.stopAnimating()
+        SCLAlertView().showError("Create User", subTitle: message).setDismissBlock {
+            self.indicator.stopAnimating()
+            self.blurredEffectView.alpha = 0
+            self.blurredEffectView.layer.removeAllAnimations()
+        }
+    }
 }

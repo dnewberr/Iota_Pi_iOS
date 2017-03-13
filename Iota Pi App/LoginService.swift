@@ -138,6 +138,7 @@ public class LoginService {
                 self.loginServiceDelegate?.successfullyLoginLogoutUser()
             } else {
                 LoginService.LOGGER.error("[Create User] " + (error?.localizedDescription)!)
+                self.loginServiceDelegate?.showErrorMessage(message: "There was a problem while creating the account. Please try again later.")
             }
         })
     }
