@@ -54,7 +54,7 @@ public class VotingService {
                     } else {
                         archivedTopics.append(topic)
                     
-                        if topic.winners == "N/A" && isHirly {
+                        if !topic.hasWinners() && isHirly {
                             self.calculateHirlyWinners(voteId: topic.getId())
                         }
                     }
@@ -80,7 +80,7 @@ public class VotingService {
                 if !topic.isArchived {
                     VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
                     currentTopic = topic
-                } else if topic.winners == "N/A" && isHirly  {
+                } else if !topic.hasWinners() && isHirly  {
                     self.calculateHirlyWinners(voteId: topic.getId())
                 }
             }
@@ -157,9 +157,10 @@ public class VotingService {
                 } else {
                     RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = topic.getId()
                     VotingService.LOGGER.info("[Submit Vote] Summiting HIRLy vote with ID: " + topic.getId())
+                    
                     self.baseRef.child("HIRLy").child(topic.getId()).child("noms").child(nomBroId).runTransactionBlock({(currentData: FIRMutableData!) in
                         var reasons =  currentData.childData(byAppendingPath: "reasons").value as? NSMutableArray
-                        var numVotes =  currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value as? Int
+                        var numVotes =  currentData.childData(byAppendingPath: "numVotes").value as? Int
                     
                         if reasons == nil {
                             reasons = NSMutableArray()
@@ -171,7 +172,7 @@ public class VotingService {
                     
                         reasons!.add(reason)
                         currentData.childData(byAppendingPath: "reasons").value = reasons!.copy() as! NSArray
-                        currentData.childData(byAppendingPath: "noms").childData(byAppendingPath: nomBroId).value = numVotes! + 1
+                        currentData.childData(byAppendingPath: "numVotes").value = numVotes! + 1
                     
                         return FIRTransactionResult.success(withValue: currentData)
                     }, andCompletionBlock: {error, commited, snap in
@@ -195,40 +196,54 @@ public class VotingService {
         })
         }
     }
-    
-    func addNomReason(ref: FIRDatabaseReference, reason: String, nomBroId: String, hirlyId: String) {
-           }
-    
     func calculateHirlyWinners(voteId: String) {
         VotingService.LOGGER.info("[Calculate Winner] Figuring out HIRLy winner for vote \(voteId).")
-        var hirlyWinners = [String]()
-        var maxNoms = -1
+        var hirlyWinners = [String : [String]]()
+        var highestVotes = -1
         
-        baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-            for contender in snapshot.children {
-                let contenderData = contender as! FIRDataSnapshot
-                if let numVotes = contenderData.value as? Int {
-                    if numVotes > maxNoms {
+        baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in            for nomination in snapshot.children {
+                let nominationData = nomination as! FIRDataSnapshot
+                let uid = nominationData.key
+                let dict = nominationData.value as! NSDictionary
+            
+            
+                if let numVotes = dict.value(forKey: "numVotes") as? Int, let reasons = dict.value(forKey: "reasons") as? [String] {
+                    
+                    print("NOM \(voteId): \(uid) | \(numVotes)")
+                    if numVotes > highestVotes {
                         hirlyWinners.removeAll()
-                        hirlyWinners.append(contenderData.key)
-                        maxNoms = numVotes
-                    } else if numVotes == maxNoms {
-                        hirlyWinners.append(contenderData.key)
+                        hirlyWinners[uid] = reasons
+                        highestVotes = numVotes
+                    } else if numVotes == highestVotes {
+                        hirlyWinners[uid] = reasons
                     }
                 }
             }
             
+            
+            VotingService.LOGGER.info("[Calculate Winner] Calculated hirly winners: \(hirlyWinners).")
             self.updateWinner(voteId: voteId, winners: hirlyWinners)
         })
     }
     
-    func updateWinner(voteId: String, winners: [String]) {
-        VotingService.LOGGER.info("[Calculate Winner] Pushing winner(s) with uid(s) \(winners) to vote \(voteId).")
-        baseRef.child("HIRLy").child(voteId).child("winners").setValue(winners)
+    func updateWinner(voteId: String, winners: [String : [String]]) {
+        VotingService.LOGGER.info("[Calculate Winner] Pushing winner(s) with uid(s) \(Array(winners.keys)) to vote \(voteId).")
         
-        for uid in winners {
-            FIRDatabase.database().reference().child("Brothers").child(uid).child("hasWonHirly").setValue(true)
-        }
+        baseRef.child("HIRLy").child(voteId).child("winners").setValue(winners, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                VotingService.LOGGER.error("[Calculate Winner] Error while setting winners: \(error)")
+            } else {
+                for (uid, _) in winners {
+                    FIRDatabase.database().reference().child("Brothers").child(uid).child("hasWonHirly").setValue(true, withCompletionBlock: { (error, ref) in
+                        if let error = error {
+                            VotingService.LOGGER.error("[Calculate Winner]\(uid): \(error)")
+                        } else {
+                            VotingService.LOGGER.info("[Calculate Winner] Successfully marked brother with uid \(uid) as having won HIRLy.")
+                        }
+                    })
+                }
+            }
+        })
     }
     
     public func deleteVote(id: String, topics: [VotingTopic], isHirly: Bool, isShown: Bool) {

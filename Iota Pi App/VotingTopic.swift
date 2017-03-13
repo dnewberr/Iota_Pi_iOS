@@ -24,7 +24,7 @@ public class VotingTopic {
     var yesVotes = 0
     
     // hirly only
-    var winners = "N/A"
+    var winners = [String : [String]]()
     
     init(summary: String, description: String, isHirly: Bool) {
         self.summary = summary
@@ -54,7 +54,7 @@ public class VotingTopic {
             self.isArchived = Date() >= self.expirationDate
         }
         
-        // Currentvote only
+        // Current vote only
         if let numAbstain = dict.value(forKey: "abstainCount") as? Int {
             self.abstainVotes = numAbstain
         }
@@ -65,24 +65,39 @@ public class VotingTopic {
             self.yesVotes = numYes
         }
         
-        if let winnersArray = dict.value(forKey: "winners") as? [String] {
-            if winnersArray.count > 0 {
-                self.winners = ""
-            }
-            
-            for i in 0...(winnersArray.count - 1) {
-                let user = RosterManager.sharedInstance.brothersMap[winnersArray[i]]
-                if user != nil {
-                    self.winners += (user?.firstname)! + " " + (user?.lastname)!
-                }
-                
-                if i < winnersArray.count - 1 {
-                    self.winners += "; "
-                }
-            }
+        if let winners = dict.value(forKey: "winners") as? [String : [String]] {
+            self.winners = winners
         }
+        
     }
     
+    func getWinnerNames() -> String {
+        if !self.hasWinners() {
+            return "N/A"
+        }
+        
+        var numWinner = 0
+        var names = ""
+        
+        for (id, _) in winners {
+            if let user = RosterManager.sharedInstance.brothersMap[id] {
+                names += (user.firstname)! + " " + (user.lastname)!
+            }
+            
+            if numWinner < winners.count - 1 {
+                names += "; "
+            }
+            
+            numWinner += 1
+        }
+        
+        return names
+    }
+    
+    func hasWinners() -> Bool {
+        return !self.winners.isEmpty
+    }
+
     func hasCurrentBroVoted(isHirly: Bool) -> Bool {
         let currentUser = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!
         let currentVoteId = self.getId()
