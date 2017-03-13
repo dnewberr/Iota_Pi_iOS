@@ -132,13 +132,30 @@ public class LoginService {
         LoginService.LOGGER.trace("[Create User] Creating a new user with temp password \"test123\" and email \"\(email)\"")
         
         FIRAuth.auth()?.createUser(withEmail: email, password: "test123", completion: {(user: FIRUser?, error) in
-            if error == nil {
-                LoginService.LOGGER.info("[Create User] Registration successful for new UID: " + user!.uid)
-                FIRDatabase.database().reference().child("Brothers").child(user!.uid).setValue(userInfo)
-                self.loginServiceDelegate?.successfullyLoginLogoutUser()
+            if let error = error {
+                LoginService.LOGGER.error("[Create User] " + error.localizedDescription)
+                let errCode = FIRAuthErrorCode(rawValue: error._code)!
+                var message: String
+                
+                switch errCode {
+                    case .errorCodeInvalidEmail:
+                        message = "A user with this email already exists. Contact the webmaster for assistance."
+                    default:
+                        message = "There was a problem while creating the account. Please try again later."
+                }
+                
+                self.loginServiceDelegate?.showErrorMessage(message: message)
             } else {
-                LoginService.LOGGER.error("[Create User] " + (error?.localizedDescription)!)
-                self.loginServiceDelegate?.showErrorMessage(message: "There was a problem while creating the account. Please try again later.")
+                LoginService.LOGGER.info("[Create User] Creation successful for new UID: " + user!.uid)
+                FIRDatabase.database().reference().child("Brothers").child(user!.uid).setValue(userInfo, withCompletionBlock: { (error, ref) in
+                    if let error = error {
+                        LoginService.LOGGER.error("[Create User] " + error.localizedDescription)
+                        self.loginServiceDelegate?.showErrorMessage(message: "There was an error while creating your account. Contact the webmaster for assistance.")
+                    } else {
+                        LoginService.LOGGER.info("[Create User] Database initialization successful for new UID: " + user!.uid)
+                        self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                    }
+                })
             }
         })
     }
