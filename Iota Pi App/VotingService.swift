@@ -101,36 +101,43 @@ public class VotingService {
     }
     
     func submitCurrentVote(topic: VotingTopic, vote: String) {
-        VotingService.LOGGER.info("[Submit Vote] Submiting current vote with ID: " + topic.getId())
-        let ref = baseRef.child("CurrentVote").child(topic.getId())
+        VotingService.LOGGER.info("[Submit Vote] Marking user current user as having voted for vote with ID \(topic.getId()).")
         
-        ref.runTransactionBlock({(currentData: FIRMutableData!) in
-            var value =  currentData.childData(byAppendingPath: vote + "Count").value as? Int
-            
-            if value == nil {
-                value = 0
+        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId)
+            .child("lastVoteId").setValue(topic.getId(), withCompletionBlock: { (error, ref) in
+            if let error = error {
+                VotingService.LOGGER.error("[Submit Vote] \(error.localizedDescription)")
+                self.votingServiceDelegate?.denyVote(isHirly: false, topic: nil)
+            } else {
+                VotingService.LOGGER.info("[Submit Vote] Submiting current vote with ID: " + topic.getId())
+                let ref = self.baseRef.child("CurrentVote").child(topic.getId())
+                
+                ref.runTransactionBlock({(currentData: FIRMutableData!) in
+                    var value =  currentData.childData(byAppendingPath: vote + "Count").value as? Int
+                    
+                    if value == nil {
+                        value = 0
+                    }
+                    
+                    currentData.childData(byAppendingPath: vote + "Count").value = value! + 1
+                    
+                    return FIRTransactionResult.success(withValue: currentData)
+                }, andCompletionBlock: {error, commited, snap in
+                    if commited {
+                        VotingService.LOGGER.info("[Submit Vote] Successfully submitted current vote with ID: " + topic.getId())
+                        self.votingServiceDelegate?.confirmVote()
+                    } else {
+                        if let error = error {
+                            VotingService.LOGGER.error("[Submit Vote] \(error.localizedDescription)")
+                        } else {
+                            VotingService.LOGGER.error("[Submit Vote] Could not submit \"" + vote + "\" vote with ID " + topic.getId())
+                        }
+                        
+                        self.votingServiceDelegate?.denyVote(isHirly: false, topic: nil)
+                    }
+                })
             }
-            
-            currentData.childData(byAppendingPath: vote + "Count").value = value! + 1
-            
-            return FIRTransactionResult.success(withValue: currentData)
-            }, andCompletionBlock: {error, commited, snap in
-                if commited {
-                    self.markBroAsVoted(ref: ref, voteId: topic.getId())
-                    VotingService.LOGGER.info("[Submit Vote] Vote with ID " + topic.getId() + " increased the \"" + vote + "\" vote by one.")
-                    self.votingServiceDelegate?.confirmVote()
-                } else {
-                    VotingService.LOGGER.error("[Submit Vote] Could not submit \"" + vote + "\" vote with ID " + topic.getId())
-                    self.votingServiceDelegate?.denyVote(isHirly: false, topic: nil)
-                }
-            }
-        )
-    }
-    
-    func markBroAsVoted(ref: FIRDatabaseReference, voteId: String) {
-        VotingService.LOGGER.info("[Submit Vote] Marking user with UID \(RosterManager.sharedInstance.currentUserId) as having voted.")
-        FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastVoteId").setValue(voteId)
-        RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastVoteId = voteId
+        })
     }
     
     func submitHirlyNom(topic: VotingTopic, nomBroId: String, reason: String) {
