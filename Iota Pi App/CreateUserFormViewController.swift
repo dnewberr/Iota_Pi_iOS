@@ -13,6 +13,9 @@ import SCLAlertView
 
 class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     let loginService = LoginService()
+    var blurredEffectView: UIVisualEffectView!
+    var indicator: UIActivityIndicatorView!
+    
     @IBAction func cancelCreateUser(_ sender: AnyObject) {
         let cancelAlertView = SCLAlertView()
         cancelAlertView.addButton("Exit Form") {
@@ -44,16 +47,32 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
         }
         
         if self.requiredFieldsFilled(userInfoKeys: Array(toSubmit.keys)) {
+            self.blurView()
+            self.indicator.startAnimating()
             loginService.createNewUser(userInfo: toSubmit)
         } else {
             SCLAlertView().showError("Create User", subTitle: "Please fill out all required fields.")
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loginService.loginServiceDelegate = self
         
-        form = Section("Required")
+        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
+        self.parent!.view.addSubview(indicator)
+        
+        let blurEffect = UIBlurEffect(style: .dark)
+        self.blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        self.blurredEffectView.frame = self.view.frame
+        view.addSubview(self.blurredEffectView)
+        self.blurredEffectView.alpha = 0;
+        
+        self.createForm()
+    }
+    
+    func createForm() {
+        self.form = Section("Required")
             <<< TextRow(){ row in
                 row.title = "First Name"
                 row.placeholder = "John"
@@ -145,10 +164,16 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     }
     
     func successfullyLoginLogoutUser() {
+        self.indicator.stopAnimating()
         SCLAlertView().showSuccess("Create User", subTitle: "Your account was created with temp password \"test123\"").setDismissBlock {
             self.loginService.logoutCurrentUser(isCreate: true)
-            
             self.dismiss(animated: true)
+        }
+    }
+    
+    func blurView() {
+        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
+            self.blurredEffectView.alpha = 1.0
         }
     }
     

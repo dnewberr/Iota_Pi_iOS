@@ -15,7 +15,6 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     
-    let animationDuration = 0.25
     let loginService = LoginService()
     var blurredEffectView: UIVisualEffectView!
     var indicator: UIActivityIndicatorView!
@@ -113,22 +112,18 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         self.blurredEffectView.layer.removeAllAnimations()
         self.errorMessageLabel.text = message
         
-        UIView.animate(withDuration: self.animationDuration, animations: { () -> Void in
+        UIView.animate(withDuration: Utilities.ANIMATION_DURATION, animations: { () -> Void in
             self.errorMessageLabel.alpha = 1
         }) { (Bool) -> Void in
-            UIView.animate(withDuration: self.animationDuration, delay: 1.5, options: .curveEaseInOut, animations: { () -> Void in
+            UIView.animate(withDuration: Utilities.ANIMATION_DURATION, delay: 1.5, options: .curveEaseInOut, animations: { () -> Void in
                 self.errorMessageLabel.alpha = 0
             }, completion: nil)
         }
     }
     
     func blurView() {
-        UIView.animate(withDuration: self.animationDuration, animations: { () -> Void in
-            self.blurredEffectView.alpha = 1
-        }) { (Bool) -> Void in
-            UIView.animate(withDuration: self.animationDuration, delay: 10, options: .curveEaseInOut, animations: { () -> Void in
-                self.blurredEffectView.alpha = 0
-            }, completion: nil)
+        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
+            self.blurredEffectView.alpha = 1.0
         }
     }
     
