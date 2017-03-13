@@ -95,8 +95,8 @@ public class RosterService {
                     })
                 }
             } else {
-                RosterService.LOGGER.error("[Validate Brothers] \(errorCount) out of \(uids.count) brothers failed to be validated.")
-                self.rosterServiceDelegate?.error(message: "A network error has occcured. Failed to validate \(errorCount) of the \(uids.count) selected brother(s). Check your internet connection and try again.", autoClose: true)
+                RosterService.LOGGER.error("[Validate Brothers] \(errorCount) out of \(uids.count) brothers failed to be validated due to network connection failure.")
+                self.rosterServiceDelegate?.error(message: "Check your internet connection and try again.", autoClose: true)
             }
         })
         

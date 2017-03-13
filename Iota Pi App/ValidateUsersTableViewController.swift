@@ -167,9 +167,17 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
                 showCloseButton: false
             )
             
-            SCLAlertView(appearance: appearance).showError("Error", subTitle: message, duration: 1)
+            SCLAlertView(appearance: appearance).showError("Error", subTitle: message, duration: 1).setDismissBlock {
+                self.indicator.stopAnimating()
+                self.blurredEffectView.alpha = 0
+                self.blurredEffectView.layer.removeAllAnimations()
+            }
         } else {
-            SCLAlertView().showError("Error", subTitle: message)
+            SCLAlertView().showError("Error", subTitle: message).setDismissBlock {
+                self.indicator.stopAnimating()
+                self.blurredEffectView.alpha = 0
+                self.blurredEffectView.layer.removeAllAnimations()
+            }
         }
     }
     
