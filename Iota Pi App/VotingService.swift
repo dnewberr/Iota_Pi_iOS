@@ -224,8 +224,6 @@ public class VotingService {
             
             
                 if let numVotes = dict.value(forKey: "numVotes") as? Int, let reasons = dict.value(forKey: "reasons") as? [String] {
-                    
-                    print("NOM \(voteId): \(uid) | \(numVotes)")
                     if numVotes > highestVotes {
                         hirlyWinners.removeAll()
                         hirlyWinners[uid] = reasons

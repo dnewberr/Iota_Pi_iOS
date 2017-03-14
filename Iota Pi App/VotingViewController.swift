@@ -11,11 +11,14 @@ import Firebase
 import SCLAlertView
 
 class VotingViewController: UIViewController, VotingServiceDelegate, UITextFieldDelegate {
+    let MAX_CURRENT_SUMMARY_LENGTH = 18
+    let MAX_HIRLY_SUMMARY_LENGTH = 40
     let votingService = VotingService()
     var currentHirly: VotingTopic!
     var currentVote: VotingTopic!
     var denyHirly = false
     var denyCurrent = false
+    var summaryMaxLength = Int.max
     
     @IBOutlet weak var archivedCurrentVoteButton: UIButton!
     @IBOutlet weak var archiveVoteButton: UIBarButtonItem!
@@ -123,12 +126,14 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         
         if RosterManager.sharedInstance.currentUserCanCreateHirly() {
             voteCreator.addButton("HIRLy", action: {
+                self.summaryMaxLength = self.MAX_HIRLY_SUMMARY_LENGTH
                 self.showCreationForm(isHirly: true)
             })
         }
         
         if RosterManager.sharedInstance.currentUserCanCreateVote() {
             voteCreator.addButton("Current Vote", action: {
+                self.summaryMaxLength = self.MAX_CURRENT_SUMMARY_LENGTH
                 self.showCreationForm(isHirly: false)
             })
         }
@@ -169,7 +174,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         self.hirlyButton.isEnabled = self.currentHirly != nil
         self.currentVoteButton.isEnabled = self.currentVote != nil
         
-        print("HERE")
         if !RosterManager.sharedInstance.currentUserCanCreateHirly()
             && !RosterManager.sharedInstance.currentUserCanCreateVote() {
             // Hide ability to create a vote
@@ -215,20 +219,11 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
     func showCreationForm(isHirly: Bool) {
         let creationForm = SCLAlertView()
         let summaryTextField = creationForm.addTextField("Summary")
-        if !isHirly {
-            summaryTextField.delegate = self
-        }
+        summaryTextField.delegate = self
         
         let descriptionTextView = creationForm.addTextView()
         
-        creationForm.showTitle(
-            "Create New Topic",
-            subTitle: "",
-            duration: 0.0,
-            completeText: "Create",
-            style: .edit,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
+        creationForm.addButton("Create") {
             if let summary = summaryTextField.text, let description = descriptionTextView.text {
                 if summary.trim().isEmpty || description.trim().isEmpty {
                     SCLAlertView().showError("Invalid Topic", subTitle: "Please submit a summary and description for the new topic.")
@@ -238,21 +233,29 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
                     } else if !isHirly && self.currentVote != nil {
                         self.votingService.archive(id: self.currentVote.getId(), isHirly: isHirly, isAuto: true)
                     }
-                    
                     self.votingService.pushVotingTopic(summary: summary, description: description, isHirly: isHirly)
                 }
             }
         }
+        
+        creationForm.showTitle(
+            "Create New Topic",
+            subTitle: "",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
-    // keeps text length at max of 15
+    // keeps text length at max
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else {
             return true
         }
         
         let newLength = text.characters.count + string.characters.count - range.length
-        if newLength >= Utilities.MAX_SUMMARY_LENGTH {
+        if newLength >= self.summaryMaxLength {
             textField.deleteBackward()
             return false
         }

@@ -139,13 +139,13 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: "archivedVoteCell", for: indexPath)
 
         let cellTopic = self.filteredTopics[indexPath.row]
+        cell.textLabel?.text = cellTopic.summary
+        cell.detailTextLabel?.text = Utilities.dateToDayTime(date: cellTopic.expirationDate)
+        
         if self.isHirly {
-            cell.textLabel?.text = cellTopic.summary
-            cell.detailTextLabel?.text = "\(Utilities.dateToDayTime(date: cellTopic.expirationDate)) | \(cellTopic.getWinnerNames())"
+            cell.detailTextLabel?.text = "\(cell.detailTextLabel?.text) | \(cellTopic.getWinnerNames())"
             cell.accessoryType = .disclosureIndicator
         } else {
-            cell.textLabel?.text = cellTopic.sessionCode
-            cell.detailTextLabel?.text = Utilities.dateToDayTime(date: cellTopic.expirationDate)
             cell.accessoryType = .detailButton
         }
 
@@ -159,14 +159,16 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             performSegue(withIdentifier: "archivedHirlySegue", sender: self)
         } else {
             let totalVotes = cellTopic.yesVotes + cellTopic.noVotes + cellTopic.abstainVotes
+            let results = totalVotes > 0
+                ?   "\n\nYes - \(calculatePercentage(dividend: cellTopic.yesVotes, divisor: totalVotes))"
+                    + "\nNo - \(calculatePercentage(dividend: cellTopic.noVotes, divisor: totalVotes))"
+                    + "\nAbstain - \(calculatePercentage(dividend: cellTopic.abstainVotes, divisor: totalVotes))"
+                : "\n\nNo Votes Recorded"
             
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(
                 cellTopic.summary,
-                subTitle: "[\(Utilities.dateToDayTime(date: cellTopic.expirationDate))] Total Votes: \(totalVotes)"
-                    + "\nYes - \(cellTopic.yesVotes)"
-                    + "\nNo - \(cellTopic.noVotes)"
-                    + "\nAbstain - \(cellTopic.abstainVotes)",
+                subTitle: cellTopic.description! + results,
                 duration: 0.0,
                 completeText: "Done",
                 style: .info,
@@ -174,6 +176,10 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
                 colorTextButton: 0xFFFFFF)
         
         }
+    }
+    
+    func calculatePercentage(dividend: Int, divisor: Int) -> String {
+        return String(format: "%d/%d [%.0f%%]", dividend, divisor, (Float(dividend)/Float(divisor) * 100))
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

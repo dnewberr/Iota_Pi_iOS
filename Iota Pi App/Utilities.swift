@@ -45,7 +45,6 @@ extension UIButton {
 class Utilities {
     static let ADMIN_ARRAY = ["President", "RecordingSecretary", "VicePresident", "Webmaster", "Parliamentarian", "BrotherhoodCommitteeChair", "OtherCommitteeChair", "None"]
     static let ANIMATION_DURATION = 0.25
-    static let MAX_SUMMARY_LENGTH = 15
     static let SECONDS_IN_WEEK: Double = 604800
     static let SECONDS_IN_YEAR: Double = 31557600
     static let STATUS_ARRAY = ["Active", "Associate", "Alumni", "Conditional", "Honorary", "Inactive", "Life"]

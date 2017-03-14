@@ -220,7 +220,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             
         }
         
-        print("FILTERED \(self.activeKeyphrase) | \(self.activeFilters)")
         self.filteredAnnouncements = self.filteredAnnouncements.sorted(by: {$0.getId() > $1.getId()})
         self.tableView.reloadData()
     }
