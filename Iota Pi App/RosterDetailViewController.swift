@@ -76,6 +76,7 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         editableInfo.text = cell.textLabel?.text
         editableInfo.autocapitalizationType = .none
         editableInfo.autocorrectionType = .no
+        editableInfo.isSelectable = true
         editableInfo.isEditable = RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId
         
         if RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId {
@@ -94,29 +95,6 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
             style: .edit,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF)
-        
-//        if RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId {
-//            let cell = tableView.cellForRow(at: indexPath)!
-//            
-//            let editRosterInfo = SCLAlertView()
-//            let editableInfo = editRosterInfo.addTextField(cell.detailTextLabel!.text)
-//            editableInfo.text = cell.textLabel?.text
-//            editableInfo.autocapitalizationType = .none
-//            editableInfo.autocorrectionType = .no
-//            
-//            editRosterInfo.showTitle(
-//                "Edit Roster Info",
-//                subTitle: cell.detailTextLabel!.text!,
-//                duration: 0.0,
-//                completeText: "Done",
-//                style: .edit,
-//                colorStyle: Style.mainColorHex,
-//                colorTextButton: 0xFFFFFF).setDismissBlock {
-//                if let detail = cell.detailTextLabel?.text, let value = editableInfo.text {
-//                    self.updateData(key: detail, value: value)
-//                }
-//            }
-//        }
     }
     
     func updateData(key: String, value: String) {
