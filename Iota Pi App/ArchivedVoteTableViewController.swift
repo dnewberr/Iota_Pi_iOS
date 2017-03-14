@@ -162,10 +162,12 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
         } else {
+            let totalVotes = cellTopic.yesVotes + cellTopic.noVotes + cellTopic.abstainVotes
+            
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(
                 cellTopic.summary,
-                subTitle: "[\(Utilities.dateToDayTime(date: cellTopic.expirationDate))]"
+                subTitle: "[\(Utilities.dateToDayTime(date: cellTopic.expirationDate))] Total Votes: \(totalVotes)"
                     + "\nYes - \(cellTopic.yesVotes)"
                     + "\nNo - \(cellTopic.noVotes)"
                     + "\nAbstain - \(cellTopic.abstainVotes)",

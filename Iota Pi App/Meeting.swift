@@ -27,7 +27,11 @@ public class Meeting: Equatable {
         self.sessionCode = sessionCode
         
         if let presentBros = dict.value(forKey: "brotherIdsCheckedIn") as? [String] {
-            self.brotherIdsCheckedIn = presentBros
+            for uid in presentBros {
+                if RosterManager.sharedInstance.brothersMap[uid] != nil {
+                    self.brotherIdsCheckedIn.append(uid)
+                }
+            }
         }
     }
     

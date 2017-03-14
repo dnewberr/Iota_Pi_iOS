@@ -21,8 +21,8 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         self.tableView.tableFooterView = UIView()
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
         
-        self.editableDetails = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.getArrayOfDetails())!
-        self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
+        self.editableDetails = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.getArrayOfDetails()
+        self.editableTitles = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.toArrayOfEditableInfo()
         self.rosterService.rosterServiceDelegate = self
     }
     
@@ -32,7 +32,7 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
     
     func refresh() {
         self.editableTitles.removeAll()
-        self.editableTitles = (RosterManager.sharedInstance.brothersMap[self.currentBrotherId]?.toArrayOfEditableInfo())!
+        self.editableTitles = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.toArrayOfEditableInfo()
         
         self.tableView.reloadData()
         

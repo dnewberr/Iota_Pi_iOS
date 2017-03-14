@@ -160,18 +160,18 @@ public class VotingService {
         VotingService.LOGGER.info("[Submit Vote] Setting voted ID \(topic.getId()) for current user")
         
         // saving prev last voted hirly ID  - setting current to this id to prevent users from accidentally submitting twice
-        let oldHirly = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId
+        let oldHirly = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId
         
         if oldHirly != topic.getId() {
-            RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = topic.getId()
+            RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = topic.getId()
             FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(topic.getId(), withCompletionBlock: { (error, ref) in
                 if let error = error {
                     VotingService.LOGGER.error("[Submit Vote] \(error.localizedDescription)")
                     // revert to old hirly id
-                    RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = oldHirly
+                    RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = oldHirly
                     self.votingServiceDelegate?.denyVote(isHirly: true, topic: topic)
                 } else {
-                    RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = topic.getId()
+                    RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = topic.getId()
                     VotingService.LOGGER.info("[Submit Vote] Summiting HIRLy vote with ID: " + topic.getId())
                     
                     self.baseRef.child("HIRLy").child(topic.getId()).child("noms").child(nomBroId).runTransactionBlock({(currentData: FIRMutableData!) in
@@ -202,7 +202,7 @@ public class VotingService {
                                 VotingService.LOGGER.error("[Submit Vote] Failed reason to brother with uid \(nomBroId) for vote \(topic.getId())")
                             }
                             // revert to old hirly id
-                            RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]?.lastHirlyId = oldHirly
+                            RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = oldHirly
                             // not doing call back because it can be done in it's own time - if we've gotten this far down the chain, it can be assumed that this won't fail due to new reasons
                             FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(oldHirly)
                             self.votingServiceDelegate?.denyVote(isHirly: true, topic: topic)

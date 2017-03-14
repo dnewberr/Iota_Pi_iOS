@@ -100,9 +100,7 @@ public class VotingTopic {
 
     func hasCurrentBroVoted(isHirly: Bool) -> Bool {
         let currentUser = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!
-        let currentVoteId = self.getId()
-        
-        return isHirly ? currentUser.lastHirlyId! == currentVoteId : currentUser.lastVoteId == currentVoteId
+        return isHirly ? currentUser.lastHirlyId! == self.getId() : currentUser.lastVoteId == self.getId()
     }
     
     func toFirebaseObject() -> [AnyHashable:Any] {

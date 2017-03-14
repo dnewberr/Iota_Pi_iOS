@@ -30,9 +30,9 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
         } else {
-            self.blurView()
-            self.indicator.startAnimating()
             validateAlertView.addButton("Validate") {
+                self.indicator.startAnimating()
+                self.blurView()
                 self.rosterService.validateBrothers(uids: self.uidsToVerify)
             }
         

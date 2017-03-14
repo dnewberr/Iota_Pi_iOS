@@ -33,6 +33,22 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
     }
     
     @IBAction func submitForm(_ sender: AnyObject) {
+        let submitAlertView = SCLAlertView()
+        submitAlertView.addButton("Create") {
+            self.createAccount()
+        }
+        
+        submitAlertView.showTitle(
+            "Create User",
+            subTitle: "Create a new account with this information?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .notice,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+    }
+    
+    func createAccount() {
         let valuesDictionary = form.values()
         var toSubmit = [AnyHashable : Any] ()
         
