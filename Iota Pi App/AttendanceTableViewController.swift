@@ -21,7 +21,6 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,7 +38,6 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
             if RosterManager.sharedInstance.currentUserAdmin == .NoVoting {
                 SCLAlertView().showError("Check Into Meeting", subTitle: "You are not a fully active member and thus cannot check into the current meeting.")
             } else {
-                print("FETCHING")
                 self.meetingService.fetchCurrentMeeting()
             }
         }
@@ -47,7 +45,6 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
     
     func updateUI(meeting: Meeting) {
         self.currentMeeting = meeting
-        print("SHOULD GO TO VIEW")
         self.performSegue(withIdentifier: "checkInSegue", sender: self)
     }
     
@@ -77,7 +74,6 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
             if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-                print("SHOULD GO TO VIEW")
                 self.performSegue(withIdentifier: "checkInSegue", sender: self)
             }
         }
@@ -96,7 +92,6 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF).setDismissBlock {
                 if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-                    print("SHOULD GO TO VIEW")
                     self.performSegue(withIdentifier: "checkInSegue", sender: self)
                 }
             }

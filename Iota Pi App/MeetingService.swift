@@ -127,7 +127,6 @@ public class MeetingService {
                 MeetingService.LOGGER.error("[End Meeting] " + error.localizedDescription)
                 self.meetingServiceDelegate?.showMessage(message: "An error occurred while trying to end the meeting.", isError: true)
             } else {
-                //no need to call delegate method - observer automatically will update the UI
                 MeetingService.LOGGER.info("[End Meeting] Meeting ended for session code " + meeting.sessionCode)
                 self.meetingServiceDelegate?.noMeeting()
             }
