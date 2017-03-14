@@ -23,8 +23,8 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
         if meetingStartEndButton.titleLabel?.text == "Start Meeting" {
             self.meetingService.startNewMeeting()
         } else {
-            self.meetingService.pushEndMeeting(meeting: self.currentMeeting)
             self.sessionCodeLabel.isHidden = true
+            self.meetingService.pushEndMeeting(meeting: self.currentMeeting)
         }
     }
     
@@ -33,7 +33,7 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
             if enteredSessionCode != self.currentMeeting.sessionCode {
                 SCLAlertView().showError("Meeting Check In", subTitle: "Please enter the valid session meeting code.")
             } else {
-                meetingService.checkInBrother(meeting: self.currentMeeting)
+                self.meetingService.checkInBrother(meeting: self.currentMeeting)
             }
         } else {
             SCLAlertView().showError("Meeting Check In", subTitle: "Please enter the valid session meeting code.")
@@ -49,7 +49,6 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MeetingCheckInViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        self.meetingService.fetchCurrentMeeting()
     }
     
     // Closes keyboard when tapped outside textfields
@@ -71,80 +70,62 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
         return true
     }
     
-    func updateUI(meeting: Meeting) {
-        self.currentMeeting = meeting
-        
-        self.meetingLabel.isHidden = false
-        self.checkInButton.isHidden = false
-        
-        self.sessionCodeTextField.isHidden = false
-        
-        if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-            self.sessionCodeLabel.isHidden = false
-            self.sessionCodeLabel.text = "Session Code: " + self.currentMeeting.sessionCode
-        }
-        
-    }
+    func updateUI(meeting: Meeting) {}
     
     func noMeeting() {
-        if let _ = self.currentMeeting {
-            SCLAlertView().showSuccess("Meeting Check In", subTitle: "The meeting was successfully closed.").setDismissBlock {
-                self.enableStartEndButton(title: "Start Meeting")
-            }
-        } else {
-            SCLAlertView().showTitle(
-                "Meeting Check In",
-                subTitle: "There is no active meeting session.",
-                duration: 0.0,
-                completeText: "Okay",
-                style: .notice,
-                colorStyle: Style.mainColorHex,
-                colorTextButton: 0xFFFFFF).setDismissBlock {
-                if !RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-                    _ = self.navigationController?.popViewController(animated: true)
-                } else {
-                    self.enableStartEndButton(title: "Start Meeting")
-                }
-            }
+        SCLAlertView().showSuccess("Meeting Check In", subTitle: "The meeting was successfully closed.").setDismissBlock {
+            self.currentMeeting = nil
+            self.resetView()
         }
-        
     }
     
     func alreadyCheckedIn(meeting: Meeting) {
-        if self.currentMeeting != nil && meeting == self.currentMeeting {
-            SCLAlertView().showSuccess("Meeting Check In", subTitle: "You've successfully checked into the meeting!").setDismissBlock {
-                self.createCheckInDismissBlock(meeting: meeting)
-            }
-        } else {
-            SCLAlertView().showTitle(
-                "Meeting Check In",
-                subTitle: "You have checked into the current meeting.",
-                duration: 0.0,
-                completeText: "Okay",
-                style: .info,
-                colorStyle: Style.mainColorHex,
-                colorTextButton: 0xFFFFFF).setDismissBlock {
-                self.createCheckInDismissBlock(meeting: meeting)
-            }
+        SCLAlertView().showSuccess("Meeting Check In", subTitle: "You've successfully checked into the meeting!").setDismissBlock {
+            self.createCheckInDismissBlock(meeting: meeting)
         }
     }
     
     func newMeetingCreated(meeting: Meeting) {
-        self.resetView()
-        SCLAlertView().showSuccess("Meeting Check In", subTitle: "A new meeting has started with session code: " + meeting.sessionCode)
-        
-        self.currentMeeting = meeting
-        self.sessionCodeTextField.text = ""
-        self.sessionCodeLabel.text = "Session Code: " + self.currentMeeting.sessionCode
+        SCLAlertView().showSuccess("Meeting Check In", subTitle: "A new meeting has started with session code: " + meeting.sessionCode).setDismissBlock {
+            self.currentMeeting = meeting
+            self.resetView()
+        }
     }
     
     func resetView() {
-        self.sessionCodeTextField.isHidden = true
-        self.meetingLabel.isHidden = true
-        self.checkInButton.isHidden = true
-        self.meetingStartEndButton.isHidden = true
-        self.sessionCodeLabel.isHidden = true
-        self.meetingStartEndButton.isEnabled = false
+        // There is a currently active meeting
+        if self.currentMeeting != nil {
+            // The brother on this page is already checked in, which means they must be admin
+            if self.currentMeeting.isCurrentBroCheckedIn() {
+                print("HERE")
+                self.meetingLabel.isHidden = true
+                self.checkInButton.isHidden = true
+                self.sessionCodeLabel.isHidden = false
+                self.sessionCodeLabel.text = "Session Code: " + self.currentMeeting.sessionCode
+                self.enableStartEndButton(title: "End Meeting")
+                self.sessionCodeTextField.isHidden = true
+            } else {
+                // The brother on this page needs to check in and could be either admin or none
+                self.meetingLabel.isHidden = false
+                self.checkInButton.isHidden = false
+                self.sessionCodeTextField.isHidden = false
+                
+                if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+                    self.sessionCodeLabel.isHidden = false
+                    self.sessionCodeLabel.text = "Session Code: " + self.currentMeeting.sessionCode
+                    self.enableStartEndButton(title: "End Meeting")
+                } else {
+                    self.meetingStartEndButton.isHidden = true
+                    self.sessionCodeLabel.isHidden = true
+                }
+            }
+        } else {
+            // Because there is no meeting, this brother must be admin.
+            self.meetingLabel.isHidden = true
+            self.checkInButton.isHidden = true
+            self.sessionCodeTextField.isHidden = true
+            self.enableStartEndButton(title: "Start Meeting")
+        }
     }
     
     func createCheckInDismissBlock(meeting: Meeting) {
@@ -152,21 +133,12 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
             _ = self.navigationController?.popViewController(animated: true)
         } else {
             self.currentMeeting = meeting
-            
-            self.enableStartEndButton(title: "End Meeting")
-            
-            self.sessionCodeLabel.isHidden = false
-            self.sessionCodeLabel.text = "Session Code: " + self.currentMeeting.sessionCode
-            
-            self.sessionCodeTextField.isHidden = true
-            self.meetingLabel.isHidden = true
-            self.checkInButton.isHidden = true
+            self.resetView()
         }
-
     }
     
     func enableStartEndButton(title: String) {
-        self.meetingStartEndButton.setTitle(title,for: .normal)
+        self.meetingStartEndButton.setTitle(title, for: .normal)
         self.meetingStartEndButton.isHidden = false
         self.meetingStartEndButton.isEnabled = true
     }

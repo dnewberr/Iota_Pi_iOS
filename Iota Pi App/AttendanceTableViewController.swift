@@ -9,10 +9,13 @@
 import UIKit
 import SCLAlertView
 
-class AttendanceTableViewController: UITableViewController {
-
+class AttendanceTableViewController: UITableViewController, MeetingServiceDelegate {
+    let meetingService = MeetingService()
+    var currentMeeting: Meeting!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.meetingService.meetingServiceDelegate  = self
         self.tableView.tableFooterView = UIView()
     }
 
@@ -36,8 +39,78 @@ class AttendanceTableViewController: UITableViewController {
             if RosterManager.sharedInstance.currentUserAdmin == .NoVoting {
                 SCLAlertView().showError("Check Into Meeting", subTitle: "You are not a fully active member and thus cannot check into the current meeting.")
             } else {
+                print("FETCHING")
+                self.meetingService.fetchCurrentMeeting()
+            }
+        }
+    }
+    
+    func updateUI(meeting: Meeting) {
+        self.currentMeeting = meeting
+        print("SHOULD GO TO VIEW")
+        self.performSegue(withIdentifier: "checkInSegue", sender: self)
+    }
+    
+    func alreadyCheckedIn(meeting: Meeting) {
+            SCLAlertView().showTitle(
+                "Meeting Check In",
+                subTitle: "You have already checked into the current meeting.",
+                duration: 0.0,
+                completeText: "Okay",
+                style: .info,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
+                if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+                    self.updateUI(meeting: meeting)
+                }
+            
+        }
+    }
+    
+    func noMeeting() {
+        SCLAlertView().showTitle(
+            "Meeting Check In",
+            subTitle: "There is no active meeting.",
+            duration: 0.0,
+            completeText: "Okay",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
+            if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+                print("SHOULD GO TO VIEW")
                 self.performSegue(withIdentifier: "checkInSegue", sender: self)
             }
         }
     }
+    
+    func showMessage(message: String, isError: Bool) {
+        if isError {
+            SCLAlertView().showError("Meeting Check In", subTitle: message)
+        } else {
+            SCLAlertView().showTitle(
+                "Meeting Check In",
+                subTitle: message,
+                duration: 0.0,
+                completeText: "Okay",
+                style: .info,
+                colorStyle: Style.mainColorHex,
+                colorTextButton: 0xFFFFFF).setDismissBlock {
+                if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+                    print("SHOULD GO TO VIEW")
+                    self.performSegue(withIdentifier: "checkInSegue", sender: self)
+                }
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "checkInSegue" {
+            let destination = segue.destination as! MeetingCheckInViewController
+            destination.currentMeeting = self.currentMeeting
+        }
+    }
+    
+    // unnecessary delegate methods
+    func newMeetingCreated(meeting: Meeting) {}
+    func populateMeetings(meetings: [Meeting]) {}
 }

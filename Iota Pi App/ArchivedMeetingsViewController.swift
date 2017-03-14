@@ -194,4 +194,5 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     func alreadyCheckedIn(meeting: Meeting) {}
     func noMeeting() {}
     func newMeetingCreated(meeting: Meeting) {}
+    func checkInSuccess(meeting: Meeting) {}
 }

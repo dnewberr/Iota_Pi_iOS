@@ -27,6 +27,7 @@ public class User: Equatable {
     var expectedGrad: String!
     var birthday: String!
     var lastHirlyId: String!
+    var lastMeetingId: String!
     var lastVoteId: String!
     var major: String!
     var nickname: String!
@@ -99,6 +100,12 @@ public class User: Equatable {
             self.lastHirlyId = lastHirlyId
         } else {
             self.lastHirlyId = ""
+        }
+        
+        if let lastMeetingId = dict.value(forKey: "lastMeetingId") as? String {
+            self.lastMeetingId = lastMeetingId
+        } else {
+            self.lastMeetingId = ""
         }
         
         if let lastVoteId = dict.value(forKey: "lastVoteId") as? String {

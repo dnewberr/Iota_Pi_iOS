@@ -36,7 +36,7 @@ public class Meeting: Equatable {
     }
     
     func isCurrentBroCheckedIn() -> Bool {
-        return brotherIdsCheckedIn.contains(RosterManager.sharedInstance.currentUserId)
+        return RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastMeetingId == self.sessionCode
     }
     
     func toFirebaseObject() -> [AnyHashable:Any] {

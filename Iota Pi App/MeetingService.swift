@@ -28,7 +28,7 @@ public class MeetingService {
     init() {}
     
     func fetchCurrentMeeting() {
-        baseRef.observe(.value, with:{ (snapshot) -> Void in
+        baseRef.observeSingleEvent(of: .value, with:{ (snapshot) -> Void in
             var meeting: Meeting?
             
             for item in snapshot.children {
@@ -47,6 +47,7 @@ public class MeetingService {
                     MeetingService.LOGGER.trace("[Fetch Current Meeting] Current user has already checked in.")
                     self.meetingServiceDelegate?.alreadyCheckedIn(meeting: meeting)
                 } else {
+                    MeetingService.LOGGER.trace("[Fetch Current Meeting] Current user needs to check in.")
                     self.meetingServiceDelegate?.updateUI(meeting: meeting)
                 }
             } else {
@@ -83,23 +84,37 @@ public class MeetingService {
     func checkInBrother(meeting: Meeting) {
         MeetingService.LOGGER.info("[Check In Brother] Marking current user present for meeting with session code " + meeting.sessionCode)
         
-        baseRef.child(meeting.sessionCode).runTransactionBlock({(currentData: FIRMutableData!) in
-            var value =  currentData.childData(byAppendingPath: "brotherIdsCheckedIn").value as? NSMutableArray
-            
-            if value == nil {
-                value = NSMutableArray()
-            }
-            
-            value!.add(RosterManager.sharedInstance.currentUserId)
-            currentData.childData(byAppendingPath: "brotherIdsCheckedIn").value = value!.copy() as! NSArray
-
-            return FIRTransactionResult.success(withValue: currentData)
-        }, andCompletionBlock: {error, commited, snap in
-            if commited {
-                MeetingService.LOGGER.info("[Check In Brother] Checked in currentuser for meeting with session code " + meeting.sessionCode)
-            } else {
-                MeetingService.LOGGER.error("[Check In Brother] Could not check in current user for meeting with session code " + meeting.sessionCode)
+        // changing locally for immediate changes
+        let oldMeeting = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastMeetingId
+        RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastMeetingId = meeting.sessionCode
+        let ref = FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastMeetingId")
+        ref.setValue(meeting.sessionCode, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                MeetingService.LOGGER.error("[Check In Brother] \(error)")
                 self.meetingServiceDelegate?.showMessage(message: "There was an issue in recording your attendance.", isError: true)
+            } else {
+                self.baseRef.child(meeting.sessionCode).runTransactionBlock({(currentData: FIRMutableData!) in
+                    var value =  currentData.childData(byAppendingPath: "brotherIdsCheckedIn").value as? NSMutableArray
+                    
+                    if value == nil {
+                        value = NSMutableArray()
+                    }
+                    
+                    value!.add(RosterManager.sharedInstance.currentUserId)
+                    currentData.childData(byAppendingPath: "brotherIdsCheckedIn").value = value!.copy() as! NSArray
+                    
+                    return FIRTransactionResult.success(withValue: currentData)
+                }, andCompletionBlock: {error, commited, snap in
+                    if commited {
+                        MeetingService.LOGGER.info("[Check In Brother] Checked in current user for meeting with session code " + meeting.sessionCode)
+                        self.meetingServiceDelegate?.alreadyCheckedIn(meeting: meeting)
+                    } else {
+                        MeetingService.LOGGER.error("[Check In Brother] Could not check in current user for meeting with session code " + meeting.sessionCode)
+                        ref.setValue(oldMeeting)
+                        RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastMeetingId = oldMeeting
+                        self.meetingServiceDelegate?.showMessage(message: "There was an issue in recording your attendance.", isError: true)
+                    }
+                })
             }
         })
     }
@@ -114,6 +129,7 @@ public class MeetingService {
             } else {
                 //no need to call delegate method - observer automatically will update the UI
                 MeetingService.LOGGER.info("[End Meeting] Meeting ended for session code " + meeting.sessionCode)
+                self.meetingServiceDelegate?.noMeeting()
             }
         })
         
