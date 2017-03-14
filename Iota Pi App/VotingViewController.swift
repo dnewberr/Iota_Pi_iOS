@@ -146,8 +146,10 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.hirlyButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
-        self.currentVoteButton.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        self.hirlyButton.setTitleColor(UIColor.gray, for: .disabled)
+        self.hirlyButton.setBackgroundColor(color: UIColor.white, forState: .disabled)
+        self.currentVoteButton.setTitleColor(UIColor.gray, for: .disabled)
+        self.currentVoteButton.setBackgroundColor(color: UIColor.white, forState: .disabled)
         
         self.managePermissions()
         
@@ -266,7 +268,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
             self.denyCurrent = false
             
             if RosterManager.sharedInstance.currentUserCanCreateVote() {
-                self.currentVoteCodeLabel.text = topic.sessionCode
+                self.currentVoteCodeLabel.text = "Current Vote Session Code: " + topic.sessionCode
             }
         }
         
@@ -299,7 +301,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
             self.denyCurrent = true
             
             if let topic = topic {
-                self.currentVoteCodeLabel.text = topic.sessionCode
+                self.currentVoteCodeLabel.text = "Current Vote Session Code: " + topic.sessionCode
             }
         }
         

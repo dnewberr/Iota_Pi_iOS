@@ -179,13 +179,17 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
         
         if RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin()
             && self.currentBrotherId != RosterManager.sharedInstance.currentUserId {
+            self.changeStatusAdminButton.isHidden = false
+            self.changeStatusAdminButton.isEnabled = true
             self.changeStatusAdminButton.setTitle("Edit Admin or Status", for: .normal)
         } else if RosterManager.sharedInstance.currentUserCanEditRoster()
             && self.currentBrotherId != RosterManager.sharedInstance.currentUserId {
+            self.changeStatusAdminButton.isHidden = false
+            self.changeStatusAdminButton.isEnabled = true
             self.changeStatusAdminButton.setTitle("Edit Status", for: .normal)
         } else {
             self.changeStatusAdminButton.isEnabled = false
-            self.changeStatusAdminButton.tintColor = UIColor.clear
+            self.changeStatusAdminButton.isHidden = true
         }
     }
     

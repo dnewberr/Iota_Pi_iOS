@@ -170,6 +170,13 @@
 			name = "0 Storyboards";
 			sourceTree = "<group>";
 		};
+		CD90786E1E77B18400FB132D /* Current Vote */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Current Vote";
+			sourceTree = "<group>";
+		};
 		CDA8BD801DC2884E00B3585E /* 1 Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +210,7 @@
 		CDA8BD831DC2887200B3585E /* 4 Voting */ = {
 			isa = PBXGroup;
 			children = (
+				CD90786E1E77B18400FB132D /* Current Vote */,
 				CDFC01741DDE2D01004C688F /* Hirly */,
 				CDFC01631DDCF805004C688F /* VotingTopic.swift */,
 				CDFC016C1DDCFD98004C688F /* VotingViewController.swift */,
