@@ -18,6 +18,8 @@
 		CD49DCD01E35B9A7001CE861 /* ArchivedMeetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */; };
 		CD49DCD21E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCD11E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift */; };
 		CD8D33D31DE61FD0003306C7 /* IotaPiPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */; };
+		CD9078701E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90786F1E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift */; };
+		CD9078721E77BE8000FB132D /* ReasonsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9078711E77BE8000FB132D /* ReasonsTableViewController.swift */; };
 		CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD871DC288BC00B3585E /* LoginViewController.swift */; };
 		CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */; };
 		CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */; };
@@ -67,6 +69,8 @@
 		CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedMeetingsViewController.swift; sourceTree = "<group>"; };
 		CD49DCD11E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedMeetingDetailViewController.swift; sourceTree = "<group>"; };
 		CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotaPiPageViewController.swift; sourceTree = "<group>"; };
+		CD90786F1E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedHirlyDetailViewController.swift; sourceTree = "<group>"; };
+		CD9078711E77BE8000FB132D /* ReasonsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReasonsTableViewController.swift; sourceTree = "<group>"; };
 		CDA8BD871DC288BC00B3585E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
@@ -170,13 +174,6 @@
 			name = "0 Storyboards";
 			sourceTree = "<group>";
 		};
-		CD90786E1E77B18400FB132D /* Current Vote */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Current Vote";
-			sourceTree = "<group>";
-		};
 		CDA8BD801DC2884E00B3585E /* 1 Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +207,6 @@
 		CDA8BD831DC2887200B3585E /* 4 Voting */ = {
 			isa = PBXGroup;
 			children = (
-				CD90786E1E77B18400FB132D /* Current Vote */,
 				CDFC01741DDE2D01004C688F /* Hirly */,
 				CDFC01631DDCF805004C688F /* VotingTopic.swift */,
 				CDFC016C1DDCFD98004C688F /* VotingViewController.swift */,
@@ -267,8 +263,10 @@
 		CDFC01741DDE2D01004C688F /* Hirly */ = {
 			isa = PBXGroup;
 			children = (
+				CD90786F1E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift */,
 				CDFC016E1DDCFE71004C688F /* HirlyNomineeSelectionViewController.swift */,
 				CDFC01751DDE2D1F004C688F /* HirlyFormViewController.swift */,
+				CD9078711E77BE8000FB132D /* ReasonsTableViewController.swift */,
 			);
 			name = Hirly;
 			sourceTree = "<group>";
@@ -464,12 +462,14 @@
 				CDFC01761DDE2D1F004C688F /* HirlyFormViewController.swift in Sources */,
 				CDB54C941E5F623700E113C3 /* ChangeAdminStatusViewController.swift in Sources */,
 				CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */,
+				CD9078701E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift in Sources */,
 				CDE18D141E2574EE001B119C /* MeetingCheckInViewController.swift in Sources */,
 				CD06086B1E36E344003259A7 /* CreateUserFormViewController.swift in Sources */,
 				CDFC016B1DDCFB68004C688F /* User.swift in Sources */,
 				CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */,
 				CD49DCD21E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift in Sources */,
 				CDACA6B01DCBA70100BD8363 /* AnnouncementDetailsViewController.swift in Sources */,
+				CD9078721E77BE8000FB132D /* ReasonsTableViewController.swift in Sources */,
 				CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

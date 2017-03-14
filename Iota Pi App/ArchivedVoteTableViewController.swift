@@ -15,6 +15,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     let votingService = VotingService()
     var votingTopics = [VotingTopic]()
     
+    var chosenHirlyVote: VotingTopic!
     var indicator: UIActivityIndicatorView!
     var filteredTopics = [VotingTopic]()
     var filter = ""
@@ -151,16 +152,8 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellTopic = self.filteredTopics[indexPath.row]
         if self.isHirly {
-            let hirlyDetailsAlert = SCLAlertView()
-            hirlyDetailsAlert.showTitle(
-                cellTopic.summary,
-                subTitle: "[\(Utilities.dateToDayTime(date: cellTopic.expirationDate))]"
-                    + "\nWinner(s): \(cellTopic.getWinnerNames())",
-                duration: 0.0,
-                completeText: "Done",
-                style: .info,
-                colorStyle: Style.mainColorHex,
-                colorTextButton: 0xFFFFFF)
+            self.chosenHirlyVote = cellTopic
+            performSegue(withIdentifier: "archivedHirlySegue", sender: self)
         } else {
             let totalVotes = cellTopic.yesVotes + cellTopic.noVotes + cellTopic.abstainVotes
             
@@ -226,4 +219,12 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     func confirmVote() {}
     func noCurrentVote(isHirly: Bool) {}
     func denyVote(isHirly: Bool, topic: VotingTopic?) {}
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "archivedHirlySegue" {
+            let destination = segue.destination as! ArchivedHirlyDetailViewController
+            destination.currentHirlyVote = self.chosenHirlyVote
+        }
+    }
 }
