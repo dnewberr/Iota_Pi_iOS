@@ -53,7 +53,7 @@ class ReasonsTableViewController: UITableViewController {
         
         reasonAlert.showTitle(
             self.winnerName,
-            subTitle: "",
+            subTitle: self.hirlyTopic.summary,
             duration: 0.0,
             completeText: "Done",
             style: .info,
