@@ -97,7 +97,6 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
         if self.currentMeeting != nil {
             // The brother on this page is already checked in, which means they must be admin
             if self.currentMeeting.isCurrentBroCheckedIn() {
-                print("HERE")
                 self.meetingLabel.isHidden = true
                 self.checkInButton.isHidden = true
                 self.sessionCodeLabel.isHidden = false
@@ -120,10 +119,11 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
                 }
             }
         } else {
-            // Because there is no meeting, this brother must be admin.
+            // Because there is no meeting, this brother must be admin and must only be able to create a meeting
             self.meetingLabel.isHidden = true
             self.checkInButton.isHidden = true
             self.sessionCodeTextField.isHidden = true
+            self.sessionCodeLabel.isHidden = true
             self.enableStartEndButton(title: "Start Meeting")
         }
     }
