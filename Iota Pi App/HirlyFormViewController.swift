@@ -133,7 +133,19 @@ class HirlyFormViewController: UIViewController {
     }
     
     @IBAction func submitForm(_ sender: AnyObject) {
-        self.formTableViewController.submitVote()
+        let submitAlert = SCLAlertView()
+        submitAlert.addButton("Submit") {
+            self.formTableViewController.submitVote()
+        }
+        
+        submitAlert.showTitle(
+            "Submit HIRLy Vote",
+            subTitle: "Are you sure you wish to submit this HIRLy nomination?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
     }
     
     override func viewDidLoad() {

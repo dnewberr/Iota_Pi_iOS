@@ -94,15 +94,28 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
     }
     
     func submitVote(vote: String, code: String?) {
-        if let codeEntered = code {
-            if codeEntered == self.currentVote.sessionCode {
-                self.votingService.submitCurrentVote(topic: self.currentVote, vote: vote)
+        let confirmAlert = SCLAlertView()
+        confirmAlert.addButton("Confirm") {
+            if let codeEntered = code {
+                if codeEntered == self.currentVote.sessionCode {
+                    self.votingService.submitCurrentVote(topic: self.currentVote, vote: vote)
+                } else {
+                    SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
+                }
             } else {
                 SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
             }
-        } else {
-            SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
         }
+        
+        confirmAlert.showTitle(
+            "Submit Vote",
+            subTitle: "Are you sure you wish to vote \"\(vote)\" on this topic?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+        
     }
     
     @IBAction func createVote(_ sender: AnyObject) {
