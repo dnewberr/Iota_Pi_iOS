@@ -84,7 +84,7 @@ public class VotingTopic {
                 names += (user.firstname)! + " " + (user.lastname)!
             }
             
-            if numWinner < winners.count - 1 && numWinner > 0 {
+            if numWinner < winners.count - 1 && winners.count > 1 {
                 names += "; "
             }
             

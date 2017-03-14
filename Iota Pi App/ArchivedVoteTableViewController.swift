@@ -15,7 +15,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     let votingService = VotingService()
     var votingTopics = [VotingTopic]()
     
-    var chosenHirlyVote: VotingTopic!
+    var chosenHirlyTopic: VotingTopic!
     var indicator: UIActivityIndicatorView!
     var filteredTopics = [VotingTopic]()
     var filter = ""
@@ -152,7 +152,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellTopic = self.filteredTopics[indexPath.row]
         if self.isHirly {
-            self.chosenHirlyVote = cellTopic
+            self.chosenHirlyTopic = cellTopic
             performSegue(withIdentifier: "archivedHirlySegue", sender: self)
         } else {
             let totalVotes = cellTopic.yesVotes + cellTopic.noVotes + cellTopic.abstainVotes
@@ -224,7 +224,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "archivedHirlySegue" {
             let destination = segue.destination as! ArchivedHirlyDetailViewController
-            destination.currentHirlyVote = self.chosenHirlyVote
+            destination.currentHirlyTopic = self.chosenHirlyTopic
         }
     }
 }

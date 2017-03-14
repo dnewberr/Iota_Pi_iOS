@@ -19,6 +19,8 @@ class ReasonsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.reasons = self.hirlyTopic.winners[self.winnerId]!
+        self.title = self.winnerName
+        self.tableView.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +49,7 @@ class ReasonsTableViewController: UITableViewController {
         let reasonText = reasonAlert.addTextView()
         reasonText.text = reasons[indexPath.row]
         reasonText.isEditable = false
+        reasonText.scrollRangeToVisible(NSMakeRange(0, 0))
         
         reasonAlert.showTitle(
             self.winnerName,
@@ -58,4 +61,7 @@ class ReasonsTableViewController: UITableViewController {
             colorTextButton: 0xFFFFFF)
     }
 
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
 }
