@@ -1311,7 +1311,7 @@
         <scene sceneID="iL0-Tl-aK4">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6h5-l1-hs8" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="more" id="SOR-UI-e8z"/>
+                    <tabBarItem key="tabBarItem" title="" systemItem="more" id="SOR-UI-e8z"/>
                     <toolbarItems/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
@@ -1968,10 +1968,10 @@
     </scenes>
     <resources>
         <image name="Loading_Screen" width="530" height="892"/>
-        <image name="announcements" width="32" height="32"/>
-        <image name="attendance" width="32" height="32"/>
-        <image name="calendar" width="32" height="32"/>
-        <image name="voting" width="32" height="32"/>
+        <image name="announcements" width="30" height="30"/>
+        <image name="attendance" width="30" height="30"/>
+        <image name="calendar" width="29" height="30"/>
+        <image name="voting" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Tfp-Jk-jnb"/>

@@ -13,13 +13,13 @@
 		CD105B691DC9406C00F95B80 /* AnnouncementsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD105B681DC9406C00F95B80 /* AnnouncementsTableViewController.swift */; };
 		CD499F0B1DC2838D0037420B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD499F0A1DC2838D0037420B /* AppDelegate.swift */; };
 		CD499F121DC2838D0037420B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F101DC2838D0037420B /* Main.storyboard */; };
-		CD499F141DC2838D0037420B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD499F131DC2838D0037420B /* Assets.xcassets */; };
 		CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD499F151DC2838D0037420B /* LaunchScreen.storyboard */; };
 		CD49DCD01E35B9A7001CE861 /* ArchivedMeetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */; };
 		CD49DCD21E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD49DCD11E35C04E001CE861 /* ArchivedMeetingDetailViewController.swift */; };
 		CD8D33D31DE61FD0003306C7 /* IotaPiPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */; };
 		CD9078701E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90786F1E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift */; };
 		CD9078721E77BE8000FB132D /* ReasonsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9078711E77BE8000FB132D /* ReasonsTableViewController.swift */; };
+		CD9078741E77D0B400FB132D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD9078731E77D0B400FB132D /* Assets.xcassets */; };
 		CDA8BD881DC288BC00B3585E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD871DC288BC00B3585E /* LoginViewController.swift */; };
 		CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */; };
 		CDA8BD8C1DC28CCF00B3585E /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */; };
@@ -63,7 +63,6 @@
 		CD499F071DC2838D0037420B /* Iota Pi App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Iota Pi App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD499F0A1DC2838D0037420B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD499F111DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CD499F131DC2838D0037420B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD499F161DC2838D0037420B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD499F181DC2838D0037420B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD49DCCF1E35B9A7001CE861 /* ArchivedMeetingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedMeetingsViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +70,7 @@
 		CD8D33D21DE61FD0003306C7 /* IotaPiPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotaPiPageViewController.swift; sourceTree = "<group>"; };
 		CD90786F1E77BC5D00FB132D /* ArchivedHirlyDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedHirlyDetailViewController.swift; sourceTree = "<group>"; };
 		CD9078711E77BE8000FB132D /* ReasonsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReasonsTableViewController.swift; sourceTree = "<group>"; };
+		CD9078731E77D0B400FB132D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CDA8BD871DC288BC00B3585E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CDA8BD8B1DC28CCF00B3585E /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
@@ -157,8 +157,6 @@
 				CDA8BD811DC2885E00B3585E /* 2 Announcements */,
 				CDA8BD801DC2884E00B3585E /* 1 Login */,
 				CD499F1E1DC285330037420B /* 0 Storyboards */,
-				CD499F131DC2838D0037420B /* Assets.xcassets */,
-				CD499F181DC2838D0037420B /* Info.plist */,
 				CDA8BD861DC2889200B3585E /* Utilities */,
 			);
 			path = "Iota Pi App";
@@ -239,6 +237,8 @@
 		CDA8BD861DC2889200B3585E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				CD499F181DC2838D0037420B /* Info.plist */,
+				CD9078731E77D0B400FB132D /* Assets.xcassets */,
 				CDA8BD891DC28AEC00B3585E /* GoogleService-Info.plist */,
 				CD499F0A1DC2838D0037420B /* AppDelegate.swift */,
 				CDFC016A1DDCFB68004C688F /* User.swift */,
@@ -361,10 +361,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD499F171DC2838D0037420B /* LaunchScreen.storyboard in Resources */,
-				CD499F141DC2838D0037420B /* Assets.xcassets in Resources */,
 				CD499F121DC2838D0037420B /* Main.storyboard in Resources */,
 				CDA8BD8A1DC28AEC00B3585E /* GoogleService-Info.plist in Resources */,
 				CDA8BD8E1DC2AAFC00B3585E /* CalendarCellView.xib in Resources */,
+				CD9078741E77D0B400FB132D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
