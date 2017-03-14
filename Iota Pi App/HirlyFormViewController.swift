@@ -26,9 +26,7 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         self.tableView.tableFooterView = UIView()
         self.votingService.votingServiceDelegate = self
         
-        hirlyNomReasonText.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
-        hirlyNomReasonText.layer.borderWidth = 1.0
-        hirlyNomReasonText.layer.cornerRadius = 5
+        self.hirlyNomReasonText.layer.borderWidth = 0
         
         self.headerTitles[0] = self.currentTopic.summary
         self.topicDescriptionLabel.text = self.currentTopic.description

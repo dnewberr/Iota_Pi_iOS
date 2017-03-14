@@ -16,10 +16,9 @@ class AnnouncementsTableViewCell: UITableViewCell {
     var announcement: Announcement!
 }
 
-class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate, UITextFieldDelegate, UITextViewDelegate {
+class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate, UITextFieldDelegate {
     @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
     @IBOutlet weak var clearButton: UIBarButtonItem!
-    let MAX_DETAILS_LENGTH = 480
     let MAX_TITLE_LENGTH = 20
     var announcements = [Announcement]()
     var filteredAnnouncements = [Announcement]()
@@ -40,7 +39,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         titleTextField.delegate = self
         let descriptionTextView = announcementCreation.addTextView()
         descriptionTextView.isEditable = true
-        descriptionTextView.delegate = self
         
         announcementCreation.addButton("Create") {
             if let title = titleTextField.text, let description = descriptionTextView.text {
@@ -275,19 +273,6 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             self.refreshControl?.endRefreshing()
         }
 
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard let prevText = textView.text else {
-            return true
-        }
-        
-        let newLength = prevText.characters.count + text.characters.count - range.length
-        if newLength >= self.MAX_DETAILS_LENGTH {
-            textView.deleteBackward()
-            return false
-        }
-        return true
     }
     
     // keeps text length at max

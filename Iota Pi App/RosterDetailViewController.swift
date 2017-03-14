@@ -77,6 +77,7 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         editableInfo.autocapitalizationType = .none
         editableInfo.autocorrectionType = .no
         editableInfo.isSelectable = true
+        editableInfo.textAlignment = .center
         editableInfo.isEditable = RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId
         
         if RosterManager.sharedInstance.currentUserCanEditRoster() || self.currentBrotherId == RosterManager.sharedInstance.currentUserId {
@@ -85,6 +86,8 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
                     self.updateData(key: detail, value: value)
                 }
             }
+        } else {
+            editableInfo.layer.borderWidth = 0
         }
         
         editRosterInfo.showTitle(

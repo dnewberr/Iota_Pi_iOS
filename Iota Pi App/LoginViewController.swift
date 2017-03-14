@@ -79,9 +79,6 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         
         self.errorMessageLabel.alpha = 0;
         
-        self.loginButton.layer.borderColor = Style.mainColor.cgColor
-        self.loginButton.layer.borderWidth = 1
-        
         let keyboardDismissTap = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
         view.addGestureRecognizer(keyboardDismissTap)
     }
