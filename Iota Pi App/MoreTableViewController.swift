@@ -123,7 +123,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
                         "Logout",
                         subTitle: "Please enter your current password and your new password.",
                         duration: 0.0,
-                        completeText: "OK",
+                        completeText: "Okay",
                         style: .warning,
                         colorStyle: Style.mainColorHex,
                         colorTextButton: 0xFFFFFF)

@@ -33,19 +33,20 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         searchField.autocorrectionType = .no
         searchField.placeholder = "Keyphrase"
         
+        searchAlert.addButton("Search") {
+            self.filter = searchField.text!.trim().lowercased()
+            self.filterVotes()
+        }
+        
         searchAlert.showTitle(
             "Search",
             subTitle: "Enter a phrase to find a topic containing it.",
             duration: 0.0,
-            completeText: "Search",
+            completeText: "Cancel",
             style: .notice,
             colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
-            if let search = searchField.text {
-                self.filter = search.lowercased()
-                self.filterVotes()
-            }
-        }
+            colorTextButton: 0xFFFFFF)
+    
     }
     
     func filterVotes() {

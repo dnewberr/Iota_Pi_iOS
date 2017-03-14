@@ -35,28 +35,29 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         let emailText = forgotPasswordAlert.addTextField()
         emailText.text = self.emailTextField.text
         
+        forgotPasswordAlert.addButton("Reset") {
+            if let email = emailText.text {
+                if !email.trim().isEmpty {
+                    let fullEmail = email.contains("@") ? email : email + "@iotapi.com"
+                    self.indicator.startAnimating()
+                    self.blurView()
+                    self.loginService.resetPassword(email: fullEmail)
+                } else {
+                    SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
+                }
+            } else {
+                SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
+            }
+        }
+        
         forgotPasswordAlert.showTitle(
             "Reset Password",
             subTitle: "Please enter your username or email",
             duration: 0.0,
-            completeText: "Reset",
+            completeText: "Cancel",
             style: .info,
             colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF).setDismissBlock {
-                if let email = emailText.text {
-                    if !email.trim().isEmpty {
-                        let fullEmail = email.contains("@") ? email : email + "@iotapi.com"
-                        self.indicator.startAnimating()
-                        self.blurView()
-                        self.loginService.resetPassword(email: fullEmail)
-                    } else {
-                        SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
-                    }
-                } else {
-                    SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
-                }
-        }
-        
+            colorTextButton: 0xFFFFFF)
     }
     
     override func viewDidLoad() {

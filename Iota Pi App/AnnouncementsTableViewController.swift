@@ -71,7 +71,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         searchAlert.customSubview = subview
         
         searchAlert.addButton("Search") {
-            self.activeKeyphrase = keyphraseField.text!.trim().isEmpty ? "" : keyphraseField.text!.lowercased()
+            self.activeKeyphrase = keyphraseField.text!.trim().lowercased()
             self.filterAnnouncements()
         }
         
@@ -202,6 +202,8 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
                         }
                     }
                 }
+            } else {
+                self.filteredAnnouncements = self.announcements
             }
             
             if !self.activeKeyphrase.isEmpty {
@@ -218,6 +220,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             
         }
         
+        print("FILTERED \(self.activeKeyphrase) | \(self.activeFilters)")
         self.filteredAnnouncements = self.filteredAnnouncements.sorted(by: {$0.getId() > $1.getId()})
         self.tableView.reloadData()
     }
