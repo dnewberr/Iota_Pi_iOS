@@ -16,9 +16,11 @@ class AnnouncementsTableViewCell: UITableViewCell {
     var announcement: Announcement!
 }
 
-class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
+class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate, UITextFieldDelegate, UITextViewDelegate {
     @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
     @IBOutlet weak var clearButton: UIBarButtonItem!
+    let MAX_DETAILS_LENGTH = 480
+    let MAX_TITLE_LENGTH = 20
     var announcements = [Announcement]()
     var filteredAnnouncements = [Announcement]()
     var archivedAnnouncements = [Announcement]()
@@ -35,8 +37,10 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         announcementCreation.customSubview = createFilterSubview(isFilter: false)
         
         let titleTextField = announcementCreation.addTextField("Title")
+        titleTextField.delegate = self
         let descriptionTextView = announcementCreation.addTextView()
         descriptionTextView.isEditable = true
+        descriptionTextView.delegate = self
         
         announcementCreation.addButton("Create") {
             if let title = titleTextField.text, let description = descriptionTextView.text {
@@ -271,6 +275,33 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             self.refreshControl?.endRefreshing()
         }
 
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let prevText = textView.text else {
+            return true
+        }
+        
+        let newLength = prevText.characters.count + text.characters.count - range.length
+        if newLength >= self.MAX_DETAILS_LENGTH {
+            textView.deleteBackward()
+            return false
+        }
+        return true
+    }
+    
+    // keeps text length at max
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else {
+            return true
+        }
+        
+        let newLength = text.characters.count + string.characters.count - range.length
+        if newLength >= self.MAX_TITLE_LENGTH {
+            textField.deleteBackward()
+            return false
+        }
+        return true
     }
 
     override func didReceiveMemoryWarning() {
