@@ -12,7 +12,7 @@ import Log
 
 public protocol LoginServiceDelegate: class {
     func showErrorMessage(message: String)
-    func successfullyLoginLogoutUser()
+    func successfullyLoginLogoutUser(password: String)
 }
 
 public class LoginService {
@@ -86,7 +86,7 @@ public class LoginService {
                     if !RosterManager.sharedInstance.currentUserAlreadyLoggedIn {
                         LoginService.LOGGER.info("[Check Login] User has been verified.")
                         RosterManager.sharedInstance.currentUserAlreadyLoggedIn = true
-                        self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                        self.loginServiceDelegate?.successfullyLoginLogoutUser(password: "")
                     } else {
                         LoginService.LOGGER.info("[Check Login] User has been verified and has already been logged in.")
                     }
@@ -133,7 +133,7 @@ public class LoginService {
             RosterManager.sharedInstance.currentUserAlreadyLoggedIn = false
             LoginService.LOGGER.info("[Log Out] Successfully logged out current user.")
             if !isCreate {
-                self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                self.loginServiceDelegate?.successfullyLoginLogoutUser(password: "")
             }
         } catch let error {
             LoginService.LOGGER.error("[Log Out] " + error.localizedDescription)
@@ -143,9 +143,10 @@ public class LoginService {
     
     func createNewUser(userInfo: [AnyHashable:Any]) {
         let email = (userInfo["firstname"] as! String).lowercased().trim() + "." + (userInfo["lastname"] as! String).lowercased().trim() + "@iotapi.com"
-        LoginService.LOGGER.trace("[Create User] Creating a new user with temp password \"test123\" and email \"\(email)\"")
+        let tempPassword = Utilities.randomString(length: 6)
+        LoginService.LOGGER.trace("[Create User] Creating a new user with temp password and email \"\(email)\"")
         
-        FIRAuth.auth()?.createUser(withEmail: email, password: "test123", completion: {(user: FIRUser?, error) in
+        FIRAuth.auth()?.createUser(withEmail: email, password: tempPassword, completion: {(user: FIRUser?, error) in
             if let error = error {
                 LoginService.LOGGER.error("[Create User] " + error.localizedDescription)
                 let errCode = FIRAuthErrorCode(rawValue: error._code)!
@@ -167,7 +168,7 @@ public class LoginService {
                         self.loginServiceDelegate?.showErrorMessage(message: "There was an error while creating your account. Contact the webmaster for assistance.")
                     } else {
                         LoginService.LOGGER.info("[Create User] Database initialization successful for new UID: " + user!.uid)
-                        self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                        self.loginServiceDelegate?.successfullyLoginLogoutUser(password: tempPassword)
                     }
                 })
             }
@@ -190,7 +191,7 @@ public class LoginService {
                         self.loginServiceDelegate?.showErrorMessage(message: "An error occured while trying to change your password. The change was unsuccessful.")
                     } else {
                         LoginService.LOGGER.info("[Change Password] Password successfully changed.")
-                        self.loginServiceDelegate?.successfullyLoginLogoutUser()
+                        self.loginServiceDelegate?.successfullyLoginLogoutUser(password: "")
                     }
                 }
             }

@@ -179,9 +179,9 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    func successfullyLoginLogoutUser() {
+    func successfullyLoginLogoutUser(password: String) {
         self.indicator.stopAnimating()
-        SCLAlertView().showSuccess("Create User", subTitle: "Your account was created with temp password \"test123\"").setDismissBlock {
+        SCLAlertView().showSuccess("Create User", subTitle: "Your account was created! Temporary password: \"\(password)\"").setDismissBlock {
             self.loginService.logoutCurrentUser(isCreate: true)
             self.dismiss(animated: true)
         }

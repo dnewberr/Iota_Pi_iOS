@@ -153,6 +153,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
     }
     
     func refresh() {
+        RosterManager.sharedInstance.populateRoster()
         self.tableView.reloadData()
         
         if (self.refreshControl?.isRefreshing)! {
@@ -160,7 +161,7 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         }
     }
     
-    func successfullyLoginLogoutUser() {
+    func successfullyLoginLogoutUser(password: String) {
         if self.userLoggedOut {
             self.performSegue(withIdentifier: "unwindToLogin", sender: self)
         } else {

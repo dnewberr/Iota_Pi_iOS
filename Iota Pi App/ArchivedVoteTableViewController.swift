@@ -140,12 +140,12 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
 
         let cellTopic = self.filteredTopics[indexPath.row]
         cell.textLabel?.text = cellTopic.summary
-        cell.detailTextLabel?.text = Utilities.dateToDayTime(date: cellTopic.expirationDate)
         
         if self.isHirly {
-            cell.detailTextLabel?.text = "\(cell.detailTextLabel?.text!) | \(cellTopic.getWinnerNames())"
+            cell.detailTextLabel?.text = "\(Utilities.dateToDayTime(date: cellTopic.expirationDate)) | \(cellTopic.getWinnerNames())"
             cell.accessoryType = .disclosureIndicator
         } else {
+            cell.detailTextLabel?.text = Utilities.dateToDayTime(date: cellTopic.expirationDate)
             cell.accessoryType = .detailButton
         }
 

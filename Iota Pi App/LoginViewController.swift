@@ -125,7 +125,7 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         }
     }
     
-    func successfullyLoginLogoutUser() {
+    func successfullyLoginLogoutUser(password: String) {
         self.indicator.stopAnimating()
         self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }

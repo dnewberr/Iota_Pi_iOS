@@ -114,6 +114,7 @@ public class RosterService {
                 RosterService.LOGGER.info("[Mark Deletion] Successfully marked brother with UID: " + uid + " to be deleted.")
                 // Edit locally for quick visual changes
                 RosterManager.sharedInstance.brothersMap.removeValue(forKey: uid)
+                RosterManager.sharedInstance.brothersToValidate.removeValue(forKey: uid)
                 self.rosterServiceDelegate?.updateUI(isDeleted: true)
             }
         })
