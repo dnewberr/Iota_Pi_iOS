@@ -66,9 +66,7 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
     }
 
-    //TODO
     func refresh() {
-        RosterManager.sharedInstance.populateRoster()
         self.uidsToVerify.removeAll()
         self.invalidUsers.removeAll()
         self.invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)

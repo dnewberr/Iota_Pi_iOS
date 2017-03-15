@@ -143,7 +143,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         cell.detailTextLabel?.text = Utilities.dateToDayTime(date: cellTopic.expirationDate)
         
         if self.isHirly {
-            cell.detailTextLabel?.text = "\(cell.detailTextLabel?.text) | \(cellTopic.getWinnerNames())"
+            cell.detailTextLabel?.text = "\(cell.detailTextLabel?.text!) | \(cellTopic.getWinnerNames())"
             cell.accessoryType = .disclosureIndicator
         } else {
             cell.accessoryType = .detailButton

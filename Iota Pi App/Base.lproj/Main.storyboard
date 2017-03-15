@@ -280,10 +280,10 @@
             </objects>
             <point key="canvasLocation" x="4689" y="-1"/>
         </scene>
-        <!--Archived Hirly Detail View Controller-->
+        <!--HIRLy Results-->
         <scene sceneID="VYR-IO-MgN">
             <objects>
-                <viewController id="qPe-Zb-vKW" customClass="ArchivedHirlyDetailViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="HIRLy Results" id="qPe-Zb-vKW" customClass="ArchivedHirlyDetailViewController" customModule="Iota_Pi_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="30E-tp-30x"/>
                         <viewControllerLayoutGuide type="bottom" id="zl1-4h-1La"/>

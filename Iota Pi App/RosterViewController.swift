@@ -50,7 +50,6 @@ class RosterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        RosterManager.sharedInstance.populateRoster()
         self.tableView.tableFooterView = UIView()
         self.clearFilterButton.isEnabled = false
         self.clearFilterButton.tintColor = UIColor.clear
@@ -62,7 +61,6 @@ class RosterTableViewController: UITableViewController {
     }
     
     func refresh() {
-        RosterManager.sharedInstance.populateRoster()
         self.filterRoster()
         
         if (self.refreshControl?.isRefreshing)! {

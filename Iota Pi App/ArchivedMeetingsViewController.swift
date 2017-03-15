@@ -127,7 +127,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         
         cell.meeting = self.filteredMeetings[indexPath.row]
         cell.meetingCodeLabel.text = cell.meeting.sessionCode
-        cell.meetingDateLabel.text = Utilities.dateToDayTime(date: cell.meeting.startTime) //TODO
+        cell.meetingDateLabel.text = Utilities.dateToDayTime(date: cell.meeting.startTime)
         
         return cell
     }
