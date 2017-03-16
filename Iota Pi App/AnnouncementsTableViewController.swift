@@ -11,25 +11,20 @@ import Firebase
 import SCLAlertView
 import Log
 
-class AnnouncementsTableViewCell: UITableViewCell {
-    @IBOutlet weak var announcementTitle: UILabel!
-    var announcement: Announcement!
-}
-
 class AnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate, UITextFieldDelegate {
     @IBOutlet weak var addAnnouncementButton: UIBarButtonItem!
     @IBOutlet weak var clearButton: UIBarButtonItem!
+    
     let MAX_TITLE_LENGTH = 20
-    var announcements = [Announcement]()
-    var filteredAnnouncements = [Announcement]()
-    var archivedAnnouncements = [Announcement]()
-    var announcementToPass: Announcement!
     let announcementsService = AnnouncementsService()
     var activeFilters = [String]()
     var activeKeyphrase = ""
-    var tagsToAdd = [String]()
-    
+    var announcements = [Announcement]()
+    var announcementToPass: Announcement!
+    var archivedAnnouncements = [Announcement]()
+    var filteredAnnouncements = [Announcement]()
     var indicator: UIActivityIndicatorView!
+    var tagsToAdd = [String]()
     
     @IBAction func addAnnouncement(_ sender: AnyObject) {
         let announcementCreation = SCLAlertView()
@@ -93,6 +88,31 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         self.filterAnnouncements()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.clearButton.isEnabled = false
+        self.clearButton.tintColor = UIColor.clear
+        
+        if RosterManager.sharedInstance.currentUserCanCreateAnnouncements() {
+            self.addAnnouncementButton.isEnabled = true
+            self.addAnnouncementButton.tintColor = nil
+        } else {
+            self.addAnnouncementButton.isEnabled = false
+            self.addAnnouncementButton.tintColor = UIColor.clear
+        }
+        
+        self.tableView.tableFooterView = UIView()
+        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
+        self.parent!.view.addSubview(indicator)
+        
+        self.refreshControl?.addTarget(self, action: #selector(ArchivedVoteTableViewController.refresh), for: UIControlEvents.valueChanged)
+        
+        self.indicator.startAnimating()
+        announcementsService.announcementsServiceDelegate = self
+        announcementsService.fetchAnnouncements()
+    }
+    
+    // creates the committee button view
     func createFilterSubview(isFilter: Bool) -> UIView {
         let subview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
         let width = CGFloat(subview.frame.maxX / 3)
@@ -132,6 +152,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         return subview
     }
     
+    // creates a committee button for search and add
     func createCategoryButton(x: CGFloat, y: CGFloat, width: CGFloat, title: String, isFilter: Bool) -> UIButton {
         let height = CGFloat(25)
         
@@ -159,6 +180,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         return categoryButton
     }
     
+    // helps populate the committee tag filter
     func categoryChosen(sender: UIButton!) {
         let indexOfFilter = self.activeFilters.index(of: (sender.titleLabel!.text)!)
         if indexOfFilter != nil {
@@ -172,6 +194,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         }
     }
     
+    // helps set colors for committee buttons
     func addTag(sender: UIButton!) {
         let indexOfFilter = self.tagsToAdd.index(of: (sender.titleLabel!.text)!)
         if indexOfFilter != nil {
@@ -185,6 +208,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         }
     }
     
+    // filters by committee then by phrase
     func filterAnnouncements() {
         self.filteredAnnouncements.removeAll()
         
@@ -225,55 +249,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         self.filteredAnnouncements = self.filteredAnnouncements.sorted(by: {$0.getId() > $1.getId()})
         self.tableView.reloadData()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.clearButton.isEnabled = false
-        self.clearButton.tintColor = UIColor.clear
-        
-        if RosterManager.sharedInstance.currentUserCanCreateAnnouncements() {
-            self.addAnnouncementButton.isEnabled = true
-            self.addAnnouncementButton.tintColor = nil
-        } else {
-            self.addAnnouncementButton.isEnabled = false
-            self.addAnnouncementButton.tintColor = UIColor.clear
-        }
-        
-        self.tableView.tableFooterView = UIView()
-        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
-        self.parent!.view.addSubview(indicator)
-        
-        self.refreshControl?.addTarget(self, action: #selector(ArchivedVoteTableViewController.refresh), for: UIControlEvents.valueChanged)
-        
-        self.indicator.startAnimating()
-        announcementsService.announcementsServiceDelegate = self
-        announcementsService.fetchAnnouncements()
-    }
-    
-    func refresh() {
-        announcementsService.fetchAnnouncements()
-    }
-    
-    func updateUI(announcements: [Announcement]) {
-        self.announcements.removeAll()
-        self.archivedAnnouncements.removeAll()
-        
-        for announcement in announcements {
-            if announcement.isArchived {
-                self.archivedAnnouncements.insert(announcement, at: 0)
-            } else {
-                self.announcements.insert(announcement, at: 0)
-            }
-        }
-        
-        self.filterAnnouncements()
-        self.indicator.stopAnimating()
-        
-        if (self.refreshControl?.isRefreshing)! {
-            self.refreshControl?.endRefreshing()
-        }
 
-    }
     
     // keeps text length at max
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -288,21 +264,17 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         }
         return true
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func refresh() {
+        announcementsService.fetchAnnouncements()
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         if !self.filteredAnnouncements.isEmpty {
             tableView.backgroundView = nil
             return 1
         } else {
-            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text = "No data available"
-            noDataLabel.textColor = Style.tintColor
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView = noDataLabel
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No announcements found.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
             return 0
         }
     }
@@ -317,11 +289,11 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
             return tableView.dequeueReusableCell(withIdentifier: "archivedAnnouncementCell", for: indexPath)
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath) as!    AnnouncementsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell", for: indexPath)
 
-        cell.announcement = filteredAnnouncements[indexPath.row]
-        cell.textLabel!.text = cell.announcement.title
-        cell.detailTextLabel!.text = cell.announcement.getCommitteeTagList()
+        let announcement = self.filteredAnnouncements[indexPath.row]
+        cell.textLabel!.text = announcement.title
+        cell.detailTextLabel!.text = announcement.getCommitteeTagList()
         
         return cell
     }
@@ -330,8 +302,7 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         if indexPath.row >= filteredAnnouncements.count {
             performSegue(withIdentifier: "archivedAnnouncementsSegue", sender: self)
         } else {
-            let currentCell = tableView.cellForRow(at: indexPath) as! AnnouncementsTableViewCell
-            announcementToPass = currentCell.announcement
+            self.announcementToPass = self.filteredAnnouncements[indexPath.row]
             performSegue(withIdentifier: "announcementDetailsSegue", sender: self)
         }
     }
@@ -390,6 +361,31 @@ class AnnouncementsTableViewController: UITableViewController, AnnouncementsServ
         if segue.identifier == "archivedAnnouncementsSegue" {
             let destination = segue.destination as! ArchivedAnnouncementsTableViewController
             destination.announcements = archivedAnnouncements
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
+    func updateUI(announcements: [Announcement]) {
+        self.announcements.removeAll()
+        self.archivedAnnouncements.removeAll()
+        
+        for announcement in announcements {
+            if announcement.isArchived {
+                self.archivedAnnouncements.insert(announcement, at: 0)
+            } else {
+                self.announcements.insert(announcement, at: 0)
+            }
+        }
+        
+        self.filterAnnouncements()
+        self.indicator.stopAnimating()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
         }
     }
     

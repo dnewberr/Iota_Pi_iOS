@@ -18,11 +18,11 @@ class AnnouncementDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.detailTextView.text = self.announcement.details
         self.detailTextView.layer.borderWidth = 0
         
         self.committeeTagLabel.text = self.announcement.getCommitteeTagList()
-        self.detailTextView.text = self.announcement.details
         self.expirationDateLabel.text = "Expires: " + Utilities.dateToDay(date: self.announcement.expirationDate)
         self.titleLabel.text = self.announcement.title
     }

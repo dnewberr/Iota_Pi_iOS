@@ -48,29 +48,6 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             colorTextButton: 0xFFFFFF)
     }
     
-    func createAccount() {
-        let valuesDictionary = form.values()
-        var toSubmit = [AnyHashable : Any] ()
-        
-        for key in valuesDictionary.keys {
-            if let value = valuesDictionary[key] {
-                if key == "birthday" {
-                    toSubmit[key] = Utilities.dateToBirthday(date: (value as! Date))
-                } else {
-                    toSubmit[key] = value
-                }
-            }
-        }
-        
-        if self.requiredFieldsFilled(userInfoKeys: Array(toSubmit.keys)) {
-            self.blurView()
-            self.indicator.startAnimating()
-            loginService.createNewUser(userInfo: toSubmit)
-        } else {
-            SCLAlertView().showError("Create User", subTitle: "Please fill out all required fields.")
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loginService.loginServiceDelegate = self
@@ -107,13 +84,6 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
                 $0.tag = "roster"
                 $0.add(rule: RuleRequired())
             }
-            <<< PickerInlineRow<String>() {
-                $0.title = "Admin Privileges"
-                $0.options = Utilities.ADMIN_ARRAY
-                $0.value = "None"    // initially selected
-                $0.tag = "admin"
-                $0.add(rule: RuleRequired())
-            }
             <<< TextRow(){ row in
                 row.title = "Class"
                 row.placeholder = "Alpha Alpha"
@@ -122,7 +92,7 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Status"
-                $0.options = Utilities.STATUS_ARRAY
+                $0.options = Status.ALL_VALUES
                 $0.value = "Active"    // initially selected
                 $0.tag = "status"
                 $0.add(rule: RuleRequired())
@@ -174,22 +144,47 @@ class CreateUserFormViewController: FormViewController, LoginServiceDelegate {
             && userInfoKeys.contains("class")
     }
     
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    func successfullyLoginLogoutUser(password: String) {
-        self.indicator.stopAnimating()
-        SCLAlertView().showSuccess("Create User", subTitle: "Your account was created! Temporary password: \"\(password)\"").setDismissBlock {
-            self.loginService.logoutCurrentUser(isCreate: true)
-            self.dismiss(animated: true)
+    func createAccount() {
+        let valuesDictionary = form.values()
+        var toSubmit = [AnyHashable : Any] ()
+        
+        for key in valuesDictionary.keys {
+            if let value = valuesDictionary[key] {
+                if key == "birthday" {
+                    toSubmit[key] = Utilities.dateToDay(date: (value as! Date))
+                } else {
+                    toSubmit[key] = value
+                }
+            }
+        }
+        
+        toSubmit["admin"] = AdminPrivileges.None.rawValue
+        
+        if self.requiredFieldsFilled(userInfoKeys: Array(toSubmit.keys)) {
+            self.blurView()
+            self.indicator.startAnimating()
+            loginService.createNewUser(userInfo: toSubmit)
+        } else {
+            SCLAlertView().showError("Create User", subTitle: "Please fill out all required fields.")
         }
     }
     
     func blurView() {
         UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
             self.blurredEffectView.alpha = 1.0
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
+    func successfullyLoginLogoutUser(password: String) {
+        self.indicator.stopAnimating()
+        SCLAlertView().showSuccess("Create User", subTitle: "Your account was created! Temporary password: \"\(password)\"").setDismissBlock {
+            self.loginService.logoutCurrentUser(isCreate: true)
+            self.dismiss(animated: true)
         }
     }
     

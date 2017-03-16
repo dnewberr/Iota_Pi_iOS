@@ -73,7 +73,13 @@ class RosterTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if !self.brothersArray.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No brothers found.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,7 +92,7 @@ class RosterTableViewController: UITableViewController {
         let currentBrother = brothersArray[indexPath.row]
         
         cell.brotherId = currentBrother.userId
-        cell.textLabel!.text = currentBrother.firstname + " " + currentBrother.lastname
+        cell.textLabel!.text = currentBrother.getFullName()
         
         return cell
     }

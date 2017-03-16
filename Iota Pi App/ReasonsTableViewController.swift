@@ -27,6 +27,7 @@ class ReasonsTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
+    // never empty
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

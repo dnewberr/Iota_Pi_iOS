@@ -35,7 +35,7 @@ class ArchivedHirlyDetailViewController: UIViewController, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "winnerCell", for: indexPath)
         
         if let brother = RosterManager.sharedInstance.brothersMap[winners[indexPath.row]] {
-            cell.textLabel?.text = "\(brother.firstname!) \(brother.lastname!)"
+            cell.textLabel?.text = "\(brother.getFullName())"
         }
         
         return cell
@@ -65,12 +65,7 @@ class ArchivedHirlyDetailViewController: UIViewController, UITableViewDelegate, 
             tableView.backgroundView = nil
             return 1
         } else {
-            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text = "No Winners"
-            noDataLabel.textColor = Style.tintColor
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView = noDataLabel
-            tableView.separatorStyle = .none
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No winners.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
             return 0
         }
     }

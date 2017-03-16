@@ -29,6 +29,7 @@ class CalendarViewController: UIViewController, UIWebViewDelegate {
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         activityIndicator.stopAnimating()
+        self.webView.addSubview(Utilities.createNoDataLabel(message: "There was an error loading the web page.", width: self.view.frame.width, height: self.view.frame.height))
     }
 }
 

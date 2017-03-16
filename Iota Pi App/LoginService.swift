@@ -21,40 +21,45 @@ public class LoginService {
     
     init() {}
     
+    // checks to see if the user is already logged into the app
+    func checkIfLoggedIn() {
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+            if let user = user {
+                LoginService.LOGGER.info("[Sign In] User with UID: [" + user.uid + "] exists.")
+                RosterManager.sharedInstance.currentUserId = user.uid
+                self.checkIfCanLogIn(uid: user.uid)
+            } else {
+                LoginService.LOGGER.info("[Sign In] No user logged in.")
+                self.loginServiceDelegate?.showErrorMessage(message: "")
+            }
+        }
+    }
+    
+    // tries to log in a user with the given email/password combo
     func attemptLogin(email: String, password: String) {
         LoginService.LOGGER.trace("[Sign In] Attempting sign in user with email: " + email)
+        
         if email.trim().isEmpty || password.isEmpty {
             LoginService.LOGGER.warning("[Sign In] No email or password entered.")
             self.loginServiceDelegate?.showErrorMessage(message: "Please enter an email and password.")
         } else {
-            let fullEmail = email.contains("@") ? email : email + "@iotapi.com"
+            let fullEmail = email.contains("@") ? email.trim() : email.trim() + "@iotapi.com"
             FIRAuth.auth()!.signIn(withEmail: fullEmail, password: password) { user, error in
-                if error == nil {
+                if let error = error {
+                    LoginService.LOGGER.warning("[Sign In] " + error.localizedDescription)
+                    self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
+                } else {
                     RosterManager.sharedInstance.currentUserId = user!.uid
                     self.checkIfCanLogIn(uid: user!.uid)
-                } else {
-                    LoginService.LOGGER.warning("[Sign In] " + error!.localizedDescription)
-                    self.loginServiceDelegate?.showErrorMessage(message: "Incorrect email and password combination.")
                 }
             }
         }
     }
     
-    func checkIfLoggedIn() {
-        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
-            if user != nil {
-                LoginService.LOGGER.info("[Sign In] User with UID: [" + user!.uid + "] exists.")
-                RosterManager.sharedInstance.currentUserId = user!.uid
-                self.checkIfCanLogIn(uid: user!.uid)
-            } else {
-                LoginService.LOGGER.trace("[Sign In] No user authenticated.")
-                self.loginServiceDelegate?.showErrorMessage(message: "Please log in.")
-            }
-        }
-    }
-    
+    // checks to see if the user is valid, not deleted, and sets the appropriate admin
     func checkIfCanLogIn(uid: String) {
         FIRDatabase.database().reference().child("Brothers").child(uid).observeSingleEvent(of: .value, with: {(snapshot) -> Void in
+            
             // Only Active and Associate members can participate fully in matters involving voting and introducing business
             // https://www.kkytbs.org/forms/KKPsiGuidetoMembership.pdf page 84
             // if a member is not of Active status, their privileges are automatically none, and they cannot vote
@@ -64,11 +69,11 @@ public class LoginService {
                     if let admin = snapshot.childSnapshot(forPath: "admin").value as? String {
                         switch admin {
                             case "President" : RosterManager.sharedInstance.currentUserAdmin = .President
-                            case "VicePresident" : RosterManager.sharedInstance.currentUserAdmin = .VicePresident
-                            case "RecordingSecretary" : RosterManager.sharedInstance.currentUserAdmin = .RecSec
+                            case "Vice President" : RosterManager.sharedInstance.currentUserAdmin = .VicePresident
+                            case "Recording Secretary" : RosterManager.sharedInstance.currentUserAdmin = .RecordingSecretary
                             case "Parliamentarian" : RosterManager.sharedInstance.currentUserAdmin = .Parliamentarian
-                            case "BrotherhoodCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin = .BrotherhoodCommitteeChair
-                            case "OtherCommitteeChair" : RosterManager.sharedInstance.currentUserAdmin  = .OtherCommitteeChair
+                            case "Brotherhood Committee Chair" : RosterManager.sharedInstance.currentUserAdmin = .BrotherhoodCommitteeChair
+                            case "Other Committee Chair" : RosterManager.sharedInstance.currentUserAdmin  = .OtherCommitteeChair
                             case "Webmaster" : RosterManager.sharedInstance.currentUserAdmin = .Webmaster
                             default : RosterManager.sharedInstance.currentUserAdmin = .None
                         }
@@ -105,8 +110,8 @@ public class LoginService {
         let uid = RosterManager.sharedInstance.currentUserId!
         LoginService.LOGGER.info("[Delete User] Deleting account with UID: " + uid)
         
-        FIRAuth.auth()?.currentUser?.delete(completion: { (err) in
-            if let error = err {
+        FIRAuth.auth()?.currentUser?.delete(completion: { (error) in
+            if let error = error {
                 LoginService.LOGGER.info("[Delete User] Error while deleting user with UID [\(uid)]: \(error.localizedDescription)")
                 self.loginServiceDelegate?.showErrorMessage(message: "There was an error while logging in. Contact the webmaster for assistance.")
             } else {
@@ -150,15 +155,9 @@ public class LoginService {
             if let error = error {
                 LoginService.LOGGER.error("[Create User] " + error.localizedDescription)
                 let errCode = FIRAuthErrorCode(rawValue: error._code)!
-                var message: String
-                
-                switch errCode {
-                    case .errorCodeEmailAlreadyInUse:
-                        message = "A user with this email already exists. Contact the webmaster for assistance."
-                    default:
-                        message = "There was a problem while creating the account. Please try again later."
-                }
-                
+                let message = errCode == .errorCodeEmailAlreadyInUse
+                    ? "A user with this email already exists. Contact the webmaster for assistance."
+                    : "There was a problem while creating the account. Please try again later."
                 self.loginServiceDelegate?.showErrorMessage(message: message)
             } else {
                 LoginService.LOGGER.info("[Create User] Creation successful for new UID: " + user!.uid)
@@ -199,8 +198,9 @@ public class LoginService {
     }
     
     func resetPassword(email: String) {
+        let fullEmail = email.contains("@") ? email.trim() : email.trim() + "@iotapi.com"
         LoginService.LOGGER.info("[Reset Password] Resetting password for user with email: " + email)
-        FIRAuth.auth()!.sendPasswordReset(withEmail: email) { error in
+        FIRAuth.auth()!.sendPasswordReset(withEmail: fullEmail) { error in
             if let error = error {
                 LoginService.LOGGER.error("[Reset Password] " + error.localizedDescription)
                 self.loginServiceDelegate?.showErrorMessage(message: "Username or email not found.")

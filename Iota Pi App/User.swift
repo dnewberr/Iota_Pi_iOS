@@ -10,187 +10,138 @@ import Foundation
 
 public class User: Equatable {
     // noneditable data
-    var adminPrivileges: AdminPrivileges! //required
-    let email: String! //generated
-    let firstname: String! //required
-    let hasWonHirly: Bool! // is the user able to be nominated for hirly
-    
-    let isDeleted: Bool! // is user marked to be deleted
-    let isValidated: Bool! // is user able to log in
-    let lastname: String! //required
-    let rosterNumber: Int! //required
-    let status: Status! //required
-    let userId: String! //required
+    var email = "" //generated
+    var firstname = "" //required
+    var lastname = "" //required
+    var hasWonHirly = false // is the user able to be nominated for hirly
+    var isDeleted = false// is user marked to be deleted
+    var isValidated = false // is user able to log in
+    var rosterNumber = -1//required
+    var userId = "" //required
     
     // editable data
-    var educationClass: String! //required
-    var expectedGrad: String!
-    var birthday: String!
-    var lastHirlyId: String!
-    var lastMeetingId: String!
-    var lastVoteId: String!
-    var major: String!
-    var nickname: String!
-    var phoneNumber: String!
-    var section: String!
-    var sloAddress: String!
+    var adminPrivileges = AdminPrivileges.None //required
+    var educationClass = ""//required
+    var expectedGrad = "N/A"
+    var birthday = "N/A"
+    var lastHirlyId = ""
+    var lastMeetingId = ""
+    var lastVoteId = ""
+    var major = "N/A"
+    var nickname = "N/A"
+    var phoneNumber = "N/A"
+    var section = "N/A"
+    var sloAddress = "N/A"
+    var status = Status.Active //required
     
     
     init(dict: NSDictionary, userId: String) {
-        // required
-        self.firstname = dict.value(forKey: "firstname") as! String
-        self.lastname = dict.value(forKey: "lastname") as! String
+        /* REQUIRED */
+        if let firstname = dict.value(forKey: "firstname") as? String {
+            self.firstname = firstname
+        }
+        
+        if let lastname = dict.value(forKey: "lastname") as? String {
+            self.lastname = lastname
+        }
         
         if let rosterNumber = dict.value(forKey: "roster") as? Int { // created via firebase
             self.rosterNumber = rosterNumber
         } else if let rosterNumber = dict.value(forKey: "roster") as? NSString { // created in-app
             self.rosterNumber = rosterNumber.integerValue
-        } else { // requirement to assign lets in init; invalid roster #
-            self.rosterNumber = -1
         }
         
-        switch dict.value(forKey: "admin") as! String {
-            case "President" : self.adminPrivileges = AdminPrivileges.President
-            case "VicePresident" : self.adminPrivileges = AdminPrivileges.VicePresident
-            case "RecordingSecretary" : self.adminPrivileges = AdminPrivileges.RecSec
-            case "Parliamentarian" : self.adminPrivileges = AdminPrivileges.Parliamentarian
-            case "BrotherhoodCommitteeChair" : self.adminPrivileges = AdminPrivileges.BrotherhoodCommitteeChair
-            case "OtherCommitteeChair" : self.adminPrivileges  = AdminPrivileges.OtherCommitteeChair
-            case "Webmaster" : self.adminPrivileges = AdminPrivileges.Webmaster
-            default : self.adminPrivileges = AdminPrivileges.None
+        if let admin = dict.value(forKey: "admin") as? String {
+            switch admin {
+                case "President" : self.adminPrivileges = AdminPrivileges.President
+                case "Vice President" : self.adminPrivileges = AdminPrivileges.VicePresident
+                case "Recording Secretary" : self.adminPrivileges = AdminPrivileges.RecordingSecretary
+                case "Parliamentarian" : self.adminPrivileges = AdminPrivileges.Parliamentarian
+                case "Brotherhood Committee Chair" : self.adminPrivileges = AdminPrivileges.BrotherhoodCommitteeChair
+                case "Other Committee Chair" : self.adminPrivileges  = AdminPrivileges.OtherCommitteeChair
+                case "Webmaster" : self.adminPrivileges = AdminPrivileges.Webmaster
+                default : self.adminPrivileges = AdminPrivileges.None
+            }
         }
         
-        self.educationClass = dict.value(forKey: "class") as! String
-        
-        switch dict.value(forKey: "status") as! String {
-            case "Active" : self.status = Status.Active
-            case "Associate" : self.status = Status.Associate
-            case "Alumni" : self.status = Status.Alumni
-                self.adminPrivileges = AdminPrivileges.NoVoting
-            case "Conditional" : self.status = Status.Conditional
-                self.adminPrivileges = AdminPrivileges.NoVoting
-            case "Honorary" : self.status = Status.Honorary
-                self.adminPrivileges = AdminPrivileges.NoVoting
-            case "Life" : self.status = Status.Life
-                self.adminPrivileges = AdminPrivileges.NoVoting
-            default : self.status = Status.Inactive
-                self.adminPrivileges = AdminPrivileges.NoVoting
+        if let educationClass = dict.value(forKey: "class") as? String {
+            self.educationClass = educationClass
         }
         
-        // optional
+        // any status other than active or associate automatically can't vote, so admin is revoked
+        if let status = dict.value(forKey: "status") as? String {
+            switch status {
+                case "Active" : self.status = Status.Active
+                case "Associate" : self.status = Status.Associate
+                case "Alumni" : self.status = Status.Alumni
+                    self.adminPrivileges = AdminPrivileges.NoVoting
+                case "Conditional" : self.status = Status.Conditional
+                    self.adminPrivileges = AdminPrivileges.NoVoting
+                case "Honorary" : self.status = Status.Honorary
+                    self.adminPrivileges = AdminPrivileges.NoVoting
+                case "Life" : self.status = Status.Life
+                    self.adminPrivileges = AdminPrivileges.NoVoting
+                default : self.status = Status.Inactive
+                    self.adminPrivileges = AdminPrivileges.NoVoting
+            }
+        }
+        
+        /* OPTIONAL */
         if let birthday = dict.value(forKey: "birthday") as? String {
             self.birthday = birthday
-        } else {
-            self.birthday = "N/A"
         }
         
         if let expectedGrad = dict.value(forKey: "expectedGrad") as? String {
             self.expectedGrad = expectedGrad
-        } else {
-            self.expectedGrad = "N/A"
         }
         
         if let hasWonHirly = dict.value(forKey: "hasWonHirly") as? Bool {
             self.hasWonHirly = hasWonHirly
-        } else {
-            self.hasWonHirly = false
         }
         
         if let lastHirlyId = dict.value(forKey: "lastHirlyId") as? String {
             self.lastHirlyId = lastHirlyId
-        } else {
-            self.lastHirlyId = ""
         }
         
         if let lastMeetingId = dict.value(forKey: "lastMeetingId") as? String {
             self.lastMeetingId = lastMeetingId
-        } else {
-            self.lastMeetingId = ""
         }
         
         if let lastVoteId = dict.value(forKey: "lastVoteId") as? String {
             self.lastVoteId = lastVoteId
-        } else {
-            self.lastVoteId = ""
         }
         
         if let isDeleted = dict.value(forKey: "isDeleted") as? Bool {
             self.isDeleted = isDeleted
-        } else {
-            self.isDeleted = false
         }
         
         if let isValidated = dict.value(forKey: "isValidated") as? Bool {
             self.isValidated = isValidated
-        } else {
-            self.isValidated = false
         }
         
         if let major = dict.value(forKey: "major") as? String {
             self.major = major
-        } else {
-            self.major = "N/A"
         }
         
         if let nickname = dict.value(forKey: "nickname") as? String {
             self.nickname = nickname
-        } else {
-            self.nickname = "N/A"
         }
         
         if let phone = dict.value(forKey: "phone") as? String {
             self.phoneNumber = phone
-        } else {
-            self.phoneNumber = "N/A"
         }
         
         if let section = dict.value(forKey: "section") as? String {
             self.section = section
-        } else {
-            self.section = "N/A"
         }
         
         if let sloAddress = dict.value(forKey: "sloAddress") as? String {
             self.sloAddress = sloAddress
-        } else {
-            self.sloAddress = "N/A"
         }
         
-        // generated
-        self.email = self.firstname.lowercased() + "." + self.lastname.lowercased() + "@iotapi.com"
+        /* GENERATED */
+        self.email = self.firstname.trim().lowercased() + "." + self.lastname.trim().lowercased() + "@iotapi.com"
         self.userId = userId
-    }
-    
-    func toFirebaseObject() -> Any {
-        return [
-            "birthday": self.birthday,
-            "expectedGrad": self.expectedGrad,
-            "firstname": self.firstname,
-            "lastname": self.lastname,
-            "class": self.educationClass,
-            "hasWonHirly": self.hasWonHirly,
-            "major": self.major,
-            "nickname": self.nickname,
-            "phone": self.phoneNumber,
-            "roster": self.rosterNumber,
-            "section": self.section,
-            "sloAddress": self.sloAddress,
-            "status": self.status.rawValue,
-            "admin": self.adminPrivileges.rawValue
-        ]
-    }
-    
-    func toArrayOfEditableInfo() -> [String] {
-        return [
-            self.nickname,
-            self.educationClass,
-            self.section,
-            self.birthday,
-            self.sloAddress,
-            self.major,
-            self.expectedGrad,
-            self.phoneNumber
-        ]
     }
     
     func getArrayOfDetails() -> [String] {
@@ -203,6 +154,23 @@ public class User: Equatable {
             "Major",
             "Expected Graduation",
             "Phone Number"
+        ]
+    }
+    
+    func getFullName() -> String {
+        return self.firstname + " " + self.lastname
+    }
+    
+    func toArrayOfEditableInfo() -> [String] {
+        return [
+            self.nickname,
+            self.educationClass,
+            self.section,
+            self.birthday,
+            self.sloAddress,
+            self.major,
+            self.expectedGrad,
+            self.phoneNumber
         ]
     }
 }

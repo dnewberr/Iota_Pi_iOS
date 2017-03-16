@@ -27,18 +27,20 @@ public class AnnouncementsService {
             var announcements = [Announcement]()
             
             for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let currentAnnouncement = Announcement(dict: dict, expiration: key)
-                
-                
-                if currentAnnouncement.isArchived && Utilities.isOlderThanOneYear(date: currentAnnouncement.expirationDate) {
-                    AnnouncementsService.LOGGER.info("[Fetch Announcements] Removing announcement older than one year: \(currentAnnouncement.getId()) | \(currentAnnouncement.expirationDate)")
-                    self.deleteAnnouncement(id: currentAnnouncement.getId(), announcements: [])
-                } else if !announcements.contains(currentAnnouncement) {
-                    announcements.append(currentAnnouncement)
-                    AnnouncementsService.LOGGER.info("[Fetch Announcements] \(currentAnnouncement.toFirebaseObject())")
+                if let child = item as? FIRDataSnapshot {
+                    if let key = Double(child.key) {
+                        if let dict = child.value as? NSDictionary {
+                            let currentAnnouncement = Announcement(dict: dict, expiration: key)
+                            
+                            if currentAnnouncement.isArchived && Utilities.isOlderThanOneYear(date: currentAnnouncement.expirationDate) {
+                                AnnouncementsService.LOGGER.info("[Fetch Announcements] Removing announcement older than one year: \(currentAnnouncement.getId()) | \(currentAnnouncement.expirationDate)")
+                                self.deleteAnnouncement(id: currentAnnouncement.getId(), announcements: [])
+                            } else if !announcements.contains(currentAnnouncement) {
+                                announcements.append(currentAnnouncement)
+                                AnnouncementsService.LOGGER.info("[Fetch Announcements] \(currentAnnouncement.toFirebaseObject())")
+                            }
+                        }
+                    }
                 }
             }
             

@@ -108,11 +108,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
             tableView.backgroundView = nil
             return 1
         } else {
-            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text = "No data available"
-            noDataLabel.textColor = Style.tintColor
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView = noDataLabel
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No meetings found.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
             return 0
         }
     }
@@ -123,7 +119,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "previousMeetingsCell", for: indexPath) as!    PreviousMeetingsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "previousMeetingsCell", for: indexPath) as! PreviousMeetingsTableViewCell
         
         cell.meeting = self.filteredMeetings[indexPath.row]
         cell.meetingCodeLabel.text = cell.meeting.sessionCode

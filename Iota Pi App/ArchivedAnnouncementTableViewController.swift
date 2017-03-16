@@ -10,12 +10,19 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class ArchivedTableViewCell: UITableViewCell {
-    var announcement: Announcement!
-}
-
 class ArchivedAnnouncementsTableViewController: UITableViewController, AnnouncementsServiceDelegate {
     @IBOutlet weak var clearButton: UIBarButtonItem!
+    
+    let announcementsService = AnnouncementsService()
+    var announcements = [Announcement]()
+    var filteredAnnouncements = [Announcement]()
+    var announcementToPass: Announcement!
+    var activeKeyphrase = ""
+    
+    @IBAction func clearFilter(_ sender: Any) {
+        self.activeKeyphrase = ""
+        self.filterAnnouncements()
+    }
     
     @IBAction func search(_ sender: Any) {
         let alert = SCLAlertView()
@@ -39,16 +46,19 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
         
     }
     
-    @IBAction func clearFilter(_ sender: Any) {
-        self.activeKeyphrase = ""
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.announcementsService.announcementsServiceDelegate = self
+        
+        self.clearButton.isEnabled = false
+        self.clearButton.tintColor = UIColor.clear
+        
+        self.tableView.tableFooterView = UIView()
+        
         self.filterAnnouncements()
     }
     
-    var announcements = [Announcement]()
-    var filteredAnnouncements = [Announcement]()
-    var announcementToPass: Announcement!
-    var activeKeyphrase = ""
-    
+    // filters announcements by the active keyphrase
     func filterAnnouncements() {
         self.filteredAnnouncements.removeAll()
         
@@ -63,31 +73,14 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
             for announcement in self.announcements {
                 if (announcement.title.lowercased().contains(self.activeKeyphrase)
                     || announcement.details.lowercased().contains(self.activeKeyphrase)
-                        || !announcement.committeeTags.filter{$0.lowercased().contains(self.activeKeyphrase)}.isEmpty)
+                    || !announcement.committeeTags.filter{$0.lowercased().contains(self.activeKeyphrase)}.isEmpty)
                     && !filteredAnnouncements.contains(announcement) {
                     filteredAnnouncements.append(announcement)
                 }
             }
-            
         }
         
         self.tableView.reloadData()
-
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.clearButton.isEnabled = false
-        self.clearButton.tintColor = UIColor.clear
-        
-        self.tableView.tableFooterView = UIView()
-        
-        self.filterAnnouncements()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -95,11 +88,7 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
             tableView.backgroundView = nil
             return 1
         } else {
-            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text = "No data available"
-            noDataLabel.textColor = Style.tintColor
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView = noDataLabel
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No announcements found.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
             return 0
         }
     }
@@ -109,11 +98,11 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "archivedCell", for: indexPath) as! ArchivedTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "archivedCell", for: indexPath)
             
-        cell.announcement = filteredAnnouncements[indexPath.row]
-        cell.textLabel!.text = cell.announcement.title + " - " + Utilities.dateToDay(date: cell.announcement.expirationDate)
-        cell.detailTextLabel!.text = cell.announcement.getCommitteeTagList()
+        let announcement = self.filteredAnnouncements[indexPath.row]
+        cell.textLabel!.text = announcement.title + " - " + Utilities.dateToDay(date: announcement.expirationDate)
+        cell.detailTextLabel!.text = announcement.getCommitteeTagList()
         
         return cell
     }
@@ -122,9 +111,7 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
         if editingStyle == UITableViewCellEditingStyle.delete {
             let deleteAnnouncementAlert = SCLAlertView()
             deleteAnnouncementAlert.addButton("Delete") {
-                let announcementsService = AnnouncementsService()
-                announcementsService.announcementsServiceDelegate = self
-                announcementsService.deleteAnnouncement(id: self.filteredAnnouncements[indexPath.row].getId(), announcements: self.announcements)
+                self.announcementsService.deleteAnnouncement(id: self.filteredAnnouncements[indexPath.row].getId(), announcements: self.announcements)
             }
             
             deleteAnnouncementAlert.showTitle(
@@ -143,18 +130,23 @@ class ArchivedAnnouncementsTableViewController: UITableViewController, Announcem
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! ArchivedTableViewCell
-        announcementToPass = currentCell.announcement
-        
+        self.announcementToPass = self.filteredAnnouncements[indexPath.row]
         performSegue(withIdentifier: "archivedAnnouncementDetailsSegue", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "archivedAnnouncementDetailsSegue" {
             let destination = segue.destination as! AnnouncementDetailsViewController
-            destination.announcement = announcementToPass
+            destination.announcement = self.announcementToPass
         }
     }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     
     func updateUI(announcements: [Announcement]) {
         self.announcements = announcements

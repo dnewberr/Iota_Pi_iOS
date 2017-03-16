@@ -35,6 +35,8 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
         super.didReceiveMemoryWarning()
     }
     
+    
+    // this should NEVER be empty, no need to set empty table view
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

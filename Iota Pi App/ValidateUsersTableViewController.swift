@@ -86,6 +86,7 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         super.didReceiveMemoryWarning()
     }
 
+    // never empty
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -150,7 +151,7 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
     }
     
     func updateUI(isDeleted: Bool) {
-        let message = isDeleted ? "Successfully deleted the selected brother." : "Successfully validated the requested brother(s)!"
+        let message = isDeleted ? "Successfully deleted the selected brother." : "Successfully validated the requested brother(s)! Head over to the Roster to edit admin privileges."
         SCLAlertView().showSuccess("Validate Brothers", subTitle: message).setDismissBlock {
             self.indicator.stopAnimating()
             self.blurredEffectView.alpha = 0

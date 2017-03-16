@@ -11,9 +11,9 @@ import SCLAlertView
 
 class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var passwordTextField: UITextField!
     
     let loginService = LoginService()
     var blurredEffectView: UIVisualEffectView!
@@ -21,14 +21,10 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
 
     @IBAction func attemptLogin(_ sender: AnyObject) {
         if let email = emailTextField.text, let password = passwordTextField.text {
-            self.indicator.startAnimating()
             self.blurView()
             self.loginService.attemptLogin(email: email, password: password)
         }
     }
-    
-    // Necessary for logout to work
-    @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
     
     @IBAction func forgotPassword(_ sender: Any) {
         let forgotPasswordAlert = SCLAlertView()
@@ -38,10 +34,8 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         forgotPasswordAlert.addButton("Reset") {
             if let email = emailText.text {
                 if !email.trim().isEmpty {
-                    let fullEmail = email.contains("@") ? email : email + "@iotapi.com"
-                    self.indicator.startAnimating()
                     self.blurView()
-                    self.loginService.resetPassword(email: fullEmail)
+                    self.loginService.resetPassword(email: email.trim())
                 } else {
                     SCLAlertView().showError("Reset Password", subTitle: "Please enter your username or email.")
                 }
@@ -60,6 +54,9 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
             colorTextButton: 0xFFFFFF)
     }
     
+    // Necessary for logout to work
+    @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,7 +70,6 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         self.view.addSubview(indicator)
         
         self.loginService.loginServiceDelegate = self
-        self.indicator.startAnimating()
         self.blurView()
         self.loginService.checkIfLoggedIn()
         
@@ -83,15 +79,20 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         view.addGestureRecognizer(keyboardDismissTap)
     }
     
+    // blurs the view and starts the loading screen indicator
+    func blurView() {
+        self.indicator.startAnimating()
+        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
+            self.blurredEffectView.alpha = 1.0
+        }
+    }
+    
     // Closes keyboard when tapped outside textfields
     func dismissKeyboard() {
         view.endEditing(true)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
+    // changes the first responder based on which textfield user is in when they push enter
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if self.emailTextField == textField {
             passwordTextField.becomeFirstResponder()
@@ -103,7 +104,18 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
         return true
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
     
+    /* DELEGATE METHODS */
+    
+    func successfullyLoginLogoutUser(password: String) {
+        self.indicator.stopAnimating()
+        self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
+    }
+    
+    // shows the error message if user can't be logged in with an animation
     func showErrorMessage(message: String) {
         self.indicator.stopAnimating()
         self.blurredEffectView.alpha = 0
@@ -117,16 +129,5 @@ class LoginViewController: UIViewController, LoginServiceDelegate, UITextFieldDe
                 self.errorMessageLabel.alpha = 0
             }, completion: nil)
         }
-    }
-    
-    func blurView() {
-        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
-            self.blurredEffectView.alpha = 1.0
-        }
-    }
-    
-    func successfullyLoginLogoutUser(password: String) {
-        self.indicator.stopAnimating()
-        self.performSegue(withIdentifier: "successfulLoginSegue", sender: self)
     }
 }

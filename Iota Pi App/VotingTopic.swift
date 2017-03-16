@@ -81,7 +81,7 @@ public class VotingTopic {
         
         for (id, _) in winners {
             if let user = RosterManager.sharedInstance.brothersMap[id] {
-                names += (user.firstname)! + " " + (user.lastname)!
+                names += (user.firstname) + " " + (user.lastname)
             }
             
             if numWinner < winners.count - 1 && winners.count > 1 {
@@ -100,7 +100,7 @@ public class VotingTopic {
 
     func hasCurrentBroVoted(isHirly: Bool) -> Bool {
         let currentUser = RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!
-        return isHirly ? currentUser.lastHirlyId! == self.getId() : currentUser.lastVoteId == self.getId()
+        return isHirly ? currentUser.lastHirlyId == self.getId() : currentUser.lastVoteId == self.getId()
     }
     
     func toFirebaseObject() -> [AnyHashable:Any] {

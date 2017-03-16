@@ -45,7 +45,13 @@ class ArchivedMeetingDetailViewController: UIViewController, UITableViewDataSour
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if !self.brosPresent.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No brothers present.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

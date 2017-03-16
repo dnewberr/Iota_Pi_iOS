@@ -20,6 +20,7 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
             self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: key, value: value as! String)
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.rosterService.rosterServiceDelegate = self
@@ -27,8 +28,8 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
         form +++ Section()
             <<< PickerInlineRow<String>() {
                 $0.title = "Admin Privileges"
-                $0.options = Utilities.ADMIN_ARRAY
-                $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.adminPrivileges!.rawValue // initially selected
+                $0.options = AdminPrivileges.ALL_VALUES
+                $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.adminPrivileges.rawValue // initially selected
                 $0.tag = "admin"
                 $0.hidden = Condition.function(["admin"], { form in //only show to those that can edit admin privileges
                     return !RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin()
@@ -37,26 +38,18 @@ class ChangeAdminStatusViewController: FormViewController, RosterServiceDelegate
             }
             <<< PickerInlineRow<String>() {
                 $0.title = "Status"
-                $0.options = Utilities.STATUS_ARRAY
-                $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.status!.rawValue // initially selected
+                $0.options = Status.ALL_VALUES
+                $0.value = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.status.rawValue // initially selected
                 $0.tag = "status"
                 $0.add(rule: RuleRequired())
             }
     }
     
-    func requiredFieldsFilled(userInfoKeys: [AnyHashable]) -> Bool {
-        return userInfoKeys.contains("firstname")
-            && userInfoKeys.contains("lastname")
-            && userInfoKeys.contains("roster")
-            && userInfoKeys.contains("class")
-    }
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
+    /* DELEGATE METHODS */
     func updateUI(isDeleted: Bool) {
         if !self.alreadyUpdated {
             self.alreadyUpdated = true

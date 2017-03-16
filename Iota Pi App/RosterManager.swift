@@ -70,7 +70,7 @@ public class RosterManager: RosterServiceDelegate {
     func currentUserCanCreateVote() -> Bool {
         switch self.currentUserAdmin {
             case .President: return true
-            case .RecSec: return true
+            case .RecordingSecretary: return true
             case .VicePresident: return true
             case .Parliamentarian: return true
             default: return false
@@ -80,7 +80,7 @@ public class RosterManager: RosterServiceDelegate {
     func currentUserCanDictateMeetings() -> Bool {
         switch self.currentUserAdmin {
             case .President: return true
-            case .RecSec: return true
+            case .RecordingSecretary: return true
             case .VicePresident: return true
             default: return false
         }
@@ -89,7 +89,7 @@ public class RosterManager: RosterServiceDelegate {
     func currentUserCanEditRoster() -> Bool {
         switch self.currentUserAdmin {
             case .President: return true
-            case .RecSec: return true
+            case .RecordingSecretary: return true
             default: return false
         }
     }

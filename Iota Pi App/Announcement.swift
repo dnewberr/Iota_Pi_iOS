@@ -10,11 +10,11 @@ import Foundation
 
 
 public class Announcement: Equatable {
-    let committeeTags: [String]
-    let details: String
-    let expirationDate: Date
-    let title: String
+    var committeeTags = [String]()
+    var details = "N/A"
+    var expirationDate = Utilities.getWeekExpirationDate()
     var isArchived = false
+    var title = "N/A"
     
     init(title: String, details: String, committeeTags: [String]) {
         self.committeeTags = committeeTags
@@ -24,35 +24,27 @@ public class Announcement: Equatable {
     }
     
     init(dict: NSDictionary, expiration: Double) {
+        self.expirationDate = Date(timeIntervalSince1970: expiration)
+        
         if let committeeTags = dict.value(forKey: "committeeTags") as? [String] {
             self.committeeTags = committeeTags.sorted {
                 $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending
             }
-
-        } else {
-            self.committeeTags = [String]()
         }
-        self.title = dict.value(forKey: "title") as! String
-        self.details = dict.value(forKey: "details") as! String
-        self.expirationDate = Date(timeIntervalSince1970: expiration)
+        
+        if let title = dict.value(forKey: "title") as? String {
+            self.title = title
+        }
+        
+        if let details = dict.value(forKey: "details") as? String {
+            self.details = details
+        }
         
         if let isArchived = dict.value(forKey: "isArchived") as? Bool {
             self.isArchived = isArchived
         } else {
             self.isArchived = Date() >= self.expirationDate
         }
-    }
-    
-    func toFirebaseObject() -> [AnyHashable:Any] {
-        return [
-            "title": self.title,
-            "details": self.details,
-            "committeeTags": self.committeeTags
-        ]
-    }
-    
-    func getId() -> String {
-        return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
     }
     
     func getCommitteeTagList() -> String {
@@ -67,6 +59,18 @@ public class Announcement: Equatable {
         }
         
         return String(list.characters.dropLast(2))
+    }
+    
+    func getId() -> String {
+        return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
+    }
+    
+    func toFirebaseObject() -> [AnyHashable:Any] {
+        return [
+            "title": self.title,
+            "details": self.details,
+            "committeeTags": self.committeeTags
+        ]
     }
 }
 

@@ -47,6 +47,7 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         super.didReceiveMemoryWarning()
     }
     
+    // never empty
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -176,7 +177,7 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
         let currentBrother = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
         self.numberLabel.text = String(currentBrother.rosterNumber)
         self.statusLabel.text = currentBrother.status.rawValue
-        self.title = currentBrother.firstname + " " + currentBrother.lastname
+        self.title = currentBrother.getFullName()
         
         if !RosterManager.sharedInstance.currentUserCanCreateUserChangeAdmin()
             || self.currentBrotherId == RosterManager.sharedInstance.currentUserId { //can't delete yourself
