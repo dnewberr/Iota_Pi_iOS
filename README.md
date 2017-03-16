@@ -1,5 +1,7 @@
 # Iota_Pi_iOS
 The Iota Pi chapter of Kappa Kappa Psi's official member app. It was a Senior Project for Cal Poly SLO's Computer Science department.
+CREDIT:
+Tabbar icons were free from http://www.iconbeast.com/.
 
 ## Administrative Summary
 
