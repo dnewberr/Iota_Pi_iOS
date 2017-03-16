@@ -19,10 +19,6 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
         self.tableView.tableFooterView = UIView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
             return 3
@@ -43,24 +39,36 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "checkInSegue" {
+            let destination = segue.destination as! MeetingCheckInViewController
+            destination.currentMeeting = self.currentMeeting
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     func updateUI(meeting: Meeting) {
         self.currentMeeting = meeting
         self.performSegue(withIdentifier: "checkInSegue", sender: self)
     }
     
     func alreadyCheckedIn(meeting: Meeting) {
-            SCLAlertView().showTitle(
-                "Meeting Check In",
-                subTitle: "You have already checked into the current meeting.",
-                duration: 0.0,
-                completeText: "Okay",
-                style: .info,
-                colorStyle: Style.mainColorHex,
-                colorTextButton: 0xFFFFFF).setDismissBlock {
+        SCLAlertView().showTitle(
+            "Meeting Check In",
+            subTitle: "You have already checked into the current meeting.",
+            duration: 0.0,
+            completeText: "Okay",
+            style: .info,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF).setDismissBlock {
                 if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
                     self.updateUI(meeting: meeting)
                 }
-            
+                
         }
     }
     
@@ -73,9 +81,9 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
             style: .info,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF).setDismissBlock {
-            if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-                self.performSegue(withIdentifier: "checkInSegue", sender: self)
-            }
+                if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+                    self.performSegue(withIdentifier: "checkInSegue", sender: self)
+                }
         }
     }
     
@@ -91,17 +99,10 @@ class AttendanceTableViewController: UITableViewController, MeetingServiceDelega
                 style: .info,
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF).setDismissBlock {
-                if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
-                    self.performSegue(withIdentifier: "checkInSegue", sender: self)
-                }
+                    if RosterManager.sharedInstance.currentUserCanDictateMeetings() {
+                        self.performSegue(withIdentifier: "checkInSegue", sender: self)
+                    }
             }
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "checkInSegue" {
-            let destination = segue.destination as! MeetingCheckInViewController
-            destination.currentMeeting = self.currentMeeting
         }
     }
     

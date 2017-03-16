@@ -168,29 +168,13 @@
                                     <constraint firstAttribute="height" constant="1000" id="wMf-5X-JxM"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="nomineeCell" id="QV4-OW-BJK" customClass="NomineeTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="nomineeCell" id="QV4-OW-BJK">
                                         <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QV4-OW-BJK" id="6rv-Zf-Ueb">
                                             <rect key="frame" x="0.0" y="0.0" width="1000" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDH-eV-fpY">
-                                                    <rect key="frame" x="8" y="11.5" width="984" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="BDH-eV-fpY" firstAttribute="leading" secondItem="6rv-Zf-Ueb" secondAttribute="leadingMargin" id="3G1-mW-IUB"/>
-                                                <constraint firstItem="BDH-eV-fpY" firstAttribute="centerY" secondItem="6rv-Zf-Ueb" secondAttribute="centerY" id="OA8-BZ-lSe"/>
-                                                <constraint firstItem="BDH-eV-fpY" firstAttribute="trailing" secondItem="6rv-Zf-Ueb" secondAttribute="trailingMargin" id="XtE-X2-NIl"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="nameLabel" destination="BDH-eV-fpY" id="89i-J2-70l"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -833,7 +817,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="previousMeetingsCell" textLabel="0vB-eR-poA" detailTextLabel="rFL-Er-T2F" style="IBUITableViewCellStyleSubtitle" id="TWT-JG-Zvk" customClass="PreviousMeetingsTableViewCell" customModule="Iota_Pi_App" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="previousMeetingsCell" textLabel="0vB-eR-poA" detailTextLabel="rFL-Er-T2F" style="IBUITableViewCellStyleSubtitle" id="TWT-JG-Zvk">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TWT-JG-Zvk" id="vJ9-pK-XLl">
@@ -857,8 +841,6 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="meetingCodeLabel" destination="rFL-Er-T2F" id="BrZ-DD-tYZ"/>
-                                    <outlet property="meetingDateLabel" destination="0vB-eR-poA" id="vKd-D3-emo"/>
                                     <segue destination="OMb-lK-P2E" kind="show" identifier="meetingDetailsSegue" trigger="accessoryAction" id="IPI-BX-9xC"/>
                                 </connections>
                             </tableViewCell>

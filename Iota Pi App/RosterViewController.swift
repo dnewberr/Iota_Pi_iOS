@@ -68,8 +68,22 @@ class RosterTableViewController: UITableViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func filterRoster() {
+        if !self.filter.trim().isEmpty {
+            self.brothersArray = self.brothersArray.filter({
+                $0.firstname.lowercased().contains(filter.lowercased())
+                    || $0.lastname.lowercased().contains(filter.lowercased())
+                    || $0.nickname.lowercased().contains(filter.lowercased())
+            })
+            self.clearFilterButton.isEnabled = true
+            self.clearFilterButton.tintColor = nil
+        } else {
+            self.brothersArray = Array(RosterManager.sharedInstance.brothersMap.values)
+            self.clearFilterButton.isEnabled = false
+            self.clearFilterButton.tintColor = UIColor.clear
+        }
+        
+        self.tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -112,21 +126,7 @@ class RosterTableViewController: UITableViewController {
         }
     }
     
-    func filterRoster() {
-        if !self.filter.trim().isEmpty {
-            self.brothersArray = self.brothersArray.filter({
-                $0.firstname.lowercased().contains(filter.lowercased())
-                    || $0.lastname.lowercased().contains(filter.lowercased())
-                    || $0.nickname.lowercased().contains(filter.lowercased())
-            })
-            self.clearFilterButton.isEnabled = true
-            self.clearFilterButton.tintColor = nil
-        } else {
-            self.brothersArray = Array(RosterManager.sharedInstance.brothersMap.values)
-            self.clearFilterButton.isEnabled = false
-            self.clearFilterButton.tintColor = UIColor.clear
-        }
-        
-        self.tableView.reloadData()
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

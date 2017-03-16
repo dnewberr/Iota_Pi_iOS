@@ -9,12 +9,12 @@
 import UIKit
 
 class ArchivedMeetingDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var currentMeeting: Meeting?
     var brosPresent = [User]()
+    var currentMeeting: Meeting?
     
     @IBOutlet weak var brosPresentTable: UITableView!
-    @IBOutlet weak var numBrosPresentLabel: UILabel!
     @IBOutlet weak var endTimeLabel: UILabel!
+    @IBOutlet weak var numBrosPresentLabel: UILabel!
     @IBOutlet weak var startTimeLabel: UILabel!
     
     override func viewDidLoad() {
@@ -58,13 +58,11 @@ class ArchivedMeetingDetailViewController: UIViewController, UITableViewDataSour
         return self.brosPresent.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "brotherPresentCell", for: indexPath)
         
-        cell.textLabel?.text = self.brosPresent[indexPath.row].firstname + " " + self.brosPresent[indexPath.row].lastname
+        cell.textLabel?.text = self.brosPresent[indexPath.row].getFullName()
         
         return cell
     }
-
 }

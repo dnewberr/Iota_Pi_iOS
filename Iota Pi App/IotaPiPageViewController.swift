@@ -39,5 +39,6 @@ class IotaPiPageViewController: UIViewController, UIWebViewDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        self.webView.addSubview(Utilities.createNoDataLabel(message: "There was an error loading the web page.", width: self.view.frame.width, height: self.view.frame.height))
     }
 }

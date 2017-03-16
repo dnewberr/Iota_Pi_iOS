@@ -29,13 +29,15 @@ public class RosterService {
         
         self.baseRef.observe(.value, with: { (snapshot) -> Void in
             for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = child.key
-                let dict = child.value as! NSDictionary
-                let user = User(dict: dict, userId: key)
-                brothersMap[key] = user
-                
-                RosterService.LOGGER.info("[Fetch Brothers] Retrieved info for brother with UID: " + key)
+                if let child = item as? FIRDataSnapshot {
+                    let key = child.key
+                    if let dict = child.value as? NSDictionary {
+                        let user = User(dict: dict, userId: key)
+                        brothersMap[key] = user
+                        
+                        RosterService.LOGGER.info("[Fetch Brothers] Retrieved info for brother with UID: " + key)
+                    }
+                }
             }
             
             self.rosterServiceDelegate?.sendMap(map: brothersMap)

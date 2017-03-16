@@ -11,23 +11,22 @@ import SCLAlertView
 
 class ReasonsTableViewController: UITableViewController {
     var hirlyTopic: VotingTopic!
+    var reasons = [String]()
     var winnerId: String!
-    var reasons: [String]!
     var winnerName: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.reasons = self.hirlyTopic.winners[self.winnerId]!
-        self.title = self.winnerName
         self.tableView.tableFooterView = UIView()
+        
+        if let reasons = self.hirlyTopic.winners[self.winnerId] {
+            self.reasons = reasons
+        }
+        
+        self.title = self.winnerName
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    // never empty
+    // never empty, no need to create empty data view
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -64,5 +63,9 @@ class ReasonsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

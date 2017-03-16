@@ -11,8 +11,8 @@ import Firebase
 import Log
 
 public protocol AnnouncementsServiceDelegate: class {
-    func updateUI(announcements: [Announcement])
     func error(message: String)
+    func updateUI(announcements: [Announcement])
 }
 
 public class AnnouncementsService {

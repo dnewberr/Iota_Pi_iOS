@@ -11,11 +11,10 @@ import SCLAlertView
 
 class ValidateUsersTableViewController: UITableViewController, RosterServiceDelegate {
     let rosterService = RosterService()
-    var invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
-    var uidsToVerify = [String]()
-    
     var blurredEffectView: UIVisualEffectView!
     var indicator: UIActivityIndicatorView!
+    var invalidUsers = Array(RosterManager.sharedInstance.brothersToValidate.values)
+    var uidsToVerify = [String]()
     
     @IBAction func submitValidationRequest(_ sender: AnyObject) {
         let validateAlertView = SCLAlertView()
@@ -46,7 +45,6 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
                 colorTextButton: 0xFFFFFF)
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,11 +80,13 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func blurView() {
+        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
+            self.blurredEffectView.alpha = 1.0
+        }
     }
 
-    // never empty
+    // never empty, doesn't need no data label
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -144,12 +144,11 @@ class ValidateUsersTableViewController: UITableViewController, RosterServiceDele
         }
     }
     
-    func blurView() {
-        UIView.animate(withDuration: Utilities.ANIMATION_DURATION) {
-            self.blurredEffectView.alpha = 1.0
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
+    /* DELEGATE METHODS */
     func updateUI(isDeleted: Bool) {
         let message = isDeleted ? "Successfully deleted the selected brother." : "Successfully validated the requested brother(s)! Head over to the Roster to edit admin privileges."
         SCLAlertView().showSuccess("Validate Brothers", subTitle: message).setDismissBlock {

@@ -37,6 +37,19 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         view.endEditing(true)
     }
     
+    func delete() {
+        self.votingService.deleteVote(id: self.currentTopic.getId(), topics: [], isHirly: true, isShown: true)
+    }
+    
+    func saveSelection(chosenNomineeId: String?) {
+        if let chosenNomineeId = chosenNomineeId {
+            if let user = RosterManager.sharedInstance.brothersMap[chosenNomineeId] {
+                self.chosenUser = user
+                self.nomineeNameLabel.text = user.getFullName()
+            }
+        }
+    }
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
             textView.resignFirstResponder()
@@ -45,6 +58,22 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
         return true
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headerTitles[section]
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "nomineeSelectionSegue" {
+            let destination = segue.destination as! HirlyNomineeSelectionViewController
+            destination.nomineeDelegate = self
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     func confirmVote() {
         SCLAlertView().showSuccess("Success!", subTitle: "Nomination submitted.").setDismissBlock {
             _ = self.navigationController?.popViewController(animated: true)
@@ -58,29 +87,6 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
             self.votingService.submitHirlyNom(topic: self.currentTopic, nomBroId: (self.chosenUser?.userId)!, reason: self.hirlyNomReasonText.text)
         }
     }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return headerTitles[section]
-    }
-    
-    func saveSelection(chosenNominee: User?) {
-        self.chosenUser = chosenNominee
-        
-        if let user = self.chosenUser {
-            self.nomineeNameLabel.text = user.firstname + " " + user.lastname
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "nomineeSelectionSegue" {
-            let destination = segue.destination as! HirlyNomineeSelectionViewController
-            destination.nomineeDelegate = self
-        }
-    }
-    
-    func delete() {
-        self.votingService.deleteVote(id: self.currentTopic.getId(), topics: [], isHirly: true, isShown: true)
-    }
-    
     
     func showMessage(message: String, title: String, isError: Bool) {
         if isError {
@@ -107,12 +113,12 @@ class FormTableViewController: UITableViewController, SelectNomineeDelegate, Vot
 }
 
 class HirlyFormViewController: UIViewController {
-    @IBOutlet weak var submitButton: UIButton!
-    @IBOutlet weak var formContainer: UIView!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
+    @IBOutlet weak var formContainer: UIView!
+    @IBOutlet weak var submitButton: UIButton!
     
-    var hirlyTopic: VotingTopic!
     var formTableViewController: FormTableViewController!
+    var hirlyTopic: VotingTopic!
     
     @IBAction func deleteVote(_ sender: Any) {
         let deleteVoteAlert = SCLAlertView()
@@ -154,16 +160,16 @@ class HirlyFormViewController: UIViewController {
             self.deleteButton.tintColor = UIColor.clear
         }
     }
-        
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "hirlyFormSegue" {
             formTableViewController = segue.destination as? FormTableViewController
             formTableViewController.currentTopic = hirlyTopic
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }
 

@@ -10,10 +10,10 @@ import UIKit
 import SCLAlertView
 
 class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UITextFieldDelegate {
-    @IBOutlet weak var sessionCodeLabel: UILabel!
-    @IBOutlet weak var meetingStartEndButton: UIButton!
     @IBOutlet weak var checkInButton: UIButton!
+    @IBOutlet weak var meetingStartEndButton: UIButton!
     @IBOutlet weak var meetingLabel: UILabel!
+    @IBOutlet weak var sessionCodeLabel: UILabel!
     @IBOutlet weak var sessionCodeTextField: UITextField!
     
     let meetingService = MeetingService()
@@ -52,10 +52,6 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
     func dismissKeyboard() {
         view.endEditing(true)
     
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     // closes the keyboard when pressing return
@@ -120,6 +116,11 @@ class MeetingCheckInViewController: UIViewController, MeetingServiceDelegate, UI
         self.meetingStartEndButton.isEnabled = true
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     func noMeeting() {
         SCLAlertView().showSuccess("Meeting Check In", subTitle: "The meeting was successfully closed.").setDismissBlock {
             self.currentMeeting = nil

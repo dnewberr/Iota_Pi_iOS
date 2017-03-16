@@ -13,10 +13,10 @@ class ArchivedHirlyDetailViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var winnersTableView: UITableView!
     
-    var currentHirlyTopic: VotingTopic!
-    var winners: [String]!
     var chosenWinnerId: String!
     var chosenWinnerName: String!
+    var currentHirlyTopic: VotingTopic!
+    var winners: [String]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +26,15 @@ class ArchivedHirlyDetailViewController: UIViewController, UITableViewDelegate, 
         self.valueLabel.text = self.currentHirlyTopic.summary
         self.winnersTableView.tableFooterView = UIView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if !self.winners.isEmpty {
+            tableView.backgroundView = nil
+            return 1
+        } else {
+            tableView.backgroundView = Utilities.createNoDataLabel(message: "No winners.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
+            return 0
+        }
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,13 +66,7 @@ class ArchivedHirlyDetailViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        if !self.winners.isEmpty {
-            tableView.backgroundView = nil
-            return 1
-        } else {
-            tableView.backgroundView = Utilities.createNoDataLabel(message: "No winners.", width: tableView.bounds.size.width, height: tableView.bounds.size.height)
-            return 0
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

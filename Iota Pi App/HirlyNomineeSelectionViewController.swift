@@ -9,32 +9,29 @@
 import UIKit
 
 public protocol SelectNomineeDelegate: class {
-    func saveSelection(chosenNominee: User?)
-}
-
-//nomineeCell
-class NomineeTableViewCell: UITableViewCell {
-    @IBOutlet weak var nameLabel: UILabel!
-    var user: User!
+    func saveSelection(chosenNomineeId: String?)
 }
 
 class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var nomineeTableView: UITableView!
+    var chosenBrotherId: String!
     var nomineeChoices = Array(RosterManager.sharedInstance.brothersMap.values).filter({
-        !$0.hasWonHirly && $0.userId != RosterManager.sharedInstance.currentUserId
+        !$0.hasWonHirly && $0.userId != RosterManager.sharedInstance.currentUserId && ($0.status == Status.Active || $0.status == Status.Associate)
     })
-    var chosenCell: NomineeTableViewCell!
     weak var nomineeDelegate: SelectNomineeDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.nomineeTableView.tableFooterView = UIView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        if let chosenBrotherId = self.chosenBrotherId {
+            self.nomineeDelegate?.saveSelection(chosenNomineeId: chosenBrotherId)
+        } else {
+            self.nomineeDelegate?.saveSelection(chosenNomineeId: nil)
+        }
+    }
     
     // this should NEVER be empty, no need to set empty table view
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -42,31 +39,23 @@ class HirlyNomineeSelectionViewController: UIViewController, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nomineeChoices.count
+        return self.nomineeChoices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "nomineeCell", for: indexPath) as! NomineeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "nomineeCell", for: indexPath)
         
-        cell.nameLabel.text = nomineeChoices[indexPath.row].firstname + " " + nomineeChoices[indexPath.row].lastname
-        cell.user = nomineeChoices[indexPath.row]
+        cell.textLabel?.text = self.nomineeChoices[indexPath.row].getFullName()
 
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath){
-            self.chosenCell = cell as! NomineeTableViewCell
-        }
-        
+        self.chosenBrotherId = self.nomineeChoices[indexPath.row].userId
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        if let chosenCell = chosenCell {
-            self.nomineeDelegate?.saveSelection(chosenNominee: chosenCell.user)
-        } else {
-            self.nomineeDelegate?.saveSelection(chosenNominee: nil)
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

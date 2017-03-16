@@ -11,12 +11,12 @@ import Firebase
 import Log
 
 public protocol VotingServiceDelegate: class {
-    func updateUI(topic: VotingTopic)
     func confirmVote()
-    func noCurrentVote(isHirly: Bool)
     func denyVote(isHirly: Bool, topic: VotingTopic?)
+    func noCurrentVote(isHirly: Bool)
     func sendArchivedTopics(topics: [VotingTopic])
     func showMessage(message: String, title: String, isError: Bool)
+    func updateUI(topic: VotingTopic)
 }
 
 public class VotingService {
@@ -43,19 +43,22 @@ public class VotingService {
             var archivedTopics = [VotingTopic]()
             
             for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let topic = VotingTopic(dict: dict, expiration: key)
-                
-                if topic.isArchived {
-                    if Utilities.isOlderThanOneYear(date: topic.expirationDate) {
-                        self.deleteVote(id: topic.getId(), topics: [], isHirly: isHirly, isShown: false)
-                    } else {
-                        archivedTopics.append(topic)
-                    
-                        if !topic.hasWinners() && isHirly {
-                            self.calculateHirlyWinners(voteId: topic.getId())
+                if let child = item as? FIRDataSnapshot {
+                    if let key = Double(child.key) {
+                        if let dict = child.value as? NSDictionary {
+                            let topic = VotingTopic(dict: dict, expiration: key)
+                            
+                            if topic.isArchived {
+                                if Utilities.isOlderThanOneYear(date: topic.expirationDate) {
+                                    self.deleteVote(id: topic.getId(), topics: [], isHirly: isHirly, isShown: false)
+                                } else {
+                                    archivedTopics.append(topic)
+                                    
+                                    if !topic.hasWinners() && isHirly {
+                                        self.calculateHirlyWinners(voteId: topic.getId())
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -72,16 +75,19 @@ public class VotingService {
             var currentTopic: VotingTopic?
             
             for item in snapshot.children {
-                let child = item as! FIRDataSnapshot
-                let key = Double(child.key)!
-                let dict = child.value as! NSDictionary
-                let topic = VotingTopic(dict: dict, expiration: key)
-                
-                if !topic.isArchived {
-                    VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
-                    currentTopic = topic
-                } else if !topic.hasWinners() && isHirly  {
-                    self.calculateHirlyWinners(voteId: topic.getId())
+                if let child = item as? FIRDataSnapshot {
+                    if let key = Double(child.key) {
+                        if let dict = child.value as? NSDictionary{
+                            let topic = VotingTopic(dict: dict, expiration: key)
+                            
+                            if !topic.isArchived {
+                                VotingService.LOGGER.info("[Fetch Voting Topic] \(topic.toFirebaseObject())")
+                                currentTopic = topic
+                            } else if !topic.hasWinners() && isHirly  {
+                                self.calculateHirlyWinners(voteId: topic.getId())
+                            }
+                        }
+                    }
                 }
             }
             
@@ -201,10 +207,13 @@ public class VotingService {
                             } else {
                                 VotingService.LOGGER.error("[Submit Vote] Failed reason to brother with uid \(nomBroId) for vote \(topic.getId())")
                             }
-                            // revert to old hirly id
+                            // revert to old hirly id locally
                             RosterManager.sharedInstance.brothersMap[RosterManager.sharedInstance.currentUserId]!.lastHirlyId = oldHirly
-                            // not doing call back because it can be done in it's own time - if we've gotten this far down the chain, it can be assumed that this won't fail due to new reasons
+                            
+                            // not doing call back because it can be done in it's own time - if we've gotten this far down the chain, 
+                            // it can be assumed that this won't fail
                             FIRDatabase.database().reference().child("Brothers").child(RosterManager.sharedInstance.currentUserId).child("lastHirlyId").setValue(oldHirly)
+                            
                             self.votingServiceDelegate?.denyVote(isHirly: true, topic: topic)
                     }
                 })
@@ -212,24 +221,26 @@ public class VotingService {
         })
         }
     }
+    
     func calculateHirlyWinners(voteId: String) {
         VotingService.LOGGER.info("[Calculate Winner] Figuring out HIRLy winner for vote \(voteId).")
         var hirlyWinners = [String : [String]]()
         var highestVotes = -1
         
-        baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in            for nomination in snapshot.children {
-                let nominationData = nomination as! FIRDataSnapshot
-                let uid = nominationData.key
-                let dict = nominationData.value as! NSDictionary
-            
-            
-                if let numVotes = dict.value(forKey: "numVotes") as? Int, let reasons = dict.value(forKey: "reasons") as? [String] {
-                    if numVotes > highestVotes {
-                        hirlyWinners.removeAll()
-                        hirlyWinners[uid] = reasons
-                        highestVotes = numVotes
-                    } else if numVotes == highestVotes {
-                        hirlyWinners[uid] = reasons
+        baseRef.child("HIRLy").child(voteId).child("noms").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+            for nomination in snapshot.children {
+                if let nominationData = nomination as? FIRDataSnapshot {
+                    let uid = nominationData.key
+                    if let dict = nominationData.value as? NSDictionary {
+                        if let numVotes = dict.value(forKey: "numVotes") as? Int, let reasons = dict.value(forKey: "reasons") as? [String] {
+                            if numVotes > highestVotes {
+                                hirlyWinners.removeAll()
+                                hirlyWinners[uid] = reasons
+                                highestVotes = numVotes
+                            } else if numVotes == highestVotes {
+                                hirlyWinners[uid] = reasons
+                            }
+                        }
                     }
                 }
             }
@@ -282,6 +293,7 @@ public class VotingService {
     func archive(id: String, isHirly: Bool, isAuto: Bool) {
         VotingService.LOGGER.info("[Archive Vote] Archiving vote with ID \(id)")
         let voteType = isHirly ? "HIRLy" : "CurrentVote"
+        
         baseRef.child(voteType).child(id).child("isArchived").setValue(true, withCompletionBlock: { (error, ref) in
             if let error = error {
                 VotingService.LOGGER.error("[Archive Vote] " + error.localizedDescription)

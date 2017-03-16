@@ -21,12 +21,21 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         
         self.refreshControl?.addTarget(self, action: #selector(MoreTableViewController.refresh), for: UIControlEvents.valueChanged)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.refresh()
+    }
+    
+    func refresh() {
+        RosterManager.sharedInstance.populateRoster()
+        self.tableView.reloadData()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
+        }
     }
 
-    // never empty
+    // never empty, no need for no data label
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -142,10 +151,6 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.refresh()
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "yourInfoSegue" {
             let destination = segue.destination as! RosterDetailViewController
@@ -153,15 +158,11 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
         }
     }
     
-    func refresh() {
-        RosterManager.sharedInstance.populateRoster()
-        self.tableView.reloadData()
-        
-        if (self.refreshControl?.isRefreshing)! {
-            self.refreshControl?.endRefreshing()
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
+    /* DELEGATE METHODS */
     func successfullyLoginLogoutUser(password: String) {
         if self.userLoggedOut {
             self.performSegue(withIdentifier: "unwindToLogin", sender: self)
@@ -169,7 +170,6 @@ class MoreTableViewController: UITableViewController, LoginServiceDelegate {
             SCLAlertView().showSuccess("Change Password", subTitle: "Your password was successfully changed!")
         }
     }
-    
     
     func showErrorMessage(message: String) {
         SCLAlertView().showError("Error", subTitle: message)

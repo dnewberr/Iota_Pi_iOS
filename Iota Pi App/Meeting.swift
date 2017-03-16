@@ -10,17 +10,19 @@ import Foundation
 
 public class Meeting: Equatable {
     let sessionCode: String!
-    let startTime: Date!
-    var endTime: Date?
     var brotherIdsCheckedIn = [String]()
+    var endTime: Date?
+    var startTime = Date()
     
     init() {
-        self.startTime = Date()
         self.sessionCode = Utilities.randomString(length: 6)
     }
     
     init(dict: NSDictionary, sessionCode: String) {
-        self.startTime = Date(timeIntervalSince1970: (dict.value(forKey: "startTime") as! Double))
+        if let startTime = dict.value(forKey: "startTime") as? Double {
+            self.startTime = Date(timeIntervalSince1970: startTime)
+        }
+        
         if let endTime = dict.value(forKey: "endTime") as? Double {
             self.endTime = Date(timeIntervalSince1970: endTime)
         }

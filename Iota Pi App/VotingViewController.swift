@@ -25,6 +25,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
     @IBOutlet weak var createVoteButton: UIBarButtonItem!
     @IBOutlet weak var currentVoteCodeLabel: UILabel!
     @IBOutlet weak var currentVoteButton: UIButton!
+    @IBOutlet weak var hirlyButton: UIButton!
     
     @IBAction func archiveVote(_ sender: Any) {
         let archiveAlert = SCLAlertView()
@@ -62,7 +63,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
             self.performSegue(withIdentifier: "showHirlySegue", sender: self)
         }
     }
-    @IBOutlet weak var hirlyButton: UIButton!
     
     @IBAction func viewCurrent(_ sender: AnyObject) {
         if denyCurrent {
@@ -94,31 +94,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
         }
-    }
-    
-    func submitVote(vote: String, code: String?) {
-        let confirmAlert = SCLAlertView()
-        confirmAlert.addButton("Confirm") {
-            if let codeEntered = code {
-                if codeEntered == self.currentVote.sessionCode {
-                    self.votingService.submitCurrentVote(topic: self.currentVote, vote: vote)
-                } else {
-                    SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
-                }
-            } else {
-                SCLAlertView().showError("Error", subTitle: "Please the correct session code.")
-            }
-        }
-        
-        confirmAlert.showTitle(
-            "Submit Vote",
-            subTitle: "Are you sure you wish to vote \"\(vote)\" on this topic?",
-            duration: 0.0,
-            completeText: "Cancel",
-            style: .edit,
-            colorStyle: Style.mainColorHex,
-            colorTextButton: 0xFFFFFF)
-        
     }
     
     @IBAction func createVote(_ sender: AnyObject) {
@@ -169,6 +144,10 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.managePermissions()
+    }
+    
     // helps to manage the many views dependent on admin priviledges and presence of votes
     func managePermissions() {
         self.hirlyButton.isEnabled = self.currentHirly != nil
@@ -208,12 +187,30 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.managePermissions()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func submitVote(vote: String, code: String?) {
+        let confirmAlert = SCLAlertView()
+        confirmAlert.addButton("Confirm") {
+            if let codeEntered = code {
+                if codeEntered == self.currentVote.sessionCode {
+                    self.votingService.submitCurrentVote(topic: self.currentVote, vote: vote)
+                } else {
+                    SCLAlertView().showError("Error", subTitle: "Please enter the correct session code.")
+                }
+            } else {
+                SCLAlertView().showError("Error", subTitle: "Please enter the correct session code.")
+            }
+        }
+        
+        confirmAlert.showTitle(
+            "Submit Vote",
+            subTitle: "Are you sure you wish to vote \"\(vote)\" on this topic?",
+            duration: 0.0,
+            completeText: "Cancel",
+            style: .edit,
+            colorStyle: Style.mainColorHex,
+            colorTextButton: 0xFFFFFF)
+        
     }
 
     func showCreationForm(isHirly: Bool) {
@@ -262,6 +259,28 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         return true
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showHirlySegue" {
+            let destination = segue.destination as! HirlyFormViewController
+            destination.hirlyTopic = self.currentHirly
+        }
+        
+        if segue.identifier == "hirlyArchivedSegue" {
+            let destination = segue.destination as! ArchivedVoteTableViewController
+            destination.isHirly = true
+        }
+        
+        if segue.identifier == "currentArchivedSegue" {
+            let destination = segue.destination as! ArchivedVoteTableViewController
+            destination.isHirly = false
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     func updateUI(topic: VotingTopic) {
         if topic.sessionCode.isEmpty {
             self.currentHirly = topic
@@ -311,28 +330,6 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
         self.managePermissions()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showHirlySegue" {
-            let destination = segue.destination as! HirlyFormViewController
-            destination.hirlyTopic = self.currentHirly
-        }
-        
-        if segue.identifier == "hirlyArchivedSegue" {
-            let destination = segue.destination as! ArchivedVoteTableViewController
-            destination.isHirly = true
-        }
-        
-        if segue.identifier == "currentArchivedSegue" {
-            let destination = segue.destination as! ArchivedVoteTableViewController
-            destination.isHirly = false
-        }
-    }
-    
-    
-    // unnecessary delegate methods
-    func sendArchivedTopics(topics: [VotingTopic]) {}
-
-    
     func showMessage(message: String, title: String, isError: Bool) {
         if isError {
             SCLAlertView().showError(title, subTitle: message).setDismissBlock {
@@ -351,4 +348,7 @@ class VotingViewController: UIViewController, VotingServiceDelegate, UITextField
             }
         }
     }
+    
+    // unnecessary delegate methods
+    func sendArchivedTopics(topics: [VotingTopic]) {}
 }

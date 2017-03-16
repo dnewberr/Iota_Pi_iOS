@@ -10,12 +10,11 @@ import Foundation
 
 
 public class VotingTopic {
-    let summary: String!
-    let description: String!
-    let expirationDate: Date!
+    var description = "N/A"
+    var expirationDate = Date()
+    var summary = "N/A"
     
     var isArchived = false
-//    var broHasVoted = false
     
     // currentvote only
     var abstainVotes = 0
@@ -29,6 +28,7 @@ public class VotingTopic {
     init(summary: String, description: String, isHirly: Bool) {
         self.summary = summary
         self.description = description
+        
         if !isHirly {
             var fifteenMinInterval = DateComponents()
             fifteenMinInterval.minute = 15
@@ -40,9 +40,15 @@ public class VotingTopic {
     }
     
     init(dict: NSDictionary, expiration: Double) {
-        self.summary = dict.value(forKey: "summary") as! String
-        self.description = dict.value(forKey: "description") as! String
         self.expirationDate = Date(timeIntervalSince1970: expiration)
+        
+        if let summary = dict.value(forKey: "summary") as? String {
+            self.summary = summary
+        }
+        
+        if let description = dict.value(forKey: "description") as? String {
+            self.description = description
+        }
                 
         if let sessionCode = dict.value(forKey: "sessionCode") as? String {
             self.sessionCode = sessionCode
@@ -58,13 +64,16 @@ public class VotingTopic {
         if let numAbstain = dict.value(forKey: "abstainCount") as? Int {
             self.abstainVotes = numAbstain
         }
+        
         if let numNo = dict.value(forKey: "noCount") as? Int {
             self.noVotes = numNo
         }
+        
         if let numYes = dict.value(forKey: "yesCount") as? Int {
             self.yesVotes = numYes
         }
         
+        // HIRLy only
         if let winners = dict.value(forKey: "winners") as? [String : [String]] {
             self.winners = winners
         }
@@ -94,6 +103,11 @@ public class VotingTopic {
         return names
     }
     
+    
+    func getId() -> String {
+        return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
+    }
+    
     func hasWinners() -> Bool {
         return !self.winners.isEmpty
     }
@@ -114,10 +128,6 @@ public class VotingTopic {
                 "summary": self.summary,
                 "description": self.description
         ]
-    }
-    
-    func getId() -> String {
-        return String(format: "%.0f", self.expirationDate.timeIntervalSince1970)
     }
 }
 

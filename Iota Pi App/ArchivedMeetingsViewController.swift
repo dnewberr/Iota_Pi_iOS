@@ -9,14 +9,15 @@
 import UIKit
 import SCLAlertView
 
-class PreviousMeetingsTableViewCell: UITableViewCell {
-    @IBOutlet weak var meetingDateLabel: UILabel!
-    @IBOutlet weak var meetingCodeLabel: UILabel!
-    var meeting: Meeting!
-}
-
 class ArchivedMeetingsTableViewController: UITableViewController, MeetingServiceDelegate {
     @IBOutlet weak var clearButton: UIBarButtonItem!
+    
+    var activeKeyphrase = ""
+    var archivedMeetings = [Meeting]()
+    var filteredMeetings = [Meeting]()
+    var meetingService = MeetingService()
+    var meetingToPass: Meeting?
+    
     @IBAction func searchForMeeting(_ sender: AnyObject) {
         let searchAlert = SCLAlertView()
         let sessionCodeText = searchAlert.addTextField()
@@ -47,41 +48,6 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         self.filterMeetings()
     }
     
-    func filterMeetings() {
-        self.filteredMeetings.removeAll()
-        
-        if !self.activeKeyphrase.isEmpty {
-            self.clearButton.isEnabled = true
-            self.clearButton.tintColor = nil
-            
-            for meeting in self.archivedMeetings {
-                let usersCheckedIn = meeting.brotherIdsCheckedIn.map({RosterManager.sharedInstance.brothersMap[$0]!})
-                
-                // filters by sessions code and present member's first/last/nickname
-                let trimmedFilter = self.activeKeyphrase.trim().lowercased()
-                if meeting.sessionCode.lowercased().contains(trimmedFilter)
-                    || !usersCheckedIn.filter({
-                        $0.firstname.lowercased().contains(trimmedFilter)
-                        || $0.lastname.lowercased().contains(trimmedFilter)
-                            || $0.nickname.lowercased().contains(trimmedFilter)}).isEmpty {
-                    self.filteredMeetings.append(meeting)
-                }
-            }
-        } else {
-            self.filteredMeetings = self.archivedMeetings
-            self.clearButton.isEnabled = false
-            self.clearButton.tintColor = UIColor.clear
-        }
-        
-        self.tableView.reloadData()
-    }
-
-    var archivedMeetings = [Meeting]()
-    var filteredMeetings = [Meeting]()
-    var meetingService = MeetingService()
-    var meetingToPass: Meeting?
-    var activeKeyphrase = ""
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,9 +64,34 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     func refresh() {
         self.meetingService.fetchAllArchivedMeetings()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func filterMeetings() {
+        self.filteredMeetings.removeAll()
+        
+        if !self.activeKeyphrase.isEmpty {
+            self.clearButton.isEnabled = true
+            self.clearButton.tintColor = nil
+            
+            for meeting in self.archivedMeetings {
+                let usersCheckedIn = meeting.brotherIdsCheckedIn.map({RosterManager.sharedInstance.brothersMap[$0]!})
+                
+                // filters by sessions code and present member's first/last/nickname
+                let trimmedFilter = self.activeKeyphrase.trim().lowercased()
+                if meeting.sessionCode.lowercased().contains(trimmedFilter)
+                    || !usersCheckedIn.filter({
+                        $0.firstname.lowercased().contains(trimmedFilter)
+                            || $0.lastname.lowercased().contains(trimmedFilter)
+                            || $0.nickname.lowercased().contains(trimmedFilter)}).isEmpty {
+                    self.filteredMeetings.append(meeting)
+                }
+            }
+        } else {
+            self.filteredMeetings = self.archivedMeetings
+            self.clearButton.isEnabled = false
+            self.clearButton.tintColor = UIColor.clear
+        }
+        
+        self.tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -117,13 +108,12 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         return self.filteredMeetings.count
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "previousMeetingsCell", for: indexPath) as! PreviousMeetingsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "previousMeetingsCell", for: indexPath)
         
-        cell.meeting = self.filteredMeetings[indexPath.row]
-        cell.meetingCodeLabel.text = cell.meeting.sessionCode
-        cell.meetingDateLabel.text = Utilities.dateToDayTime(date: cell.meeting.startTime)
+        let meeting = self.filteredMeetings[indexPath.row]
+        cell.textLabel?.text = meeting.sessionCode
+        cell.detailTextLabel?.text = Utilities.dateToDayTime(date: meeting.startTime)
         
         return cell
     }
@@ -147,8 +137,7 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! PreviousMeetingsTableViewCell
-        meetingToPass = currentCell.meeting
+        self.meetingToPass = self.filteredMeetings[indexPath.row]
         performSegue(withIdentifier: "meetingDetailsSegue", sender: self)
     }
     
@@ -159,6 +148,11 @@ class ArchivedMeetingsTableViewController: UITableViewController, MeetingService
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     func populateMeetings(meetings: [Meeting]) {
         self.archivedMeetings = meetings.sorted {
             $0.endTime! > $1.endTime!

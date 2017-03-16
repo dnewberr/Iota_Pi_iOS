@@ -13,13 +13,12 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     @IBOutlet weak var clearFilterButton: UIBarButtonItem!
     
     let votingService = VotingService()
-    var votingTopics = [VotingTopic]()
-    
     var chosenHirlyTopic: VotingTopic!
-    var indicator: UIActivityIndicatorView!
     var filteredTopics = [VotingTopic]()
     var filter = ""
     var isHirly = false
+    var indicator: UIActivityIndicatorView!
+    var votingTopics = [VotingTopic]()
     
     @IBAction func clearFilter(_ sender: AnyObject) {
         self.filter = ""
@@ -46,13 +45,33 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             style: .notice,
             colorStyle: Style.mainColorHex,
             colorTextButton: 0xFFFFFF)
+    }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.votingService.votingServiceDelegate = self
+        self.tableView.tableFooterView = UIView()
+        
+        self.clearFilterButton.isEnabled = false
+        self.clearFilterButton.tintColor = UIColor.clear
+        
+        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
+        self.parent!.view.addSubview(indicator)
+    
+        self.refreshControl?.addTarget(self, action: #selector(ArchivedVoteTableViewController.refresh), for: UIControlEvents.valueChanged)
+        
+        self.indicator.startAnimating()
+        self.votingService.fetchArchivedVotingTopics(isHirly: self.isHirly)
+    }
+    
+    func refresh() {
+        self.votingService.fetchArchivedVotingTopics(isHirly: self.isHirly)
     }
     
     func filterVotes() {
         self.filteredTopics.removeAll()
         
-        if !filter.trim().isEmpty {
+        if !self.filter.trim().isEmpty {
             if isHirly {
                 self.filteredTopics = self.votingTopics.filter({
                     $0.summary.lowercased().contains(filter)
@@ -81,41 +100,10 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         self.tableView.reloadData()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.votingService.votingServiceDelegate = self
-        self.tableView.tableFooterView = UIView()
-        
-        self.clearFilterButton.isEnabled = false
-        self.clearFilterButton.tintColor = UIColor.clear
-        
-        self.indicator = Utilities.createActivityIndicator(center: self.parent!.view.center)
-        self.parent!.view.addSubview(indicator)
-    
-        self.refreshControl?.addTarget(self, action: #selector(ArchivedVoteTableViewController.refresh), for: UIControlEvents.valueChanged)
-        
-        self.indicator.startAnimating()
-        self.votingService.fetchArchivedVotingTopics(isHirly: self.isHirly)
+    func calculatePercentage(dividend: Int, divisor: Int) -> String {
+        return String(format: "%d/%d [%.0f%%]", dividend, divisor, (Float(dividend)/Float(divisor) * 100))
     }
     
-    func refresh() {
-        self.votingService.fetchArchivedVotingTopics(isHirly: self.isHirly)
-    }
-
-    func sendArchivedTopics(topics: [VotingTopic]) {
-        self.indicator.stopAnimating()
-        self.votingTopics = topics
-        self.filterVotes()
-        
-        if (self.refreshControl?.isRefreshing)! {
-            self.refreshControl?.endRefreshing()
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         if !self.filteredTopics.isEmpty {
             tableView.backgroundView = nil
@@ -164,7 +152,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             let hirlyDetailsAlert = SCLAlertView()
             hirlyDetailsAlert.showTitle(
                 cellTopic.summary,
-                subTitle: cellTopic.description! + results,
+                subTitle: cellTopic.description + results,
                 duration: 0.0,
                 completeText: "Done",
                 style: .info,
@@ -174,10 +162,6 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
         }
     }
     
-    func calculatePercentage(dividend: Int, divisor: Int) -> String {
-        return String(format: "%d/%d [%.0f%%]", dividend, divisor, (Float(dividend)/Float(divisor) * 100))
-    }
-    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if isHirly {
             return RosterManager.sharedInstance.currentUserCanCreateHirly()
@@ -185,6 +169,7 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
             return RosterManager.sharedInstance.currentUserCanCreateVote()
         }
     }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
             let deleteVoteAlert = SCLAlertView()
@@ -201,6 +186,29 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
                 style: .warning,
                 colorStyle: Style.mainColorHex,
                 colorTextButton: 0xFFFFFF)
+        }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "archivedHirlySegue" {
+            let destination = segue.destination as! ArchivedHirlyDetailViewController
+            destination.currentHirlyTopic = self.chosenHirlyTopic
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
+    func sendArchivedTopics(topics: [VotingTopic]) {
+        self.indicator.stopAnimating()
+        self.votingTopics = topics
+        self.filterVotes()
+        
+        if (self.refreshControl?.isRefreshing)! {
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -224,12 +232,4 @@ class ArchivedVoteTableViewController: UITableViewController, VotingServiceDeleg
     func confirmVote() {}
     func noCurrentVote(isHirly: Bool) {}
     func denyVote(isHirly: Bool, topic: VotingTopic?) {}
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "archivedHirlySegue" {
-            let destination = segue.destination as! ArchivedHirlyDetailViewController
-            destination.currentHirlyTopic = self.chosenHirlyTopic
-        }
-    }
 }

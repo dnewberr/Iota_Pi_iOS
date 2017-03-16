@@ -11,8 +11,8 @@ import Firebase
 import Log
 
 public protocol LoginServiceDelegate: class {
-    func showErrorMessage(message: String)
     func successfullyLoginLogoutUser(password: String)
+    func showErrorMessage(message: String)
 }
 
 public class LoginService {

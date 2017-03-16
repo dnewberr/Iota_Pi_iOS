@@ -10,20 +10,20 @@ import UIKit
 import SCLAlertView
 
 class RosterDetailTableViewController: UITableViewController, RosterServiceDelegate {
+    var changedInfo = [String : String]()
     var currentBrotherId: String!
     var editableDetails = [String]()
     var editableTitles = [String]()
-    var changedInfo = [String : String]()
     var rosterService = RosterService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.rosterService.rosterServiceDelegate = self
         self.tableView.tableFooterView = UIView()
         self.refreshControl?.addTarget(self, action: #selector(ValidateUsersTableViewController.refresh), for: UIControlEvents.valueChanged)
         
         self.editableDetails = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.getArrayOfDetails()
         self.editableTitles = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.toArrayOfEditableInfo()
-        self.rosterService.rosterServiceDelegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,8 +43,34 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func updateData(key: String, value: String) {
+        let curUser = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
+        let newValue = value.isEmpty ? "N/A" : value
+        
+        switch key {
+            case "Nickname":
+                curUser.nickname = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "nickname", value: newValue)
+            case "Class":
+                curUser.educationClass = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "class", value: newValue)
+            case "Section":
+                curUser.section = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "section", value: newValue)
+            case "Birthday":
+                curUser.birthday = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "birthday", value: newValue)
+            case "Slo Address":
+                curUser.sloAddress = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "sloAddress", value: newValue)
+            case "Major":
+                curUser.major = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "major", value: newValue)
+            case "Expected Graduation":
+                curUser.expectedGrad = newValue
+                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "expectedGrad", value: newValue)
+            default: return
+        }
     }
     
     // never empty
@@ -63,10 +89,6 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
         cell.detailTextLabel!.text = self.editableDetails[indexPath.row]
         
         return cell
-    }
-    
-    public func updateUI(isDeleted: Bool) {
-        self.refresh()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -101,34 +123,13 @@ class RosterDetailTableViewController: UITableViewController, RosterServiceDeleg
             colorTextButton: 0xFFFFFF)
     }
     
-    func updateData(key: String, value: String) {
-        let curUser = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!
-        let newValue = value.isEmpty ? "N/A" : value
-        
-        switch key {
-            case "Nickname":
-                curUser.nickname = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "nickname", value: newValue)
-            case "Class":
-                curUser.educationClass = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "class", value: newValue)
-            case "Section":
-                curUser.section = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "section", value: newValue)
-            case "Birthday":
-                curUser.birthday = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "birthday", value: newValue)
-            case "Slo Address":
-                curUser.sloAddress = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "sloAddress", value: newValue)
-            case "Major":
-                curUser.major = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "major", value: newValue)
-            case "Expected Graduation":
-                curUser.expectedGrad = newValue
-                self.rosterService.pushBrotherDetail(brotherId: self.currentBrotherId, key: "expectedGrad", value: newValue)
-            default: return
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
+    public func updateUI(isDeleted: Bool) {
+        self.refresh()
     }
     
     func error(message: String, autoClose: Bool) {
@@ -145,10 +146,10 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     var currentBrotherId: String!
     
     @IBOutlet weak var changeStatusAdminButton: UIButton!
-    @IBOutlet weak var numberLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var container: UIView!
     @IBOutlet weak var deleteCurrentUserButton: UIBarButtonItem!
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
     
     // Necessary for pop from status/admin changes to work
     @IBAction func unwindToDetail(segue: UIStoryboardSegue) {}
@@ -204,9 +205,6 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
     override func viewWillAppear(_ animated: Bool) {
         self.statusLabel.text = RosterManager.sharedInstance.brothersMap[self.currentBrotherId]!.status.rawValue
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "rosterDetaiListSegue" {
@@ -219,11 +217,15 @@ class RosterDetailViewController: UIViewController, RosterServiceDelegate {
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    /* DELEGATE METHODS */
     public func updateUI(isDeleted: Bool) {
         _ = self.navigationController!.popViewController(animated: true)
     }
 
-    
     func error(message: String, autoClose: Bool) {
         SCLAlertView().showError("Error", subTitle: message)
     }

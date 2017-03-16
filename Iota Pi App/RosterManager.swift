@@ -29,24 +29,6 @@ public class RosterManager: RosterServiceDelegate {
         rosterService.fetchBrothers()
     }
     
-    public func sendMap(map: [String : User]) {
-        var brothersMap = [String : User]()
-        var brothersToValidate = [String : User]()
-        
-        for (uid, brother) in map {
-            if brother.isValidated == true && brother.isDeleted == false {
-                brothersMap[uid] = brother
-            } else if brother.isDeleted == false {
-                brothersToValidate[uid] = brother
-            }
-        }
-        
-        self.brothersMap = brothersMap
-        self.brothersToValidate = brothersToValidate
-        
-        Logger().info("‼️ [MANAGER] Log has been populated.")
-    }
-    
     func currentUserCanCreateAnnouncements() -> Bool {
         return self.currentUserAdmin != AdminPrivileges.None && self.currentUserAdmin != AdminPrivileges.NoVoting
     }
@@ -94,17 +76,23 @@ public class RosterManager: RosterServiceDelegate {
         }
     }
     
-    func detailToKey(detail: String) -> String? {
-        switch detail {
-            case "Nickname": return "nickname"
-            case "Class": return "class"
-            case "Section": return "section"
-            case "Birthday": return "birthday"
-            case "Slo Address": return "sloAddress"
-            case "Major": return "major"
-            case "Expected Graduation": return "expectedGrad"
-            default: return nil
+    /* DELEGATE METHODS */
+    public func sendMap(map: [String : User]) {
+        var brothersMap = [String : User]()
+        var brothersToValidate = [String : User]()
+        
+        for (uid, brother) in map {
+            if brother.isValidated == true && brother.isDeleted == false {
+                brothersMap[uid] = brother
+            } else if brother.isDeleted == false {
+                brothersToValidate[uid] = brother
+            }
         }
+        
+        self.brothersMap = brothersMap
+        self.brothersToValidate = brothersToValidate
+        
+        Logger().info("‼️ [MANAGER] Log has been populated.")
     }
     
     // unnecessary delegate methods
